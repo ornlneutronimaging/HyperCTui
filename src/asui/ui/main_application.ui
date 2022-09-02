@@ -171,6 +171,54 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionLoadSession</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>load_session_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>764</x>
+     <y>475</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSaveSession</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>save_session_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>764</x>
+     <y>475</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionFull_Reset</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>full_reset_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>764</x>
+     <y>475</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>projections_select_clicked()</slot>

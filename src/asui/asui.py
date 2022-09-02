@@ -35,10 +35,6 @@ class ASUI(QMainWindow):
         self._loading_config()
         self._loading_previous_session_automatically()
 
-
-
-
-
     def _loading_config(self):
         o_config = ConfigHandler(parent=self)
         o_config.load()
@@ -50,11 +46,24 @@ class ASUI(QMainWindow):
             load_session_ui = LoadPreviousSessionLauncher(parent=self)
             load_session_ui.show()
 
-
     # menu events
     def menu_log_clicked(self):
         LogLauncher(parent=self)
-        print('here')
+
+    def load_session_clicked(self):
+        o_session = SessionHandler(parent=self)
+        o_session.load_from_file()
+        o_session.load_to_ui()
+
+    def save_session_clicked(self):
+        o_session = SessionHandler(parent=self)
+        o_session.save_from_ui()
+        o_session.save_to_file()
+
+    def full_reset_clicked(self):
+        pass
+        # o_event = EventHandler(parent=self)
+        # o_event.full_reset_clicked()
 
     # widgets events
 
