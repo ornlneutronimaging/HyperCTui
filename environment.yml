@@ -1,4 +1,4 @@
-name: pyMBIR_UI
+name: ASUI
 channels:
   - defaults
   - conda-forge

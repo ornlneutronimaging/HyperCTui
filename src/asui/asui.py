@@ -6,19 +6,18 @@ from . import load_ui
 #warnings.filterwarnings('ignore')
 
 
-class AiSvmbirUi(QMainWindow):
-
+class ASUI(QMainWindow):
 
     def __init__(self, parent=None):
 
-        super(AiSvmbirUi, self).__init__(parent)
+        super(ASUI, self).__init__(parent)
 
         ui_full_path = os.path.join(os.path.dirname(__file__),
                                     os.path.join('ui',
                                                  'main_application.ui'))
 
         self.ui = load_ui(ui_full_path, baseinstance=self)
-        self.setWindowTitle("aiSVMBIRui")
+        self.setWindowTitle("Ai Svmbir UI")
 
     # leaving ui
     def closeEvent(self, c):
@@ -29,8 +28,8 @@ def main(args):
     app = QApplication(args)
     app.setStyle('Fusion')
     app.aboutToQuit.connect(clean_up)
-    app.setApplicationDisplayName("aiSVMBIRui")
-    window = AiSvmbirUi()
+    app.setApplicationDisplayName("Ai Svmbir UI")
+    window = ASUI()
     window.show()
     sys.exit(app.exec_())
 

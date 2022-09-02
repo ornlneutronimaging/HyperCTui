@@ -1,4 +1,4 @@
-{% set name = "pyMBIR_UI" %}
+{% set name = "AISUI" %}
 {% set data = load_setup_py_data() %}
 {% set version = data.get('version') %}
 

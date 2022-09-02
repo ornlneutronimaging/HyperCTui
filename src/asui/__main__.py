@@ -1,9 +1,9 @@
-from .pyMBIR_UI import main
+from .asui import main
 
 import multiprocessing
 import sys
 
-__file__ = "pyMBIR_UI"
+__file__ = "asui"
 
 # Run the GUI
 #multiprocessing.freeze_support()
