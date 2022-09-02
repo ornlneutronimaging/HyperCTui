@@ -1,12 +1,23 @@
 from qtpy.QtWidgets import QMainWindow, QApplication
 import sys
 import os
+import logging
+import versioneer
+
 from . import load_ui
+
+from .log.log_launcher import LogLauncher
+from .utilities.get import Get
+from .utilities.config_handler import ConfigHandler
 
 #warnings.filterwarnings('ignore')
 
 
 class ASUI(QMainWindow):
+
+    log_id = None  # UI id of the logger
+    config = None  # config dictionary
+    homepath = "./"
 
     def __init__(self, parent=None):
 
@@ -18,6 +29,26 @@ class ASUI(QMainWindow):
 
         self.ui = load_ui(ui_full_path, baseinstance=self)
         self.setWindowTitle("Ai Svmbir UI")
+
+        o_config = ConfigHandler(parent=self)
+        o_config.load()
+
+        o_get = Get(parent=self)
+        log_file_name = o_get.get_log_file_name()
+        logging.basicConfig(filename=log_file_name,
+                            filemode='a',
+                            format='[%(levelname)s] - %(asctime)s - %(message)s',
+                            level=logging.INFO)
+        logging.info("*** Starting a new session ***")
+        logging.info(f" Version: {versioneer.get_version()}")
+
+
+    # menu events
+    def menu_log_clicked(self):
+        LogLauncher(parent=self)
+        print('here')
+
+    # widgets events
 
     # leaving ui
     def closeEvent(self, c):

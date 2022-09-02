@@ -30,7 +30,7 @@
     <property name="title">
      <string>Help</string>
     </property>
-    <addaction name="actionLog_2"/>
+    <addaction name="actionHelpLog"/>
     <addaction name="separator"/>
     <addaction name="actionAdvanced_Settings"/>
    </widget>
@@ -112,7 +112,7 @@
     <string>Ctrl+L</string>
    </property>
   </action>
-  <action name="actionLog_2">
+  <action name="actionHelpLog">
    <property name="text">
     <string>Log</string>
    </property>
@@ -154,7 +154,24 @@
   </action>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>actionHelpLog</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>menu_log_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>764</x>
+     <y>475</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
  <slots>
   <slot>projections_select_clicked()</slot>
   <slot>ob_select_clicked()</slot>

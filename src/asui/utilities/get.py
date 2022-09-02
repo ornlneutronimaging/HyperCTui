@@ -7,8 +7,7 @@ import subprocess
 from collections import OrderedDict
 from PIL import Image
 
-from .. import TiltAlgorithm
-from ..status_message_config import StatusMessageStatus, show_status_message
+from ..utilities.status_message_config import StatusMessageStatus, show_status_message
 
 
 class Get:
@@ -34,17 +33,17 @@ class Get:
         full_config_file_name = Get.full_home_file_name(config_file_name)
         return full_config_file_name
 
-    def tilt_algorithm_selected(self):
-        if self.parent.ui.tilt_correction_direct_minimization_radioButton.isChecked():
-            return TiltAlgorithm.direct_minimization
-        elif self.parent.ui.tilt_correction_phase_correlation_radioButton.isChecked():
-            return TiltAlgorithm.phase_correlation
-        elif self.parent.ui.tilt_correction_use_center_radioButton.isChecked():
-            return TiltAlgorithm.use_center
-        elif self.parent.ui.tilt_user_defined_radioButton.isChecked():
-            return TiltAlgorithm.user_defined
-        else:
-            NotImplementedError("Tilt algorithm not implemented!")
+    # def tilt_algorithm_selected(self):
+    #     if self.parent.ui.tilt_correction_direct_minimization_radioButton.isChecked():
+    #         return TiltAlgorithm.direct_minimization
+    #     elif self.parent.ui.tilt_correction_phase_correlation_radioButton.isChecked():
+    #         return TiltAlgorithm.phase_correlation
+    #     elif self.parent.ui.tilt_correction_use_center_radioButton.isChecked():
+    #         return TiltAlgorithm.use_center
+    #     elif self.parent.ui.tilt_user_defined_radioButton.isChecked():
+    #         return TiltAlgorithm.user_defined
+    #     else:
+    #         NotImplementedError("Tilt algorithm not implemented!")
 
     def get_file_index_of_180_degree_image(self):
         # """

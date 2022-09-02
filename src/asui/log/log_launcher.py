@@ -4,10 +4,10 @@ from qtpy.QtGui import QIcon
 from qtpy import QtGui
 import logging
 
-from . import load_ui
-from .utilities.get import Get
-from .utilities.file_utilities import read_ascii, write_ascii
-from . import refresh_image
+from .. import load_ui
+from ..utilities.get import Get
+from ..utilities.file_utilities import read_ascii, write_ascii
+from .. import refresh_image
 
 
 class LogLauncher:
@@ -29,7 +29,7 @@ class Log(QMainWindow):
     def __init__(self, parent=None):
         self.parent = parent
         QMainWindow.__init__(self, parent=parent)
-        ui_full_path = os.path.join(os.path.dirname(__file__),
+        ui_full_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
                                     os.path.join('ui',
                                                  'log.ui'))
         self.ui = load_ui(ui_full_path, baseinstance=self)
