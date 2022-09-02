@@ -1,0 +1,41 @@
+{
+  "config version": "0.0.3",
+  "log_file_name": ".pymbir_ui.log",
+  "temp_local_output_folder": ".temp_pymbir_output_folder",
+  "homepath": ["/Volumes/Buffalo/IPTS/IPTS-25967/raw",
+    "/Volumes/G-DRIVE/IPTS/IPTS-25967-pymbir/raw/",
+    "/Volumes/Samsung_T5/IPTS/IPTS-25967-pyMBIR_UI/raw/"],
+  "session_file_name": ".pymbir_ui_session.json",
+  "advanced_settings_password": "a",
+  "default widgets values": {
+    "wavelet level": 6,
+    "max number of iterations": 200,
+    "stop threshold": 1e-4,
+    "median filter size": 5,
+    "exporting file frequency": 5,
+    "det_x, det_y": {
+      "linked": true,
+      "value": 1.00,
+      "det_x": 1.00,
+      "det_y": 1.00
+    },
+    "vox_xy, vox_z": {
+      "linked": true,
+      "value": 1.00,
+      "vox_xy": 1.00,
+      "vox_z": 1.00
+    },
+    "n_vox_x, n_vox_y": {
+      "mode": "fixed",
+      "list_mode": ["fixed", "user_linked", "user_not_linked"],
+      "user_not_linked_value": [0, 0],
+      "user_linked_value": 0
+    },
+    "n_vox_z": {
+      "mode": "fixed",
+      "list_mode": ["fixed", "user"],
+      "user_value": 0
+    },
+    "write output": true
+  }
+}
