@@ -1,0 +1,20 @@
+name: pyMBIR_UI_testing
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.7
+  - qt=5.12.9
+  - pillow
+  - scikit-image
+  - inflect
+  - qtpy=1.6.0
+  - pyqt=5.*
+  - astropy
+  - numpy
+  - dxchange=0.1.*
+  - h5py=3.3.0
+  - tomopy
+  - pip:
+      - pyqtgraph
+      - NeuNorm

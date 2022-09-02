@@ -1,0 +1,31 @@
+{% set name = "pyMBIR_UI" %}
+{% set data = load_setup_py_data() %}
+{% set version = data.get('version') %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  path: ./
+
+build:
+  number: 0
+  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
+
+requirements:
+  host:
+    - python
+    - pip
+  run:
+  - python=3.*
+  - pyqt=5.*
+  - astropy
+  - matplotlib
+  - numpy
+  - xlrd
+
+
+test:
+  imports:
+    - {{ name|lower }}

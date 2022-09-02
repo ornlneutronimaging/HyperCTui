@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1529</width>
+    <height>951</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>aiSVMBIRui</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1529</width>
+     <height>24</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuHelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+    <addaction name="actionLog_2"/>
+    <addaction name="separator"/>
+    <addaction name="actionAdvanced_Settings"/>
+   </widget>
+   <widget class="QMenu" name="menuSession">
+    <property name="title">
+     <string>Session</string>
+    </property>
+    <addaction name="actionLoadSession"/>
+    <addaction name="actionSaveSession"/>
+    <addaction name="separator"/>
+    <addaction name="actionFull_Reset"/>
+   </widget>
+   <addaction name="menuSession"/>
+   <addaction name="menuHelp"/>
+  </widget>
+  <action name="actionSelect_new_instrument">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Select new instrument ...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../../../../../../../../../.designer/backup/icons/document-save.png</normaloff>../../../../../../../../../.designer/backup/icons/document-save.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save ...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionLoad">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>../../../../../../../../../.designer/backup/icons/document-open.png</normaloff>../../../../../../../../../.designer/backup/icons/document-open.png</iconset>
+   </property>
+   <property name="text">
+    <string>Load ...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionTutorial">
+   <property name="text">
+    <string>Tutorial</string>
+   </property>
+  </action>
+  <action name="actionAbout">
+   <property name="icon">
+    <iconset>
+     <normaloff>../../../../../../../../../.designer/backup/icons/about.png</normaloff>../../../../../../../../../.designer/backup/icons/about.png</iconset>
+   </property>
+   <property name="text">
+    <string>About</string>
+   </property>
+   <property name="toolTip">
+    <string>About Angel</string>
+   </property>
+  </action>
+  <action name="actionLog">
+   <property name="text">
+    <string>Log</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
+   </property>
+  </action>
+  <action name="actionLog_2">
+   <property name="text">
+    <string>Log</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+L</string>
+   </property>
+  </action>
+  <action name="actionLoadSession">
+   <property name="text">
+    <string>Open ...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionSaveSession">
+   <property name="text">
+    <string>Save ...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionFull_Reset">
+   <property name="text">
+    <string>Full Reset</string>
+   </property>
+  </action>
+  <action name="actionAdvanced_Settings">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Advanced Settings ...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>actionLog_2</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>menu_log_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>454</x>
+     <y>245</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionLoadSession</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>load_session_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>454</x>
+     <y>245</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSaveSession</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>save_session_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>454</x>
+     <y>245</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionFull_Reset</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>full_reset_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>534</x>
+     <y>428</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionAdvanced_Settings</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>advanced_settings_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>597</x>
+     <y>432</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>projections_select_clicked()</slot>
+  <slot>ob_select_clicked()</slot>
+  <slot>df_select_clicked()</slot>
+  <slot>preview_clicked()</slot>
+  <slot>output_folder_select_clicked()</slot>
+  <slot>projections_text_field_returned()</slot>
+  <slot>ob_text_field_returned()</slot>
+  <slot>df_text_field_returned()</slot>
+  <slot>output_folder_text_field_returned()</slot>
+  <slot>menu_log_clicked()</slot>
+  <slot>load_session_clicked()</slot>
+  <slot>save_session_clicked()</slot>
+  <slot>crop_file_index_moved()</slot>
+  <slot>crop_file_index_pressed()</slot>
+  <slot>crop_width_moved()</slot>
+  <slot>crop_width_pressed()</slot>
+  <slot>crop_checkBox_clicked()</slot>
+  <slot>tilt_correction_checkBox_clicked()</slot>
+  <slot>tilt_correction_file_index_moved()</slot>
+  <slot>tilt_correction_file_index_pressed()</slot>
+  <slot>center_of_rotation_checkBox_clicked()</slot>
+  <slot>center_of_rotation_file_index_changed()</slot>
+  <slot>center_of_rotation_algorithm_clicked()</slot>
+  <slot>center_of_rotation_user_value_changed()</slot>
+  <slot>full_reset_clicked()</slot>
+  <slot>tilt_correction_algorithm_changed()</slot>
+  <slot>tilt_correction_set_up_images_at_0_and_180_degrees_pushed()</slot>
+  <slot>tilt_refresh_calculation_clicked()</slot>
+  <slot>tilt_correction_show_tilt_clicked()</slot>
+  <slot>run_reconstruction()</slot>
+  <slot>advanced_settings_clicked()</slot>
+  <slot>sub_sampling_value_changed()</slot>
+  <slot>main_tab_changed()</slot>
+  <slot>output_slider_changed()</slot>
+  <slot>output_slider_clicked()</slot>
+  <slot>output_checkbox_clicked()</slot>
+  <slot>stop_reconstruction()</slot>
+  <slot>launch_reconstruction()</slot>
+  <slot>crop_from_slice_spinBox_finished_editing()</slot>
+  <slot>crop_to_slice_spinBox_finished_editing()</slot>
+  <slot>crop_from_slice_spinBox_valueChanged()</slot>
+  <slot>crop_to_slice_spinBox_valueChanged()</slot>
+  <slot>display_latest_output_file_button_clicked()</slot>
+  <slot>stop_batch_reconstruction_clicked()</slot>
+  <slot>final_reconstructed_slider_moved()</slot>
+  <slot>final_reconstructed_slider_clicked()</slot>
+  <slot>tilt_correction_user_defined_value_changed()</slot>
+ </slots>
+</ui>

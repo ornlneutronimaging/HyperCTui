@@ -1,0 +1,2 @@
+include versioneer.py
+include src/pyMBIR_UI/_version.py
