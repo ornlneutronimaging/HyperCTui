@@ -2,7 +2,6 @@ from qtpy.QtWidgets import QMainWindow, QApplication
 import sys
 import os
 import logging
-import versioneer
 
 from . import load_ui
 
@@ -11,6 +10,7 @@ from .utilities.get import Get
 from .utilities.config_handler import ConfigHandler
 from .session.load_previous_session_launcher import LoadPreviousSessionLauncher
 from .session.session_handler import SessionHandler
+from .event_handler import EventHandler
 
 #warnings.filterwarnings('ignore')
 
@@ -61,9 +61,8 @@ class ASUI(QMainWindow):
         o_session.save_to_file()
 
     def full_reset_clicked(self):
-        pass
-        # o_event = EventHandler(parent=self)
-        # o_event.full_reset_clicked()
+        o_event = EventHandler(parent=self)
+        o_event.full_reset_clicked()
 
     # widgets events
 
