@@ -9,6 +9,8 @@ from . import load_ui
 from .log.log_launcher import LogLauncher
 from .utilities.get import Get
 from .utilities.config_handler import ConfigHandler
+from .session.load_previous_session_launcher import LoadPreviousSessionLauncher
+from .session.session_handler import SessionHandler
 
 #warnings.filterwarnings('ignore')
 
@@ -30,17 +32,23 @@ class ASUI(QMainWindow):
         self.ui = load_ui(ui_full_path, baseinstance=self)
         self.setWindowTitle("Ai Svmbir UI")
 
+        self._loading_config()
+        self._loading_previous_session_automatically()
+
+
+
+
+
+    def _loading_config(self):
         o_config = ConfigHandler(parent=self)
         o_config.load()
 
+    def _loading_previous_session_automatically(self):
         o_get = Get(parent=self)
-        log_file_name = o_get.get_log_file_name()
-        logging.basicConfig(filename=log_file_name,
-                            filemode='a',
-                            format='[%(levelname)s] - %(asctime)s - %(message)s',
-                            level=logging.INFO)
-        logging.info("*** Starting a new session ***")
-        logging.info(f" Version: {versioneer.get_version()}")
+        full_config_file_name = o_get.get_automatic_config_file_name()
+        if os.path.exists(full_config_file_name):
+            load_session_ui = LoadPreviousSessionLauncher(parent=self)
+            load_session_ui.show()
 
 
     # menu events
@@ -52,6 +60,10 @@ class ASUI(QMainWindow):
 
     # leaving ui
     def closeEvent(self, c):
+        o_session = SessionHandler(parent=self)
+        o_session.save_from_ui()
+        o_session.automatic_save()
+        logging.info(" #### Leaving ASUI ####")
         self.close()
 
 
