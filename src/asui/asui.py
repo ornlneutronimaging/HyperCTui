@@ -14,6 +14,8 @@ from .event_handler import EventHandler
 
 from .step1.event_handler import EventHandler as Step1EventHandler
 
+from .step2.event_handler import EventHandler as Step2EventHandler
+
 #warnings.filterwarnings('ignore')
 DEBUG = True
 
@@ -88,10 +90,16 @@ class ASUI(QMainWindow):
         o_event = Step1EventHandler(parent=self)
         o_event.instrument_changed()
 
-    def step1_run_title_changed(self, run_title):
+    def step1_start_acquisition_clicked(self):
         o_event = Step1EventHandler(parent=self)
+        o_event.start_acquisition()
+
+    # step 2
+    def step2_run_title_changed(self, run_title):
+        o_event = Step2EventHandler(parent=self)
         o_event.run_title_changed(run_title=run_title)
-        o_event.check_status_of_start_acquisition_button()
+
+
 
     # leaving ui
     def closeEvent(self, c):

@@ -6,6 +6,7 @@ from . import SessionKeys
 from ..utilities.status_message_config import StatusMessageStatus, show_status_message
 from ..utilities.get import Get
 from ..step1.get import Get as Step1Get
+from ..step2.get import Get as Step2Get
 
 
 class SessionHandler:
@@ -25,12 +26,15 @@ class SessionHandler:
         ipts_selected = o_get_step1.ipts_selected()
         ipts_index_selected = o_get_step1.ipts_index_selected()
         number_of_obs = o_get_step1.number_of_obs()
-        run_title = o_get_step1.run_title()
 
         session_dict[SessionKeys.instrument] = instrument
         session_dict[SessionKeys.ipts_selected] = ipts_selected
         session_dict[SessionKeys.ipts_index_selected] = ipts_index_selected
         session_dict[SessionKeys.number_of_obs] = number_of_obs
+
+        # step 2
+        o_get_step2 = Step2Get(parent=self.parent)
+        run_title = o_get_step2.run_title()
         session_dict[SessionKeys.run_title] = run_title
 
         self.parent.session_dict = session_dict
@@ -49,9 +53,11 @@ class SessionHandler:
         self.parent.ui.step1_ipts_comboBox.setCurrentIndex(ipts_index_selected)
         number_of_obs = session_dict.get(SessionKeys.number_of_obs, 5)
         self.parent.ui.step1_number_of_ob_spinBox.setValue(number_of_obs)
+
+        # step 2
         run_title = session_dict.get(SessionKeys.run_title, "")
-        self.parent.ui.step1_run_title_lineEdit.setText(run_title)
-        self.parent.step1_run_title_changed(run_title=run_title)
+        self.parent.ui.step2_run_title_lineEdit.setText(run_title)
+        self.parent.step2_run_title_changed(run_title=run_title)
 
         show_status_message(parent=self.parent,
                             message=f"Loaded {self.config_file_name}",
