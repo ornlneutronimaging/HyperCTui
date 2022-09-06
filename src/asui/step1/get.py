@@ -27,3 +27,6 @@ class Get(MasterGet):
 
 	def number_of_obs(self):
 		return self.parent.ui.step1_number_of_ob_spinBox.value()
+
+	def run_title(self):
+		return str(self.parent.ui.step1_run_title_lineEdit.text())

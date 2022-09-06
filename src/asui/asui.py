@@ -88,6 +88,11 @@ class ASUI(QMainWindow):
         o_event = Step1EventHandler(parent=self)
         o_event.instrument_changed()
 
+    def step1_run_title_changed(self, run_title):
+        o_event = Step1EventHandler(parent=self)
+        o_event.run_title_changed(run_title=run_title)
+        o_event.check_status_of_start_acquisition_button()
+
     # leaving ui
     def closeEvent(self, c):
         o_session = SessionHandler(parent=self)
