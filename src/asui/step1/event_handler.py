@@ -10,3 +10,5 @@ class EventHandler(Parent):
 		list_ipts = o_get.list_of_ipts(instrument=instrument)
 		self.parent.ui.step1_ipts_comboBox.clear()
 		self.parent.ui.step1_ipts_comboBox.addItems(list_ipts)
+		self.parent.session_dict['instrument'] = instrument
+

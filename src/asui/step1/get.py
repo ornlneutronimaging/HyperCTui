@@ -15,3 +15,15 @@ class Get(MasterGet):
 		full_path_list_ipts = glob.glob(os.path.join(home_folder, instrument + '/IPTS-*'))
 		list_ipts = [os.path.basename(_folder) for _folder in full_path_list_ipts]
 		return list_ipts
+
+	def instrument(self):
+		return self.parent.ui.step1_instrument_comboBox.currentText()
+
+	def ipts_selected(self):
+		return self.parent.ui.step1_ipts_comboBox.currentText()
+
+	def ipts_index_selected(self):
+		return self.parent.ui.step1_ipts_comboBox.currentIndex()
+
+	def number_of_obs(self):
+		return self.parent.ui.step1_number_of_ob_spinBox.value()

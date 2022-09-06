@@ -29,6 +29,12 @@ class ASUI(QMainWindow):
     config = None  # config dictionary
     homepath = HOME_FOLDER
 
+    session_dict = {'config version': None,
+                    'instrument': 'SNAP',
+                    'ipts selected': None,
+                    'ipts index selected': 0,
+                    'number of obs': 5}
+
     def __init__(self, parent=None):
 
         super(ASUI, self).__init__(parent)
@@ -81,8 +87,6 @@ class ASUI(QMainWindow):
     def step1_instrument_changed(self, instrument):
         o_event = Step1EventHandler(parent=self)
         o_event.instrument_changed()
-
-
 
     # leaving ui
     def closeEvent(self, c):

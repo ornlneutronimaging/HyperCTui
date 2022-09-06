@@ -4,14 +4,10 @@ import json
 import logging
 import numpy as np
 
+from . import SessionKeys
 from ..utilities.status_message_config import StatusMessageStatus, show_status_message
 from ..utilities.get import Get
-# from . import DataType, TiltAlgorithm
-# from pyMBIR_UI.crop.crop_handler import CropHandler
-# from pyMBIR_UI.center_of_rotation.center_of_rotation import CenterOfRotation
-# from pyMBIR_UI.tilt.tilt_handler import TiltHandler
-# from pyMBIR_UI.general_settings_handler import GeneralSettingsHandler
-# from pyMBIR_UI.advanced_settings.advanced_settings_initialization import AdvancedSettingsInitialization
+from ..step1.get import Get as Step1Get
 
 
 class SessionHandler:
@@ -23,7 +19,19 @@ class SessionHandler:
         self.parent = parent
 
     def save_from_ui(self):
-        session_dict = {'config version': self.parent.config["config version"]}
+        session_dict = {SessionKeys.config_version: self.parent.config[SessionKeys.config_version]}
+
+        # step 1
+        o_get_step1 = Step1Get(parent=self.parent)
+        instrument = o_get_step1.instrument()
+        ipts_selected = o_get_step1.ipts_selected()
+        ipts_index_selected = o_get_step1.ipts_index_selected()
+        number_of_obs = o_get_step1.number_of_obs()
+
+        session_dict[SessionKeys.instrument] = instrument
+        session_dict[SessionKeys.ipts_selected] = ipts_selected
+        session_dict[SessionKeys.ipts_index_selected] = ipts_index_selected
+        session_dict[SessionKeys.number_of_obs] = number_of_obs
 
         # # import input tab data
         # list_ui = self.parent.list_ui
@@ -134,6 +142,15 @@ class SessionHandler:
             return
 
         session_dict = self.parent.session_dict
+
+        # step1
+        instrument = session_dict.get(SessionKeys.instrument, 'SNAP')
+        self.parent.step1_instrument_changed(instrument=instrument)
+        ipts_index_selected = session_dict.get(SessionKeys.ipts_index_selected, 0)
+        self.parent.ui.step1_ipts_comboBox.setCurrentIndex(ipts_index_selected)
+        number_of_obs = session_dict.get(SessionKeys.number_of_obs, 5)
+        self.parent.ui.step1_number_of_ob_spinBox.setValue(number_of_obs)
+
         # list_ui = self.parent.list_ui
         #
         # list_load_method = {DataType.projections: self.parent.projections_text_field_returned,
