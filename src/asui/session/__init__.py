@@ -6,4 +6,5 @@ class SessionKeys:
 	instrument = 'instrument'
 	ipts_selected = 'ipts selected'
 	ipts_index_selected = 'ipts index selected'
-	number_of_obs = 'number_of_obs'
+	number_of_obs = 'number of obs'
+	run_title = 'run title'

@@ -27,11 +27,15 @@ class SessionHandler:
         ipts_selected = o_get_step1.ipts_selected()
         ipts_index_selected = o_get_step1.ipts_index_selected()
         number_of_obs = o_get_step1.number_of_obs()
+        run_title = o_get_step1.run_title()
 
         session_dict[SessionKeys.instrument] = instrument
         session_dict[SessionKeys.ipts_selected] = ipts_selected
         session_dict[SessionKeys.ipts_index_selected] = ipts_index_selected
         session_dict[SessionKeys.number_of_obs] = number_of_obs
+        session_dict[SessionKeys.run_title] = run_title
+
+
 
         # # import input tab data
         # list_ui = self.parent.list_ui
@@ -150,6 +154,10 @@ class SessionHandler:
         self.parent.ui.step1_ipts_comboBox.setCurrentIndex(ipts_index_selected)
         number_of_obs = session_dict.get(SessionKeys.number_of_obs, 5)
         self.parent.ui.step1_number_of_ob_spinBox.setValue(number_of_obs)
+        run_title = session_dict.get(SessionKeys.run_title, "")
+        self.parent.ui.step1_run_title_lineEdit.setText(run_title)
+        self.parent.step1_run_title_changed(run_title=run_title)
+
 
         # list_ui = self.parent.list_ui
         #

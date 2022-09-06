@@ -26,4 +26,3 @@ class EventHandler(Parent):
 
 		self.parent.ui.run_title_missing_label.setVisible(not status)
 		self.parent.ui.step1_start_acquisition_pushButton.setEnabled(status)
-		
