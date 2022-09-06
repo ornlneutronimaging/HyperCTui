@@ -6,15 +6,187 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1529</width>
-    <height>951</height>
+    <width>1096</width>
+    <height>326</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>aiSVMBIRui</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout"/>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTabWidget" name="tabWidget">
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Step 1 - OB acquisition</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QPlainTextEdit" name="plainTextEdit">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>40</height>
+           </size>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="plainText">
+           <string>This first step will acquire some open beams (OB) needed by the following steps. Make sure your sample is not in the field of view!</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>1</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>Number of open beams (OB):</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Instrument: </string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="step1_ipts_comboBox"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>IPTS:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QSpinBox" name="step1_number_of_ob_spinBox">
+            <property name="minimum">
+             <number>1</number>
+            </property>
+            <property name="maximum">
+             <number>30</number>
+            </property>
+            <property name="value">
+             <number>5</number>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="step1_instrument_comboBox">
+            <property name="minimumSize">
+             <size>
+              <width>150</width>
+              <height>0</height>
+             </size>
+            </property>
+            <item>
+             <property name="text">
+              <string>SNAP</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>VENUS</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>0</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pushButton">
+            <property name="text">
+             <string>Start</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Tab 2</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QMenuBar" name="menuBar">
@@ -22,7 +194,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1529</width>
+     <width>1096</width>
      <height>24</height>
     </rect>
    </property>
@@ -167,7 +339,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>764</x>
-     <y>475</y>
+     <y>325</y>
     </hint>
    </hints>
   </connection>
@@ -183,7 +355,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>764</x>
-     <y>475</y>
+     <y>325</y>
     </hint>
    </hints>
   </connection>
@@ -199,7 +371,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>764</x>
-     <y>475</y>
+     <y>325</y>
     </hint>
    </hints>
   </connection>
@@ -215,58 +387,28 @@
     </hint>
     <hint type="destinationlabel">
      <x>764</x>
-     <y>475</y>
+     <y>325</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>step1_instrument_comboBox</sender>
+   <signal>currentTextChanged(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>step1_instrument_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>279</x>
+     <y>142</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>517</x>
+     <y>297</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
-  <slot>projections_select_clicked()</slot>
-  <slot>ob_select_clicked()</slot>
-  <slot>df_select_clicked()</slot>
-  <slot>preview_clicked()</slot>
-  <slot>output_folder_select_clicked()</slot>
-  <slot>projections_text_field_returned()</slot>
-  <slot>ob_text_field_returned()</slot>
-  <slot>df_text_field_returned()</slot>
-  <slot>output_folder_text_field_returned()</slot>
-  <slot>menu_log_clicked()</slot>
-  <slot>load_session_clicked()</slot>
-  <slot>save_session_clicked()</slot>
-  <slot>crop_file_index_moved()</slot>
-  <slot>crop_file_index_pressed()</slot>
-  <slot>crop_width_moved()</slot>
-  <slot>crop_width_pressed()</slot>
-  <slot>crop_checkBox_clicked()</slot>
-  <slot>tilt_correction_checkBox_clicked()</slot>
-  <slot>tilt_correction_file_index_moved()</slot>
-  <slot>tilt_correction_file_index_pressed()</slot>
-  <slot>center_of_rotation_checkBox_clicked()</slot>
-  <slot>center_of_rotation_file_index_changed()</slot>
-  <slot>center_of_rotation_algorithm_clicked()</slot>
-  <slot>center_of_rotation_user_value_changed()</slot>
-  <slot>full_reset_clicked()</slot>
-  <slot>tilt_correction_algorithm_changed()</slot>
-  <slot>tilt_correction_set_up_images_at_0_and_180_degrees_pushed()</slot>
-  <slot>tilt_refresh_calculation_clicked()</slot>
-  <slot>tilt_correction_show_tilt_clicked()</slot>
-  <slot>run_reconstruction()</slot>
-  <slot>advanced_settings_clicked()</slot>
-  <slot>sub_sampling_value_changed()</slot>
-  <slot>main_tab_changed()</slot>
-  <slot>output_slider_changed()</slot>
-  <slot>output_slider_clicked()</slot>
-  <slot>output_checkbox_clicked()</slot>
-  <slot>stop_reconstruction()</slot>
-  <slot>launch_reconstruction()</slot>
-  <slot>crop_from_slice_spinBox_finished_editing()</slot>
-  <slot>crop_to_slice_spinBox_finished_editing()</slot>
-  <slot>crop_from_slice_spinBox_valueChanged()</slot>
-  <slot>crop_to_slice_spinBox_valueChanged()</slot>
-  <slot>display_latest_output_file_button_clicked()</slot>
-  <slot>stop_batch_reconstruction_clicked()</slot>
-  <slot>final_reconstructed_slider_moved()</slot>
-  <slot>final_reconstructed_slider_clicked()</slot>
-  <slot>tilt_correction_user_defined_value_changed()</slot>
+  <slot>step1_instrument_changed()</slot>
  </slots>
 </ui>

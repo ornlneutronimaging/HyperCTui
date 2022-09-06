@@ -12,14 +12,22 @@ from .session.load_previous_session_launcher import LoadPreviousSessionLauncher
 from .session.session_handler import SessionHandler
 from .event_handler import EventHandler
 
+from .step1.event_handler import EventHandler as Step1EventHandler
+
 #warnings.filterwarnings('ignore')
+DEBUG = True
+
+if DEBUG:
+    HOME_FOLDER = "/Users/j35/SNS/"
+else:
+    HOME_FOLDER = "/SNS/"
 
 
 class ASUI(QMainWindow):
 
     log_id = None  # UI id of the logger
     config = None  # config dictionary
-    homepath = "./"
+    homepath = HOME_FOLDER
 
     def __init__(self, parent=None):
 
@@ -45,6 +53,11 @@ class ASUI(QMainWindow):
         if os.path.exists(full_config_file_name):
             load_session_ui = LoadPreviousSessionLauncher(parent=self)
             load_session_ui.show()
+        else:
+            self.initialization_without_any_session_loading()
+
+    def initialization_without_any_session_loading(self):
+        self.step1_instrument_changed(None)
 
     # menu events
     def menu_log_clicked(self):
@@ -64,7 +77,12 @@ class ASUI(QMainWindow):
         o_event = EventHandler(parent=self)
         o_event.full_reset_clicked()
 
-    # widgets events
+    # step 1
+    def step1_instrument_changed(self, instrument):
+        o_event = Step1EventHandler(parent=self)
+        o_event.instrument_changed()
+
+
 
     # leaving ui
     def closeEvent(self, c):
