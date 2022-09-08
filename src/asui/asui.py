@@ -16,7 +16,7 @@ from .step1.event_handler import EventHandler as Step1EventHandler
 
 from .step2.event_handler import EventHandler as Step2EventHandler
 
-#warnings.filterwarnings('ignore')
+# warnings.filterwarnings('ignore')
 DEBUG = True
 
 if DEBUG:
@@ -26,16 +26,15 @@ else:
 
 
 class ASUI(QMainWindow):
-
     log_id = None  # UI id of the logger
     config = None  # config dictionary
     homepath = HOME_FOLDER
 
-    session_dict = {'config version': None,
-                    'instrument': 'SNAP',
-                    'ipts selected': None,
+    session_dict = {'config version'     : None,
+                    'instrument'         : 'SNAP',
+                    'ipts selected'      : None,
                     'ipts index selected': 0,
-                    'number of obs': 5}
+                    'number of obs'      : 5}
 
     def __init__(self, parent=None):
 
@@ -94,12 +93,14 @@ class ASUI(QMainWindow):
         o_event = Step1EventHandler(parent=self)
         o_event.start_acquisition()
 
+    def step1_check_state_of_ob_measured_clicked(self):
+        o_event = Step1EventHandler(parent=self)
+        o_event.check_state_of_ob_measured()
+
     # step 2
     def step2_run_title_changed(self, run_title):
         o_event = Step2EventHandler(parent=self)
         o_event.run_title_changed(run_title=run_title)
-
-
 
     # leaving ui
     def closeEvent(self, c):
