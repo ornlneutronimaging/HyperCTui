@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>903</width>
-    <height>670</height>
+    <width>838</width>
+    <height>843</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -62,7 +62,7 @@ p, li { white-space: pre-wrap; }
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>9</height>
+            <height>47</height>
            </size>
           </property>
          </spacer>
@@ -70,6 +70,42 @@ p, li { white-space: pre-wrap; }
         <item>
          <layout class="QGridLayout" name="gridLayout">
           <item row="0" column="2">
+           <spacer name="horizontalSpacer_2">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Instrument: </string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="step1_ipts_comboBox"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>IPTS:</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
            <widget class="QComboBox" name="step1_instrument_comboBox">
             <property name="minimumSize">
              <size>
@@ -88,55 +124,6 @@ p, li { white-space: pre-wrap; }
              </property>
             </item>
            </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>IPTS:</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="2">
-           <widget class="QComboBox" name="step1_ipts_comboBox"/>
-          </item>
-          <item row="0" column="1">
-           <widget class="QLabel" name="label">
-            <property name="text">
-             <string>Instrument: </string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="3">
-           <spacer name="horizontalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item row="0" column="0">
-           <spacer name="horizontalSpacer_4">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
           </item>
          </layout>
         </item>
@@ -164,18 +151,18 @@ p, li { white-space: pre-wrap; }
            </attribute>
            <layout class="QVBoxLayout" name="verticalLayout_3">
             <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_2">
-              <item>
+             <layout class="QGridLayout" name="gridLayout_2">
+              <item row="0" column="0">
                <widget class="QLabel" name="label_3">
                 <property name="text">
-                 <string>Number of open beams (OB):</string>
+                 <string>Number of OBs to meaure:</string>
                 </property>
                 <property name="alignment">
                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                 </property>
                </widget>
               </item>
-              <item>
+              <item row="0" column="1">
                <widget class="QSpinBox" name="step1_number_of_ob_spinBox">
                 <property name="minimum">
                  <number>1</number>
@@ -188,7 +175,7 @@ p, li { white-space: pre-wrap; }
                 </property>
                </widget>
               </item>
-              <item>
+              <item row="0" column="2" colspan="3">
                <spacer name="horizontalSpacer_3">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
@@ -196,6 +183,52 @@ p, li { white-space: pre-wrap; }
                 <property name="sizeHint" stdset="0">
                  <size>
                   <width>629</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_4">
+                <property name="maximumSize">
+                 <size>
+                  <width>160</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Proton charge</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1" colspan="2">
+               <widget class="QDoubleSpinBox" name="open_beam_proton_charge_doubleSpinBox">
+                <property name="minimum">
+                 <double>0.100000000000000</double>
+                </property>
+                <property name="value">
+                 <double>1.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3">
+               <widget class="QLabel" name="label_5">
+                <property name="text">
+                 <string>pC</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="4">
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
                   <height>20</height>
                  </size>
                 </property>
@@ -219,25 +252,12 @@ p, li { white-space: pre-wrap; }
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout">
               <item>
-               <spacer name="horizontalSpacer">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
                <widget class="QPushButton" name="step1_start_acquisition_pushButton">
                 <property name="enabled">
                  <bool>true</bool>
                 </property>
                 <property name="text">
-                 <string>Start Acquisition</string>
+                 <string>Start Acquisition of Open Beams</string>
                 </property>
                </widget>
               </item>
@@ -249,47 +269,6 @@ p, li { white-space: pre-wrap; }
            <attribute name="title">
             <string>Select OBs</string>
            </attribute>
-           <layout class="QVBoxLayout" name="verticalLayout_5">
-            <item>
-             <widget class="QPushButton" name="pushButton">
-              <property name="text">
-               <string>Select OBs to use ...</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QTableWidget" name="tableWidget">
-              <property name="alternatingRowColors">
-               <bool>true</bool>
-              </property>
-              <property name="selectionMode">
-               <enum>QAbstractItemView::MultiSelection</enum>
-              </property>
-              <property name="selectionBehavior">
-               <enum>QAbstractItemView::SelectRows</enum>
-              </property>
-              <attribute name="horizontalHeaderStretchLastSection">
-               <bool>true</bool>
-              </attribute>
-              <attribute name="verticalHeaderVisible">
-               <bool>false</bool>
-              </attribute>
-              <attribute name="verticalHeaderStretchLastSection">
-               <bool>false</bool>
-              </attribute>
-              <column>
-               <property name="text">
-                <string>File Name</string>
-               </property>
-              </column>
-              <column>
-               <property name="text">
-                <string>Acquisition Time (s)</string>
-               </property>
-              </column>
-             </widget>
-            </item>
-           </layout>
           </widget>
          </widget>
         </item>
@@ -434,7 +413,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>903</width>
+     <width>838</width>
      <height>24</height>
     </rect>
    </property>

@@ -2,7 +2,7 @@ from qtpy.QtWidgets import QFileDialog, QApplication
 import json
 import logging
 
-from . import SessionKeys
+from . import SessionKeys, DefaultValues
 from ..utilities.status_message_config import StatusMessageStatus, show_status_message
 from ..utilities.get import Get
 from ..step1.get import Get as Step1Get
@@ -26,11 +26,13 @@ class SessionHandler:
         ipts_selected = o_get_step1.ipts_selected()
         ipts_index_selected = o_get_step1.ipts_index_selected()
         number_of_obs = o_get_step1.number_of_obs()
+        proton_charge = o_get_step1.proton_charge()
 
         session_dict[SessionKeys.instrument] = instrument
         session_dict[SessionKeys.ipts_selected] = ipts_selected
         session_dict[SessionKeys.ipts_index_selected] = ipts_index_selected
         session_dict[SessionKeys.number_of_obs] = number_of_obs
+        session_dict[SessionKeys.proton_charge] = proton_charge
 
         # step 2
         o_get_step2 = Step2Get(parent=self.parent)
@@ -47,15 +49,17 @@ class SessionHandler:
         session_dict = self.parent.session_dict
 
         # step1
-        instrument = session_dict.get(SessionKeys.instrument, 'SNAP')
+        instrument = session_dict.get(SessionKeys.instrument, DefaultValues.instrument)
         self.parent.step1_instrument_changed(instrument=instrument)
-        ipts_index_selected = session_dict.get(SessionKeys.ipts_index_selected, 0)
+        ipts_index_selected = session_dict.get(SessionKeys.ipts_index_selected, DefaultValues.ipts_index_selected)
         self.parent.ui.step1_ipts_comboBox.setCurrentIndex(ipts_index_selected)
-        number_of_obs = session_dict.get(SessionKeys.number_of_obs, 5)
+        number_of_obs = session_dict.get(SessionKeys.number_of_obs, DefaultValues.number_of_obs)
         self.parent.ui.step1_number_of_ob_spinBox.setValue(number_of_obs)
+        proton_charge = session_dict.get(SessionKeys.proton_charge, DefaultValues.proton_charge)
+        self.parent.ui.open_beam_proton_charge_doubleSpinBox.setValue(proton_charge)
 
         # step 2
-        run_title = session_dict.get(SessionKeys.run_title, "")
+        run_title = session_dict.get(SessionKeys.run_title, DefaultValues.run_title)
         self.parent.ui.step2_run_title_lineEdit.setText(run_title)
         self.parent.step2_run_title_changed(run_title=run_title)
 

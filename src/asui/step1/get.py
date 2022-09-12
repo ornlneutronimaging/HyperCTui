@@ -33,3 +33,6 @@ class Get(MasterGet):
 
     def formatted_run_title(self):
         return str(self.parent.ui.run_title_formatted_label.text())
+
+    def proton_charge(self):
+        return self.parent.ui.open_beam_proton_charge_doubleSpinBox.value()
