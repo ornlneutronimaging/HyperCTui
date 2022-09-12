@@ -62,7 +62,7 @@ p, li { white-space: pre-wrap; }
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>47</height>
+            <height>40</height>
            </size>
           </property>
          </spacer>
@@ -271,11 +271,59 @@ p, li { white-space: pre-wrap; }
            </attribute>
            <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
-             <widget class="QLabel" name="label_7">
-              <property name="text">
-               <string>Select OB to use</string>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <widget class="QLabel" name="label_7">
+                <property name="text">
+                 <string>Browse and select OBs to use</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton">
+                <property name="text">
+                 <string>Browse ...</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <item>
+               <widget class="QLabel" name="label_8">
+                <property name="text">
+                 <string>Looking into folder:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="step1_existing_ob_top_path">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>N/A</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
             <item>
              <widget class="QTableWidget" name="step1_open_beam_tableWidget">
@@ -452,7 +500,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>838</width>
-     <height>24</height>
+     <height>37</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuHelp">
@@ -655,8 +703,8 @@ p, li { white-space: pre-wrap; }
    <slot>step1_instrument_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>279</x>
-     <y>291</y>
+     <x>174</x>
+     <y>337</y>
     </hint>
     <hint type="destinationlabel">
      <x>517</x>
@@ -671,8 +719,8 @@ p, li { white-space: pre-wrap; }
    <slot>step1_start_acquisition_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>855</x>
-     <y>432</y>
+     <x>99</x>
+     <y>741</y>
     </hint>
     <hint type="destinationlabel">
      <x>793</x>
@@ -688,11 +736,43 @@ p, li { white-space: pre-wrap; }
    <hints>
     <hint type="sourcelabel">
      <x>247</x>
-     <y>225</y>
+     <y>238</y>
     </hint>
     <hint type="destinationlabel">
      <x>8</x>
      <y>260</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>step1_ipts_comboBox</sender>
+   <signal>currentTextChanged(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>step1_ipts_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>205</x>
+     <y>372</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>6</x>
+     <y>441</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>step1_browse_obs_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>734</x>
+     <y>506</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>830</x>
+     <y>585</y>
     </hint>
    </hints>
   </connection>
@@ -701,5 +781,7 @@ p, li { white-space: pre-wrap; }
   <slot>step1_instrument_changed()</slot>
   <slot>step2_run_title_changed()</slot>
   <slot>step1_start_acquisition_clicked()</slot>
+  <slot>step1_ipts_changed()</slot>
+  <slot>step1_browse_obs_clicked()</slot>
  </slots>
 </ui>

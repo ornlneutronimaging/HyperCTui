@@ -2,6 +2,7 @@ from qtpy.QtWidgets import QProgressBar, QVBoxLayout
 import pyqtgraph as pg
 
 from ..utilities.config_handler import ConfigHandler
+from ..utilities.table import TableHandler
 # from . import interact_me_style
 
 
@@ -14,17 +15,18 @@ class GuiInitialization:
         o_config = ConfigHandler(parent=self.parent)
         o_config.load()
 
+    def all(self):
         self.main_tab()
+        self.tables()
 
     def main_tab(self):
         self.parent.ui.tabWidget.setTabEnabled(1, False)
 
-    # def all(self):
-    #     """initialize everything here"""
-    #     self.widgets()
-    #     self.statusbar()
-    #     self.pyqtgraph()
-    #
+    def tables(self):
+        o_table = TableHandler(table_ui=self.parent.ui.step1_open_beam_tableWidget)
+        column_sizes = [650, 50]
+        o_table.set_column_sizes(column_sizes=column_sizes)
+
     def full_reset(self):
         pass
 

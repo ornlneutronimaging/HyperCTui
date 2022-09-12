@@ -49,7 +49,7 @@ class ASUI(QMainWindow):
         self.setWindowTitle("Ai Svmbir UI")
 
         o_gui = GuiInitialization(parent=self)
-        o_gui.main_tab()
+        o_gui.all()
 
         self._loading_config()
         self._loading_previous_session_automatically()
@@ -93,6 +93,10 @@ class ASUI(QMainWindow):
         o_event = Step1EventHandler(parent=self)
         o_event.instrument_changed()
 
+    def step1_ipts_changed(self, ipts):
+        o_event = Step1EventHandler(parent=self)
+        o_event.step1_ipts_changed(ipts=ipts)
+
     def step1_start_acquisition_clicked(self):
         o_event = Step1EventHandler(parent=self)
         o_event.start_acquisition()
@@ -100,6 +104,10 @@ class ASUI(QMainWindow):
     def step1_check_state_of_ob_measured_clicked(self):
         o_event = Step1EventHandler(parent=self)
         o_event.check_state_of_ob_measured()
+
+    def step1_browse_obs_clicked(self):
+        o_event = Step1EventHandler(parent=self)
+        o_event.browse_obs()
 
     # step 2
     def step2_run_title_changed(self, run_title):
