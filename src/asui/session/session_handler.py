@@ -53,6 +53,7 @@ class SessionHandler:
 
         # step1
         instrument = session_dict.get(SessionKeys.instrument, DefaultValues.instrument)
+        self.parent.set_new_instrument(instrument=instrument)
         self.parent.step1_instrument_changed(instrument=instrument)
         ipts_index_selected = session_dict.get(SessionKeys.ipts_index_selected, DefaultValues.ipts_index_selected)
         self.parent.ui.step1_ipts_comboBox.setCurrentIndex(ipts_index_selected)

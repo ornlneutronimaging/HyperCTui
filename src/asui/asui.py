@@ -21,9 +21,9 @@ from .step2.event_handler import EventHandler as Step2EventHandler
 DEBUG = True
 
 if DEBUG:
-    HOME_FOLDER = "/Users/j35/SNS/"
+    HOME_FOLDER = "/Users/j35/SNS"
 else:
-    HOME_FOLDER = "/SNS/"
+    HOME_FOLDER = "/SNS"
 
 
 class ASUI(QMainWindow):
@@ -91,7 +91,11 @@ class ASUI(QMainWindow):
     # step 1
     def step1_instrument_changed(self, instrument):
         o_event = Step1EventHandler(parent=self)
-        o_event.instrument_changed()
+        o_event.instrument_changed(instrument=instrument)
+
+    def set_new_instrument(self, instrument=None):
+        o_event = Step1EventHandler(parent=self)
+        o_event.set_new_instrument(instrument=instrument)
 
     def step1_ipts_changed(self, ipts):
         o_event = Step1EventHandler(parent=self)

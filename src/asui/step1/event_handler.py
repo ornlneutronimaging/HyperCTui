@@ -11,14 +11,21 @@ from ..utilities.table import TableHandler
 
 class EventHandler(Parent):
 
-    def instrument_changed(self):
-        instrument = self.parent.ui.step1_instrument_comboBox.currentText()
+    def instrument_changed(self, instrument=None):
+        if instrument is None:
+            instrument = self.parent.ui.step1_instrument_comboBox.currentText()
+
         o_get = Get(parent=self.parent)
         list_ipts = o_get.list_of_ipts(instrument=instrument)
         self.parent.ui.step1_ipts_comboBox.clear()
         self.parent.ui.step1_ipts_comboBox.addItems(list_ipts)
         self.parent.session_dict['instrument'] = instrument
         self.reset_ob_search_path()
+
+    def set_new_instrument(self, instrument=None):
+        new_index = self.parent.ui.step1_instrument_comboBox.findText(instrument)
+        self.parent.ui.step1_instrument_comboBox.setCurrentIndex(new_index)
+        self.instrument_changed(instrument=instrument)
 
     def run_title_changed(self, run_title=None):
         run_title_listed = run_title.split(" ")
@@ -53,8 +60,7 @@ class EventHandler(Parent):
         o_table.remove_all_rows()
         ipts = self.parent.ui.step1_ipts_comboBox.currentText()
         instrument = self.parent.ui.step1_instrument_comboBox.currentText()
-        full_list_path_where_to_look_for_obs = ["",
-                                                "SNS",
+        full_list_path_where_to_look_for_obs = [self.parent.homepath,
                                                 instrument,
                                                 ipts,
                                                 "shared",
