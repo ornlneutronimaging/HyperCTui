@@ -2,6 +2,7 @@ from pathlib import Path
 import logging
 import glob
 import os
+from qtpy.QtWidgets import QFileDialog
 
 from ..parent import Parent
 from .get import Get
@@ -65,9 +66,17 @@ class EventHandler(Parent):
 
     def check_state_of_ob_measured(self):
         logging.info(f"Checking the state of the OBs measured.")
-    # look at the new list of OBs in the folder.
-    # if there are as many new ones as the number of OBs requested, we are good to go.
 
     def browse_obs(self):
         full_path_where_to_look_for_obs = str(self.parent.ui.step1_existing_ob_top_path.text())
         logging.info(f"Looking for OBs folders/files in {full_path_where_to_look_for_obs}")
+
+        top_folder = str(QFileDialog.getExistingDirectory(self.parent,
+                                                   full_path_where_to_look_for_obs))
+        if top_folder:
+            logging.info(f"User changed top OB folder in step 1: {top_folder}")
+            self.parent.ui.step1_existing_ob_top_path.setText(top_folder)
+            self.update_list_of_obs()
+
+    def update_list_of_obs(self):
+        top_folder = self.parent.ui.step1_existing_ob_top_path.text()

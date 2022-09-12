@@ -1,6 +1,7 @@
 from qtpy.QtWidgets import QFileDialog, QApplication
 import json
 import logging
+import os
 
 from . import SessionKeys, DefaultValues
 from ..utilities.status_message_config import StatusMessageStatus, show_status_message
@@ -27,12 +28,14 @@ class SessionHandler:
         ipts_index_selected = o_get_step1.ipts_index_selected()
         number_of_obs = o_get_step1.number_of_obs()
         proton_charge = o_get_step1.proton_charge()
+        top_obs_folder = o_get_step1.top_ob_folder()
 
         session_dict[SessionKeys.instrument] = instrument
         session_dict[SessionKeys.ipts_selected] = ipts_selected
         session_dict[SessionKeys.ipts_index_selected] = ipts_index_selected
         session_dict[SessionKeys.number_of_obs] = number_of_obs
         session_dict[SessionKeys.proton_charge] = proton_charge
+        session_dict[SessionKeys.top_obs_folder] = top_obs_folder
 
         # step 2
         o_get_step2 = Step2Get(parent=self.parent)
@@ -53,10 +56,21 @@ class SessionHandler:
         self.parent.step1_instrument_changed(instrument=instrument)
         ipts_index_selected = session_dict.get(SessionKeys.ipts_index_selected, DefaultValues.ipts_index_selected)
         self.parent.ui.step1_ipts_comboBox.setCurrentIndex(ipts_index_selected)
+        ipts = session_dict.get(SessionKeys.ipts_selected)
         number_of_obs = session_dict.get(SessionKeys.number_of_obs, DefaultValues.number_of_obs)
         self.parent.ui.step1_number_of_ob_spinBox.setValue(number_of_obs)
         proton_charge = session_dict.get(SessionKeys.proton_charge, DefaultValues.proton_charge)
         self.parent.ui.open_beam_proton_charge_doubleSpinBox.setValue(proton_charge)
+        top_obs_folder = session_dict.get(SessionKeys.top_obs_folder, None)
+        if top_obs_folder is None:
+            list_top_obs_folder = ["",
+                              "SNS",
+                              instrument,
+                              ipts,
+                              "shared",
+                              "autoreduce"]
+            top_obs_folder = os.sep.join(list_top_obs_folder)
+        self.parent.ui.step1_existing_ob_top_path.setText(top_obs_folder)
 
         # step 2
         run_title = session_dict.get(SessionKeys.run_title, DefaultValues.run_title)

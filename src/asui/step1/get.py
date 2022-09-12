@@ -36,3 +36,6 @@ class Get(MasterGet):
 
     def proton_charge(self):
         return self.parent.ui.open_beam_proton_charge_doubleSpinBox.value()
+
+    def top_ob_folder(self):
+        return str(self.parent.ui.step1_existing_ob_top_path.text())
