@@ -11,6 +11,7 @@ from .utilities.config_handler import ConfigHandler
 from .session.load_previous_session_launcher import LoadPreviousSessionLauncher
 from .session.session_handler import SessionHandler
 from .event_handler import EventHandler
+from .initialization.gui_initialization import GuiInitialization
 
 from .step1.event_handler import EventHandler as Step1EventHandler
 
@@ -46,6 +47,9 @@ class ASUI(QMainWindow):
 
         self.ui = load_ui(ui_full_path, baseinstance=self)
         self.setWindowTitle("Ai Svmbir UI")
+
+        o_gui = GuiInitialization(parent=self)
+        o_gui.main_tab()
 
         self._loading_config()
         self._loading_previous_session_automatically()

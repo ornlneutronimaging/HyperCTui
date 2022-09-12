@@ -14,6 +14,11 @@ class GuiInitialization:
         o_config = ConfigHandler(parent=self.parent)
         o_config.load()
 
+        self.main_tab()
+
+    def main_tab(self):
+        self.parent.ui.tabWidget.setTabEnabled(1, False)
+
     # def all(self):
     #     """initialize everything here"""
     #     self.widgets()
