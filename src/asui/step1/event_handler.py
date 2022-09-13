@@ -78,7 +78,15 @@ class EventHandler(Parent):
         logging.info(f"Looking for OBs folders/files in {full_path_where_to_look_for_obs}")
 
         top_folder = str(QFileDialog.getExistingDirectory(self.parent,
-                                                   full_path_where_to_look_for_obs))
+                                                          "Select OB folder",
+                                                          full_path_where_to_look_for_obs))
+
+        if not os.path.exists(top_folder):
+            logging.info(f"-> folder does not exists!")
+            top_folder = os.sep.join([self.parent.homepath,
+                                      self.parent.ui.step1_instrument_comboBox.currentText()])
+            logging.info(f"-> using {top_folder} instead!")
+
         if top_folder:
             logging.info(f"User changed top OB folder in step 1: {top_folder}")
             self.parent.ui.step1_existing_ob_top_path.setText(top_folder)
