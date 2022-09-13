@@ -27,9 +27,12 @@ else:
 
 
 class ASUI(QMainWindow):
+
     log_id = None  # UI id of the logger
     config = None  # config dictionary
     homepath = HOME_FOLDER
+
+    clicked_create_ob = False
 
     session_dict = {'config version'     : None,
                     'instrument'         : 'SNAP',
@@ -104,6 +107,13 @@ class ASUI(QMainWindow):
     def step1_start_acquisition_clicked(self):
         o_event = Step1EventHandler(parent=self)
         o_event.start_acquisition()
+        self.clicked_create_ob = True
+        o_main_event = EventHandler(parent=self)
+        o_main_event.check_state_of_main_tabs()
+
+    def step1_ob_tab_changed(self):
+        o_event = EventHandler(parent=self)
+        o_event.check_state_of_main_tabs()
 
     def step1_check_state_of_ob_measured_clicked(self):
         o_event = Step1EventHandler(parent=self)
@@ -112,6 +122,10 @@ class ASUI(QMainWindow):
     def step1_browse_obs_clicked(self):
         o_event = Step1EventHandler(parent=self)
         o_event.browse_obs()
+
+    def step1_list_obs_selection_changed(self):
+        o_event = EventHandler(parent=self)
+        o_event.check_state_of_main_tabs()
 
     # step 2
     def step2_run_title_changed(self, run_title):

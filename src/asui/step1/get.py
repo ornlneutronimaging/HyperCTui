@@ -47,7 +47,7 @@ class Get(MasterGet):
         list_row_selected = o_table.get_rows_of_table_selected()
         if not list_row_selected:
             return []
-        
+
         list_folders = []
         for _row in list_row_selected:
             _folder = o_table.get_item_str_from_cell(row=_row,

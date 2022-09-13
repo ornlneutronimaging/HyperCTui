@@ -22,6 +22,7 @@ class EventHandler(Parent):
         self.parent.ui.step1_ipts_comboBox.addItems(list_ipts)
         self.parent.session_dict['instrument'] = instrument
         self.reset_ob_search_path()
+        self.step1_ipts_changed(ipts=list_ipts[0])
 
     def set_new_instrument(self, instrument=None):
         new_index = self.parent.ui.step1_instrument_comboBox.findText(instrument)
@@ -71,6 +72,7 @@ class EventHandler(Parent):
                                                 ]
         full_path_where_to_look_for_obs = os.sep.join(full_list_path_where_to_look_for_obs)
         self.parent.ui.step1_existing_ob_top_path.setText(full_path_where_to_look_for_obs)
+        self.parent.ui.location_of_ob_created.setText(full_path_where_to_look_for_obs)
 
     def check_state_of_ob_measured(self):
         logging.info(f"Checking the state of the OBs measured.")
@@ -82,6 +84,9 @@ class EventHandler(Parent):
         top_folder = str(QFileDialog.getExistingDirectory(self.parent,
                                                           "Select OB folder",
                                                           full_path_where_to_look_for_obs))
+
+        if not top_folder:
+            return
 
         if not os.path.exists(top_folder):
             logging.info(f"-> folder does not exists!")
