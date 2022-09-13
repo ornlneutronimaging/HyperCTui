@@ -2,6 +2,7 @@ from pathlib import Path
 import logging
 import glob
 import os
+import json
 from qtpy.QtWidgets import QFileDialog
 
 from ..parent import Parent
@@ -94,3 +95,51 @@ class EventHandler(Parent):
 
     def update_list_of_obs(self):
         top_folder = self.parent.ui.step1_existing_ob_top_path.text()
+        list_entries = glob.glob(top_folder + os.sep + "*")
+        list_folders = []
+        for _entry in list_entries:
+            if os.path.isdir(_entry):
+                list_folders.append(_entry)
+
+        list_proton_charge = []
+        for _folder in list_folders:
+            _proton_charge = EventHandler.retrieve_proton_charge_for_that_folder(_folder)
+            list_proton_charge.append(_proton_charge)
+
+        o_table = TableHandler(table_ui=self.parent.ui.step1_open_beam_tableWidget)
+        nbr_row = o_table.row_count()
+
+        for _offset_row, _folder in enumerate(list_folders):
+            o_table.insert_empty_row(row=nbr_row+_offset_row)
+            o_table.insert_item(row=nbr_row+_offset_row,
+                                column=0,
+                                value=_folder)
+            o_table.insert_item(row=nbr_row+_offset_row,
+                                column=1,
+                                value=list_proton_charge[_offset_row])
+
+    @staticmethod
+    def retrieve_proton_charge_for_that_folder(folder):
+        """look for the json file called summary.json
+            if not there return "N/A"
+            if found, look for tag proton_charge
+                if found, return the value * 1e-9 (to go to C)
+                if not found, return "N/A"
+        """
+        json_file = glob.glob(folder + os.sep + "summary.json")
+        if len(json_file) == 0:
+            return "N/A"
+
+        json_file = json_file[0]
+        if not os.path.exists(json_file):
+            return "N/A"
+
+        with open(json_file, 'r') as f:
+            data = json.load(f)
+
+        proton_charge = data.get('proton_charge', 'N/A')
+        if proton_charge == "N/A":
+            return proton_charge
+
+        proton_charge = float(proton_charge) * 1e-9
+        return proton_charge

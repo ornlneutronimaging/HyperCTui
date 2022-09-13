@@ -1,5 +1,6 @@
 import numpy as np
 from qtpy import QtGui
+from qtpy.QtWidgets import QTableWidgetItem
 
 
 class TableHandler:
@@ -8,6 +9,9 @@ class TableHandler:
 
     def __init__(self, table_ui=None):
         self.table_ui = table_ui
+
+    def row_count(self):
+        return self.table_ui.rowCount()
 
     def select_everything(self, state):
         nbr_row = self.table_ui.rowCount()
@@ -130,7 +134,7 @@ class TableHandler:
 
     def insert_item(self, row=0, column=0, value="", format_str="{}"):
         _str_value = format_str.format(value)
-        _item = QtGui.QTableWidgetItem(_str_value)
+        _item = QTableWidgetItem(_str_value)
         self.table_ui.setItem(row, column, _item)
 
     def set_background_color(self, row=0, column=0, qcolor=QtGui.QColor(0, 255, 255)):
