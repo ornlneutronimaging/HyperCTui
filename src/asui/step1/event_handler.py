@@ -54,6 +54,7 @@ class EventHandler(Parent):
     def step1_ipts_changed(self, ipts=None):
         logging.info(f"New IPTS selected: {ipts}")
         self.reset_ob_search_path()
+        self.update_list_of_obs()
 
     def reset_ob_search_path(self):
         logging.info(f"-> clearing the list of OBs table!")
@@ -100,6 +101,12 @@ class EventHandler(Parent):
         for _entry in list_entries:
             if os.path.isdir(_entry):
                 list_folders.append(_entry)
+
+        self.load_list_of_folders(list_folders=list_folders)
+
+    def load_list_of_folders(self, list_folders):
+        if list_folders is None:
+            return
 
         list_proton_charge = []
         for _folder in list_folders:

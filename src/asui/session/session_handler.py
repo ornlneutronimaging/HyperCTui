@@ -7,6 +7,7 @@ from . import SessionKeys, DefaultValues
 from ..utilities.status_message_config import StatusMessageStatus, show_status_message
 from ..utilities.get import Get
 from ..step1.get import Get as Step1Get
+from ..step1.event_handler import EventHandler as Step1EventHandler
 from ..step2.get import Get as Step2Get
 
 
@@ -29,6 +30,7 @@ class SessionHandler:
         number_of_obs = o_get_step1.number_of_obs()
         proton_charge = o_get_step1.proton_charge()
         top_obs_folder = o_get_step1.top_ob_folder()
+        list_ob_folders = o_get_step1.list_ob_folders()
 
         session_dict[SessionKeys.instrument] = instrument
         session_dict[SessionKeys.ipts_selected] = ipts_selected
@@ -36,6 +38,7 @@ class SessionHandler:
         session_dict[SessionKeys.number_of_obs] = number_of_obs
         session_dict[SessionKeys.proton_charge] = proton_charge
         session_dict[SessionKeys.top_obs_folder] = top_obs_folder
+        session_dict[SessionKeys.list_ob_folders] = list_ob_folders
 
         # step 2
         o_get_step2 = Step2Get(parent=self.parent)
@@ -55,13 +58,18 @@ class SessionHandler:
         instrument = session_dict.get(SessionKeys.instrument, DefaultValues.instrument)
         self.parent.set_new_instrument(instrument=instrument)
         self.parent.step1_instrument_changed(instrument=instrument)
+
         ipts_index_selected = session_dict.get(SessionKeys.ipts_index_selected, DefaultValues.ipts_index_selected)
         self.parent.ui.step1_ipts_comboBox.setCurrentIndex(ipts_index_selected)
+
         ipts = session_dict.get(SessionKeys.ipts_selected)
+
         number_of_obs = session_dict.get(SessionKeys.number_of_obs, DefaultValues.number_of_obs)
         self.parent.ui.step1_number_of_ob_spinBox.setValue(number_of_obs)
+
         proton_charge = session_dict.get(SessionKeys.proton_charge, DefaultValues.proton_charge)
         self.parent.ui.open_beam_proton_charge_doubleSpinBox.setValue(proton_charge)
+
         top_obs_folder = session_dict.get(SessionKeys.top_obs_folder, None)
         if top_obs_folder is None:
             list_top_obs_folder = ["",
@@ -72,6 +80,10 @@ class SessionHandler:
                               "autoreduce"]
             top_obs_folder = os.sep.join(list_top_obs_folder)
         self.parent.ui.step1_existing_ob_top_path.setText(top_obs_folder)
+
+        list_ob_folders = session_dict.get(SessionKeys.list_ob_folders, None)
+        o_event_step1 = Step1EventHandler(parent=self.parent)
+        o_event_step1.load_list_of_folders(list_ob_folders)
 
         # step 2
         run_title = session_dict.get(SessionKeys.run_title, DefaultValues.run_title)

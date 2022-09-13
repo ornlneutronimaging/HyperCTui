@@ -1,7 +1,9 @@
 import glob
 import os
+import numpy as np
 
 from ..utilities.get import Get as MasterGet
+from ..utilities.table import TableHandler
 
 
 class Get(MasterGet):
@@ -39,3 +41,13 @@ class Get(MasterGet):
 
     def top_ob_folder(self):
         return str(self.parent.ui.step1_existing_ob_top_path.text())
+
+    def list_ob_folders(self):
+        o_table = TableHandler(table_ui=self.parent.ui.step1_open_beam_tableWidget)
+        list_folders = []
+        nbr_row = o_table.row_count()
+        for _row in np.arange(nbr_row):
+            _folder = o_table.get_item_str_from_cell(row=_row,
+                                                     column=0)
+            list_folders.append(_folder)
+        return list_folders
