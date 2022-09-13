@@ -20,6 +20,9 @@ class TableHandler:
         self.table_ui.setRangeSelected(selection_range, state)
 
     def select_rows(self, list_of_rows=None):
+        if list_of_rows is None:
+            return
+
         self.select_everything(False)
         nbr_row = self.table_ui.rowCount()
         nbr_column = self.table_ui.columnCount()

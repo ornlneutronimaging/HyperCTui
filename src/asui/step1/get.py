@@ -10,8 +10,8 @@ class Get(MasterGet):
 
     def list_of_ipts(self, instrument):
         """
-		return the list of IPTS for the specified instrument
-		ex: ['IPTS-0001', 'IPTS-0002']
+		    return the list of IPTS for the specified instrument
+		    ex: ['IPTS-0001', 'IPTS-0002']
 		"""
         home_folder = self.parent.homepath
         full_path_list_ipts = glob.glob(os.path.join(home_folder, instrument + '/IPTS-*'))
@@ -42,11 +42,14 @@ class Get(MasterGet):
     def top_ob_folder(self):
         return str(self.parent.ui.step1_existing_ob_top_path.text())
 
-    def list_ob_folders(self):
+    def list_ob_folders_selected(self):
         o_table = TableHandler(table_ui=self.parent.ui.step1_open_beam_tableWidget)
+        list_row_selected = o_table.get_rows_of_table_selected()
+        if not list_row_selected:
+            return []
+        
         list_folders = []
-        nbr_row = o_table.row_count()
-        for _row in np.arange(nbr_row):
+        for _row in list_row_selected:
             _folder = o_table.get_item_str_from_cell(row=_row,
                                                      column=0)
             list_folders.append(_folder)

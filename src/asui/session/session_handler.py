@@ -2,10 +2,12 @@ from qtpy.QtWidgets import QFileDialog, QApplication
 import json
 import logging
 import os
+import numpy as np
 
 from . import SessionKeys, DefaultValues
 from ..utilities.status_message_config import StatusMessageStatus, show_status_message
 from ..utilities.get import Get
+from ..utilities.table import TableHandler
 from ..step1.get import Get as Step1Get
 from ..step1.event_handler import EventHandler as Step1EventHandler
 from ..step2.get import Get as Step2Get
@@ -30,7 +32,7 @@ class SessionHandler:
         number_of_obs = o_get_step1.number_of_obs()
         proton_charge = o_get_step1.proton_charge()
         top_obs_folder = o_get_step1.top_ob_folder()
-        list_ob_folders = o_get_step1.list_ob_folders()
+        list_ob_folders_selected = o_get_step1.list_ob_folders_selected()
 
         session_dict[SessionKeys.instrument] = instrument
         session_dict[SessionKeys.ipts_selected] = ipts_selected
@@ -38,7 +40,7 @@ class SessionHandler:
         session_dict[SessionKeys.number_of_obs] = number_of_obs
         session_dict[SessionKeys.proton_charge] = proton_charge
         session_dict[SessionKeys.top_obs_folder] = top_obs_folder
-        session_dict[SessionKeys.list_ob_folders] = list_ob_folders
+        session_dict[SessionKeys.list_ob_folders_selected] = list_ob_folders_selected
 
         # step 2
         o_get_step2 = Step2Get(parent=self.parent)
@@ -81,9 +83,14 @@ class SessionHandler:
             top_obs_folder = os.sep.join(list_top_obs_folder)
         self.parent.ui.step1_existing_ob_top_path.setText(top_obs_folder)
 
-        list_ob_folders = session_dict.get(SessionKeys.list_ob_folders, None)
-        o_event_step1 = Step1EventHandler(parent=self.parent)
-        o_event_step1.load_list_of_folders(list_ob_folders)
+        list_ob_folders_selected = session_dict.get(SessionKeys.list_ob_folders_selected, None)
+        o_table = TableHandler(table_ui=self.parent.ui.step1_open_beam_tableWidget)
+        nbr_row = o_table.row_count()
+        for _row in np.arange(nbr_row):
+            _folder = o_table.get_item_str_from_cell(row=_row,
+                                                     column=0)
+            if _folder in list_ob_folders_selected:
+                o_table.select_row(row=_row)
 
         # step 2
         run_title = session_dict.get(SessionKeys.run_title, DefaultValues.run_title)

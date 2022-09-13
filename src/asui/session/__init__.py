@@ -9,7 +9,7 @@ class SessionKeys:
 	number_of_obs = 'number of obs'
 	proton_charge = "proton charge"
 	top_obs_folder = "top ob folder"
-	list_ob_folders = "list ob folders"
+	list_ob_folders_selected = "list ob folders selected"
 
 	# step 2
 	run_title = 'run title'
