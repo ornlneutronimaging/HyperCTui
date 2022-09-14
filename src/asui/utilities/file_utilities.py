@@ -40,7 +40,6 @@ def path_leaf(path):
     return tail or ntpath.basename(head)
 
 
-
 def get_data_type(file_name):
     '''
     using the file name extension, will return the type of the data
@@ -80,3 +79,15 @@ def make_or_reset_folder(folder_name):
 def make_folder(folder_name):
     if not os.path.exists(folder_name):
         os.makedirs(folder_name)
+
+
+def list_dirs(rootdir):
+    list_dir = []
+    for file in os.listdir(rootdir):
+        d = os.path.join(rootdir, file)
+        if os.path.isdir(d):
+            list_dir.append(d)
+            list_dirs(d)
+    return list_dir
+
+

@@ -8,6 +8,7 @@ from qtpy.QtWidgets import QFileDialog
 from ..parent import Parent
 from .get import Get
 from ..utilities.table import TableHandler
+from ..utilities.file_utilities import list_dirs
 
 
 class EventHandler(Parent):
@@ -19,10 +20,12 @@ class EventHandler(Parent):
         o_get = Get(parent=self.parent)
         list_ipts = o_get.list_of_ipts(instrument=instrument)
         self.parent.ui.step1_ipts_comboBox.clear()
+        self.parent.ui.step1_ipts_comboBox.blockSignals(True)
         self.parent.ui.step1_ipts_comboBox.addItems(list_ipts)
         self.parent.session_dict['instrument'] = instrument
         self.reset_ob_search_path()
         self.step1_ipts_changed(ipts=list_ipts[0])
+        self.parent.ui.step1_ipts_comboBox.blockSignals(False)
 
     def set_new_instrument(self, instrument=None):
         new_index = self.parent.ui.step1_instrument_comboBox.findText(instrument)
@@ -100,13 +103,14 @@ class EventHandler(Parent):
             self.update_list_of_obs()
 
     def update_list_of_obs(self):
-        top_folder = self.parent.ui.step1_existing_ob_top_path.text()
-        list_entries = glob.glob(top_folder + os.sep + "*")
-        list_folders = []
-        for _entry in list_entries:
-            if os.path.isdir(_entry):
-                list_folders.append(_entry)
+        print("calling update list of obs")
+        return
 
+        top_folder = self.parent.ui.step1_existing_ob_top_path.text()
+        print(f"top_folder: {top_folder}")
+        return
+
+        list_folders = list_dirs(top_folder)
         self.load_list_of_folders(list_folders=list_folders)
 
     def load_list_of_folders(self, list_folders):

@@ -3,9 +3,14 @@ import logging
 from .parent import Parent
 from .initialization.gui_initialization import GuiInitialization
 from .utilities.table import TableHandler
+from .session.new_session import NewSession
 
 
 class EventHandler(Parent):
+
+	def new_session(self):
+		o_new = NewSession(parent=self.parent)
+		o_new.show()
 
 	def full_reset_clicked(self):
 		o_init = GuiInitialization(parent=self.parent)

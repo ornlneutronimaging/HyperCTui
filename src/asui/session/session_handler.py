@@ -55,14 +55,17 @@ class SessionHandler:
             return
 
         session_dict = self.parent.session_dict
+        self.parent.blockSignals(True)
 
         # step1
         instrument = session_dict.get(SessionKeys.instrument, DefaultValues.instrument)
         self.parent.set_new_instrument(instrument=instrument)
-        self.parent.step1_instrument_changed(instrument=instrument)
+        # self.parent.step1_instrument_changed(instrument=instrument)
 
         ipts_index_selected = session_dict.get(SessionKeys.ipts_index_selected, DefaultValues.ipts_index_selected)
+        self.parent.ui.step1_ipts_comboBox.blockSignals(True)
         self.parent.ui.step1_ipts_comboBox.setCurrentIndex(ipts_index_selected)
+        self.parent.ui.step1_ipts_comboBox.blockSignals(False)
 
         ipts = session_dict.get(SessionKeys.ipts_selected)
 
@@ -101,6 +104,9 @@ class SessionHandler:
                             message=f"Loaded {self.config_file_name}",
                             status=StatusMessageStatus.ready,
                             duration_s=10)
+
+        self.parent.blockSignals(False)
+
 
     def _retrieve_general_settings(self):
         number_of_scanned_periods = self.parent.ui.number_of_scanned_periods_spinBox.value()

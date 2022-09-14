@@ -74,6 +74,10 @@ class ASUI(QMainWindow):
         self.step1_instrument_changed(None)
 
     # menu events
+    def new_session_clicked(self):
+        o_event = EventHandler(parent=self)
+        o_event.new_session()
+
     def menu_log_clicked(self):
         LogLauncher(parent=self)
 
