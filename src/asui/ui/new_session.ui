@@ -56,7 +56,7 @@
       </widget>
      </item>
      <item row="1" column="2">
-      <widget class="QComboBox" name="step1_ipts_comboBox"/>
+      <widget class="QComboBox" name="ipts_comboBox"/>
      </item>
      <item row="1" column="1">
       <widget class="QLabel" name="label_2">
@@ -69,7 +69,7 @@
       </widget>
      </item>
      <item row="0" column="2">
-      <widget class="QComboBox" name="step1_instrument_comboBox">
+      <widget class="QComboBox" name="instrument_comboBox">
        <property name="minimumSize">
         <size>
          <width>150</width>
@@ -137,12 +137,12 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>224</x>
+     <y>127</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
-     <y>274</y>
+     <y>148</y>
     </hint>
    </hints>
   </connection>
@@ -153,14 +153,33 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>264</x>
+     <y>133</y>
     </hint>
     <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
+     <x>270</x>
+     <y>148</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>instrument_comboBox</sender>
+   <signal>currentTextChanged(QString)</signal>
+   <receiver>Dialog</receiver>
+   <slot>instrument_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>156</x>
+     <y>36</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>19</x>
+     <y>56</y>
     </hint>
    </hints>
   </connection>
  </connections>
+ <slots>
+  <slot>instrument_changed()</slot>
+ </slots>
 </ui>
