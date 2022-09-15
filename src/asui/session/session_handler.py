@@ -77,6 +77,8 @@ class SessionHandler:
 			                       "autoreduce"]
 			top_obs_folder = os.sep.join(list_top_obs_folder)
 		self.parent.ui.existing_ob_top_path.setText(top_obs_folder)
+		o_event = Step1EventHandler(parent=self.parent)
+		o_event.update_list_of_obs()
 
 		list_ob_folders_selected = session_dict.get(SessionKeys.list_ob_folders_selected, None)
 		o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
@@ -110,7 +112,6 @@ class SessionHandler:
 		                    'rotation of g0rz'         : rotation_of_g0rz,
 		                    'number of images per step': images_per_step}
 		return general_settings
-
 
 	def automatic_save(self):
 		o_get = Get(parent=self.parent)

@@ -104,13 +104,7 @@ class EventHandler(Parent):
             self.update_list_of_obs()
 
     def update_list_of_obs(self):
-        print("calling update list of obs")
-        return
-
         top_folder = self.parent.ui.existing_ob_top_path.text()
-        print(f"top_folder: {top_folder}")
-        return
-
         list_folders = list_dirs(top_folder)
         self.load_list_of_folders(list_folders=list_folders)
 
@@ -123,7 +117,7 @@ class EventHandler(Parent):
             _proton_charge = EventHandler.retrieve_proton_charge_for_that_folder(_folder)
             list_proton_charge.append(_proton_charge)
 
-        o_table = TableHandler(table_ui=self.parent.ui.step1_open_beam_tableWidget)
+        o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
         nbr_row = o_table.row_count()
 
         for _offset_row, _folder in enumerate(list_folders):

@@ -19,10 +19,11 @@ class GuiInitialization:
 	def all(self):
 		self.statusbar()
 		self.widgets()
+		self.tables()
 
 	def tables(self):
 		o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
-		column_sizes = [650, 50]
+		column_sizes = [600, 50]
 		o_table.set_column_sizes(column_sizes=column_sizes)
 
 	def full_reset(self):

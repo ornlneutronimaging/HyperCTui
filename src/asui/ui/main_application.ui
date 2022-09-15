@@ -229,7 +229,7 @@
               </column>
               <column>
                <property name="text">
-                <string>Proton charge (C)</string>
+                <string>p charge (C)</string>
                </property>
               </column>
              </widget>

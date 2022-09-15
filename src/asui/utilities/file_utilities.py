@@ -82,12 +82,4 @@ def make_folder(folder_name):
 
 
 def list_dirs(rootdir):
-    list_dir = []
-    for file in os.listdir(rootdir):
-        d = os.path.join(rootdir, file)
-        if os.path.isdir(d):
-            list_dir.append(d)
-            list_dirs(d)
-    return list_dir
-
-
+    return [os.path.abspath(x[0]) for x in os.walk(rootdir)]
