@@ -246,16 +246,30 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="0" column="0">
            <widget class="QLabel" name="label">
             <property name="text">
              <string>Run title:</string>
             </property>
            </widget>
           </item>
-          <item>
+          <item row="0" column="1">
            <widget class="QLineEdit" name="run_title_lineEdit"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Run title used:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLabel" name="run_title_formatted_label">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -267,7 +281,7 @@
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>315</height>
+            <height>289</height>
            </size>
           </property>
          </spacer>
@@ -447,7 +461,7 @@
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>764</x>
+     <x>740</x>
      <y>325</y>
     </hint>
    </hints>
@@ -463,7 +477,7 @@
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>764</x>
+     <x>740</x>
      <y>325</y>
     </hint>
    </hints>
@@ -479,7 +493,7 @@
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>764</x>
+     <x>740</x>
      <y>325</y>
     </hint>
    </hints>
@@ -495,7 +509,7 @@
      <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>764</x>
+     <x>740</x>
      <y>325</y>
     </hint>
    </hints>
@@ -523,12 +537,12 @@
    <slot>step1_browse_obs_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>704</x>
-     <y>175</y>
+     <x>682</x>
+     <y>114</y>
     </hint>
     <hint type="destinationlabel">
-     <x>830</x>
-     <y>585</y>
+     <x>740</x>
+     <y>508</y>
     </hint>
    </hints>
   </connection>
@@ -543,8 +557,8 @@
      <y>337</y>
     </hint>
     <hint type="destinationlabel">
-     <x>832</x>
-     <y>707</y>
+     <x>740</x>
+     <y>508</y>
     </hint>
    </hints>
   </connection>
@@ -560,7 +574,23 @@
     </hint>
     <hint type="destinationlabel">
      <x>5</x>
-     <y>543</y>
+     <y>508</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>run_title_lineEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>run_title_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>186</x>
+     <y>82</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>4</x>
+     <y>146</y>
     </hint>
    </hints>
   </connection>
@@ -574,5 +604,6 @@
   <slot>step1_list_obs_selection_changed()</slot>
   <slot>ob_tab_changed()</slot>
   <slot>new_session_clicked()</slot>
+  <slot>run_title_changed()</slot>
  </slots>
 </ui>

@@ -129,7 +129,7 @@ class ASUI(QMainWindow):
 		o_event.check_state_of_main_tabs()
 
 	# step - setup projections
-	def step2_run_title_changed(self, run_title):
+	def run_title_changed(self, run_title):
 		o_event = Step2EventHandler(parent=self)
 		o_event.run_title_changed(run_title=run_title)
 

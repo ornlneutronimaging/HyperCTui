@@ -44,7 +44,7 @@ class SessionHandler:
         session_dict[SessionKeys.top_obs_folder] = top_obs_folder
         session_dict[SessionKeys.list_ob_folders_selected] = list_ob_folders_selected
 
-        # step 2
+        # step projections
         o_get_step2 = Step2Get(parent=self.parent)
         run_title = o_get_step2.run_title()
         session_dict[SessionKeys.run_title] = run_title
@@ -59,20 +59,11 @@ class SessionHandler:
         session_dict = self.parent.session_dict
         self.parent.blockSignals(True)
 
-        # setup_ob
-        instrument = session_dict.get(SessionKeys.instrument, DefaultValues.instrument)
-        self.parent.set_new_instrument(instrument=instrument)
-        # self.parent.step1_instrument_changed(instrument=instrument)
-
-        ipts_index_selected = session_dict.get(SessionKeys.ipts_index_selected, DefaultValues.ipts_index_selected)
-        self.parent.ui.step1_ipts_comboBox.blockSignals(True)
-        self.parent.ui.step1_ipts_comboBox.setCurrentIndex(ipts_index_selected)
-        self.parent.ui.step1_ipts_comboBox.blockSignals(False)
-
-        ipts = session_dict.get(SessionKeys.ipts_selected)
+        # setup ob
+        ipts = session_dict[SessionKeys.ipts_selected]
 
         number_of_obs = session_dict.get(SessionKeys.number_of_obs, DefaultValues.number_of_obs)
-        self.parent.ui.step1_number_of_ob_spinBox.setValue(number_of_obs)
+        self.parent.ui.number_of_ob_spinBox.setValue(number_of_obs)
 
         proton_charge = session_dict.get(SessionKeys.proton_charge, DefaultValues.proton_charge)
         self.parent.ui.open_beam_proton_charge_doubleSpinBox.setValue(proton_charge)
@@ -86,10 +77,10 @@ class SessionHandler:
                               "shared",
                               "autoreduce"]
             top_obs_folder = os.sep.join(list_top_obs_folder)
-        self.parent.ui.step1_existing_ob_top_path.setText(top_obs_folder)
+        self.parent.ui.existing_ob_top_path.setText(top_obs_folder)
 
         list_ob_folders_selected = session_dict.get(SessionKeys.list_ob_folders_selected, None)
-        o_table = TableHandler(table_ui=self.parent.ui.step1_open_beam_tableWidget)
+        o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
         nbr_row = o_table.row_count()
         for _row in np.arange(nbr_row):
             _folder = o_table.get_item_str_from_cell(row=_row,
@@ -97,10 +88,10 @@ class SessionHandler:
             if _folder in list_ob_folders_selected:
                 o_table.select_row(row=_row)
 
-        # step 2
+        # step projections
         run_title = session_dict.get(SessionKeys.run_title, DefaultValues.run_title)
-        self.parent.ui.step2_run_title_lineEdit.setText(run_title)
-        self.parent.step2_run_title_changed(run_title=run_title)
+        self.parent.ui.run_title_lineEdit.setText(run_title)
+        self.parent.run_title_changed(run_title=run_title)
 
         show_status_message(parent=self.parent,
                             message=f"Loaded {self.config_file_name}",
