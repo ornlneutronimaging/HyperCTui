@@ -22,13 +22,15 @@ class SessionHandler:
         self.parent = parent
 
     def save_from_ui(self):
-        session_dict = {SessionKeys.config_version: self.parent.config[SessionKeys.config_version]}
+        session_dict = self.parent.session_dict
+        session_dict[SessionKeys.config_version] = self.parent.config[SessionKeys.config_version]
 
-        # step 1
+        instrument = session_dict[SessionKeys.instrument]
+        ipts_selected = session_dict[SessionKeys.ipts_selected]
+        ipts_index_selected = session_dict[SessionKeys.ipts_index_selected]
+
+        # step obs
         o_get_step1 = Step1Get(parent=self.parent)
-        instrument = o_get_step1.instrument()
-        ipts_selected = o_get_step1.ipts_selected()
-        ipts_index_selected = o_get_step1.ipts_index_selected()
         number_of_obs = o_get_step1.number_of_obs()
         proton_charge = o_get_step1.proton_charge()
         top_obs_folder = o_get_step1.top_ob_folder()

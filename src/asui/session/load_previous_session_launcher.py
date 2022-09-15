@@ -28,5 +28,4 @@ class LoadPreviousSessionLauncher(QDialog):
         self.parent.loading_from_config = False
 
     def no_clicked(self):
-        self.parent.initialization_without_any_session_loading()
         self.close()

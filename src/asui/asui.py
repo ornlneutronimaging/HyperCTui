@@ -10,6 +10,7 @@ from .utilities.get import Get
 from .utilities.config_handler import ConfigHandler
 from .session.load_previous_session_launcher import LoadPreviousSessionLauncher
 from .session.session_handler import SessionHandler
+from .session import SessionKeys
 from .event_handler import EventHandler
 from .initialization.gui_initialization import GuiInitialization
 
@@ -33,11 +34,11 @@ class ASUI(QMainWindow):
 
 	clicked_create_ob = False
 
-	session_dict = {'config version'     : None,
-	                'instrument'         : 'SNAP',
-	                'ipts selected'      : None,
-	                'ipts index selected': 0,
-	                'number of obs'      : 5}
+	session_dict = {SessionKeys.config_version: None,
+	                SessionKeys.instrument: 'SNAP',
+	                SessionKeys.ipts_selected: None,
+	                SessionKeys.ipts_index_selected: 0,
+	                SessionKeys.number_of_obs: 5}
 
 	def __init__(self, parent=None):
 
@@ -68,9 +69,6 @@ class ASUI(QMainWindow):
 			load_session_ui.show()
 		else:
 			self.initialization_without_any_session_loading()
-
-	def initialization_without_any_session_loading(self):
-		self.step1_instrument_changed(None)
 
 	# menu events
 	def new_session_clicked(self):

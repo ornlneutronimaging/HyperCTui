@@ -244,6 +244,35 @@
        <attribute name="title">
         <string>Setup the first projections</string>
        </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Run title:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="run_title_lineEdit"/>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>315</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
