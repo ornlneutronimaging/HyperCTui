@@ -16,12 +16,12 @@ class EventHandler(Parent):
 	def full_reset_clicked(self):
 		o_init = GuiInitialization(parent=self.parent)
 		o_init.full_reset()
-
 		logging.info("Full reset of application!")
 
 	def check_start_acquisition_button(self):
 		button_ready_to_be_used = self._is_start_acquisition_ready_to_be_used()
 		self.parent.ui.start_acquisition_pushButton.setEnabled(button_ready_to_be_used)
+		self.parent.ui.help_pushButton.setVisible(not button_ready_to_be_used)
 
 	def _is_start_acquisition_ready_to_be_used(self):
 
@@ -30,6 +30,10 @@ class EventHandler(Parent):
 			o_get = Step1Get(parent=self.parent)
 			list_of_selected = o_get.list_ob_folders_selected()
 			if len(list_of_selected) == 0:
+				logging.info(f"User selected `select obs` tab but no OBs have been selected!")
+				logging.info(f"-> Possible correction: ")
+				logging.info(f"     * select at least 1 OB folder")
+				logging.info(f"     * select `Aquire new OBs` tab")
 				return False
 
 		return True

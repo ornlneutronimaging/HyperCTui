@@ -37,7 +37,7 @@
            <enum>QTabWidget::West</enum>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab_10">
            <attribute name="title">
@@ -281,7 +281,7 @@
           <property name="sizeHint" stdset="0">
            <size>
             <width>20</width>
-            <height>289</height>
+            <height>275</height>
            </size>
           </property>
          </spacer>
@@ -291,14 +291,37 @@
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="start_acquisition_pushButton">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="text">
-       <string>Start Acquisition</string>
-      </property>
-     </widget>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QPushButton" name="start_acquisition_pushButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>Start Acquisition</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="help_pushButton">
+        <property name="minimumSize">
+         <size>
+          <width>30</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
@@ -594,6 +617,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>help_pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>menu_log_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>714</x>
+     <y>455</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>672</x>
+     <y>478</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>step1_instrument_changed()</slot>
@@ -605,5 +644,6 @@
   <slot>ob_tab_changed()</slot>
   <slot>new_session_clicked()</slot>
   <slot>run_title_changed()</slot>
+  <slot>menu_log_clicked()</slot>
  </slots>
 </ui>

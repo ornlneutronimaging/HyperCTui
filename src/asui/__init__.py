@@ -9,6 +9,7 @@ __all__ = ['load_ui']
 
 root = os.path.dirname(os.path.realpath(__file__))
 refresh_image = os.path.join(root, "static/refresh.png")
+more_infos = os.path.join(root, "static/more_infos.png")
 
 
 def load_ui(ui_filename, baseinstance):

@@ -56,6 +56,7 @@ class ASUI(QMainWindow):
 
 		self._loading_config()
 		self._loading_previous_session_automatically()
+		self.ob_tab_changed()
 
 	def _loading_config(self):
 		o_config = ConfigHandler(parent=self)
@@ -92,26 +93,7 @@ class ASUI(QMainWindow):
 		o_event = EventHandler(parent=self)
 		o_event.full_reset_clicked()
 
-	# step - setup obs
-	# def step1_instrument_changed(self, instrument):
-	# 	o_event = Step1EventHandler(parent=self)
-	# 	o_event.instrument_changed(instrument=instrument)
-	#
-	# def set_new_instrument(self, instrument=None):
-	# 	o_event = Step1EventHandler(parent=self)
-	# 	o_event.set_new_instrument(instrument=instrument)
-	#
-	# def step1_ipts_changed(self, ipts):
-	# 	o_event = Step1EventHandler(parent=self)
-	# 	o_event.step1_ipts_changed(ipts=ipts)
-
-	# def step1_start_acquisition_clicked(self):
-	# 	o_event = Step1EventHandler(parent=self)
-	# 	o_event.start_acquisition()
-	# 	self.clicked_create_ob = True
-	# 	o_main_event = EventHandler(parent=self)
-	# 	o_main_event.check_state_of_main_tabs()
-
+	# step - ob
 	def ob_tab_changed(self):
 		o_event = EventHandler(parent=self)
 		o_event.check_start_acquisition_button()
