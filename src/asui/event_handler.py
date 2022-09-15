@@ -2,6 +2,7 @@ import logging
 
 from .parent import Parent
 from .initialization.gui_initialization import GuiInitialization
+from .setup_ob.get import Get as Step1Get
 from .utilities.table import TableHandler
 from .session.new_session import NewSession
 
@@ -18,22 +19,17 @@ class EventHandler(Parent):
 
 		logging.info("Full reset of application!")
 
-	def check_state_of_main_tabs(self):
-		"""
-		if working on step 1:
-			validate tab2 if "select ob" tab visible and at least 1 OB selected
-			otherwise validate tab2 if "create ob" button has been clicked at least once
-		"""
-		if self.parent.ui.tabWidget.currentIndex() == 0:  # OB acquisition
-			if self.parent.ui.ob_tabWidget.currentIndex() == 1:  # select OBs
-				o_table = TableHandler(table_ui=self.parent.ui.step1_open_beam_tableWidget)
-				row_selected = o_table.get_rows_of_table_selected()
-				if row_selected:
-					self.parent.ui.tabWidget.setTabEnabled(1, True)
-				else:
-					self.parent.ui.tabWidget.setTabEnabled(1, False)
-			else:  # create OB
-				if self.parent.clicked_create_ob:
-					self.parent.ui.tabWidget.setTabEnabled(1, True)
-				else:
-					self.parent.ui.tabWidget.setTabEnabled(1, False)
+	def check_start_acquisition_button(self):
+		button_ready_to_be_used = self._is_start_acquisition_ready_to_be_used()
+		self.parent.ui.start_acquisition_pushButton.setEnabled(button_ready_to_be_used)
+
+	def _is_start_acquisition_ready_to_be_used(self):
+
+		# if selected OB tab and no OB selected -> return False
+		if self.parent.ui.ob_tabWidget.currentIndex() == 1:
+			o_get = Step1Get(parent=self.parent)
+			list_of_selected = o_get.list_ob_folders_selected()
+			if len(list_of_selected) == 0:
+				return False
+
+		return True

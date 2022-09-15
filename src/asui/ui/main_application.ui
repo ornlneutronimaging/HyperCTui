@@ -21,7 +21,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideRight</enum>
@@ -32,12 +32,12 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QTabWidget" name="ob_tabWidget_3">
+         <widget class="QTabWidget" name="ob_tabWidget">
           <property name="tabPosition">
            <enum>QTabWidget::West</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tab_10">
            <attribute name="title">
@@ -488,22 +488,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>start_acquisition_pushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>step1_start_acquisition_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>470</x>
-     <y>456</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>793</x>
-     <y>484</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>where_to_look_for_ob_pushButton</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
@@ -536,10 +520,10 @@
    </hints>
   </connection>
   <connection>
-   <sender>ob_tabWidget_3</sender>
+   <sender>ob_tabWidget</sender>
    <signal>currentChanged(int)</signal>
    <receiver>MainWindow</receiver>
-   <slot>step1_ob_tab_changed()</slot>
+   <slot>ob_tab_changed()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>470</x>
@@ -559,7 +543,7 @@
   <slot>step1_ipts_changed()</slot>
   <slot>step1_browse_obs_clicked()</slot>
   <slot>step1_list_obs_selection_changed()</slot>
-  <slot>step1_ob_tab_changed()</slot>
+  <slot>ob_tab_changed()</slot>
   <slot>new_session_clicked()</slot>
  </slots>
 </ui>

@@ -2,7 +2,7 @@ from qtpy.QtWidgets import QDialog
 import os
 
 from .. import load_ui
-from ..step1.get import Get
+from ..setup_ob.get import Get
 from . import SessionKeys
 
 

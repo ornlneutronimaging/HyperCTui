@@ -8,9 +8,9 @@ from . import SessionKeys, DefaultValues
 from ..utilities.status_message_config import StatusMessageStatus, show_status_message
 from ..utilities.get import Get
 from ..utilities.table import TableHandler
-from ..step1.get import Get as Step1Get
-from ..step1.event_handler import EventHandler as Step1EventHandler
-from ..step2.get import Get as Step2Get
+from ..setup_ob.get import Get as Step1Get
+from ..setup_ob.event_handler import EventHandler as Step1EventHandler
+from ..setup_projections.get import Get as Step2Get
 
 
 class SessionHandler:
@@ -57,7 +57,7 @@ class SessionHandler:
         session_dict = self.parent.session_dict
         self.parent.blockSignals(True)
 
-        # step1
+        # setup_ob
         instrument = session_dict.get(SessionKeys.instrument, DefaultValues.instrument)
         self.parent.set_new_instrument(instrument=instrument)
         # self.parent.step1_instrument_changed(instrument=instrument)

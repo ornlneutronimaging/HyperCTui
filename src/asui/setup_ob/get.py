@@ -43,7 +43,7 @@ class Get(MasterGet):
         return str(self.parent.ui.step1_existing_ob_top_path.text())
 
     def list_ob_folders_selected(self):
-        o_table = TableHandler(table_ui=self.parent.ui.step1_open_beam_tableWidget)
+        o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
         list_row_selected = o_table.get_rows_of_table_selected()
         if not list_row_selected:
             return []
