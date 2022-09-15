@@ -16,8 +16,9 @@ class GuiInitialization:
         o_config.load()
 
     def all(self):
-        self.main_tab()
-        self.tables()
+        pass
+        # self.main_tab()
+        # self.tables()
 
     def main_tab(self):
         self.parent.ui.tabWidget.setTabEnabled(1, False)
