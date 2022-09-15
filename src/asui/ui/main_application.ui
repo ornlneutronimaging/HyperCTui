@@ -573,7 +573,7 @@
    <sender>open_beam_tableWidget</sender>
    <signal>itemSelectionChanged()</signal>
    <receiver>MainWindow</receiver>
-   <slot>step1_list_obs_selection_changed()</slot>
+   <slot>list_obs_selection_changed()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>470</x>
@@ -640,7 +640,7 @@
   <slot>step1_start_acquisition_clicked()</slot>
   <slot>step1_ipts_changed()</slot>
   <slot>step1_browse_obs_clicked()</slot>
-  <slot>step1_list_obs_selection_changed()</slot>
+  <slot>list_obs_selection_changed()</slot>
   <slot>ob_tab_changed()</slot>
   <slot>new_session_clicked()</slot>
   <slot>run_title_changed()</slot>

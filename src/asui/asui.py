@@ -106,9 +106,9 @@ class ASUI(QMainWindow):
 		o_event = Step1EventHandler(parent=self)
 		o_event.browse_obs()
 
-	def step1_list_obs_selection_changed(self):
+	def list_obs_selection_changed(self):
 		o_event = EventHandler(parent=self)
-		o_event.check_state_of_main_tabs()
+		o_event.check_start_acquisition_button()
 
 	# step - setup projections
 	def run_title_changed(self, run_title):
