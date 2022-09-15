@@ -6,278 +6,255 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>818</width>
-    <height>645</height>
+    <width>741</width>
+    <height>509</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>aiSVMBIRui</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout_3">
+   <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <widget class="QTabWidget" name="tabWidget_2">
-      <property name="currentIndex">
-       <number>0</number>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="tabPosition">
+       <enum>QTabWidget::North</enum>
       </property>
-      <widget class="QWidget" name="tab_9">
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <property name="elideMode">
+       <enum>Qt::ElideRight</enum>
+      </property>
+      <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>Initialization</string>
+        <string>Setup the Open Beams</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QTabWidget" name="tabWidget">
+         <widget class="QTabWidget" name="ob_tabWidget_3">
           <property name="tabPosition">
-           <enum>QTabWidget::North</enum>
+           <enum>QTabWidget::West</enum>
           </property>
           <property name="currentIndex">
            <number>0</number>
           </property>
-          <property name="elideMode">
-           <enum>Qt::ElideRight</enum>
-          </property>
-          <widget class="QWidget" name="tab">
+          <widget class="QWidget" name="tab_10">
            <attribute name="title">
-            <string>Step 1 - Open Beam</string>
+            <string>Acquire new OBs</string>
            </attribute>
-           <layout class="QVBoxLayout" name="verticalLayout_2">
+           <layout class="QVBoxLayout" name="verticalLayout_10">
             <item>
-             <widget class="QTabWidget" name="ob_tabWidget_3">
-              <property name="tabPosition">
-               <enum>QTabWidget::West</enum>
+             <layout class="QGridLayout" name="gridLayout_4">
+              <item row="0" column="0">
+               <widget class="QLabel" name="label_14">
+                <property name="text">
+                 <string>Number of OBs to meaure:</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <widget class="QSpinBox" name="number_of_ob_spinBox">
+                <property name="minimum">
+                 <number>1</number>
+                </property>
+                <property name="maximum">
+                 <number>30</number>
+                </property>
+                <property name="value">
+                 <number>5</number>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="2" colspan="3">
+               <spacer name="horizontalSpacer_5">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>629</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="label_15">
+                <property name="maximumSize">
+                 <size>
+                  <width>160</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+                <property name="text">
+                 <string>Proton charge</string>
+                </property>
+                <property name="alignment">
+                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1" colspan="2">
+               <widget class="QDoubleSpinBox" name="open_beam_proton_charge_doubleSpinBox">
+                <property name="minimum">
+                 <double>0.100000000000000</double>
+                </property>
+                <property name="value">
+                 <double>1.000000000000000</double>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="3">
+               <widget class="QLabel" name="label_16">
+                <property name="text">
+                 <string>C</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="4">
+               <spacer name="horizontalSpacer_6">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_4">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
               </property>
-              <property name="currentIndex">
-               <number>0</number>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>157</height>
+               </size>
               </property>
-              <widget class="QWidget" name="tab_10">
-               <attribute name="title">
-                <string>Acquire new OBs</string>
-               </attribute>
-               <layout class="QVBoxLayout" name="verticalLayout_10">
-                <item>
-                 <layout class="QGridLayout" name="gridLayout_4">
-                  <item row="0" column="0">
-                   <widget class="QLabel" name="label_14">
-                    <property name="text">
-                     <string>Number of OBs to meaure:</string>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="1">
-                   <widget class="QSpinBox" name="step1_number_of_ob_spinBox_3">
-                    <property name="minimum">
-                     <number>1</number>
-                    </property>
-                    <property name="maximum">
-                     <number>30</number>
-                    </property>
-                    <property name="value">
-                     <number>5</number>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="0" column="2" colspan="3">
-                   <spacer name="horizontalSpacer_5">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>629</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                  <item row="1" column="0">
-                   <widget class="QLabel" name="label_15">
-                    <property name="maximumSize">
-                     <size>
-                      <width>160</width>
-                      <height>16777215</height>
-                     </size>
-                    </property>
-                    <property name="text">
-                     <string>Proton charge</string>
-                    </property>
-                    <property name="alignment">
-                     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="1" colspan="2">
-                   <widget class="QDoubleSpinBox" name="open_beam_proton_charge_doubleSpinBox_3">
-                    <property name="minimum">
-                     <double>0.100000000000000</double>
-                    </property>
-                    <property name="value">
-                     <double>1.000000000000000</double>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="3">
-                   <widget class="QLabel" name="label_16">
-                    <property name="text">
-                     <string>C</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item row="1" column="4">
-                   <spacer name="horizontalSpacer_6">
-                    <property name="orientation">
-                     <enum>Qt::Horizontal</enum>
-                    </property>
-                    <property name="sizeHint" stdset="0">
-                     <size>
-                      <width>40</width>
-                      <height>20</height>
-                     </size>
-                    </property>
-                   </spacer>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <spacer name="verticalSpacer_4">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>157</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_9">
-                  <item>
-                   <widget class="QLabel" name="label_17">
-                    <property name="text">
-                     <string>OB will be saved in:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="location_of_ob_created_3">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="text">
-                     <string>N/A</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_10">
-                  <item>
-                   <widget class="QPushButton" name="step1_start_acquisition_pushButton_3">
-                    <property name="enabled">
-                     <bool>true</bool>
-                    </property>
-                    <property name="text">
-                     <string>Start Acquisition of Open Beams</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-               </layout>
-              </widget>
-              <widget class="QWidget" name="tab_11">
-               <attribute name="title">
-                <string>Select OBs</string>
-               </attribute>
-               <layout class="QVBoxLayout" name="verticalLayout_11">
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_11">
-                  <item>
-                   <widget class="QLabel" name="label_18">
-                    <property name="text">
-                     <string>Top folder:</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QLabel" name="step1_existing_ob_top_path_3">
-                    <property name="sizePolicy">
-                     <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                      <horstretch>0</horstretch>
-                      <verstretch>0</verstretch>
-                     </sizepolicy>
-                    </property>
-                    <property name="text">
-                     <string>N/A</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QPushButton" name="pushButton_3">
-                    <property name="text">
-                     <string>Where to look for OBs folders ...</string>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
-                </item>
-                <item>
-                 <widget class="QTableWidget" name="step1_open_beam_tableWidget_3">
-                  <property name="alternatingRowColors">
-                   <bool>true</bool>
-                  </property>
-                  <property name="selectionMode">
-                   <enum>QAbstractItemView::MultiSelection</enum>
-                  </property>
-                  <property name="selectionBehavior">
-                   <enum>QAbstractItemView::SelectRows</enum>
-                  </property>
-                  <attribute name="horizontalHeaderStretchLastSection">
-                   <bool>true</bool>
-                  </attribute>
-                  <attribute name="verticalHeaderVisible">
-                   <bool>false</bool>
-                  </attribute>
-                  <column>
-                   <property name="text">
-                    <string>File name</string>
-                   </property>
-                  </column>
-                  <column>
-                   <property name="text">
-                    <string>Proton charge (C)</string>
-                   </property>
-                  </column>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
-             </widget>
+             </spacer>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_9">
+              <item>
+               <widget class="QLabel" name="label_17">
+                <property name="text">
+                 <string>OB will be saved in:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="location_of_ob_created">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>N/A</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="tab_2">
+          <widget class="QWidget" name="tab_11">
            <attribute name="title">
-            <string>Step 2 - First projections</string>
+            <string>Select OBs</string>
            </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_11">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_11">
+              <item>
+               <widget class="QLabel" name="label_18">
+                <property name="text">
+                 <string>Top folder:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="existing_ob_top_path">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="text">
+                 <string>N/A</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="where_to_look_for_ob_pushButton">
+                <property name="text">
+                 <string>Where to look for OBs folders ...</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <widget class="QTableWidget" name="open_beam_tableWidget">
+              <property name="alternatingRowColors">
+               <bool>true</bool>
+              </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::MultiSelection</enum>
+              </property>
+              <property name="selectionBehavior">
+               <enum>QAbstractItemView::SelectRows</enum>
+              </property>
+              <attribute name="horizontalHeaderStretchLastSection">
+               <bool>true</bool>
+              </attribute>
+              <attribute name="verticalHeaderVisible">
+               <bool>false</bool>
+              </attribute>
+              <column>
+               <property name="text">
+                <string>File name</string>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Proton charge (C)</string>
+               </property>
+              </column>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </widget>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_12">
+      <widget class="QWidget" name="tab_2">
        <attribute name="title">
-        <string>AI Reconstruction</string>
+        <string>Setup the first projections</string>
        </attribute>
       </widget>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="start_acquisition_pushButton">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="text">
+       <string>Start Acquisition</string>
+      </property>
      </widget>
     </item>
    </layout>
@@ -288,7 +265,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>818</width>
+     <width>741</width>
      <height>24</height>
     </rect>
    </property>
@@ -511,7 +488,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>step1_start_acquisition_pushButton_3</sender>
+   <sender>start_acquisition_pushButton</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>step1_start_acquisition_clicked()</slot>
@@ -527,7 +504,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>pushButton_3</sender>
+   <sender>where_to_look_for_ob_pushButton</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>step1_browse_obs_clicked()</slot>
@@ -543,7 +520,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>step1_open_beam_tableWidget_3</sender>
+   <sender>open_beam_tableWidget</sender>
    <signal>itemSelectionChanged()</signal>
    <receiver>MainWindow</receiver>
    <slot>step1_list_obs_selection_changed()</slot>
