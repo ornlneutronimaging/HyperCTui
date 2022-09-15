@@ -13,10 +13,10 @@ from .session.session_handler import SessionHandler
 from .session import SessionKeys
 from .event_handler import EventHandler
 from .initialization.gui_initialization import GuiInitialization
-
 from .setup_ob.event_handler import EventHandler as Step1EventHandler
-
 from .setup_projections.event_handler import EventHandler as Step2EventHandler
+
+from . import UI_TITLE
 
 # warnings.filterwarnings('ignore')
 DEBUG = True
@@ -49,7 +49,7 @@ class ASUI(QMainWindow):
 		                                         'main_application.ui'))
 
 		self.ui = load_ui(ui_full_path, baseinstance=self)
-		self.setWindowTitle("Ai Svmbir UI")
+		self.set_window_title()
 
 		o_gui = GuiInitialization(parent=self)
 		o_gui.all()
@@ -122,6 +122,12 @@ class ASUI(QMainWindow):
 		o_session.automatic_save()
 		logging.info(" #### Leaving ASUI ####")
 		self.close()
+
+	def set_window_title(self):
+		instrument = self.session_dict[SessionKeys.instrument]
+		ipts = self.session_dict[SessionKeys.ipts_selected]
+		title = f"{UI_TITLE} - instrument:{instrument} - IPTS:{ipts}"
+		self.ui.setWindowTitle(title)
 
 
 def main(args):

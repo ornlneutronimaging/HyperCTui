@@ -5,6 +5,8 @@ from .initialization.gui_initialization import GuiInitialization
 from .setup_ob.get import Get as Step1Get
 from .utilities.table import TableHandler
 from .session.new_session import NewSession
+from .session import SessionKeys
+from . import UI_TITLE
 
 
 class EventHandler(Parent):

@@ -11,6 +11,8 @@ root = os.path.dirname(os.path.realpath(__file__))
 refresh_image = os.path.join(root, "static/refresh.png")
 more_infos = os.path.join(root, "static/more_infos.png")
 
+UI_TITLE = "Ai Svmbir UI"
+
 
 def load_ui(ui_filename, baseinstance):
     return loadUi(ui_filename, baseinstance=baseinstance)
