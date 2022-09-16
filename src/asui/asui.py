@@ -112,6 +112,9 @@ class ASUI(QMainWindow):
 		o_event = EventHandler(parent=self)
 		o_event.check_start_acquisition_button()
 
+	def ob_proton_charge_changed(self, proton_charge):
+		self.ui.projections_p_charge_label.setText(str(proton_charge))
+
 	# step - setup projections
 	def run_title_changed(self, run_title):
 		o_event = Step2EventHandler(parent=self)

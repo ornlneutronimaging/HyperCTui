@@ -60,6 +60,7 @@ class SessionHandler:
 
 		# setup ob
 		ipts = session_dict[SessionKeys.ipts_selected]
+		instrument = session_dict[SessionKeys.instrument]
 
 		number_of_obs = session_dict.get(SessionKeys.number_of_obs, DefaultValues.number_of_obs)
 		self.parent.ui.number_of_ob_spinBox.setValue(number_of_obs)
@@ -93,6 +94,7 @@ class SessionHandler:
 		run_title = session_dict.get(SessionKeys.run_title, DefaultValues.run_title)
 		self.parent.ui.run_title_lineEdit.setText(run_title)
 		self.parent.run_title_changed(run_title=run_title)
+		self.parent.ui.projections_p_charge_label.setText(str(proton_charge))
 
 		show_status_message(parent=self.parent,
 		                    message=f"Loaded {self.config_file_name}",

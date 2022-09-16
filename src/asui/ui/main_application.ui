@@ -21,7 +21,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideRight</enum>
@@ -713,12 +713,28 @@
    <slot>menu_log_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>714</x>
-     <y>455</y>
+     <x>821</x>
+     <y>590</y>
     </hint>
     <hint type="destinationlabel">
      <x>672</x>
      <y>478</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>open_beam_proton_charge_doubleSpinBox</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>ob_proton_charge_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>281</x>
+     <y>131</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>4</x>
+     <y>226</y>
     </hint>
    </hints>
   </connection>
@@ -734,5 +750,6 @@
   <slot>new_session_clicked()</slot>
   <slot>run_title_changed()</slot>
   <slot>menu_log_clicked()</slot>
+  <slot>ob_proton_charge_changed()</slot>
  </slots>
 </ui>
