@@ -21,14 +21,14 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>4</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideRight</enum>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
-        <string>Setup the Open Beams</string>
+        <string>Setup the open beams</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
@@ -412,7 +412,17 @@
       </widget>
       <widget class="QWidget" name="tab_3">
        <attribute name="title">
-        <string>Page</string>
+        <string>Crop</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab_4">
+       <attribute name="title">
+        <string>Rotation center</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab_5">
+       <attribute name="title">
+        <string>Settings</string>
        </attribute>
       </widget>
      </widget>

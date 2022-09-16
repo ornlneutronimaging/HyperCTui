@@ -40,7 +40,9 @@ class ASUI(QMainWindow):
 	                SessionKeys.ipts_index_selected: 0,
 	                SessionKeys.number_of_obs: 5}
 
-	tab3 = None  # handle to tab #3
+	tab3 = None  # handle to tab #3 - cropoing
+	tab4 = None  # handle to tab #4 - rotation center
+	tab5 = None  # handle to tab #5 - options (with advanced)
 
 	def __init__(self, parent=None):
 
@@ -126,7 +128,9 @@ class ASUI(QMainWindow):
 		o_event.check_start_acquisition_button()
 
 	def start_acquisition_clicked(self):
-		self.ui.tabWidget.insertTab(2, self.tab3, "tab3")
+		self.ui.tabWidget.insertTab(2, self.tab3, "Crop")
+		self.ui.tabWidget.insertTab(3, self.tab4, "Rotation center")
+		self.ui.tabWidget.insertTab(4, self.tab5, "Settings")
 
 	# leaving ui
 	def closeEvent(self, c):
