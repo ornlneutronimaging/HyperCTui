@@ -1,5 +1,6 @@
 from qtpy.QtWidgets import QDialog
 import os
+import numpy as np
 
 from .. import load_ui
 from ..setup_ob.get import Get
@@ -41,5 +42,11 @@ class NewSession(QDialog):
 		self.parent.session_dict[SessionKeys.ipts_index_selected] = ipts_index
 		self.parent.set_window_title()
 		self.parent.inform_of_output_location()
+
+		for _ in np.arange(3):
+			self.parent.ui.tabWidget.removeTab(2)
+
+		self.parent.ui.tabWidget.setCurrentIndex(0)
+		self.parent.ui.run_title_lineEdit.setText("")
 
 		self.close()
