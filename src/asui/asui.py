@@ -121,11 +121,19 @@ class ASUI(QMainWindow):
 	def ob_proton_charge_changed(self, proton_charge):
 		self.ui.projections_p_charge_label.setText(str(proton_charge))
 
+	def number_of_obs_changed(self, value):
+		o_event = EventHandler(parent=self)
+		o_event.check_start_acquisition_button()
+
 	# step - setup projections
 	def run_title_changed(self, run_title):
 		o_event = Step2EventHandler(parent=self)
 		o_event.run_title_changed(run_title=run_title)
 		self.inform_of_output_location()
+		o_event = EventHandler(parent=self)
+		o_event.check_start_acquisition_button()
+
+	def number_of_projections_changed(self, value):
 		o_event = EventHandler(parent=self)
 		o_event.check_start_acquisition_button()
 

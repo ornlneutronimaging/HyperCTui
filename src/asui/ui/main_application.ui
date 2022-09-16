@@ -269,7 +269,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinBox">
+           <widget class="QSpinBox" name="number_of_projections_spinBox">
             <property name="minimum">
              <number>3</number>
             </property>
@@ -769,6 +769,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>number_of_projections_spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>number_of_projections_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>175</x>
+     <y>117</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>8</x>
+     <y>269</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>number_of_ob_spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>number_of_obs_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>260</x>
+     <y>96</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>6</x>
+     <y>186</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>step1_instrument_changed()</slot>
@@ -783,5 +815,7 @@
   <slot>menu_log_clicked()</slot>
   <slot>ob_proton_charge_changed()</slot>
   <slot>start_acquisition_clicked()</slot>
+  <slot>number_of_projections_changed()</slot>
+  <slot>number_of_obs_changed()</slot>
  </slots>
 </ui>

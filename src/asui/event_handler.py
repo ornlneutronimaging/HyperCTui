@@ -24,6 +24,7 @@ class EventHandler(Parent):
 		button_ready_to_be_used = self._is_start_acquisition_ready_to_be_used()
 		self.parent.ui.start_acquisition_pushButton.setEnabled(button_ready_to_be_used)
 		self.parent.ui.help_pushButton.setVisible(not button_ready_to_be_used)
+		self.set_start_acquisition_text()
 
 	def _is_start_acquisition_ready_to_be_used(self):
 
@@ -43,3 +44,12 @@ class EventHandler(Parent):
 			return False
 
 		return True
+
+	def set_start_acquisition_text(self):
+		button_text = "Start acquisition of "
+		if self.parent.ui.ob_tabWidget.currentIndex() == 0:
+			number_of_obs = self.parent.ui.number_of_ob_spinBox.value()
+			button_text += f"{number_of_obs} OBs and "
+		number_of_projections = self.parent.ui.number_of_projections_spinBox.value()
+		button_text += f"{number_of_projections} projections"
+		self.parent.ui.start_acquisition_pushButton.setText(button_text)
