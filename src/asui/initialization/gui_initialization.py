@@ -20,6 +20,11 @@ class GuiInitialization:
 		self.statusbar()
 		self.widgets()
 		self.tables()
+		self.tabs()
+
+	def tabs(self):
+		self.parent.tab3 = self.parent.ui.tabWidget.widget(2)
+		self.parent.ui.tabWidget.removeTab(2)
 
 	def tables(self):
 		o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)

@@ -40,6 +40,8 @@ class ASUI(QMainWindow):
 	                SessionKeys.ipts_index_selected: 0,
 	                SessionKeys.number_of_obs: 5}
 
+	tab3 = None  # handle to tab #3
+
 	def __init__(self, parent=None):
 
 		super(ASUI, self).__init__(parent)
@@ -122,6 +124,9 @@ class ASUI(QMainWindow):
 		self.inform_of_output_location()
 		o_event = EventHandler(parent=self)
 		o_event.check_start_acquisition_button()
+
+	def start_acquisition_clicked(self):
+		self.ui.tabWidget.insertTab(2, self.tab3, "tab3")
 
 	# leaving ui
 	def closeEvent(self, c):

@@ -21,7 +21,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideRight</enum>
@@ -410,6 +410,11 @@
         </item>
        </layout>
       </widget>
+      <widget class="QWidget" name="tab_3">
+       <attribute name="title">
+        <string>Page</string>
+       </attribute>
+      </widget>
      </widget>
     </item>
    </layout>
@@ -738,6 +743,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>start_acquisition_pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>start_acquisition_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>354</x>
+     <y>577</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>249</x>
+     <y>621</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>step1_instrument_changed()</slot>
@@ -751,5 +772,6 @@
   <slot>run_title_changed()</slot>
   <slot>menu_log_clicked()</slot>
   <slot>ob_proton_charge_changed()</slot>
+  <slot>start_acquisition_clicked()</slot>
  </slots>
 </ui>
