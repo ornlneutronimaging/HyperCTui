@@ -45,6 +45,7 @@ class NewSession(QDialog):
 
 		for _ in np.arange(3):
 			self.parent.ui.tabWidget.removeTab(2)
+		self.parent.all_tabs_visible = False
 
 		self.parent.ui.tabWidget.setCurrentIndex(0)
 		self.parent.ui.run_title_lineEdit.setText("")

@@ -3,6 +3,7 @@ import json
 import logging
 import os
 import numpy as np
+from qtpy.QtGui import QIcon
 
 from . import SessionKeys, DefaultValues
 from ..utilities.status_message_config import StatusMessageStatus, show_status_message
@@ -11,6 +12,7 @@ from ..utilities.table import TableHandler
 from ..setup_ob.get import Get as Step1Get
 from ..setup_ob.event_handler import EventHandler as Step1EventHandler
 from ..setup_projections.get import Get as Step2Get
+from .. import TabNames, tab2_icon, tab3_icon, tab4_icon
 
 
 class SessionHandler:
@@ -47,6 +49,10 @@ class SessionHandler:
 		o_get_step2 = Step2Get(parent=self.parent)
 		run_title = o_get_step2.run_title()
 		session_dict[SessionKeys.run_title] = run_title
+
+		# all tabs
+		all_tabs_visible = self.parent.all_tabs_visible
+		session_dict[SessionKeys.all_tabs_visible] = all_tabs_visible
 
 		self.parent.session_dict = session_dict
 
@@ -100,6 +106,18 @@ class SessionHandler:
 		                    message=f"Loaded {self.config_file_name}",
 		                    status=StatusMessageStatus.ready,
 		                    duration_s=10)
+
+		all_tabs_visible = session_dict.get(SessionKeys.all_tabs_visible, False)
+		if not (self.parent.all_tabs_visible == all_tabs_visible):
+			if not all_tabs_visible:
+				for _ in np.arange(3):
+					self.parent.ui.tabWidget.removeTab(2)
+			else:
+				self.parent.ui.tabWidget.insertTab(2, self.parent.tab2, QIcon(tab2_icon), TabNames.tab2)
+				self.parent.ui.tabWidget.insertTab(3, self.parent.tab3, QIcon(tab3_icon), TabNames.tab3)
+				self.parent.ui.tabWidget.insertTab(4, self.parent.tab4, QIcon(tab4_icon), TabNames.tab4)
+
+			self.parent.all_tabs_visible = all_tabs_visible
 
 		self.parent.blockSignals(False)
 		self.parent.set_window_title()

@@ -15,6 +15,9 @@ class SessionKeys:
 	# step projections
 	run_title = 'run title'
 
+	# tabs
+	all_tabs_visible = "all tabs visible"
+
 
 class DefaultValues:
 

@@ -5,7 +5,7 @@ import numpy as np
 
 from ..utilities.config_handler import ConfigHandler
 from ..utilities.table import TableHandler
-from .. import more_infos
+from .. import more_infos, TabNames, tab0_icon, tab1_icon
 
 
 class GuiInitialization:
@@ -24,11 +24,17 @@ class GuiInitialization:
 		self.tabs()
 
 	def tabs(self):
-		self.parent.tab3 = self.parent.ui.tabWidget.widget(2)
-		self.parent.tab4 = self.parent.ui.tabWidget.widget(3)
-		self.parent.tab5 = self.parent.ui.tabWidget.widget(4)
+		self.parent.ui.tabWidget.setTabText(0, TabNames.tab0)
+		self.parent.ui.tabWidget.setTabIcon(0, QIcon(tab0_icon))
+		self.parent.ui.tabWidget.setTabText(1, TabNames.tab1)
+		self.parent.ui.tabWidget.setTabIcon(1, QIcon(tab1_icon))
+
+		self.parent.tab2 = self.parent.ui.tabWidget.widget(2)
+		self.parent.tab3 = self.parent.ui.tabWidget.widget(3)
+		self.parent.tab4 = self.parent.ui.tabWidget.widget(4)
 		for _ in np.arange(3):
 			self.parent.ui.tabWidget.removeTab(2)
+		self.parent.all_tabs_visible = False
 
 	def tables(self):
 		o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)

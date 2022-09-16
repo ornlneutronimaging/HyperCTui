@@ -2,6 +2,7 @@ from qtpy.QtWidgets import QMainWindow, QApplication
 import sys
 import os
 import logging
+from qtpy.QtGui import QIcon
 
 from . import load_ui
 
@@ -16,7 +17,7 @@ from .initialization.gui_initialization import GuiInitialization
 from .setup_ob.event_handler import EventHandler as Step1EventHandler
 from .setup_projections.event_handler import EventHandler as Step2EventHandler
 
-from . import UI_TITLE
+from . import UI_TITLE, TabNames, tab2_icon, tab3_icon, tab4_icon
 
 # warnings.filterwarnings('ignore')
 DEBUG = True
@@ -40,9 +41,10 @@ class ASUI(QMainWindow):
 	                SessionKeys.ipts_index_selected: 0,
 	                SessionKeys.number_of_obs: 5}
 
-	tab3 = None  # handle to tab #3 - cropoing
-	tab4 = None  # handle to tab #4 - rotation center
-	tab5 = None  # handle to tab #5 - options (with advanced)
+	tab2 = None  # handle to tab #2 - cropoing
+	tab3 = None  # handle to tab #3 - rotation center
+	tab4 = None  # handle to tab #4 - options (with advanced)
+	all_tabs_visible = True
 
 	def __init__(self, parent=None):
 
@@ -128,9 +130,10 @@ class ASUI(QMainWindow):
 		o_event.check_start_acquisition_button()
 
 	def start_acquisition_clicked(self):
-		self.ui.tabWidget.insertTab(2, self.tab3, "Crop")
-		self.ui.tabWidget.insertTab(3, self.tab4, "Rotation center")
-		self.ui.tabWidget.insertTab(4, self.tab5, "Settings")
+		self.ui.tabWidget.insertTab(2, self.tab2, QIcon(tab2_icon), TabNames.tab2)
+		self.ui.tabWidget.insertTab(3, self.tab3, QIcon(tab3_icon), TabNames.tab3)
+		self.ui.tabWidget.insertTab(4, self.tab4, QIcon(tab4_icon), TabNames.tab4)
+		self.all_tabs_visible = True
 
 	# leaving ui
 	def closeEvent(self, c):
