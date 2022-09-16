@@ -49,7 +49,6 @@ class ASUI(QMainWindow):
 		                                         'main_application.ui'))
 
 		self.ui = load_ui(ui_full_path, baseinstance=self)
-		self.set_window_title()
 
 		o_gui = GuiInitialization(parent=self)
 		o_gui.all()
@@ -57,6 +56,9 @@ class ASUI(QMainWindow):
 		self._loading_config()
 		self._loading_previous_session_automatically()
 		self.ob_tab_changed()
+
+		self.set_window_title()
+		self.inform_of_output_location()
 
 	def _loading_config(self):
 		o_config = ConfigHandler(parent=self)
@@ -114,6 +116,9 @@ class ASUI(QMainWindow):
 	def run_title_changed(self, run_title):
 		o_event = Step2EventHandler(parent=self)
 		o_event.run_title_changed(run_title=run_title)
+		self.inform_of_output_location()
+		o_event = EventHandler(parent=self)
+		o_event.check_start_acquisition_button()
 
 	# leaving ui
 	def closeEvent(self, c):
@@ -128,6 +133,25 @@ class ASUI(QMainWindow):
 		ipts = self.session_dict[SessionKeys.ipts_selected]
 		title = f"{UI_TITLE} - instrument:{instrument} - IPTS:{ipts}"
 		self.ui.setWindowTitle(title)
+
+	def inform_of_output_location(self):
+		instrument = self.session_dict[SessionKeys.instrument]
+		ipts = self.session_dict[SessionKeys.ipts_selected]
+		title = self.ui.run_title_formatted_label.text()
+
+		if ipts is None:
+			output_location = "N/A"
+		elif title == "":
+			output_location = "N/A"
+		else:
+			output_location = os.sep.join([self.homepath,
+										   instrument,
+										   ipts,
+										   "shared",
+										   "autoreduce",
+										   "mcp",
+										   title])
+		self.ui.projections_output_location_label.setText(output_location)
 
 
 def main(args):

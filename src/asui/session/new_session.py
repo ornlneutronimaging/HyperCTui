@@ -40,5 +40,6 @@ class NewSession(QDialog):
 		self.parent.session_dict[SessionKeys.ipts_selected] = ipts
 		self.parent.session_dict[SessionKeys.ipts_index_selected] = ipts_index
 		self.parent.set_window_title()
+		self.parent.inform_of_output_location()
 
 		self.close()

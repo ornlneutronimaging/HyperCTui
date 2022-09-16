@@ -28,4 +28,3 @@ class ConfigHandler:
                             level=logging.INFO)
         logging.info("*** Starting a new session ***")
         logging.info(f" Version: {versioneer.get_version()}")
-

@@ -35,7 +35,11 @@ class EventHandler(Parent):
 				logging.info(f"User selected `select obs` tab but no OBs have been selected!")
 				logging.info(f"-> Possible correction: ")
 				logging.info(f"     * select at least 1 OB folder")
-				logging.info(f"     * select `Aquire new OBs` tab")
+				logging.info(f"     * select `Acquire new OBs` tab")
 				return False
+
+		if self.parent.ui.projections_output_location_label.text() == "N/A":
+			logging.info(f"Please provide a title to be able to start the acquisition!")
+			return False
 
 		return True
