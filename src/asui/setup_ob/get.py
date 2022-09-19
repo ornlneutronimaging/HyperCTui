@@ -1,6 +1,7 @@
 import glob
 import os
 import numpy as np
+import logging
 
 from ..utilities.get import Get as MasterGet
 from ..utilities.table import TableHandler
@@ -10,11 +11,14 @@ class Get(MasterGet):
 
     def list_of_ipts(self, instrument):
         """
-		    return the list of IPTS for the specified instrument
-		    ex: ['IPTS-0001', 'IPTS-0002']
-		"""
+        return the list of IPTS for the specified instrument
+        ex: ['IPTS-0001', 'IPTS-0002']
+        """
+        logging.info(f"list of IPTS:")
         home_folder = self.parent.homepath
+        logging.info(f"-> home_folder: {home_folder}")
         full_path_list_ipts = glob.glob(os.path.join(home_folder, instrument + '/IPTS-*'))
+        logging.info(f"-> full_path_list_ipts: {full_path_list_ipts}")
         list_ipts = [os.path.basename(_folder) for _folder in full_path_list_ipts]
         return list_ipts
 

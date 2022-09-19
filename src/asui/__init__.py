@@ -20,12 +20,12 @@ UI_TITLE = "Ai Svmbir UI"
 
 # main window dimensions
 class UiSizeSmall:
-	width= 300
+	width= 500
 	height= 300
 
 
 class UiSizeLarge:
-	width = 800
+	width = 500
 	height = 800
 
 

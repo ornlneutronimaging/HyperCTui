@@ -22,177 +22,179 @@ from . import UI_TITLE, TabNames, tab2_icon, tab3_icon, tab4_icon
 # warnings.filterwarnings('ignore')
 DEBUG = True
 
-if DEBUG:
-	HOME_FOLDER = "/Users/j35/SNS"
-else:
-	HOME_FOLDER = "/SNS"
+# if DEBUG:
+#     HOME_FOLDER = "/Volumes/G-DRIVE/SNS/"
+# else:
+#     HOME_FOLDER = "/SNS"
 
 
 class ASUI(QMainWindow):
-	log_id = None  # UI id of the logger
-	config = None  # config dictionary
-	homepath = HOME_FOLDER
+    log_id = None  # UI id of the logger
+    config = None  # config dictionary
+    homepath = ""
 
-	clicked_create_ob = False
+    clicked_create_ob = False
 
-	session_dict = {SessionKeys.config_version: None,
-	                SessionKeys.instrument: 'SNAP',
-	                SessionKeys.ipts_selected: None,
-	                SessionKeys.ipts_index_selected: 0,
-	                SessionKeys.number_of_obs: 5}
+    session_dict = {SessionKeys.config_version     : None,
+                    SessionKeys.instrument         : 'SNAP',
+                    SessionKeys.ipts_selected      : None,
+                    SessionKeys.ipts_index_selected: 0,
+                    SessionKeys.number_of_obs      : 5}
 
-	tab2 = None  # handle to tab #2 - cropoing
-	tab3 = None  # handle to tab #3 - rotation center
-	tab4 = None  # handle to tab #4 - options (with advanced)
-	all_tabs_visible = True
-	current_tab_index = 0
+    tab2 = None  # handle to tab #2 - cropoing
+    tab3 = None  # handle to tab #3 - rotation center
+    tab4 = None  # handle to tab #4 - options (with advanced)
+    all_tabs_visible = True
+    current_tab_index = 0
 
-	def __init__(self, parent=None):
+    def __init__(self, parent=None):
 
-		super(ASUI, self).__init__(parent)
+        super(ASUI, self).__init__(parent)
 
-		ui_full_path = os.path.join(os.path.dirname(__file__),
-		                            os.path.join('ui',
-		                                         'main_application.ui'))
+        ui_full_path = os.path.join(os.path.dirname(__file__),
+                                    os.path.join('ui',
+                                                 'main_application.ui'))
 
-		self.ui = load_ui(ui_full_path, baseinstance=self)
+        self.ui = load_ui(ui_full_path, baseinstance=self)
 
-		o_gui = GuiInitialization(parent=self)
-		o_gui.all()
+        o_gui = GuiInitialization(parent=self)
+        o_gui.all()
 
-		self._loading_config()
-		self._loading_previous_session_automatically()
-		self.ob_tab_changed()
+        self._loading_config()
+        self._loading_previous_session_automatically()
+        self.ob_tab_changed()
 
-		self.set_window_title()
-		self.inform_of_output_location()
+        self.set_window_title()
+        self.inform_of_output_location()
 
-	def _loading_config(self):
-		o_config = ConfigHandler(parent=self)
-		o_config.load()
+    # self.main_tab_changed(0)
 
-	def _loading_previous_session_automatically(self):
-		o_get = Get(parent=self)
-		full_config_file_name = o_get.get_automatic_config_file_name()
-		if os.path.exists(full_config_file_name):
-			load_session_ui = LoadPreviousSessionLauncher(parent=self)
-			load_session_ui.show()
-		else:
-			self.initialization_without_any_session_loading()
+    def _loading_config(self):
+        o_config = ConfigHandler(parent=self)
+        o_config.load()
 
-	# menu events
-	def new_session_clicked(self):
-		o_event = EventHandler(parent=self)
-		o_event.new_session()
+    def _loading_previous_session_automatically(self):
+        o_get = Get(parent=self)
+        full_config_file_name = o_get.get_automatic_config_file_name()
+        if os.path.exists(full_config_file_name):
+            load_session_ui = LoadPreviousSessionLauncher(parent=self)
+            load_session_ui.show()
+        else:
+            self.new_session_clicked()
 
-	def menu_log_clicked(self):
-		LogLauncher(parent=self)
+    # menu events
+    def new_session_clicked(self):
+        o_event = EventHandler(parent=self)
+        o_event.new_session()
 
-	def load_session_clicked(self):
-		o_session = SessionHandler(parent=self)
-		o_session.load_from_file()
-		o_session.load_to_ui()
+    def menu_log_clicked(self):
+        LogLauncher(parent=self)
 
-	def save_session_clicked(self):
-		o_session = SessionHandler(parent=self)
-		o_session.save_from_ui()
-		o_session.save_to_file()
+    def load_session_clicked(self):
+        o_session = SessionHandler(parent=self)
+        o_session.load_from_file()
+        o_session.load_to_ui()
 
-	def full_reset_clicked(self):
-		o_event = EventHandler(parent=self)
-		o_event.full_reset_clicked()
+    def save_session_clicked(self):
+        o_session = SessionHandler(parent=self)
+        o_session.save_from_ui()
+        o_session.save_to_file()
 
-	# main tab
-	def main_tab_changed(self, new_tab_index):
-		o_event = EventHandler(parent=self)
-		o_event.main_tab_changed(new_tab_index=new_tab_index)
+    def full_reset_clicked(self):
+        o_event = EventHandler(parent=self)
+        o_event.full_reset_clicked()
 
-	# step - ob
-	def ob_tab_changed(self):
-		o_event = EventHandler(parent=self)
-		o_event.check_start_acquisition_button()
+    # main tab
+    def main_tab_changed(self, new_tab_index):
+        o_event = EventHandler(parent=self)
+        o_event.main_tab_changed(new_tab_index=new_tab_index)
 
-	def step1_check_state_of_ob_measured_clicked(self):
-		o_event = Step1EventHandler(parent=self)
-		o_event.check_state_of_ob_measured()
+    # step - ob
+    def ob_tab_changed(self):
+        o_event = EventHandler(parent=self)
+        o_event.check_start_acquisition_button()
 
-	def step1_browse_obs_clicked(self):
-		o_event = Step1EventHandler(parent=self)
-		o_event.browse_obs()
+    def step1_check_state_of_ob_measured_clicked(self):
+        o_event = Step1EventHandler(parent=self)
+        o_event.check_state_of_ob_measured()
 
-	def list_obs_selection_changed(self):
-		o_event = EventHandler(parent=self)
-		o_event.check_start_acquisition_button()
+    def step1_browse_obs_clicked(self):
+        o_event = Step1EventHandler(parent=self)
+        o_event.browse_obs()
 
-	def ob_proton_charge_changed(self, proton_charge):
-		self.ui.projections_p_charge_label.setText(str(proton_charge))
+    def list_obs_selection_changed(self):
+        o_event = EventHandler(parent=self)
+        o_event.check_start_acquisition_button()
 
-	def number_of_obs_changed(self, value):
-		o_event = EventHandler(parent=self)
-		o_event.check_start_acquisition_button()
+    def ob_proton_charge_changed(self, proton_charge):
+        self.ui.projections_p_charge_label.setText(str(proton_charge))
 
-	# step - setup projections
-	def run_title_changed(self, run_title):
-		o_event = Step2EventHandler(parent=self)
-		o_event.run_title_changed(run_title=run_title)
-		self.inform_of_output_location()
-		o_event = EventHandler(parent=self)
-		o_event.check_start_acquisition_button()
+    def number_of_obs_changed(self, value):
+        o_event = EventHandler(parent=self)
+        o_event.check_start_acquisition_button()
 
-	def number_of_projections_changed(self, value):
-		o_event = EventHandler(parent=self)
-		o_event.check_start_acquisition_button()
+    # step - setup projections
+    def run_title_changed(self, run_title):
+        o_event = Step2EventHandler(parent=self)
+        o_event.run_title_changed(run_title=run_title)
+        self.inform_of_output_location()
+        o_event = EventHandler(parent=self)
+        o_event.check_start_acquisition_button()
 
-	def start_acquisition_clicked(self):
-		self.ui.tabWidget.insertTab(2, self.tab2, QIcon(tab2_icon), TabNames.tab2)
-		self.ui.tabWidget.insertTab(3, self.tab3, QIcon(tab3_icon), TabNames.tab3)
-		self.ui.tabWidget.insertTab(4, self.tab4, QIcon(tab4_icon), TabNames.tab4)
-		self.all_tabs_visible = True
+    def number_of_projections_changed(self, value):
+        o_event = EventHandler(parent=self)
+        o_event.check_start_acquisition_button()
 
-	# leaving ui
-	def closeEvent(self, c):
-		o_session = SessionHandler(parent=self)
-		o_session.save_from_ui()
-		o_session.automatic_save()
-		logging.info(" #### Leaving ASUI ####")
-		self.close()
+    def start_acquisition_clicked(self):
+        self.ui.tabWidget.insertTab(2, self.tab2, QIcon(tab2_icon), TabNames.tab2)
+        self.ui.tabWidget.insertTab(3, self.tab3, QIcon(tab3_icon), TabNames.tab3)
+        self.ui.tabWidget.insertTab(4, self.tab4, QIcon(tab4_icon), TabNames.tab4)
+        self.all_tabs_visible = True
 
-	def set_window_title(self):
-		instrument = self.session_dict[SessionKeys.instrument]
-		ipts = self.session_dict[SessionKeys.ipts_selected]
-		title = f"{UI_TITLE} - instrument:{instrument} - IPTS:{ipts}"
-		self.ui.setWindowTitle(title)
+    # leaving ui
+    def closeEvent(self, c):
+        o_session = SessionHandler(parent=self)
+        o_session.save_from_ui()
+        o_session.automatic_save()
+        logging.info(" #### Leaving ASUI ####")
+        self.close()
 
-	def inform_of_output_location(self):
-		instrument = self.session_dict[SessionKeys.instrument]
-		ipts = self.session_dict[SessionKeys.ipts_selected]
-		title = self.ui.run_title_formatted_label.text()
+    def set_window_title(self):
+        instrument = self.session_dict[SessionKeys.instrument]
+        ipts = self.session_dict[SessionKeys.ipts_selected]
+        title = f"{UI_TITLE} - instrument:{instrument} - IPTS:{ipts}"
+        self.ui.setWindowTitle(title)
 
-		if ipts is None:
-			output_location = "N/A"
-		elif title == "":
-			output_location = "N/A"
-		else:
-			output_location = os.sep.join([self.homepath,
-										   instrument,
-										   ipts,
-										   "shared",
-										   "autoreduce",
-										   "mcp",
-										   title])
-		self.ui.projections_output_location_label.setText(output_location)
+    def inform_of_output_location(self):
+        instrument = self.session_dict[SessionKeys.instrument]
+        ipts = self.session_dict[SessionKeys.ipts_selected]
+        title = self.ui.run_title_formatted_label.text()
+
+        if (ipts is None) or (ipts == ""):
+            output_location = "N/A"
+        elif title == "":
+            output_location = "N/A"
+        else:
+            output_location = os.sep.join([self.homepath,
+                                           instrument,
+                                           ipts,
+                                           "shared",
+                                           "autoreduce",
+                                           "mcp",
+                                           title])
+        self.ui.projections_output_location_label.setText(output_location)
 
 
 def main(args):
-	app = QApplication(args)
-	app.setStyle('Fusion')
-	app.aboutToQuit.connect(clean_up)
-	app.setApplicationDisplayName("Ai Svmbir UI")
-	window = ASUI()
-	window.show()
-	sys.exit(app.exec_())
+    app = QApplication(args)
+    app.setStyle('Fusion')
+    app.aboutToQuit.connect(clean_up)
+    app.setApplicationDisplayName("Ai Svmbir UI")
+    window = ASUI()
+    window.show()
+    sys.exit(app.exec_())
 
 
 def clean_up():
-	app = QApplication.instance()
-	app.closeAllWindows()
+    app = QApplication.instance()
+    app.closeAllWindows()
