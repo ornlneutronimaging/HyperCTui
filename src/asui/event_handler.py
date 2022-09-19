@@ -3,10 +3,8 @@ import logging
 from .parent import Parent
 from .initialization.gui_initialization import GuiInitialization
 from .setup_ob.get import Get as Step1Get
-from .utilities.table import TableHandler
 from .session.new_session import NewSession
-from .session import SessionKeys
-from . import UI_TITLE
+from . import UI_SIZE
 
 
 class EventHandler(Parent):
@@ -53,3 +51,8 @@ class EventHandler(Parent):
 		number_of_projections = self.parent.ui.number_of_projections_spinBox.value()
 		button_text += f"{number_of_projections} projections"
 		self.parent.ui.start_acquisition_pushButton.setText(button_text)
+
+	def main_tab_changed(self, new_tab_index=0):
+		small_tab_index = [0, 1]
+		if new_tab_index in small_tab_index:
+			print(self.parent.ui.geometry())

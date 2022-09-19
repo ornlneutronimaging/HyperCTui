@@ -18,6 +18,9 @@ tab4_icon = os.path.join(root, "static/tab4.png")
 
 UI_TITLE = "Ai Svmbir UI"
 
+UI_SIZE = {'small': [300, 300],
+           'large': [800, 800]}
+
 
 class TabNames:
     tab0 = " - Setup the open beams"

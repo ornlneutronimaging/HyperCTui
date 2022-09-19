@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>857</width>
-    <height>648</height>
+    <width>837</width>
+    <height>688</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -435,7 +435,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>857</width>
+     <width>837</width>
      <height>24</height>
     </rect>
    </property>
@@ -801,6 +801,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>tabWidget</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>main_tab_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>308</x>
+     <y>45</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>831</x>
+     <y>125</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>step1_instrument_changed()</slot>
@@ -817,5 +833,6 @@
   <slot>start_acquisition_clicked()</slot>
   <slot>number_of_projections_changed()</slot>
   <slot>number_of_obs_changed()</slot>
+  <slot>main_tab_changed()</slot>
  </slots>
 </ui>

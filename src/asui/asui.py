@@ -101,6 +101,11 @@ class ASUI(QMainWindow):
 		o_event = EventHandler(parent=self)
 		o_event.full_reset_clicked()
 
+	# main tab
+	def main_tab_changed(self, new_tab_index):
+		o_event = EventHandler(parent=self)
+		o_event.main_tab_changed(new_tab_index=new_tab_index)
+
 	# step - ob
 	def ob_tab_changed(self):
 		o_event = EventHandler(parent=self)
