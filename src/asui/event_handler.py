@@ -1,10 +1,11 @@
 import logging
+from qtpy.QtCore import QRect
 
 from .parent import Parent
 from .initialization.gui_initialization import GuiInitialization
 from .setup_ob.get import Get as Step1Get
 from .session.new_session import NewSession
-from . import UI_SIZE
+from . import UiSizeLarge, UiSizeSmall
 
 
 class EventHandler(Parent):
@@ -53,6 +54,39 @@ class EventHandler(Parent):
 		self.parent.ui.start_acquisition_pushButton.setText(button_text)
 
 	def main_tab_changed(self, new_tab_index=0):
+		"""
+		resize the main ui according to the tab selected
+		small version for the first 2 main tabs
+		large version for the next 3 tabs
+		"""
 		small_tab_index = [0, 1]
+
 		if new_tab_index in small_tab_index:
-			print(self.parent.ui.geometry())
+			if self.parent.current_tab_index in small_tab_index:
+				self.parent.current_tab_index = new_tab_index
+				return
+			else:
+				move_to_large_ui = False
+
+		else:
+			if not (self.parent.current_tab_index in small_tab_index):
+				self.parent.current_tab_index = new_tab_index
+				return
+			else:
+				move_to_large_ui = True
+
+		current_geometry = self.parent.ui.geometry()
+		left = current_geometry.left()
+		top = current_geometry.top()
+		width = current_geometry.width()
+		height = current_geometry.height()
+		if not move_to_large_ui:
+			width = UiSizeSmall.width
+			height = UiSizeSmall.height
+		else:
+			width = UiSizeLarge.width if width < UiSizeLarge.width else width
+			height = UiSizeLarge.height if height < UiSizeLarge.height else height
+
+		rect = QRect(left, top, width, height)
+		self.parent.ui.setGeometry(rect)
+		self.parent.current_tab_index = new_tab_index

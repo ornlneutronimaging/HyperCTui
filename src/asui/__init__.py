@@ -18,8 +18,15 @@ tab4_icon = os.path.join(root, "static/tab4.png")
 
 UI_TITLE = "Ai Svmbir UI"
 
-UI_SIZE = {'small': [300, 300],
-           'large': [800, 800]}
+# main window dimensions
+class UiSizeSmall:
+	width= 300
+	height= 300
+
+
+class UiSizeLarge:
+	width = 800
+	height = 800
 
 
 class TabNames:

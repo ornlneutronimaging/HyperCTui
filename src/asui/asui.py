@@ -45,6 +45,7 @@ class ASUI(QMainWindow):
 	tab3 = None  # handle to tab #3 - rotation center
 	tab4 = None  # handle to tab #4 - options (with advanced)
 	all_tabs_visible = True
+	current_tab_index = 0
 
 	def __init__(self, parent=None):
 
