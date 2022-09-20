@@ -3,6 +3,7 @@ import sys
 import os
 import logging
 from qtpy.QtGui import QIcon
+from qtpy import QtCore
 
 from . import load_ui
 
@@ -16,6 +17,7 @@ from .event_handler import EventHandler
 from .initialization.gui_initialization import GuiInitialization
 from .setup_ob.event_handler import EventHandler as Step1EventHandler
 from .setup_projections.event_handler import EventHandler as Step2EventHandler
+from .monitor import Monitor
 
 from . import UI_TITLE, TabNames, tab2_icon, tab3_icon, tab4_icon
 
@@ -32,6 +34,7 @@ class ASUI(QMainWindow):
     log_id = None  # UI id of the logger
     config = None  # config dictionary
     homepath = ""
+    monitor_ui = None
 
     clicked_create_ob = False
 
@@ -41,11 +44,14 @@ class ASUI(QMainWindow):
                     SessionKeys.ipts_index_selected: 0,
                     SessionKeys.number_of_obs      : 5}
 
-    tab2 = None  # handle to tab #2 - cropoing
+    tab2 = None  # handle to tab #2 - cropping
     tab3 = None  # handle to tab #3 - rotation center
     tab4 = None  # handle to tab #4 - options (with advanced)
     all_tabs_visible = True
     current_tab_index = 0
+
+    number_of_files_requested = {'ob': None,
+                                 'sample': None}
 
     def __init__(self, parent=None):
 
@@ -104,6 +110,16 @@ class ASUI(QMainWindow):
         o_event = EventHandler(parent=self)
         o_event.full_reset_clicked()
 
+    def launch_monitor_view(self):
+        if self.monitor_ui:
+            self.monitor_ui.showMinimized()
+            self.monitor_ui.showNormal()
+
+        else:
+            o_monitor = Monitor(parent=self)
+            o_monitor.show()
+            self.monitor_ui = o_monitor
+
     # main tab
     def main_tab_changed(self, new_tab_index):
         o_event = EventHandler(parent=self)
@@ -150,6 +166,10 @@ class ASUI(QMainWindow):
         self.ui.tabWidget.insertTab(3, self.tab3, QIcon(tab3_icon), TabNames.tab3)
         self.ui.tabWidget.insertTab(4, self.tab4, QIcon(tab4_icon), TabNames.tab4)
         self.all_tabs_visible = True
+        o_event = EventHandler(parent=self)
+        o_event.start_acquisition()
+        o_event.freeze_number_ob_sample_requested()
+        self.launch_monitor_view()
 
     # leaving ui
     def closeEvent(self, c):

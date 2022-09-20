@@ -94,3 +94,20 @@ class EventHandler(Parent):
         rect = QRect(left, top, width, height)
         self.parent.ui.setGeometry(rect)
         self.parent.current_tab_index = new_tab_index
+
+    def start_acquisition(self):
+        """
+        script that will call Shimin's code to take OB and first projections
+        """
+        pass
+
+    def freeze_number_ob_sample_requested(self):
+        if self.parent.ui.ob_tabWidget.currentIndex():
+            number_of_obs = self.parent.ui.number_of_ob_spinBox.value()
+        else:
+            number_of_obs = 0
+
+        number_of_sample = self.parent.ui.number_of_projections_spinBox.value()
+
+        self.parent.number_of_files_requested['ob'] = number_of_obs
+        self.parent.number_of_files_requested['sample'] = number_of_sample
