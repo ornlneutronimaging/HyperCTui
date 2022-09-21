@@ -4,6 +4,8 @@ from asui.setup_ob.get import Get as GetOB
 from asui.utilities.get import Get
 from asui.utilities.table import TableHandler
 
+from . import READY
+
 
 class Initialization:
 
@@ -21,7 +23,8 @@ class Initialization:
             # retrieve list of ob selected
             o_get_ob = GetOB(parent=self.grand_parent)
             list_ob = o_get_ob.list_ob_folders_selected()
-            self.populate_ob_table(list_ob=list_ob)
+            self.populate_ob_table(list_ob=list_ob,
+                                   status="Ready")
 
         nbr_sample_expected = self.grand_parent.number_of_files_requested['sample']
         folder_path = self.grand_parent.folder_path
@@ -33,13 +36,13 @@ class Initialization:
             initial_list_of_reduction_log_files
 
     def ui(self):
-        table_columns = [600, 50, 50, 50]
+        table_columns = [590, 50, 50, 45]
         o_ob_table = TableHandler(table_ui=self.parent.ui.obs_tableWidget)
         o_ob_table.set_column_sizes(column_sizes=table_columns)
         o_pro_table = TableHandler(table_ui=self.parent.ui.projections_tableWidget)
         o_pro_table.set_column_sizes(column_sizes=table_columns)
 
-    def populate_ob_table(self, list_ob=None):
+    def populate_ob_table(self, list_ob=None, status=None):
         if list_ob is None:
             return
 
@@ -55,5 +58,19 @@ class Initialization:
                                   column=1,
                                   widget=log_button)
             log_button.clicked.connect(lambda state=0, row=_row_index:
-                                              self.parent.preview_log(row=row,
-                                                                      data_type='ob'))
+                                       self.parent.preview_log(row=row,
+                                                               data_type='ob'))
+            err_button = QPushButton("View")
+            o_table.insert_widget(row=_row_index,
+                                  column=2,
+                                  widget=err_button)
+            err_button.clicked.connect(lambda state=0, row=_row_index:
+                                       self.parent.preview_err(row=row,
+                                                               data_type='ob'))
+
+            o_table.insert_item(row=_row_index,
+                                column=3,
+                                value=status)
+            o_table.set_background_color(row=_row_index,
+                                         column=3,
+                                         qcolor=READY)
