@@ -20,9 +20,9 @@ class FolderPath(Parent):
         homepath = self.parent.homepath
         ipts = self.parent.session_dict[SessionKeys.ipts_selected]
         instrument = self.parent.session_dict[SessionKeys.instrument]
-        self.ipts_full_path = os.sep.join([homepath,
+        self.ipts_full_path = os.path.abspath(os.sep.join([homepath,
                                            instrument,
-                                           ipts])
+                                           ipts]))
 
         self.shared()
         self.autoreduce()

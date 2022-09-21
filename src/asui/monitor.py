@@ -32,9 +32,14 @@ class Monitor(QMainWindow):
         """
         nbr_ob_expected = self.parent.number_of_files_requested['ob']
         nbr_sample_expected = self.parent.number_of_files_requested['sample']
-        homepath = self.parent.homepath
-        print(f"homepath: {homepath}")
+        folder_path = self.parent.folder_path
+        print(folder_path.shared)
 
     def refresh_button_clicked(self):
         logging.info("Checking for new data reduced files!")
         print("refresh clicked")
+
+    def closeEvent(self, c):
+        self.parent.monitor_ui = None
+        print('here')
+        self.close()
