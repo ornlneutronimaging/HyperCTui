@@ -5,6 +5,7 @@ import numpy as np
 from .. import load_ui
 from ..setup_ob.get import Get
 from . import SessionKeys
+from ..utilities.folder_path import FolderPath
 
 
 class NewSession(QDialog):
@@ -49,5 +50,8 @@ class NewSession(QDialog):
 
         self.parent.ui.tabWidget.setCurrentIndex(0)
         self.parent.ui.run_title_lineEdit.setText("")
+
+        self.parent.folder_path = FolderPath(parent=self.parent)
+        self.parent.folder_path.update()
 
         self.close()

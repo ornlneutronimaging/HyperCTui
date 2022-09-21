@@ -10,6 +10,7 @@ from . import load_ui
 from .log.log_launcher import LogLauncher
 from .utilities.get import Get
 from .utilities.config_handler import ConfigHandler
+from .utilities.folder_path import FolderPath
 from .session.load_previous_session_launcher import LoadPreviousSessionLauncher
 from .session.session_handler import SessionHandler
 from .session import SessionKeys
@@ -33,7 +34,15 @@ DEBUG = True
 class ASUI(QMainWindow):
     log_id = None  # UI id of the logger
     config = None  # config dictionary
+
+    # path
     homepath = ""
+
+    # instance of FolderPath class that keep record of all the folders
+    # path such as full path to the reduction log for example.
+    folder_path = None
+
+    # ui id
     monitor_ui = None
 
     clicked_create_ob = False
@@ -73,8 +82,6 @@ class ASUI(QMainWindow):
         self.set_window_title()
         self.inform_of_output_location()
 
-    # self.main_tab_changed(0)
-
     def _loading_config(self):
         o_config = ConfigHandler(parent=self)
         o_config.load()
@@ -100,6 +107,8 @@ class ASUI(QMainWindow):
         o_session = SessionHandler(parent=self)
         o_session.load_from_file()
         o_session.load_to_ui()
+        self.folder_path = FolderPath(parent=self)
+        self.folder_path.update()
 
     def save_session_clicked(self):
         o_session = SessionHandler(parent=self)

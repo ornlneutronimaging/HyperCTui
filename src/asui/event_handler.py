@@ -111,3 +111,6 @@ class EventHandler(Parent):
 
         self.parent.number_of_files_requested['ob'] = number_of_obs
         self.parent.number_of_files_requested['sample'] = number_of_sample
+
+    def save_path(self):
+        pass

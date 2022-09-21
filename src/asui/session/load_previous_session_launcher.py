@@ -4,6 +4,7 @@ import os
 from .. import load_ui
 from .session_handler import SessionHandler
 from ..utilities.get import Get
+from ..utilities.folder_path import FolderPath
 
 
 class LoadPreviousSessionLauncher(QDialog):
@@ -26,6 +27,8 @@ class LoadPreviousSessionLauncher(QDialog):
         o_session.load_from_file(config_file_name=full_config_file_name)
         o_session.load_to_ui()
         self.parent.loading_from_config = False
+        self.parent.folder_path = FolderPath(parent=self.parent)
+        self.parent.folder_path.update()
 
     def no_clicked(self):
         self.parent.new_session_clicked()
