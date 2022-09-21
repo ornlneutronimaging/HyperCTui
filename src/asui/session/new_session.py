@@ -6,6 +6,8 @@ from .. import load_ui
 from ..setup_ob.get import Get
 from . import SessionKeys
 from ..utilities.folder_path import FolderPath
+from ..utilities.table import TableHandler
+from ..setup_ob.event_handler import EventHandler as ObEventHandler
 
 
 class NewSession(QDialog):
@@ -46,6 +48,8 @@ class NewSession(QDialog):
 
         for _ in np.arange(3):
             self.parent.ui.tabWidget.removeTab(2)
+        self.parent.ui.tabWidget.setCurrentIndex(0)
+        self.parent.ui.ob_tabWidget.setCurrentIndex(0)
         self.parent.all_tabs_visible = False
 
         self.parent.ui.tabWidget.setCurrentIndex(0)
@@ -53,5 +57,13 @@ class NewSession(QDialog):
 
         self.parent.folder_path = FolderPath(parent=self.parent)
         self.parent.folder_path.update()
+
+        # clear OB
+        mcp_folder = self.parent.folder_path.mcp
+        self.parent.ui.existing_ob_top_path.setText(mcp_folder)
+        o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
+        o_table.remove_all_rows()
+        o_ob_event = ObEventHandler(parent=self.parent)
+        o_ob_event.update_list_of_obs()
 
         self.close()

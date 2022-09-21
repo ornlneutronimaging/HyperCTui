@@ -13,6 +13,7 @@ class FolderPath(Parent):
 
     shared = None
     autoreduce = None
+    mcp = None
     reduction_log = None
     nexus = None
 
@@ -28,6 +29,7 @@ class FolderPath(Parent):
         self.autoreduce()
         self.reduction_log()
         self.nexus()
+        self.mcp()
 
     def shared(self):
         self.shared = os.sep.join([self.ipts_full_path, "shared"])
@@ -43,3 +45,6 @@ class FolderPath(Parent):
     def nexus(self):
         self.nexus = os.sep.join([self.ipts_full_path,
                                   "nexus"])
+
+    def mcp(self):
+        self.mcp = os.sep.join([self.autoreduce, "mcp"])

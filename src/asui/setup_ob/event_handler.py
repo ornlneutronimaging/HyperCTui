@@ -118,14 +118,12 @@ class EventHandler(Parent):
             list_proton_charge.append(_proton_charge)
 
         o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
-        nbr_row = o_table.row_count()
-
         for _offset_row, _folder in enumerate(list_folders):
-            o_table.insert_empty_row(row=nbr_row+_offset_row)
-            o_table.insert_item(row=nbr_row+_offset_row,
+            o_table.insert_empty_row(row=_offset_row)
+            o_table.insert_item(row=_offset_row,
                                 column=0,
                                 value=_folder)
-            o_table.insert_item(row=nbr_row+_offset_row,
+            o_table.insert_item(row=_offset_row,
                                 column=1,
                                 value=list_proton_charge[_offset_row])
 

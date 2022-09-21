@@ -1,10 +1,11 @@
 from qtpy.QtWidgets import QPushButton
+import numpy as np
 
 from asui.setup_ob.get import Get as GetOB
 from asui.utilities.get import Get
 from asui.utilities.table import TableHandler
 
-from . import READY
+from . import READY, IN_PROGRESS, IN_QUEUE, FAILED
 
 
 class Initialization:
@@ -18,13 +19,15 @@ class Initialization:
                this is where we need to figure out the list of NeXus files already listed
                and how many we are expecting
                """
-        nbr_ob_expected = self.grand_parent.number_of_files_requested['ob']
-        if not nbr_ob_expected:
+        nbr_obs_expected = self.grand_parent.number_of_files_requested['ob']
+        if not nbr_obs_expected:
             # retrieve list of ob selected
             o_get_ob = GetOB(parent=self.grand_parent)
             list_ob = o_get_ob.list_ob_folders_selected()
-            self.populate_ob_table(list_ob=list_ob,
-                                   status="Ready")
+            self.populate_table_with_existing_obs(list_ob=list_ob)
+
+        else:
+            self.populate_table_with_expected_obs(nbr_obs_expected=nbr_obs_expected)
 
         nbr_sample_expected = self.grand_parent.number_of_files_requested['sample']
         folder_path = self.grand_parent.folder_path
@@ -42,7 +45,21 @@ class Initialization:
         o_pro_table = TableHandler(table_ui=self.parent.ui.projections_tableWidget)
         o_pro_table.set_column_sizes(column_sizes=table_columns)
 
-    def populate_ob_table(self, list_ob=None, status=None):
+    def populate_table_with_expected_obs(self, nbr_obs_expected=0):
+        o_table = TableHandler(table_ui=self.parent.ui.obs_tableWidget)
+        for _row_index in np.arange(nbr_obs_expected):
+            o_table.insert_empty_row(row=_row_index)
+            o_table.insert_item(row=_row_index,
+                                column=0,
+                                value="N/A")
+            o_table.insert_item(row=_row_index,
+                                column=3,
+                                value="Measuring")
+            o_table.set_background_color(row=_row_index,
+                                         column=3,
+                                         qcolor=IN_PROGRESS)
+
+    def populate_table_with_existing_obs(self, list_ob=None):
         if list_ob is None:
             return
 
@@ -70,7 +87,7 @@ class Initialization:
 
             o_table.insert_item(row=_row_index,
                                 column=3,
-                                value=status)
+                                value="Ready")
             o_table.set_background_color(row=_row_index,
                                          column=3,
                                          qcolor=READY)
