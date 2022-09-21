@@ -18,7 +18,7 @@ from .event_handler import EventHandler
 from .initialization.gui_initialization import GuiInitialization
 from .setup_ob.event_handler import EventHandler as Step1EventHandler
 from .setup_projections.event_handler import EventHandler as Step2EventHandler
-from .monitor import Monitor
+from .monitor.monitor import Monitor
 
 from . import UI_TITLE, TabNames, tab2_icon, tab3_icon, tab4_icon
 

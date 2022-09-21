@@ -147,3 +147,6 @@ class TableHandler:
     def set_background_color(self, row=0, column=0, qcolor=QtGui.QColor(0, 255, 255)):
         _item = self.table_ui.item(row, column)
         _item.setBackground(qcolor)
+
+    def insert_widget(self, row=0, column=0, widget=None):
+        self.table_ui.setCellWidget(row, column, widget)

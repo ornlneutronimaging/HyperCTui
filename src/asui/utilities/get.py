@@ -1,5 +1,6 @@
 from os.path import expanduser
 import os
+import glob
 from qtpy import QtGui
 import numpy as np
 import multiprocessing
@@ -151,3 +152,8 @@ class Get:
         home_folder = expanduser("~")
         full_log_file_name = os.path.join(home_folder, base_file_name)
         return full_log_file_name
+
+    @staticmethod
+    def list_of_files(folder=None, ext="*"):
+        list_of_files = glob.glob(os.path.join(folder, ext))
+        return list_of_files

@@ -1,21 +1,26 @@
 from qtpy.QtWidgets import QMainWindow
-import sys
 import os
 import logging
 from qtpy.QtGui import QIcon
 
-from . import load_ui
-from . import refresh_large_image
+from asui import load_ui
+from asui import refresh_large_image
+
+from .initialization import Initialization
 
 
 class Monitor(QMainWindow):
+
+    # list of files in the reduction log folder to use as a reference
+    # any new files will be used
+    initial_list_of_reduction_log_files = []
 
     def __init__(self, parent=None):
         super(Monitor, self).__init__(parent)
         self.parent = parent
 
         ui_full_path = os.path.join(os.path.dirname(__file__),
-                                    os.path.join('ui',
+                                    os.path.join('../ui',
                                                  'monitor.ui'))
 
         self.ui = load_ui(ui_full_path, baseinstance=self)
@@ -23,17 +28,13 @@ class Monitor(QMainWindow):
         refresh_icon = QIcon(refresh_large_image)
         self.ui.refresh_pushButton.setIcon(refresh_icon)
 
-        self.initialization()
+        o_init = Initialization(parent=self,
+                                grand_parent=self.parent)
+        o_init.data()
+        o_init.ui()
 
-    def initialization(self):
-        """
-        this is where we need to figure out the list of NeXus files already listed
-        and how many we are expecting
-        """
-        nbr_ob_expected = self.parent.number_of_files_requested['ob']
-        nbr_sample_expected = self.parent.number_of_files_requested['sample']
-        folder_path = self.parent.folder_path
-        print(folder_path.shared)
+    def preview_log(self, state=0, row=-1, data_type='ob'):
+        print(f"preview row:{row}")
 
     def refresh_button_clicked(self):
         logging.info("Checking for new data reduced files!")
@@ -41,5 +42,4 @@ class Monitor(QMainWindow):
 
     def closeEvent(self, c):
         self.parent.monitor_ui = None
-        print('here')
         self.close()
