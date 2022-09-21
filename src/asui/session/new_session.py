@@ -21,16 +21,20 @@ class NewSession(QDialog):
                                                  'new_session.ui'))
         self.ui = load_ui(ui_full_path, baseinstance=self)
 
-        instrument = session_dict['instrument']
+        instrument = session_dict[SessionKeys.instrument]
         index_instrument = self.ui.instrument_comboBox.findText(instrument)
         self.ui.instrument_comboBox.setCurrentIndex(index_instrument)
         self.instrument_changed(instrument)
+        ipts = session_dict[SessionKeys.ipts_selected]
+        if ipts in self.new_list_ipts:
+            self.ui.ipts_comboBox.
         self.ui.ok_pushButton.setFocus(True)
         self.setWindowTitle("New session")
 
     def instrument_changed(self, new_instrument):
         o_get = Get(parent=self.parent)
         list_ipts = o_get.list_of_ipts(instrument=new_instrument)
+        self.new_list_ipts = list_ipts
         self.ui.ipts_comboBox.clear()
         self.ui.ipts_comboBox.blockSignals(True)
         self.ui.ipts_comboBox.addItems(list_ipts)
