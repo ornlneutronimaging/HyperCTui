@@ -25,10 +25,11 @@ from . import UI_TITLE, TabNames, tab2_icon, tab3_icon, tab4_icon
 # warnings.filterwarnings('ignore')
 DEBUG = True
 
-# if DEBUG:
-#     HOME_FOLDER = "/Volumes/G-DRIVE/SNS/"
-# else:
-#     HOME_FOLDER = "/SNS"
+if DEBUG:
+    # HOME_FOLDER = "/Volumes/G-DRIVE/SNS/"  # mac at home
+    HOME_FOLDER = "/Users/j35/SNS/"              # mac at work
+else:
+    HOME_FOLDER = "/SNS"
 
 
 class ASUI(QMainWindow):
@@ -36,7 +37,7 @@ class ASUI(QMainWindow):
     config = None  # config dictionary
 
     # path
-    homepath = ""
+    homepath = HOME_FOLDER
 
     # instance of FolderPath class that keep record of all the folders
     # path such as full path to the reduction log for example.

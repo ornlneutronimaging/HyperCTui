@@ -102,7 +102,7 @@ class EventHandler(Parent):
         pass
 
     def freeze_number_ob_sample_requested(self):
-        if self.parent.ui.ob_tabWidget.currentIndex():
+        if self.parent.ui.ob_tabWidget.currentIndex() == 0:
             number_of_obs = self.parent.ui.number_of_ob_spinBox.value()
         else:
             number_of_obs = 0

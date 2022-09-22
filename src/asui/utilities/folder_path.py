@@ -11,6 +11,7 @@ class FolderPath(Parent):
     """
     ipts_full_path = None
 
+    root = None
     shared = None
     autoreduce = None
     mcp = None
@@ -19,11 +20,16 @@ class FolderPath(Parent):
 
     def update(self):
         homepath = self.parent.homepath
+        self.root = homepath
         ipts = self.parent.session_dict[SessionKeys.ipts_selected]
         instrument = self.parent.session_dict[SessionKeys.instrument]
+
+        if (instrument is None) | (ipts is None):
+            return
+
         self.ipts_full_path = os.path.abspath(os.sep.join([homepath,
-                                           instrument,
-                                           ipts]))
+                                              instrument,
+                                              ipts]))
 
         self.shared()
         self.autoreduce()

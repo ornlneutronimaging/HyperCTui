@@ -27,7 +27,8 @@ class NewSession(QDialog):
         self.instrument_changed(instrument)
         ipts = session_dict[SessionKeys.ipts_selected]
         if ipts in self.new_list_ipts:
-            self.ui.ipts_comboBox.
+            index = self.ui.ipts_comboBox.findText(ipts)
+            self.ui.ipts_comboBox.setCurrentIndex(index)
         self.ui.ok_pushButton.setFocus(True)
         self.setWindowTitle("New session")
 
