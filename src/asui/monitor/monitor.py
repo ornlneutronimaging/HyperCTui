@@ -15,6 +15,17 @@ class Monitor(QMainWindow):
     # any new files will be used
     initial_list_of_reduction_log_files = []
 
+    # dictionary that looks like
+    # {0: { 'ob': '<full path to ob>',
+    #       'log_file': '<full path to log file>',
+    #       'err_file': '<full path to err file>',
+    #       'metadata_file': <full path to metadata file>',
+    #     },
+    #  1: { ... },
+    #  ...
+    # }
+    dict_ob_log_err_metadata = None
+
     def __init__(self, parent=None):
         super(Monitor, self).__init__(parent)
         self.parent = parent

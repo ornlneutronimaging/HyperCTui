@@ -4,6 +4,7 @@ import numpy as np
 from asui.setup_ob.get import Get as GetOB
 from asui.utilities.get import Get
 from asui.utilities.table import TableHandler
+from asui.monitor.get import Get as GetMonitor
 
 from . import READY, IN_PROGRESS, IN_QUEUE, FAILED
 
@@ -64,34 +65,57 @@ class Initialization:
             return
 
         o_table = TableHandler(table_ui=self.parent.ui.obs_tableWidget)
+        o_get = GetMonitor(parent=self.parent,
+                           grand_parent=self.grand_parent)
+        dict_ob_log_err_metadata = {}
         for _row_index, _ob in enumerate(list_ob):
             o_table.insert_empty_row(row=_row_index)
             o_table.insert_item(row=_row_index,
                                 column=0,
                                 value=_ob)
 
-            log_button = QPushButton("View")
-            o_table.insert_widget(row=_row_index,
-                                  column=1,
-                                  widget=log_button)
-            log_button.clicked.connect(lambda state=0, row=_row_index:
-                                       self.parent.preview_log(row=row,
-                                                               data_type='ob'))
-            err_button = QPushButton("View")
-            o_table.insert_widget(row=_row_index,
-                                  column=2,
-                                  widget=err_button)
-            err_button.clicked.connect(lambda state=0, row=_row_index:
-                                       self.parent.preview_err(row=row,
-                                                               data_type='ob'))
 
-            summary_button = QPushButton("View")
-            o_table.insert_widget(row=_row_index,
-                                  column=3,
-                                  widget=summary_button)
-            summary_button.clicked.connect(lambda state=0, row=_row_index:
-                                           self.parent.preview_summary(row=row,
-                                                                       data_type='ob'))
+            log_file = o_get.log_file(_ob)
+            if log_file:
+                log_button = QPushButton("View")
+                o_table.insert_widget(row=_row_index,
+                                      column=1,
+                                      widget=log_button)
+                log_button.clicked.connect(lambda state=0, row=_row_index:
+                                           self.parent.preview_log(row=row,
+                                                                   data_type='ob'))
+            else:
+                o_table.insert_item(row=_row_index,
+                                    column=1,
+                                    value="N/A")
+
+            err_file = o_get.err_file(_ob)
+            if err_file:
+                err_button = QPushButton("View")
+                o_table.insert_widget(row=_row_index,
+                                      column=2,
+                                      widget=err_button)
+                err_button.clicked.connect(lambda state=0, row=_row_index:
+                                           self.parent.preview_err(row=row,
+                                                                   data_type='ob'))
+            else:
+                o_table.insert_item(row=_row_index,
+                                    column=2,
+                                    value="N/A")
+
+            metadata_file = o_get.metadata_file(_ob)
+            if metadata_file:
+                summary_button = QPushButton("View")
+                o_table.insert_widget(row=_row_index,
+                                      column=3,
+                                      widget=summary_button)
+                summary_button.clicked.connect(lambda state=0, row=_row_index:
+                                               self.parent.preview_summary(row=row,
+                                                                           data_type='ob'))
+            else:
+                o_table.insert_item(row=_row_index,
+                                    column=3,
+                                    value="N/A")
 
             o_table.insert_item(row=_row_index,
                                 column=4,
@@ -99,3 +123,10 @@ class Initialization:
             o_table.set_background_color(row=_row_index,
                                          column=4,
                                          qcolor=READY)
+
+            dict_ob_log_err_metadata[_row_index] = {'ob': _ob,
+                                                'log_file': log_file,
+                                                'err_file': err_file,
+                                                'metadata_file': metadata_file}
+
+        self.parent.dict_ob_log_err_metadata = dict_ob_log_err_metadata
