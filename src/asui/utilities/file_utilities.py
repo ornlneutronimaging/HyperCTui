@@ -83,3 +83,16 @@ def make_folder(folder_name):
 
 def list_dirs(rootdir):
     return [os.path.abspath(x[0]) for x in os.walk(rootdir)]
+
+
+def list_ob_dirs(rootdir):
+    """
+    a folder is considered as a OB dir if we can find a _Spectra.txt file in it
+    """
+    _list_dirs = list_dirs(rootdir)
+    list_ob_dirs = []
+    for _dir in _list_dirs:
+        list_spectra_file = glob.glob(os.path.join(_dir, "*_Spectra.txt"))
+        if len(list_spectra_file) == 1:
+            list_ob_dirs.append(_dir)
+    return list_ob_dirs

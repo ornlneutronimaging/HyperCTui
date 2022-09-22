@@ -8,7 +8,7 @@ from qtpy.QtWidgets import QFileDialog
 from ..parent import Parent
 from .get import Get
 from ..utilities.table import TableHandler
-from ..utilities.file_utilities import list_dirs
+from ..utilities.file_utilities import list_ob_dirs
 from ..session import SessionKeys
 
 
@@ -105,7 +105,7 @@ class EventHandler(Parent):
 
     def update_list_of_obs(self):
         top_folder = self.parent.ui.existing_ob_top_path.text()
-        list_folders = list_dirs(top_folder)
+        list_folders = list_ob_dirs(top_folder)
         self.load_list_of_folders(list_folders=list_folders)
 
     def load_list_of_folders(self, list_folders):

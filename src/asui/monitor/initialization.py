@@ -39,7 +39,7 @@ class Initialization:
             initial_list_of_reduction_log_files
 
     def ui(self):
-        table_columns = [590, 50, 50, 45]
+        table_columns = [540, 50, 50, 50, 45]
         o_ob_table = TableHandler(table_ui=self.parent.ui.obs_tableWidget)
         o_ob_table.set_column_sizes(column_sizes=table_columns)
         o_pro_table = TableHandler(table_ui=self.parent.ui.projections_tableWidget)
@@ -85,9 +85,17 @@ class Initialization:
                                        self.parent.preview_err(row=row,
                                                                data_type='ob'))
 
+            summary_button = QPushButton("View")
+            o_table.insert_widget(row=_row_index,
+                                  column=3,
+                                  widget=summary_button)
+            summary_button.clicked.connect(lambda state=0, row=_row_index:
+                                           self.parent.preview_summary(row=row,
+                                                                       data_type='ob'))
+
             o_table.insert_item(row=_row_index,
-                                column=3,
+                                column=4,
                                 value="Ready")
             o_table.set_background_color(row=_row_index,
-                                         column=3,
+                                         column=4,
                                          qcolor=READY)

@@ -67,6 +67,11 @@
            </column>
            <column>
             <property name="text">
+             <string>Meta.</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
              <string>Status</string>
             </property>
            </column>
@@ -113,6 +118,11 @@
            <column>
             <property name="text">
              <string>Err</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Meta.</string>
             </property>
            </column>
            <column>

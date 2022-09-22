@@ -39,6 +39,9 @@ class Monitor(QMainWindow):
     def preview_err(self, state=0, row=-1, data_type='ob'):
         print(f"log row:{row}")
 
+    def preview_summary(self, state=0, row=-1, data_type='ob'):
+        print(f"preview summary json file from row:{row}")
+
     def refresh_button_clicked(self):
         logging.info("Checking for new data reduced files!")
         print("refresh clicked")
