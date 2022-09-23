@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 import ntpath
 import shutil
+import json
 
 
 def get_list_files(directory="./", file_extension=["*.fits"]):
@@ -96,3 +97,10 @@ def list_ob_dirs(rootdir):
         if len(list_spectra_file) == 1:
             list_ob_dirs.append(_dir)
     return list_ob_dirs
+
+
+def read_json(file_name):
+    config = {}
+    with open(file_name) as f:
+        config = json.load(f)
+    return config

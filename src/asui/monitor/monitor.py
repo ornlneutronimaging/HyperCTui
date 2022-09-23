@@ -7,7 +7,7 @@ from asui import load_ui
 from asui import refresh_large_image
 
 from .initialization import Initialization
-from ..preview_file.preview_file_launcher import PreviewFileLauncher
+from ..preview_file.preview_file_launcher import PreviewFileLauncher, PreviewMetadataFileLauncher
 
 
 class Monitor(QMainWindow):
@@ -55,7 +55,10 @@ class Monitor(QMainWindow):
         print(f"log row:{row}")
 
     def preview_summary(self, state=0, row=-1, data_type='ob'):
-        print(f"preview summary json file from row:{row}")
+        file_name = self.dict_ob_log_err_metadata[row]['metadata_file']
+        preview_file = PreviewMetadataFileLauncher(parent=self,
+                                                   file_name=file_name)
+        preview_file.show()
 
     def refresh_button_clicked(self):
         logging.info("Checking for new data reduced files!")
