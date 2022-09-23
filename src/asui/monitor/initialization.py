@@ -137,8 +137,49 @@ class Initialization:
 
         self.parent.dict_ob_log_err_metadata = dict_ob_log_err_metadata
 
-    def populate_table_with_expected_projections(self, nbr_projections_expected=None):
+    def populate_table_with_expected_projections(self, nbr_projections_expected=0):
         if nbr_projections_expected == 0:
             raise ValueError("We should request at least one projection!")
 
+        o_table = TableHandler(table_ui=self.parent.ui.projections_tableWidget)
 
+        for _row_index in np.arange(nbr_projections_expected):
+
+            o_table.insert_empty_row(row=_row_index)
+            o_table.insert_item(row=_row_index,
+                                column=0,
+                                value="In queue ...")
+
+            log_button = QPushButton("View")
+            log_button.setEnabled(False)
+            o_table.insert_widget(row=_row_index,
+                                  column=1,
+                                  widget=log_button)
+            log_button.clicked.connect(lambda state=0, row=_row_index:
+                                       self.parent.preview_log(row=row,
+                                                               data_type='projections'))
+
+            err_button = QPushButton("View")
+            err_button.setEnabled(False)
+            o_table.insert_widget(row=_row_index,
+                                  column=2,
+                                  widget=err_button)
+            err_button.clicked.connect(lambda state=0, row=_row_index:
+                                       self.parent.preview_err(row=row,
+                                                               data_type='projections'))
+
+            summary_button = QPushButton("View")
+            summary_button.setEnabled(False)
+            o_table.insert_widget(row=_row_index,
+                                  column=3,
+                                  widget=summary_button)
+            summary_button.clicked.connect(lambda state=0, row=_row_index:
+                                           self.parent.preview_summary(row=row,
+                                                                       data_type='projections'))
+
+            o_table.insert_item(row=_row_index,
+                                column=4,
+                                value="Ready")
+            o_table.set_background_color(row=_row_index,
+                                         column=4,
+                                         qcolor=IN_QUEUE)
