@@ -1,5 +1,7 @@
 import os
 
+from ..session import SessionKeys
+
 
 class Get:
 
@@ -21,9 +23,21 @@ class Get:
 		it needs to return
 			/SNS/VENUS/IPTS-30023/shared/autoreduce/reduction_log/VENUS_57100.nxs.h5.log
 		"""
-		print(f"log file for {self.full_ob_folder_name}")
-		print(self.folder_path.reduction_log)
-		return ""
+		prefix = self.log_err_prefix()
+		return prefix + ".log"
+
+	def log_err_prefix(self):
+		"""
+		if full_ob_folder_name is
+			/SNS/VENUS/IPTS-30023/shared/autoreduce/mcp/scan17/Run_57100
+		it will return
+			/SNS/VENUS/IPTS-30023/shared/autoreduce/reduction_log/VENUS_57100.nxs.h5
+		"""
+		folder = self.folder_path.reduction_log
+		base_file_name = os.path.basename(self.full_ob_folder_name)
+		_, run_number = base_file_name.split("_")
+		instrument = self.grand_parent.session_dict[SessionKeys.instrument]
+		return os.path.join(folder, f"{instrument}_{run_number}.nxs.h5")
 
 	def err_file(self):
 		"""
@@ -32,7 +46,8 @@ class Get:
 		it needs to return
 			/SNS/VENUS/IPTS-30023/shared/autoreduce/reduction_log/VENUS_57100.nxs.h5.err
 		"""
-		return ""
+		prefix = self.log_err_prefix()
+		return prefix + ".err"
 
 	def metadata_file(self):
 		"""

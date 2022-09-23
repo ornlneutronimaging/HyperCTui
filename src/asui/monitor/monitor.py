@@ -46,13 +46,16 @@ class Monitor(QMainWindow):
         o_init.ui()
 
     def preview_log(self, state=0, row=-1, data_type='ob'):
-        print(f"preview row:{row}")
+        log_file = self.dict_ob_log_err_metadata[row]['log_file']
         preview_file = PreviewFileLauncher(parent=self,
-                                           file_name=None)
+                                           file_name=log_file)
         preview_file.show()
 
     def preview_err(self, state=0, row=-1, data_type='ob'):
-        print(f"log row:{row}")
+        err_file = self.dict_ob_log_err_metadata[row]['err_file']
+        preview_file = PreviewFileLauncher(parent=self,
+                                           file_name=err_file)
+        preview_file.show()
 
     def preview_summary(self, state=0, row=-1, data_type='ob'):
         file_name = self.dict_ob_log_err_metadata[row]['metadata_file']
