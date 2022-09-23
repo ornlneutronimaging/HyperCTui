@@ -33,6 +33,8 @@ class Initialization:
         nbr_sample_expected = self.grand_parent.number_of_files_requested['sample']
         folder_path = self.grand_parent.folder_path
 
+        self.populate_table_with_expected_projections(nbr_projections_expected=nbr_sample_expected)
+
         initial_list_of_reduction_log_files = \
             Get.list_of_files(folder=folder_path.reduction_log,
                               ext="*")
@@ -78,45 +80,48 @@ class Initialization:
 
             log_file = o_get.log_file()
             if log_file:
-                log_button = QPushButton("View")
-                o_table.insert_widget(row=_row_index,
-                                      column=1,
-                                      widget=log_button)
-                log_button.clicked.connect(lambda state=0, row=_row_index:
-                                           self.parent.preview_log(row=row,
-                                                                   data_type='ob'))
+                enable_button = True
             else:
-                o_table.insert_item(row=_row_index,
-                                    column=1,
-                                    value="N/A")
+                enable_button = False
 
+            log_button = QPushButton("View")
+            log_button.setEnabled(enable_button)
+            o_table.insert_widget(row=_row_index,
+                                  column=1,
+                                  widget=log_button)
+
+            log_button.clicked.connect(lambda state=0, row=_row_index:
+                                       self.parent.preview_log(row=row,
+                                                               data_type='ob'))
             err_file = o_get.err_file()
             if err_file:
-                err_button = QPushButton("View")
-                o_table.insert_widget(row=_row_index,
-                                      column=2,
-                                      widget=err_button)
-                err_button.clicked.connect(lambda state=0, row=_row_index:
-                                           self.parent.preview_err(row=row,
-                                                                   data_type='ob'))
+                enable_button = True
             else:
-                o_table.insert_item(row=_row_index,
-                                    column=2,
-                                    value="N/A")
+                enable_button = False
+
+            err_button = QPushButton("View")
+            err_button.setEnabled(enable_button)
+            o_table.insert_widget(row=_row_index,
+                                  column=2,
+                                  widget=err_button)
+            err_button.clicked.connect(lambda state=0, row=_row_index:
+                                       self.parent.preview_err(row=row,
+                                                               data_type='ob'))
 
             metadata_file = o_get.metadata_file()
             if metadata_file:
-                summary_button = QPushButton("View")
-                o_table.insert_widget(row=_row_index,
-                                      column=3,
-                                      widget=summary_button)
-                summary_button.clicked.connect(lambda state=0, row=_row_index:
-                                               self.parent.preview_summary(row=row,
-                                                                           data_type='ob'))
+                enable_button = True
             else:
-                o_table.insert_item(row=_row_index,
-                                    column=3,
-                                    value="N/A")
+                enable_button = False
+
+            summary_button = QPushButton("View")
+            summary_button.setEnabled(enable_button)
+            o_table.insert_widget(row=_row_index,
+                                  column=3,
+                                  widget=summary_button)
+            summary_button.clicked.connect(lambda state=0, row=_row_index:
+                                           self.parent.preview_summary(row=row,
+                                                                       data_type='ob'))
 
             o_table.insert_item(row=_row_index,
                                 column=4,
@@ -126,8 +131,14 @@ class Initialization:
                                          qcolor=READY)
 
             dict_ob_log_err_metadata[_row_index] = {'ob': _ob,
-                                                'log_file': log_file,
-                                                'err_file': err_file,
-                                                'metadata_file': metadata_file}
+                                                    'log_file': log_file,
+                                                    'err_file': err_file,
+                                                    'metadata_file': metadata_file}
 
         self.parent.dict_ob_log_err_metadata = dict_ob_log_err_metadata
+
+    def populate_table_with_expected_projections(self, nbr_projections_expected=None):
+        if nbr_projections_expected == 0:
+            raise ValueError("We should request at least one projection!")
+
+

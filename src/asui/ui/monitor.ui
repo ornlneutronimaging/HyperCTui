@@ -209,8 +209,8 @@
    <slot>refresh_button_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>877</x>
-     <y>251</y>
+     <x>784</x>
+     <y>296</y>
     </hint>
     <hint type="destinationlabel">
      <x>877</x>
