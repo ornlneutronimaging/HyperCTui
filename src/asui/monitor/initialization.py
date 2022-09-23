@@ -69,13 +69,14 @@ class Initialization:
                            grand_parent=self.grand_parent)
         dict_ob_log_err_metadata = {}
         for _row_index, _ob in enumerate(list_ob):
+            o_get.set_ob_folder_name(_ob)
+
             o_table.insert_empty_row(row=_row_index)
             o_table.insert_item(row=_row_index,
                                 column=0,
                                 value=_ob)
 
-
-            log_file = o_get.log_file(_ob)
+            log_file = o_get.log_file()
             if log_file:
                 log_button = QPushButton("View")
                 o_table.insert_widget(row=_row_index,
@@ -89,7 +90,7 @@ class Initialization:
                                     column=1,
                                     value="N/A")
 
-            err_file = o_get.err_file(_ob)
+            err_file = o_get.err_file()
             if err_file:
                 err_button = QPushButton("View")
                 o_table.insert_widget(row=_row_index,
@@ -103,7 +104,7 @@ class Initialization:
                                     column=2,
                                     value="N/A")
 
-            metadata_file = o_get.metadata_file(_ob)
+            metadata_file = o_get.metadata_file()
             if metadata_file:
                 summary_button = QPushButton("View")
                 o_table.insert_widget(row=_row_index,

@@ -7,6 +7,7 @@ from asui import load_ui
 from asui import refresh_large_image
 
 from .initialization import Initialization
+from ..preview_file.preview_file_launcher import PreviewFileLauncher
 
 
 class Monitor(QMainWindow):
@@ -46,6 +47,9 @@ class Monitor(QMainWindow):
 
     def preview_log(self, state=0, row=-1, data_type='ob'):
         print(f"preview row:{row}")
+        preview_file = PreviewFileLauncher(parent=self,
+                                           file_name=None)
+        preview_file.show()
 
     def preview_err(self, state=0, row=-1, data_type='ob'):
         print(f"log row:{row}")
