@@ -7,9 +7,12 @@ from asui.utilities.table import TableHandler
 from asui.monitor.get import Get as GetMonitor
 
 from . import READY, IN_PROGRESS, IN_QUEUE, FAILED
+from . import DataStatus
 
 
 class Initialization:
+
+    first_in_queue_is_projections = True
 
     def __init__(self, parent=None, grand_parent=None):
         self.parent = parent
@@ -26,8 +29,8 @@ class Initialization:
             o_get_ob = GetOB(parent=self.grand_parent)
             list_ob = o_get_ob.list_ob_folders_selected()
             self.populate_table_with_existing_obs(list_ob=list_ob)
-
         else:
+            self.first_in_queue_is_projections = False
             self.populate_table_with_expected_obs(nbr_obs_expected=nbr_obs_expected)
 
         nbr_sample_expected = self.grand_parent.number_of_files_requested['sample']
@@ -55,12 +58,18 @@ class Initialization:
             o_table.insert_item(row=_row_index,
                                 column=0,
                                 value="N/A")
+            if _row_index == 0:
+                message = DataStatus.in_progress
+                color = IN_PROGRESS
+            else:
+                message = DataStatus.in_queue
+                color = IN_QUEUE
             o_table.insert_item(row=_row_index,
-                                column=3,
-                                value="Measuring")
+                                column=4,
+                                value=message)
             o_table.set_background_color(row=_row_index,
-                                         column=3,
-                                         qcolor=IN_PROGRESS)
+                                         column=4,
+                                         qcolor=color)
 
     def populate_table_with_existing_obs(self, list_ob=None):
         if list_ob is None:
@@ -125,7 +134,7 @@ class Initialization:
 
             o_table.insert_item(row=_row_index,
                                 column=4,
-                                value="Ready")
+                                value=DataStatus.ready)
             o_table.set_background_color(row=_row_index,
                                          column=4,
                                          qcolor=READY)
@@ -145,10 +154,21 @@ class Initialization:
 
         for _row_index in np.arange(nbr_projections_expected):
 
+            if _row_index == 0:
+                if self.first_in_queue_is_projections:
+                    message = DataStatus.in_progress
+                    color = IN_PROGRESS
+                else:
+                    message = DataStatus.in_queue
+                    color = IN_QUEUE
+            else:
+                message = DataStatus.in_queue
+                color = IN_QUEUE
+
             o_table.insert_empty_row(row=_row_index)
             o_table.insert_item(row=_row_index,
                                 column=0,
-                                value="In queue ...")
+                                value=message)
 
             log_button = QPushButton("View")
             log_button.setEnabled(False)
@@ -179,7 +199,7 @@ class Initialization:
 
             o_table.insert_item(row=_row_index,
                                 column=4,
-                                value="Ready")
+                                value=message)
             o_table.set_background_color(row=_row_index,
                                          column=4,
-                                         qcolor=IN_QUEUE)
+                                         qcolor=color)
