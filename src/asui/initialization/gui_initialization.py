@@ -48,6 +48,9 @@ class GuiInitialization:
         more_infos_icon = QIcon(more_infos)
         self.parent.ui.help_pushButton.setIcon(more_infos_icon)
 
+        # message telling that the projections title has been modified because it's already there
+        self.parent.ui.projections_title_message.setVisible(False)
+
     def statusbar(self):
         self.parent.eventProgress = QProgressBar(self.parent.ui.statusbar)
         self.parent.eventProgress.setMinimumSize(20, 14)

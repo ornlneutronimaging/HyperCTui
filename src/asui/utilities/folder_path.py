@@ -20,7 +20,7 @@ class FolderPath(Parent):
     mcp_raw = None
 
     def update(self):
-        
+
         homepath = self.parent.homepath
         self.root = homepath
         ipts = self.parent.session_dict[SessionKeys.ipts_selected]
@@ -38,7 +38,7 @@ class FolderPath(Parent):
         self.reduction_log()
         self.nexus()
         self.mcp()
-        self.mcp_raw()
+        self.create_mcp_raw()
 
     def shared(self):
         self.shared = os.sep.join([self.ipts_full_path, "shared"])
@@ -58,7 +58,7 @@ class FolderPath(Parent):
     def mcp(self):
         self.mcp = os.sep.join([self.autoreduce, "mcp"])
 
-    def mcp_raw(self):
-        self.mcp_raw = os.path.join([self.ipts_full_path,
-                                     'images',
-                                     'mcp'])
+    def create_mcp_raw(self):
+        self.mcp_raw = os.sep.join([self.ipts_full_path,
+                                    'images',
+                                    'mcp'])

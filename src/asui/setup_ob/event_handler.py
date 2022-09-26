@@ -14,29 +14,13 @@ from ..session import SessionKeys
 
 class EventHandler(Parent):
 
-    # def instrument_changed(self, instrument=None):
-    #     if instrument is None:
-    #         instrument = self.parent.ui.step1_instrument_comboBox.currentText()
-	#
-    #     o_get = Get(parent=self.parent)
-    #     list_ipts = o_get.list_of_ipts(instrument=instrument)
-    #     self.parent.ui.step1_ipts_comboBox.clear()
-    #     self.parent.ui.step1_ipts_comboBox.blockSignals(True)
-    #     self.parent.ui.step1_ipts_comboBox.addItems(list_ipts)
-    #     self.parent.session_dict['instrument'] = instrument
-    #     self.reset_ob_search_path()
-    #     self.step1_ipts_changed(ipts=list_ipts[0])
-    #     self.parent.ui.step1_ipts_comboBox.blockSignals(False)
-	#
-    # def set_new_instrument(self, instrument=None):
-    #     new_index = self.parent.ui.step1_instrument_comboBox.findText(instrument)
-    #     self.parent.ui.step1_instrument_comboBox.setCurrentIndex(new_index)
-    #     self.instrument_changed(instrument=instrument)
-
-    def run_title_changed(self, run_title=None):
-        run_title_listed = run_title.split(" ")
-        formatted_run_title = "_".join(run_title_listed)
-        self.parent.ui.run_title_formatted_label.setText(formatted_run_title)
+    # def run_title_changed(self, run_title=None):
+    #     run_title_listed = run_title.split(" ")
+    #     formatted_run_title = "_".join(run_title_listed)
+    #     print(f"formatted run title: {formatted_run_title}")
+    #     unused_formatted_run_title = self.produce_unused_formatted_run_title(formatted_run_title)
+    #     print(f"unused formatted run title: {unused_formatted_run_title}")
+    #     self.parent.ui.run_title_formatted_label.setText(unused_formatted_run_title)
 
     def check_status_of_start_acquisition_button(self):
         pass

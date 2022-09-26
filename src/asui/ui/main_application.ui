@@ -30,7 +30,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideRight</enum>
@@ -311,10 +311,27 @@
            <string>Recap.</string>
           </property>
           <layout class="QGridLayout" name="gridLayout">
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_2">
+           <item row="1" column="1">
+            <widget class="QLabel" name="projections_output_location_label">
              <property name="text">
-              <string>Run title used:</string>
+              <string>N/A</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>p charge (C):</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>Output  location:</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -334,27 +351,10 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_3">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_2">
              <property name="text">
-              <string>Output  location:</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QLabel" name="projections_output_location_label">
-             <property name="text">
-              <string>N/A</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_5">
-             <property name="text">
-              <string>p charge (C):</string>
+              <string>Run title used:</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -365,6 +365,56 @@
             <widget class="QLabel" name="projections_p_charge_label">
              <property name="text">
               <string>N/A</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLabel" name="projections_title_message">
+             <property name="minimumSize">
+              <size>
+               <width>200</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="palette">
+              <palette>
+               <active>
+                <colorrole role="WindowText">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>228</red>
+                   <green>180</green>
+                   <blue>19</blue>
+                  </color>
+                 </brush>
+                </colorrole>
+               </active>
+               <inactive>
+                <colorrole role="WindowText">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>228</red>
+                   <green>180</green>
+                   <blue>19</blue>
+                  </color>
+                 </brush>
+                </colorrole>
+               </inactive>
+               <disabled>
+                <colorrole role="WindowText">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>127</red>
+                   <green>127</green>
+                   <blue>127</blue>
+                  </color>
+                 </brush>
+                </colorrole>
+               </disabled>
+              </palette>
+             </property>
+             <property name="text">
+              <string>(file modified because original title has been used already!)</string>
              </property>
             </widget>
            </item>
@@ -688,7 +738,7 @@
    <slot>step1_browse_obs_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>682</x>
+     <x>1172</x>
      <y>114</y>
     </hint>
     <hint type="destinationlabel">
@@ -752,8 +802,8 @@
    <slot>menu_log_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>821</x>
-     <y>590</y>
+     <x>1195</x>
+     <y>842</y>
     </hint>
     <hint type="destinationlabel">
      <x>672</x>
@@ -784,8 +834,8 @@
    <slot>start_acquisition_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>354</x>
-     <y>577</y>
+     <x>369</x>
+     <y>843</y>
     </hint>
     <hint type="destinationlabel">
      <x>249</x>

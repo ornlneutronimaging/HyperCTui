@@ -9,8 +9,10 @@ from . import SessionKeys, DefaultValues
 from ..utilities.status_message_config import StatusMessageStatus, show_status_message
 from ..utilities.get import Get
 from ..utilities.table import TableHandler
+from ..utilities.folder_path import FolderPath
 from ..setup_ob.get import Get as Step1Get
 from ..setup_ob.event_handler import EventHandler as Step1EventHandler
+from ..setup_projections.event_handler import EventHandler as Step2EventHandler
 from ..setup_projections.get import Get as Step2Get
 from .. import TabNames, tab2_icon, tab3_icon, tab4_icon
 
@@ -47,8 +49,7 @@ class SessionHandler:
 
         # step projections
         o_get_step2 = Step2Get(parent=self.parent)
-        run_title = o_get_step2.run_title()
-        session_dict[SessionKeys.run_title] = run_title
+        session_dict[SessionKeys.run_title] = self.parent.ui.run_title_formatted_label.text()
 
         # monitor
         # need to save the list of folders in output directory
@@ -72,6 +73,9 @@ class SessionHandler:
         # setup ob
         ipts = session_dict[SessionKeys.ipts_selected]
         instrument = session_dict[SessionKeys.instrument]
+
+        self.parent.folder_path = FolderPath(parent=self.parent)
+        self.parent.folder_path.update()
 
         number_of_obs = session_dict.get(SessionKeys.number_of_obs, DefaultValues.number_of_obs)
         self.parent.ui.number_of_ob_spinBox.setValue(number_of_obs)
@@ -103,8 +107,12 @@ class SessionHandler:
 
         # step projections
         run_title = session_dict.get(SessionKeys.run_title, DefaultValues.run_title)
+        self.parent.ui.run_title_lineEdit.blockSignals(True)
         self.parent.ui.run_title_lineEdit.setText(run_title)
-        self.parent.run_title_changed(run_title=run_title)
+        self.parent.ui.run_title_lineEdit.blockSignals(False)
+        o_projections_event = Step2EventHandler(parent=self.parent)
+        o_projections_event.run_title_changed(run_title=run_title,
+                                              checking_if_file_exists=False)
         self.parent.ui.projections_p_charge_label.setText(str(proton_charge))
 
         show_status_message(parent=self.parent,
