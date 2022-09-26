@@ -50,6 +50,11 @@ class SessionHandler:
         run_title = o_get_step2.run_title()
         session_dict[SessionKeys.run_title] = run_title
 
+        # monitor
+        # need to save the list of folders in output directory
+        # name of each row in ob table
+        # name of each row in projections table
+
         # all tabs
         all_tabs_visible = self.parent.all_tabs_visible
         session_dict[SessionKeys.all_tabs_visible] = all_tabs_visible
