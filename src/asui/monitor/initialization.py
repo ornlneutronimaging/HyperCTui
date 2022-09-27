@@ -39,16 +39,16 @@ class Initialization:
             self.populate_table_with_existing_obs(list_ob=list_ob)
             self.checking_status_of_expected_obs()
 
-        # nbr_sample_expected = self.grand_parent.number_of_files_requested['sample']
-        # folder_path = self.grand_parent.folder_path
-        #
-        # self.populate_table_with_expected_projections(nbr_projections_expected=nbr_sample_expected)
-        #
-        # initial_list_of_reduction_log_files = \
-        #     Get.list_of_files(folder=folder_path.reduction_log,
-        #                       ext="*")
-        # self.parent.initial_list_of_reduction_log_files = \
-        #     initial_list_of_reduction_log_files
+        nbr_sample_expected = self.grand_parent.number_of_projections_spinBox.value()
+        folder_path = self.grand_parent.folder_path
+
+        self.populate_table_with_expected_projections(nbr_projections_expected=nbr_sample_expected)
+
+        initial_list_of_reduction_log_files = \
+            Get.list_of_files(folder=folder_path.reduction_log,
+                              ext="*")
+        self.parent.initial_list_of_reduction_log_files = \
+            initial_list_of_reduction_log_files
 
     def ui(self):
         table_columns = [540, 50, 50, 50, 45]
@@ -177,7 +177,7 @@ class Initialization:
             o_table.insert_empty_row(row=_row_index)
             o_table.insert_item(row=_row_index,
                                 column=0,
-                                value=message)
+                                value="N/A")
 
             log_button = QPushButton("View")
             log_button.setEnabled(False)
