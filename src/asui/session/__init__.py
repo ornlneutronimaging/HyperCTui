@@ -18,6 +18,9 @@ class SessionKeys:
 
 	# tabs
 	all_tabs_visible = "all tabs visible"
+	main_tab_selected = "main tab selected"
+	window_width = "window width"
+	window_height = "window height"
 
 
 class DefaultValues:
@@ -32,3 +35,7 @@ class DefaultValues:
 
 	# step projections
 	run_title = ""
+	main_tab_selected = 0
+
+	window_width = 800
+	window_height = 800

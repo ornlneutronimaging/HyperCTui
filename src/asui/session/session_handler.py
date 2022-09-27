@@ -4,6 +4,7 @@ import logging
 import os
 import numpy as np
 from qtpy.QtGui import QIcon
+from qtpy.QtCore import QRect
 
 from . import SessionKeys, DefaultValues
 from ..utilities.status_message_config import StatusMessageStatus, show_status_message
@@ -27,6 +28,13 @@ class SessionHandler:
     def save_from_ui(self):
         session_dict = self.parent.session_dict
         session_dict[SessionKeys.config_version] = self.parent.config[SessionKeys.config_version]
+
+        current_geometry = self.parent.ui.geometry()
+        width = current_geometry.width()
+        height = current_geometry.height()
+
+        session_dict[SessionKeys.window_width] = width
+        session_dict[SessionKeys.window_height] = height
 
         instrument = session_dict[SessionKeys.instrument]
         ipts_selected = session_dict[SessionKeys.ipts_selected]
@@ -60,7 +68,10 @@ class SessionHandler:
 
         # all tabs
         all_tabs_visible = self.parent.all_tabs_visible
+        main_tab_selected = self.parent.ui.tabWidget.currentIndex()
+
         session_dict[SessionKeys.all_tabs_visible] = all_tabs_visible
+        session_dict[SessionKeys.main_tab_selected] = main_tab_selected
 
         self.parent.session_dict = session_dict
 
@@ -71,6 +82,15 @@ class SessionHandler:
 
         session_dict = self.parent.session_dict
         self.parent.blockSignals(True)
+
+        # size of main application
+        width = session_dict.get(SessionKeys.window_width, DefaultValues.window_width)
+        height = session_dict.get(SessionKeys.window_height, DefaultValues.window_height)
+        current_geometry = self.parent.ui.geometry()
+        left = current_geometry.left()
+        top = current_geometry.top()
+        rect = QRect(left, top, width, height)
+        self.parent.ui.setGeometry(rect)
 
         # setup ob
         ipts = session_dict[SessionKeys.ipts_selected]
@@ -141,6 +161,9 @@ class SessionHandler:
         self.parent.set_window_title()
         o_event.check_status_of_start_acquisition_button()
         self.parent.run_title_changed(self.parent.ui.run_title_lineEdit.text())
+
+        main_tab_selected = session_dict.get(SessionKeys.main_tab_selected, DefaultValues.main_tab_selected)
+        self.parent.ui.tabWidget.setCurrentIndex(main_tab_selected)
 
     def _retrieve_general_settings(self):
         number_of_scanned_periods = self.parent.ui.number_of_scanned_periods_spinBox.value()

@@ -84,10 +84,10 @@ class EventHandler(Parent):
         top = current_geometry.top()
         width = current_geometry.width()
         height = current_geometry.height()
-        if not move_to_large_ui:
-            width = UiSizeSmall.width
-            height = UiSizeSmall.height
-        else:
+        # if not move_to_large_ui:
+        #     width = UiSizeSmall.width
+        #     height = UiSizeSmall.height
+        if move_to_large_ui:
             width = UiSizeLarge.width if width < UiSizeLarge.width else width
             height = UiSizeLarge.height if height < UiSizeLarge.height else height
 
