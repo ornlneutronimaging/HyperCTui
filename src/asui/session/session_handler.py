@@ -38,6 +38,7 @@ class SessionHandler:
         proton_charge = o_get_step1.proton_charge()
         top_obs_folder = o_get_step1.top_ob_folder()
         list_ob_folders_selected = o_get_step1.list_ob_folders_selected()
+        ob_tab_selected = o_get_step1.ob_tab_selected()
 
         session_dict[SessionKeys.instrument] = instrument
         session_dict[SessionKeys.ipts_selected] = ipts_selected
@@ -46,6 +47,7 @@ class SessionHandler:
         session_dict[SessionKeys.proton_charge] = proton_charge
         session_dict[SessionKeys.top_obs_folder] = top_obs_folder
         session_dict[SessionKeys.list_ob_folders_selected] = list_ob_folders_selected
+        session_dict[SessionKeys.ob_tab_selected] = ob_tab_selected
 
         # step projections
         o_get_step2 = Step2Get(parent=self.parent)
@@ -104,6 +106,9 @@ class SessionHandler:
                                                      column=0)
             if _folder in list_ob_folders_selected:
                 o_table.select_row(row=_row)
+
+        ob_tab_selected = session_dict.get(SessionKeys.ob_tab_selected, DefaultValues.ob_tab_selected)
+        self.parent.ui.ob_tabWidget.setCurrentIndex(ob_tab_selected)
 
         # step projections
         run_title = session_dict.get(SessionKeys.run_title, DefaultValues.run_title)

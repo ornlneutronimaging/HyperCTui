@@ -43,3 +43,6 @@ class Get(MasterGet):
                                                      column=0)
             list_folders.append(_folder)
         return list_folders
+
+    def ob_tab_selected(self):
+        return self.parent.ui.ob_tabWidget.currentIndex()
