@@ -31,6 +31,11 @@ class UiSizeLarge:
     height = 800
 
 
+class DataType:
+    projection = "projections"
+    ob = "ob"
+
+
 class TabNames:
     tab0 = " - Setup the open beams"
     tab1 = " - Setup the first projections"
