@@ -148,7 +148,7 @@ class Initialization:
                                          column=4,
                                          qcolor=READY)
 
-            dict_ob_log_err_metadata[_row_index] = {'ob': _ob,
+            dict_ob_log_err_metadata[_row_index] = {'file_name': _ob,
                                                     'log_file': log_file,
                                                     'err_file': err_file,
                                                     'metadata_file': metadata_file}
@@ -161,6 +161,7 @@ class Initialization:
 
         o_table = TableHandler(table_ui=self.parent.ui.projections_tableWidget)
 
+        dict_projections_log_err_metadata = {}
         for _row_index in np.arange(nbr_projections_expected):
 
             if _row_index == 0:
@@ -212,3 +213,9 @@ class Initialization:
             o_table.set_background_color(row=_row_index,
                                          column=4,
                                          qcolor=color)
+
+            dict_projections_log_err_metadata[_row_index] = {'file_name': "",
+                                                             'log_file': "",
+                                                             'err_file': "",
+                                                             'metadata_file': ""}
+        self.parent.dict_projections_log_err_metadata = dict_projections_log_err_metadata

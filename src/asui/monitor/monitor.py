@@ -18,7 +18,7 @@ class Monitor(QMainWindow):
     initial_list_of_reduction_log_files = []
 
     # dictionary that looks like
-    # {0: { 'ob': '<full path to ob>',
+    # {0: { 'file_name': '<full path to ob>',
     #       'log_file': '<full path to log file>',
     #       'err_file': '<full path to err file>',
     #       'metadata_file': <full path to metadata file>',
@@ -27,6 +27,9 @@ class Monitor(QMainWindow):
     #  ...
     # }
     dict_ob_log_err_metadata = None
+    dict_projections_log_err_metadata = None
+
+    all_obs_found = False
 
     def __init__(self, parent=None):
         super(Monitor, self).__init__(parent)
@@ -72,6 +75,8 @@ class Monitor(QMainWindow):
         o_event = MonitorEventHandler(parent=self,
                                       grand_parent=self.parent)
         o_event.checking_status_of_expected_obs()
+        if self.all_obs_found:
+            o_event.checking_status_of_expected_projections()
 
     def closeEvent(self, c):
         self.parent.monitor_ui = None
