@@ -23,26 +23,32 @@ class Initialization:
                this is where we need to figure out the list of NeXus files already listed
                and how many we are expecting
                """
-        nbr_obs_expected = self.grand_parent.number_of_files_requested['ob']
-        if not nbr_obs_expected:
+
+        if self.grand_parent.ui.ob_tabWidget.currentIndex() == 0:
+            # we want to take new obs
+            nbr_obs_expected = self.grand_parent.ui.number_of_ob_spinBox.value()
+            self.first_in_queue_is_projections = False
+            self.populate_table_with_expected_obs(nbr_obs_expected=nbr_obs_expected)
+        else:
+            # we will use the one we selected
             # retrieve list of ob selected
             o_get_ob = GetOB(parent=self.grand_parent)
             list_ob = o_get_ob.list_ob_folders_selected()
             self.populate_table_with_existing_obs(list_ob=list_ob)
-        else:
-            self.first_in_queue_is_projections = False
-            self.populate_table_with_expected_obs(nbr_obs_expected=nbr_obs_expected)
 
-        nbr_sample_expected = self.grand_parent.number_of_files_requested['sample']
-        folder_path = self.grand_parent.folder_path
 
-        self.populate_table_with_expected_projections(nbr_projections_expected=nbr_sample_expected)
 
-        initial_list_of_reduction_log_files = \
-            Get.list_of_files(folder=folder_path.reduction_log,
-                              ext="*")
-        self.parent.initial_list_of_reduction_log_files = \
-            initial_list_of_reduction_log_files
+
+        # nbr_sample_expected = self.grand_parent.number_of_files_requested['sample']
+        # folder_path = self.grand_parent.folder_path
+        #
+        # self.populate_table_with_expected_projections(nbr_projections_expected=nbr_sample_expected)
+        #
+        # initial_list_of_reduction_log_files = \
+        #     Get.list_of_files(folder=folder_path.reduction_log,
+        #                       ext="*")
+        # self.parent.initial_list_of_reduction_log_files = \
+        #     initial_list_of_reduction_log_files
 
     def ui(self):
         table_columns = [540, 50, 50, 50, 45]

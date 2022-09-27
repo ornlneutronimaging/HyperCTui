@@ -202,8 +202,10 @@ class ASUI(QMainWindow):
 
         if (ipts is None) or (ipts == ""):
             output_location = "N/A"
+            ob_output_location = "N/A"
         elif title == "":
             output_location = "N/A"
+            ob_output_location = "N/A"
         else:
             output_location = os.sep.join([self.homepath,
                                            instrument,
@@ -212,7 +214,16 @@ class ASUI(QMainWindow):
                                            "autoreduce",
                                            "mcp",
                                            title])
+            ob_output_location = os.sep.join([self.homepath,
+                                           instrument,
+                                           ipts,
+                                           "shared",
+                                           "autoreduce",
+                                           "mcp",
+                                           f"ob_{title}"])
+
         self.ui.projections_output_location_label.setText(output_location)
+        self.ui.obs_output_location_label.setText(ob_output_location)
 
 
 def main(args):
