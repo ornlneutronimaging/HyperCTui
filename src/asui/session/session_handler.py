@@ -139,6 +139,8 @@ class SessionHandler:
 
         self.parent.blockSignals(False)
         self.parent.set_window_title()
+        o_event.check_status_of_start_acquisition_button()
+        self.parent.run_title_changed(self.parent.ui.run_title_lineEdit.text())
 
     def _retrieve_general_settings(self):
         number_of_scanned_periods = self.parent.ui.number_of_scanned_periods_spinBox.value()
