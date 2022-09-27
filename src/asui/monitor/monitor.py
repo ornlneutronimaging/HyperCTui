@@ -7,6 +7,7 @@ from asui import load_ui
 from asui import refresh_large_image
 
 from .initialization import Initialization
+from .event_handler import EventHandler as MonitorEventHandler
 from ..preview_file.preview_file_launcher import PreviewFileLauncher, PreviewMetadataFileLauncher
 
 
@@ -64,8 +65,9 @@ class Monitor(QMainWindow):
         preview_file.show()
 
     def refresh_button_clicked(self):
-        logging.info("Checking for new data reduced files!")
-        print("refresh clicked")
+        o_event = MonitorEventHandler(parent=self,
+                                      grand_parent=self.parent)
+        o_event.checking_status_of_expected_obs()
 
     def closeEvent(self, c):
         self.parent.monitor_ui = None

@@ -83,13 +83,12 @@ def make_folder(folder_name):
 
 
 def list_dirs(rootdir):
+    """retrieve recursively the list of all folders within rootdir"""
     return [os.path.abspath(x[0]) for x in os.walk(rootdir)]
 
 
 def list_ob_dirs(rootdir):
-    """
-    a folder is considered as a OB dir if we can find a _Spectra.txt file in it
-    """
+    """a folder is considered as a OB dir if we can find a _Spectra.txt file in it"""
     _list_dirs = list_dirs(rootdir)
     list_ob_dirs = []
     for _dir in _list_dirs:

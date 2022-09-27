@@ -31,6 +31,9 @@ class TableHandler:
             selection_range = QtGui.QTableWidgetSelectionRange(_row, 0, _row, nbr_column - 1)
             self.table_ui.setRangeSelected(selection_range, True)
 
+    def remove_row(self, row=0):
+        self.table_ui.removeRow(row)
+
     def remove_all_rows(self):
         nbr_row = self.table_ui.rowCount()
         for _ in np.arange(nbr_row):
