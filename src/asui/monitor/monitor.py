@@ -46,6 +46,10 @@ class Monitor(QMainWindow):
         o_init.data()
         o_init.ui()
 
+        o_event = MonitorEventHandler(parent=self,
+                                      grand_parent=self.parent)
+        o_event.checking_status_of_expected_obs()
+
     def preview_log(self, state=0, row=-1, data_type='ob'):
         log_file = self.dict_ob_log_err_metadata[row]['log_file']
         preview_file = PreviewFileLauncher(parent=self,
