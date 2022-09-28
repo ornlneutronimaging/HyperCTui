@@ -129,6 +129,7 @@ class ASUI(QMainWindow):
             o_monitor = Monitor(parent=self)
             o_monitor.show()
             self.monitor_ui = o_monitor
+        self.ui.checking_status_acquisition_pushButton.setEnabled(False)
 
     # main tab
     def main_tab_changed(self, new_tab_index):
@@ -172,13 +173,17 @@ class ASUI(QMainWindow):
         o_event.check_start_acquisition_button()
 
     def start_acquisition_clicked(self):
-        self.ui.tabWidget.insertTab(2, self.tab2, QIcon(tab2_icon), TabNames.tab2)
-        self.ui.tabWidget.insertTab(3, self.tab3, QIcon(tab3_icon), TabNames.tab3)
-        self.ui.tabWidget.insertTab(4, self.tab4, QIcon(tab4_icon), TabNames.tab4)
-        self.all_tabs_visible = True
+        # self.ui.tabWidget.insertTab(2, self.tab2, QIcon(tab2_icon), TabNames.tab2)
+        # self.ui.tabWidget.insertTab(3, self.tab3, QIcon(tab3_icon), TabNames.tab3)
+        # self.ui.tabWidget.insertTab(4, self.tab4, QIcon(tab4_icon), TabNames.tab4)
+        # self.all_tabs_visible = True
         o_event = EventHandler(parent=self)
         o_event.start_acquisition()
         o_event.freeze_number_ob_sample_requested()
+        self.launch_monitor_view()
+        self.ui.start_acquisition_pushButton.setEnabled(False)
+
+    def checking_status_acquisition_button_clicked(self):
         self.launch_monitor_view()
 
     # leaving ui

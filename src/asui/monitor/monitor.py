@@ -78,4 +78,5 @@ class Monitor(QMainWindow):
 
     def closeEvent(self, c):
         self.parent.monitor_ui = None
+        self.parent.ui.checking_status_acquisition_pushButton.setEnabled(True)
         self.close()

@@ -22,6 +22,7 @@ class GuiInitialization:
         self.widgets()
         self.tables()
         self.tabs()
+        self.pyqtgraph()
 
     def tabs(self):
         self.parent.ui.tabWidget.setTabText(0, TabNames.tab0)
@@ -50,6 +51,7 @@ class GuiInitialization:
 
         # message telling that the projections title has been modified because it's already there
         self.parent.ui.projections_title_message.setVisible(False)
+        self.parent.ui.top_crop_widget.setEnabled(False)
 
     def statusbar(self):
         self.parent.eventProgress = QProgressBar(self.parent.ui.statusbar)
@@ -57,3 +59,11 @@ class GuiInitialization:
         self.parent.eventProgress.setMaximumSize(540, 100)
         self.parent.eventProgress.setVisible(False)
         self.parent.ui.statusbar.addPermanentWidget(self.parent.eventProgress)
+
+    def pyqtgraph(self):
+        self.parent.ui.crop_image_view = pg.ImageView(view=pg.PlotItem())
+        self.parent.ui.crop_image_view.ui.roiBtn.hide()
+        self.parent.ui.crop_image_view.ui.menuBtn.hide()
+        image_layout = QVBoxLayout()
+        image_layout.addWidget(self.parent.ui.crop_image_view)
+        self.parent.ui.crop_widget.setLayout(image_layout)

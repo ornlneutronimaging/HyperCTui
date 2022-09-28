@@ -30,7 +30,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>1</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideRight</enum>
@@ -482,6 +482,28 @@
             </property>
            </widget>
           </item>
+          <item>
+           <widget class="QPushButton" name="checking_status_acquisition_pushButton">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>300</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>300</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Checking Status of Current Acquisition</string>
+            </property>
+           </widget>
+          </item>
          </layout>
         </item>
        </layout>
@@ -490,48 +512,26 @@
        <attribute name="title">
         <string>Crop</string>
        </attribute>
-       <layout class="QVBoxLayout" name="verticalLayout_12">
+       <layout class="QVBoxLayout" name="verticalLayout_13">
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_8">
-          <item>
-           <widget class="QWidget" name="widget" native="true">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_4">
-            <item>
-             <spacer name="verticalSpacer_2">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <widget class="QGroupBox" name="groupBox_2">
-              <property name="maximumSize">
-               <size>
-                <width>300</width>
-                <height>300</height>
-               </size>
-              </property>
-              <property name="title">
-               <string>Cropping box</string>
-              </property>
+         <widget class="QWidget" name="top_crop_widget" native="true">
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_8">
+             <item>
+              <widget class="QWidget" name="crop_widget" native="true">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+              </widget>
+             </item>
+             <item>
               <layout class="QVBoxLayout" name="verticalLayout_5">
                <item>
-                <spacer name="verticalSpacer_7">
+                <spacer name="verticalSpacer_2">
                  <property name="orientation">
                   <enum>Qt::Vertical</enum>
                  </property>
@@ -544,239 +544,280 @@
                 </spacer>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_5">
-                 <item>
-                  <spacer name="horizontalSpacer_2">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_6">
-                   <item>
-                    <widget class="QLabel" name="label_8">
-                     <property name="text">
-                      <string>Left:</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="spinBox_3"/>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_3">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
+                <widget class="QGroupBox" name="groupBox_2">
+                 <property name="maximumSize">
+                  <size>
+                   <width>300</width>
+                   <height>300</height>
+                  </size>
+                 </property>
+                 <property name="title">
+                  <string>Cropping box</string>
+                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_6">
+                  <item>
+                   <spacer name="verticalSpacer_7">
+                    <property name="orientation">
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>20</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_5">
+                    <item>
+                     <spacer name="horizontalSpacer_2">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item>
+                     <layout class="QVBoxLayout" name="verticalLayout_7">
+                      <item>
+                       <widget class="QLabel" name="label_8">
+                        <property name="text">
+                         <string>Left:</string>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QSpinBox" name="spinBox_3"/>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <spacer name="horizontalSpacer_3">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_6">
+                    <item>
+                     <spacer name="horizontalSpacer_4">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item>
+                     <layout class="QVBoxLayout" name="verticalLayout_8">
+                      <item>
+                       <spacer name="verticalSpacer_3">
+                        <property name="orientation">
+                         <enum>Qt::Vertical</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>20</width>
+                          <height>40</height>
+                         </size>
+                        </property>
+                       </spacer>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="label_9">
+                        <property name="text">
+                         <string>Left:</string>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QSpinBox" name="spinBox"/>
+                      </item>
+                      <item>
+                       <spacer name="verticalSpacer_5">
+                        <property name="orientation">
+                         <enum>Qt::Vertical</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>20</width>
+                          <height>40</height>
+                         </size>
+                        </property>
+                       </spacer>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <widget class="QFrame" name="frame">
+                      <property name="minimumSize">
+                       <size>
+                        <width>100</width>
+                        <height>100</height>
+                       </size>
+                      </property>
+                      <property name="maximumSize">
+                       <size>
+                        <width>100</width>
+                        <height>100</height>
+                       </size>
+                      </property>
+                      <property name="frameShape">
+                       <enum>QFrame::StyledPanel</enum>
+                      </property>
+                      <property name="frameShadow">
+                       <enum>QFrame::Raised</enum>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <layout class="QVBoxLayout" name="verticalLayout_9">
+                      <item>
+                       <spacer name="verticalSpacer_6">
+                        <property name="orientation">
+                         <enum>Qt::Vertical</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>20</width>
+                          <height>40</height>
+                         </size>
+                        </property>
+                       </spacer>
+                      </item>
+                      <item>
+                       <widget class="QLabel" name="label_10">
+                        <property name="text">
+                         <string>Right:</string>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QSpinBox" name="spinBox_2"/>
+                      </item>
+                      <item>
+                       <spacer name="verticalSpacer_8">
+                        <property name="orientation">
+                         <enum>Qt::Vertical</enum>
+                        </property>
+                        <property name="sizeHint" stdset="0">
+                         <size>
+                          <width>20</width>
+                          <height>40</height>
+                         </size>
+                        </property>
+                       </spacer>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <spacer name="horizontalSpacer_7">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_7">
+                    <item>
+                     <spacer name="horizontalSpacer_8">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item>
+                     <layout class="QVBoxLayout" name="verticalLayout_12">
+                      <item>
+                       <widget class="QLabel" name="label_11">
+                        <property name="text">
+                         <string>Left:</string>
+                        </property>
+                        <property name="alignment">
+                         <set>Qt::AlignCenter</set>
+                        </property>
+                       </widget>
+                      </item>
+                      <item>
+                       <widget class="QSpinBox" name="spinBox_4"/>
+                      </item>
+                     </layout>
+                    </item>
+                    <item>
+                     <spacer name="horizontalSpacer_9">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <spacer name="verticalSpacer_9">
+                    <property name="orientation">
+                     <enum>Qt::Vertical</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>20</width>
+                      <height>40</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </widget>
                </item>
                <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_6">
-                 <item>
-                  <spacer name="horizontalSpacer_4">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_7">
-                   <item>
-                    <spacer name="verticalSpacer_3">
-                     <property name="orientation">
-                      <enum>Qt::Vertical</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>20</width>
-                       <height>40</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_9">
-                     <property name="text">
-                      <string>Left:</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="spinBox"/>
-                   </item>
-                   <item>
-                    <spacer name="verticalSpacer_5">
-                     <property name="orientation">
-                      <enum>Qt::Vertical</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>20</width>
-                       <height>40</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <widget class="QFrame" name="frame">
-                   <property name="minimumSize">
-                    <size>
-                     <width>100</width>
-                     <height>100</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>100</width>
-                     <height>100</height>
-                    </size>
-                   </property>
-                   <property name="frameShape">
-                    <enum>QFrame::StyledPanel</enum>
-                   </property>
-                   <property name="frameShadow">
-                    <enum>QFrame::Raised</enum>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_8">
-                   <item>
-                    <spacer name="verticalSpacer_6">
-                     <property name="orientation">
-                      <enum>Qt::Vertical</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>20</width>
-                       <height>40</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_10">
-                     <property name="text">
-                      <string>Right:</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="spinBox_2"/>
-                   </item>
-                   <item>
-                    <spacer name="verticalSpacer_8">
-                     <property name="orientation">
-                      <enum>Qt::Vertical</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>20</width>
-                       <height>40</height>
-                      </size>
-                     </property>
-                    </spacer>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_7">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_7">
-                 <item>
-                  <spacer name="horizontalSpacer_8">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <layout class="QVBoxLayout" name="verticalLayout_9">
-                   <item>
-                    <widget class="QLabel" name="label_11">
-                     <property name="text">
-                      <string>Left:</string>
-                     </property>
-                     <property name="alignment">
-                      <set>Qt::AlignCenter</set>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="spinBox_4"/>
-                   </item>
-                  </layout>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_9">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <spacer name="verticalSpacer_9">
+                <spacer name="verticalSpacer_10">
                  <property name="orientation">
                   <enum>Qt::Vertical</enum>
                  </property>
@@ -789,42 +830,29 @@
                 </spacer>
                </item>
               </layout>
-             </widget>
-            </item>
-            <item>
-             <spacer name="verticalSpacer_10">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
-          <item>
-           <widget class="QLabel" name="label_6">
-            <property name="text">
-             <string>File Index:</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSlider" name="horizontalSlider">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-         </layout>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <widget class="QLabel" name="label_6">
+               <property name="text">
+                <string>File Index:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSlider" name="horizontalSlider">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -1092,8 +1120,8 @@
    <slot>step1_browse_obs_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1172</x>
-     <y>114</y>
+     <x>140</x>
+     <y>82</y>
     </hint>
     <hint type="destinationlabel">
      <x>740</x>
@@ -1108,8 +1136,8 @@
    <slot>list_obs_selection_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>470</x>
-     <y>337</y>
+     <x>140</x>
+     <y>88</y>
     </hint>
     <hint type="destinationlabel">
      <x>740</x>
@@ -1156,8 +1184,8 @@
    <slot>menu_log_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1195</x>
-     <y>842</y>
+     <x>886</x>
+     <y>961</y>
     </hint>
     <hint type="destinationlabel">
      <x>672</x>
@@ -1188,8 +1216,8 @@
    <slot>start_acquisition_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>369</x>
-     <y>843</y>
+     <x>384</x>
+     <y>962</y>
     </hint>
     <hint type="destinationlabel">
      <x>249</x>
@@ -1261,6 +1289,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>checking_status_acquisition_pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>checking_status_acquisition_button_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1032</x>
+     <y>948</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1070</x>
+     <y>995</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>step1_instrument_changed()</slot>
@@ -1279,5 +1323,6 @@
   <slot>number_of_obs_changed()</slot>
   <slot>main_tab_changed()</slot>
   <slot>launch_monitor_view()</slot>
+  <slot>checking_status_acquisition_button_clicked()</slot>
  </slots>
 </ui>

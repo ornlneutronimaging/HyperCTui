@@ -5,8 +5,7 @@ from asui.setup_ob.get import Get as GetOB
 from asui.utilities.get import Get
 from asui.utilities.table import TableHandler
 from asui.monitor.get import Get as GetMonitor
-from asui.utilities.file_utilities import list_ob_dirs
-from asui.utilities.status_message_config import show_status_message, StatusMessageStatus
+from asui.monitor.event_handler import EventHandler
 
 from . import READY, IN_PROGRESS, IN_QUEUE, FAILED
 from . import DataStatus
@@ -37,7 +36,9 @@ class Initialization:
             o_get_ob = GetOB(parent=self.grand_parent)
             list_ob = o_get_ob.list_ob_folders_selected()
             self.populate_table_with_existing_obs(list_ob=list_ob)
-            self.checking_status_of_expected_obs()
+            o_event = EventHandler(parent=self.parent,
+                                   grand_parent=self.grand_parent)
+            o_event.checking_status_of_expected_obs()
 
         nbr_sample_expected = self.grand_parent.number_of_projections_spinBox.value()
         folder_path = self.grand_parent.folder_path

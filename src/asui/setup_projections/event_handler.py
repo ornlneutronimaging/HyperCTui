@@ -1,4 +1,5 @@
 import os
+import logging
 
 from ..parent import Parent
 
@@ -6,6 +7,11 @@ from ..parent import Parent
 class EventHandler(Parent):
 
 	def run_title_changed(self, run_title=None, checking_if_file_exists=True):
+		if run_title == "":
+			self.parent.ui.projections_title_message.setVisible(True)
+			logging.info(f"Please provide an not empty title string!")
+			return
+
 		run_title_listed = run_title.split(" ")
 		formatted_run_title = "_".join(run_title_listed)
 
