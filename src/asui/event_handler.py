@@ -20,7 +20,10 @@ class EventHandler(Parent):
         logging.info("Full reset of application!")
 
     def check_start_acquisition_button(self):
-        button_ready_to_be_used = self._is_start_acquisition_ready_to_be_used()
+        if not self.parent.ui.run_title_groupBox.isEnabled():
+            button_ready_to_be_used = False
+        else:
+            button_ready_to_be_used = self._is_start_acquisition_ready_to_be_used()
         self.parent.ui.start_acquisition_pushButton.setEnabled(button_ready_to_be_used)
         self.parent.ui.help_pushButton.setVisible(not button_ready_to_be_used)
         self.set_start_acquisition_text()

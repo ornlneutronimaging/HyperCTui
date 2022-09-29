@@ -71,4 +71,5 @@ class NewSession(QDialog):
         o_ob_event = ObEventHandler(parent=self.parent)
         o_ob_event.update_list_of_obs()
 
+        self.parent.session_dict[SessionKeys.process_in_progress] = False
         self.close()

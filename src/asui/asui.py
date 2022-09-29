@@ -121,15 +121,16 @@ class ASUI(QMainWindow):
         o_event.full_reset_clicked()
 
     def launch_monitor_view(self):
-        if self.monitor_ui:
-            self.monitor_ui.showMinimized()
-            self.monitor_ui.showNormal()
+        if self.session_dict[SessionKeys.process_in_progress]:
+            if self.monitor_ui:
+                self.monitor_ui.showMinimized()
+                self.monitor_ui.showNormal()
 
-        else:
-            o_monitor = Monitor(parent=self)
-            o_monitor.show()
-            self.monitor_ui = o_monitor
-        self.ui.checking_status_acquisition_pushButton.setEnabled(False)
+            else:
+                o_monitor = Monitor(parent=self)
+                o_monitor.show()
+                self.monitor_ui = o_monitor
+            self.ui.checking_status_acquisition_pushButton.setEnabled(False)
 
     # main tab
     def main_tab_changed(self, new_tab_index):
@@ -162,6 +163,10 @@ class ASUI(QMainWindow):
 
     # step - setup projections
     def run_title_changed(self, run_title):
+        if run_title == "":
+            self.ui.run_title_groupBox.setEnabled(False)
+        else:
+            self.ui.run_title_groupBox.setEnabled(True)
         o_event = Step2EventHandler(parent=self)
         o_event.run_title_changed(run_title=run_title, checking_if_file_exists=True)
         self.inform_of_output_location()
@@ -173,10 +178,7 @@ class ASUI(QMainWindow):
         o_event.check_start_acquisition_button()
 
     def start_acquisition_clicked(self):
-        # self.ui.tabWidget.insertTab(2, self.tab2, QIcon(tab2_icon), TabNames.tab2)
-        # self.ui.tabWidget.insertTab(3, self.tab3, QIcon(tab3_icon), TabNames.tab3)
-        # self.ui.tabWidget.insertTab(4, self.tab4, QIcon(tab4_icon), TabNames.tab4)
-        # self.all_tabs_visible = True
+        self.session_dict[SessionKeys.process_in_progress] = True
         o_event = EventHandler(parent=self)
         o_event.start_acquisition()
         o_event.freeze_number_ob_sample_requested()
