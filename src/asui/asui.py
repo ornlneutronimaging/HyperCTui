@@ -163,7 +163,7 @@ class ASUI(QMainWindow):
     # step - setup projections
     def run_title_changed(self, run_title):
         o_event = Step2EventHandler(parent=self)
-        o_event.run_title_changed(run_title=run_title)
+        o_event.run_title_changed(run_title=run_title, checking_if_file_exists=True)
         self.inform_of_output_location()
         o_event = EventHandler(parent=self)
         o_event.check_start_acquisition_button()
@@ -227,8 +227,8 @@ class ASUI(QMainWindow):
                                            "mcp",
                                            f"ob_{title}"])
 
-        self.ui.projections_output_location_label.setText(output_location)
-        self.ui.obs_output_location_label.setText(ob_output_location)
+        self.ui.projections_output_location_label.setText(os.path.abspath(output_location))
+        self.ui.obs_output_location_label.setText(os.path.abspath(ob_output_location))
 
 
 def main(args):
