@@ -99,10 +99,14 @@ def list_tof_dirs(rootdir):
 
 
 def list_ob_dirs(rootdir):
-    """a folder is considered as a OB dir if we can find a _Spectra.txt file in it"""
-    return list_tof_dirs(rootdir)
-
-
+    """a folder is considered as a OB dir if we can find a _Spectra.txt file in it,
+    and it starts by ob_ """
+    list_tof_folders = list_tof_dirs(rootdir)
+    list_ob_dirs = []
+    for _folder in list_tof_folders:
+        if os.path.basename(os.path.dirname(_folder)).startswith("ob_"):
+            list_ob_dirs.append(_folder)
+    return list_ob_dirs
 
 
 def read_json(file_name):
