@@ -357,7 +357,7 @@
               </palette>
              </property>
              <property name="text">
-              <string>(file modified because original title has been used already!)</string>
+              <string>(file modified because original title has already been used!)</string>
              </property>
             </widget>
            </item>

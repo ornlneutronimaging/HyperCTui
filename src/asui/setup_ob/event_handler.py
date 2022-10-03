@@ -22,9 +22,6 @@ class EventHandler(Parent):
     #     print(f"unused formatted run title: {unused_formatted_run_title}")
     #     self.parent.ui.run_title_formatted_label.setText(unused_formatted_run_title)
 
-    def check_status_of_start_acquisition_button(self):
-        pass
-
     def start_acquisition(self):
         logging.info(f"Step1: start acquisition button clicked:")
 

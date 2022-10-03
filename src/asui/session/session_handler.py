@@ -14,6 +14,7 @@ from ..utilities.folder_path import FolderPath
 from ..setup_ob.get import Get as Step1Get
 from ..setup_ob.event_handler import EventHandler as Step1EventHandler
 from ..setup_projections.event_handler import EventHandler as Step2EventHandler
+from ..event_handler import EventHandler as MainEventHandler
 from ..setup_projections.get import Get as Step2Get
 from .. import TabNames, tab2_icon, tab3_icon, tab4_icon
 
@@ -115,8 +116,8 @@ class SessionHandler:
                                    "autoreduce"]
             top_obs_folder = os.sep.join(list_top_obs_folder)
         self.parent.ui.existing_ob_top_path.setText(top_obs_folder)
-        o_event = Step1EventHandler(parent=self.parent)
-        o_event.update_list_of_obs()
+        o_ob_event = Step1EventHandler(parent=self.parent)
+        o_ob_event.update_list_of_obs()
 
         list_ob_folders_selected = session_dict.get(SessionKeys.list_ob_folders_selected, None)
         o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
@@ -159,8 +160,11 @@ class SessionHandler:
 
         self.parent.blockSignals(False)
         self.parent.set_window_title()
-        o_event.check_status_of_start_acquisition_button()
-        self.parent.run_title_changed(self.parent.ui.run_title_lineEdit.text())
+        o_projections_event.run_title_changed(run_title=self.parent.ui.run_title_lineEdit.text(),
+                                              checking_if_file_exists=False)
+
+        o_main_event = MainEventHandler(parent=self.parent)
+        o_main_event.check_start_acquisition_button()
 
         main_tab_selected = session_dict.get(SessionKeys.main_tab_selected, DefaultValues.main_tab_selected)
         self.parent.ui.tabWidget.setCurrentIndex(main_tab_selected)
