@@ -11,9 +11,13 @@ class SessionKeys:
     top_obs_folder = "top ob folder"
     list_ob_folders_selected = "list ob folders selected"
     ob_tab_selected = "ob tab selected"
+    list_ob_folders_initially_there = "list of ob folders initially there"
+    name_of_output_ob_folder = "name of the output OB folder"
 
     # step projections
     run_title = 'run title'
+    list_projections_folders_initially_there = "list projections folders initially there"
+    name_of_output_projection_folder = "name of the output projection folder"
 
     # tabs
     all_tabs_visible = "all tabs visible"

@@ -5,6 +5,7 @@ from .parent import Parent
 from .initialization.gui_initialization import GuiInitialization
 from .setup_ob.get import Get as Step1Get
 from .session.new_session import NewSession
+from .session import SessionKeys
 from . import UiSizeLarge, UiSizeSmall
 
 
@@ -105,6 +106,9 @@ class EventHandler(Parent):
         pass
 
     def freeze_number_ob_sample_requested(self):
+        """
+        this freeze the number of OB and sample measured and record the initial list of OBs and sample folders
+        """
         if self.parent.ui.ob_tabWidget.currentIndex() == 0:
             number_of_obs = self.parent.ui.number_of_ob_spinBox.value()
         else:
@@ -114,6 +118,20 @@ class EventHandler(Parent):
 
         self.parent.number_of_files_requested['ob'] = number_of_obs
         self.parent.number_of_files_requested['sample'] = number_of_sample
+
+        name_of_output_projection_folder = self.parent.ui.projections_output_location_label.text()
+        self.parent.session_dict[SessionKeys.name_of_output_projection_folder] = name_of_output_projection_folder
+        name_of_output_ob_folder = self.parent.ui.obs_output_location_label.text()
+        self.parent.session_dict[SessionKeys.name_of_output_ob_folder] = name_of_output_ob_folder
+
+        o_get = Step1Get(parent=self.parent)
+        list_ob_folders = o_get.list_ob_folders_in_output_directory(output_folder=name_of_output_ob_folder)
+        list_sample_folders = o_get.list_sample_folders_in_output_directory(output_folder=
+                                                                            name_of_output_projection_folder)
+        self.parent.session_dict[SessionKeys.list_ob_folders_initially_there] = list_ob_folders
+        self.parent.session_dict[SessionKeys.list_projections_folders_initially_there] = list_sample_folders
+
+
 
     def save_path(self):
         pass

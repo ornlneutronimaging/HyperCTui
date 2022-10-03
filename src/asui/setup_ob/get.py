@@ -31,7 +31,31 @@ class Get(MasterGet):
     def top_ob_folder(self):
         return str(self.parent.ui.existing_ob_top_path.text())
 
-    def list_ob_folders_selected(self):
+    def list_folders_in_output_directory(self, output_folder=None):
+        list_raw = glob.glob(output_folder + os.sep + "*")
+        list_folders = []
+        for _entry in list_raw:
+            if os.path.isdir(_entry):
+                list_folders.append(_entry)
+        return list_folders
+
+    def list_ob_folders_in_output_directory(self, output_folder=None):
+        list_folders = self.list_folders_in_output_directory(output_folder=output_folder)
+        list_ob_folders = []
+        for _folder in list_folders:
+            if os.path.basename(_folder).startswith("ob_"):
+                list_ob_folders.append(_folder)
+        return list_ob_folders
+
+    def list_sample_folders_in_output_directory(self, output_folder=None):
+        list_folders = self.list_folders_in_output_directory(output_folder=output_folder)
+        list_sample_folders = []
+        for _folder in list_folders:
+            if not (os.path.basename(_folder).startswith("ob_")):
+                list_sample_folders.append(_folder)
+        return list_sample_folders
+
+    def list_ob_folders_selected(self, output_folder=None):
         o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
         list_row_selected = o_table.get_rows_of_table_selected()
         if not list_row_selected:
