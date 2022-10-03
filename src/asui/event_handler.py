@@ -131,7 +131,5 @@ class EventHandler(Parent):
         self.parent.session_dict[SessionKeys.list_ob_folders_initially_there] = list_ob_folders
         self.parent.session_dict[SessionKeys.list_projections_folders_initially_there] = list_sample_folders
 
-
-
     def save_path(self):
         pass

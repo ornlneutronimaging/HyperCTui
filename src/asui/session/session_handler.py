@@ -17,6 +17,7 @@ from ..setup_projections.event_handler import EventHandler as Step2EventHandler
 from ..event_handler import EventHandler as MainEventHandler
 from ..setup_projections.get import Get as Step2Get
 from .. import TabNames, tab2_icon, tab3_icon, tab4_icon
+from ..utilities.widgets import Widgets as UtilityWidgets
 
 
 class SessionHandler:
@@ -136,9 +137,11 @@ class SessionHandler:
         self.parent.ui.run_title_lineEdit.blockSignals(True)
         self.parent.ui.run_title_lineEdit.setText(run_title)
         self.parent.ui.run_title_lineEdit.blockSignals(False)
-        o_projections_event = Step2EventHandler(parent=self.parent)
-        o_projections_event.run_title_changed(run_title=run_title,
-                                              checking_if_file_exists=False)
+        name_of_output_projection_folder = session_dict[SessionKeys.name_of_output_projection_folder]
+        self.parent.ui.projections_output_location_label.setText(name_of_output_projection_folder)
+        name_of_output_ob_folder = session_dict[SessionKeys.name_of_output_ob_folder]
+        self.parent.ui.obs_output_location_label.setText(name_of_output_ob_folder)
+
         self.parent.ui.projections_p_charge_label.setText(str(proton_charge))
 
         show_status_message(parent=self.parent,
@@ -147,21 +150,12 @@ class SessionHandler:
                             duration_s=10)
 
         all_tabs_visible = session_dict.get(SessionKeys.all_tabs_visible, False)
-        if not (self.parent.all_tabs_visible == all_tabs_visible):
-            if not all_tabs_visible:
-                for _ in np.arange(3):
-                    self.parent.ui.tabWidget.removeTab(2)
-            else:
-                self.parent.ui.tabWidget.insertTab(2, self.parent.tab2, QIcon(tab2_icon), TabNames.tab2)
-                self.parent.ui.tabWidget.insertTab(3, self.parent.tab3, QIcon(tab3_icon), TabNames.tab3)
-                self.parent.ui.tabWidget.insertTab(4, self.parent.tab4, QIcon(tab4_icon), TabNames.tab4)
-
-            self.parent.all_tabs_visible = all_tabs_visible
+        # if not (self.parent.all_tabs_visible == all_tabs_visible):
+        o_main_widgets = UtilityWidgets(parent=self.parent)
+        o_main_widgets.make_tabs_visible(is_visible=all_tabs_visible)
 
         self.parent.blockSignals(False)
         self.parent.set_window_title()
-        o_projections_event.run_title_changed(run_title=self.parent.ui.run_title_lineEdit.text(),
-                                              checking_if_file_exists=False)
 
         o_main_event = MainEventHandler(parent=self.parent)
         o_main_event.check_start_acquisition_button()

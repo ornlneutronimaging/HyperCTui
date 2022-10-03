@@ -1,3 +1,5 @@
+import copy
+
 from qtpy.QtWidgets import QPushButton
 import numpy as np
 
@@ -5,6 +7,7 @@ from asui.utilities.file_utilities import list_tof_dirs
 from asui.utilities.status_message_config import show_status_message, StatusMessageStatus
 from asui.utilities.table import TableHandler
 from asui.monitor.get import Get as GetMonitor
+from ..session import SessionKeys
 
 from . import READY, IN_PROGRESS, IN_QUEUE, FAILED
 from . import DataStatus
@@ -25,9 +28,12 @@ class EventHandler:
                            dict_log_err_metadata=None):
 
         list_folders = list_tof_dirs(output_folder)
+        untouched_list_folders = copy.deepcopy(list_folders)
         if len(list_folders) == nbr_files_expected:
             if data_type == DataType.ob:
                 self.parent.all_obs_found = True
+            else:
+                self.parent.all_projections_found = True
 
         if len(list_folders) > nbr_files_expected:
             message = f"Output {data_type} folder contains more data than requested, check the validity of the folder!"
@@ -35,19 +41,19 @@ class EventHandler:
                                 message=message,
                                 status=StatusMessageStatus.error,
                                 duration_s=10)
-            return
+            return []
 
         o_table = TableHandler(table_ui=table_ui)
         if len(list_folders) == 0:
             if data_type == DataType.ob:
                 # no OB folder showed up yet
-                return
+                return []
             else:
                 # none of the projections showed up yet,
                 # we need to show that the acquisition of the first one started
                 o_table.set_item_with_str(row=0, column=4, value=DataStatus.in_progress)
                 o_table.set_background_color(row=0, column=4, qcolor=IN_PROGRESS)
-                return
+                return []
 
         else:
 
@@ -152,24 +158,30 @@ class EventHandler:
                                                    'err_file': err_file,
                                                    'metadata_file': metadata_file}
 
+        return untouched_list_folders
+
     def checking_status_of_expected_obs(self):
         """look at the list of obs expected and updates the OB table
         with the one already found"""
         output_folder = self.grand_parent.ui.obs_output_location_label.text()
         nbr_obs_expected = self.grand_parent.ui.number_of_ob_spinBox.value()
 
-        self.checking_status_of(data_type=DataType.ob,
-                                output_folder=output_folder,
-                                nbr_files_expected=nbr_obs_expected,
-                                table_ui=self.parent.ui.obs_tableWidget,
-                                dict_log_err_metadata=self.parent.dict_ob_log_err_metadata)
+        list_folders_found = self.checking_status_of(
+                                                     data_type=DataType.ob,
+                                                     output_folder=output_folder,
+                                                     nbr_files_expected=nbr_obs_expected,
+                                                     table_ui=self.parent.ui.obs_tableWidget,
+                                                     dict_log_err_metadata=self.parent.dict_ob_log_err_metadata)
+        self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there] = list_folders_found
 
     def checking_status_of_expected_projections(self):
         output_folder = self.grand_parent.ui.projections_output_location_label.text()
         nbr_projections_expected = self.grand_parent.ui.number_of_projections_spinBox.value()
 
-        self.checking_status_of(data_type=DataType.projection,
-                                output_folder=output_folder,
-                                nbr_files_expected=nbr_projections_expected,
-                                table_ui=self.parent.ui.projections_tableWidget,
-                                dict_log_err_metadata=self.parent.dict_projections_log_err_metadata)
+        list_folders_found = self.checking_status_of(
+                                                     data_type=DataType.projection,
+                                                     output_folder=output_folder,
+                                                     nbr_files_expected=nbr_projections_expected,
+                                                     table_ui=self.parent.ui.projections_tableWidget,
+                                                     dict_log_err_metadata=self.parent.dict_projections_log_err_metadata)
+        self.grand_parent.session_dict[SessionKeys.list_projections_folders_initially_there] = list_folders_found

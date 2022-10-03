@@ -34,6 +34,7 @@ class EventHandler(Parent):
         """
         o_path = self.parent.folder_path
         mcp_raw = o_path.mcp_raw
+        mcp = o_path.mcp
 
         full_file_name = os.path.join(mcp_raw, run_title)
         if not os.path.exists(full_file_name):

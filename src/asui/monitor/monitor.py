@@ -9,6 +9,8 @@ from asui import refresh_large_image
 from .initialization import Initialization
 from .event_handler import EventHandler as MonitorEventHandler
 from ..preview_file.preview_file_launcher import PreviewFileLauncher, PreviewMetadataFileLauncher
+from ..session import SessionKeys
+from ..utilities.widgets import Widgets as UtilityWidgets
 
 
 class Monitor(QMainWindow):
@@ -30,6 +32,7 @@ class Monitor(QMainWindow):
     dict_projections_log_err_metadata = None
 
     all_obs_found = False
+    all_projections_found = False
 
     def __init__(self, parent=None):
         super(Monitor, self).__init__(parent)
@@ -75,6 +78,10 @@ class Monitor(QMainWindow):
         o_event.checking_status_of_expected_obs()
         if self.all_obs_found:
             o_event.checking_status_of_expected_projections()
+            if self.all_projections_found:
+                self.parent.session_dict[SessionKeys.all_tabs_visible] = True
+                o_widgets = UtilityWidgets(parent=self.parent)
+                o_widgets.make_tabs_visible(is_visible=True)
 
     def closeEvent(self, c):
         self.parent.monitor_ui = None
