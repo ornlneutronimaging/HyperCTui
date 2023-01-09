@@ -44,5 +44,10 @@ class TabNames:
     tab4 = " - Settings"
 
 
+class ObTabNames:
+    new_obs = 0
+    selected_obs = 1
+
+
 def load_ui(ui_filename, baseinstance):
     return loadUi(ui_filename, baseinstance=baseinstance)

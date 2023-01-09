@@ -104,7 +104,7 @@ def list_ob_dirs(rootdir):
     list_tof_folders = list_tof_dirs(rootdir)
     list_ob_dirs = []
     for _folder in list_tof_folders:
-        if os.path.basename(os.path.dirname(_folder)).startswith("ob_"):
+        if os.path.basename(os.path.dirname(_folder)).startswith("OB_"):
             list_ob_dirs.append(_folder)
     return list_ob_dirs
 

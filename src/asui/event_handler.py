@@ -6,7 +6,9 @@ from .initialization.gui_initialization import GuiInitialization
 from .setup_ob.get import Get as Step1Get
 from .session.new_session import NewSession
 from .session import SessionKeys
+from .setup_ob.event_handler import EventHandler as ObEventHandler
 from . import UiSizeLarge, UiSizeSmall
+from . import ObTabNames
 
 
 class EventHandler(Parent):
@@ -19,6 +21,12 @@ class EventHandler(Parent):
         o_init = GuiInitialization(parent=self.parent)
         o_init.full_reset()
         logging.info("Full reset of application!")
+
+    def ob_tab_changed(self):
+        current_tab = self.parent.ui.ob_tabWidget.currentIndex()
+        if current_tab == ObTabNames.selected_obs:
+            o_event = ObEventHandler(parent=self.parent)
+            o_event.update_list_of_obs()
 
     def check_start_acquisition_button(self):
         if not self.parent.ui.run_title_groupBox.isEnabled():

@@ -138,6 +138,7 @@ class ASUI(QMainWindow):
     # step - ob
     def ob_tab_changed(self):
         o_event = EventHandler(parent=self)
+        o_event.ob_tab_changed()
         o_event.check_start_acquisition_button()
 
     def step1_check_state_of_ob_measured_clicked(self):
