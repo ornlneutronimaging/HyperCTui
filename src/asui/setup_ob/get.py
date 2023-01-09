@@ -20,6 +20,7 @@ class Get(MasterGet):
         full_path_list_ipts = glob.glob(os.path.join(home_folder, instrument + '/IPTS-*'))
         logging.info(f"-> full_path_list_ipts: {full_path_list_ipts}")
         list_ipts = [os.path.basename(_folder) for _folder in full_path_list_ipts]
+        list_ipts.sort()
         return list_ipts
 
     def number_of_obs(self):
