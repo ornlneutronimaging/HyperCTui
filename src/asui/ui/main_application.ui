@@ -46,7 +46,7 @@
            <enum>QTabWidget::West</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tab_10">
            <attribute name="title">
@@ -208,7 +208,7 @@
               <item>
                <widget class="QPushButton" name="where_to_look_for_ob_pushButton">
                 <property name="text">
-                 <string>Change where to look for OBs folders ...</string>
+                 <string>Change location where to look for OBs data ...</string>
                 </property>
                </widget>
               </item>
@@ -381,7 +381,7 @@
            <item row="1" column="0">
             <widget class="QLabel" name="label_3">
              <property name="text">
-              <string>Projections Output  location:</string>
+              <string>Projections base name:</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -421,7 +421,7 @@
            <item row="2" column="0">
             <widget class="QLabel" name="label_4">
              <property name="text">
-              <string>OBs Output location:</string>
+              <string>OBs base name:</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

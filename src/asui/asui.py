@@ -218,17 +218,18 @@ class ASUI(QMainWindow):
                                            "shared",
                                            "autoreduce",
                                            "mcp",
-                                           title])
+                                           f"{title}_*"])
             ob_output_location = os.sep.join([self.homepath,
-                                           instrument,
-                                           ipts,
-                                           "shared",
-                                           "autoreduce",
-                                           "mcp",
-                                           f"ob_{title}"])
+                                              instrument,
+                                              ipts,
+                                              "shared",
+                                              "autoreduce",
+                                              "mcp",
+                                              f"OB_{title}_*"])
 
         self.ui.projections_output_location_label.setText(os.path.abspath(output_location))
         self.ui.obs_output_location_label.setText(os.path.abspath(ob_output_location))
+        self.ui.location_of_ob_created.setText(os.path.abspath(ob_output_location))
 
 
 def main(args):

@@ -1,6 +1,7 @@
 from qtpy.QtWidgets import QDialog
 import os
 import numpy as np
+from pathlib import PurePath
 
 from .. import load_ui
 from ..setup_ob.get import Get
