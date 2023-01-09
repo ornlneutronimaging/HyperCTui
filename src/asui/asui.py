@@ -2,8 +2,6 @@ from qtpy.QtWidgets import QMainWindow, QApplication
 import sys
 import os
 import logging
-from qtpy.QtGui import QIcon
-from qtpy import QtCore
 
 from . import load_ui
 

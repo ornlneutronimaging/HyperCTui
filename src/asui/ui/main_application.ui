@@ -30,7 +30,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideRight</enum>
@@ -208,7 +208,7 @@
               <item>
                <widget class="QPushButton" name="where_to_look_for_ob_pushButton">
                 <property name="text">
-                 <string>Where to look for OBs folders ...</string>
+                 <string>Change where to look for OBs folders ...</string>
                 </property>
                </widget>
               </item>

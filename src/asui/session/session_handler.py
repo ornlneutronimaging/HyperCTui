@@ -61,7 +61,7 @@ class SessionHandler:
 
         # step projections
         o_get_step2 = Step2Get(parent=self.parent)
-        session_dict[SessionKeys.run_title] = self.parent.ui.run_title_formatted_label.text()
+        session_dict[SessionKeys.run_title] = self.parent.ui.run_title_formattrun_title_lineEdit.text()
 
         # monitor
         # need to save the list of folders in output directory
@@ -139,6 +139,8 @@ class SessionHandler:
         self.parent.ui.run_title_lineEdit.blockSignals(False)
         name_of_output_projection_folder = session_dict[SessionKeys.name_of_output_projection_folder]
         self.parent.ui.projections_output_location_label.setText(name_of_output_projection_folder)
+        self.parent.ui.run_title_formatted_label.setText(os.path.basename(name_of_output_projection_folder))
+
         name_of_output_ob_folder = session_dict[SessionKeys.name_of_output_ob_folder]
         self.parent.ui.obs_output_location_label.setText(name_of_output_ob_folder)
 
