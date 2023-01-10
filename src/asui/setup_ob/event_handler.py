@@ -87,6 +87,7 @@ class EventHandler(Parent):
     def update_list_of_obs(self):
         top_folder = self.parent.ui.existing_ob_top_path.text()
         list_folders = list_ob_dirs(top_folder)
+        print(f"list_folders: {list_folders}")
         self.load_list_of_folders(list_folders=list_folders)
 
     def load_list_of_folders(self, list_folders):
