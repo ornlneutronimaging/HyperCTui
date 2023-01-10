@@ -38,10 +38,11 @@ class DataType:
 
 class TabNames:
     tab0 = " - Setup the open beams"
-    tab1 = " - Setup the first projections"
+    tab1 = " - Initialize first projections"
     tab2 = " - Crop"
     tab3 = " - Rotation center"
-    tab4 = " - Settings"
+    tab4 = " - Autonomous reconstruction"
+    tab5 = " - Settings"
 
 
 class ObTabNames:
