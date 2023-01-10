@@ -7,9 +7,10 @@ from ..parent import Parent
 class EventHandler(Parent):
 
     def run_title_changed(self, run_title=None, checking_if_file_exists=True):
-        if (run_title == "") or (run_title == "N/A"):
+        if (run_title == "") or (run_title == "None"):
             self.parent.ui.projections_title_message.setVisible(True)
             logging.info(f"Please provide a valid title string!")
+            self.parent.ui.run_title_formatted_label.setText("None")
             return
 
         run_title_listed = run_title.split(" ")

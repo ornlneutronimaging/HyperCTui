@@ -210,11 +210,16 @@ class ASUI(QMainWindow):
             output_location = "N/A"
             ob_output_location = "N/A"
             final_ob_output_location = "N/A"
+
         elif title == "":
-            output_location = "N/A"
-            ob_output_location = "N/A"
-            final_ob_output_location = "N/A"
+            output_location = "'title'"
+            ob_output_location = "'title'"
+            final_ob_output_location = "'title'"
+
         else:
+            if title == "N/A":
+                title = "'title'"
+
             output_location = os.sep.join([self.homepath,
                                            instrument,
                                            ipts,

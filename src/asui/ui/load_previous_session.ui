@@ -30,7 +30,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="no_pushButton">
        <property name="text">
         <string>No</string>
        </property>
@@ -63,7 +63,7 @@
  <resources/>
  <connections>
   <connection>
-   <sender>pushButton_2</sender>
+   <sender>no_pushButton</sender>
    <signal>clicked()</signal>
    <receiver>Dialog</receiver>
    <slot>no_clicked()</slot>

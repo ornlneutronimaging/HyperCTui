@@ -52,8 +52,8 @@ class NewSession(QDialog):
         self.parent.set_window_title()
         self.parent.inform_of_output_location()
 
-        for _ in np.arange(3):
-            self.parent.ui.tabWidget.removeTab(2)
+        # self.parent.ui.tabWidget.removeTab(2)
+
         self.parent.ui.tabWidget.setCurrentIndex(0)
         self.parent.ui.ob_tabWidget.setCurrentIndex(0)
         self.parent.all_tabs_visible = False
