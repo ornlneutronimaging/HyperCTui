@@ -1,4 +1,4 @@
-from qtpy.QtWidgets import QPushButton
+from qtpy.QtWidgets import QPushButton, QProgressBar
 import numpy as np
 
 from asui.setup_ob.get import Get as GetOB
@@ -57,6 +57,12 @@ class Initialization:
         o_ob_table.set_column_sizes(column_sizes=table_columns)
         o_pro_table = TableHandler(table_ui=self.parent.ui.projections_tableWidget)
         o_pro_table.set_column_sizes(column_sizes=table_columns)
+
+        self.parent.eventProgress = QProgressBar(self.parent.ui.statusbar)
+        self.parent.eventProgress.setMinimumSize(20, 14)
+        self.parent.eventProgress.setMaximumSize(540, 100)
+        self.parent.eventProgress.setVisible(False)
+        self.parent.ui.statusbar.addPermanentWidget(self.parent.eventProgress)
 
     def populate_table_with_expected_obs(self, nbr_obs_expected=0):
         o_table = TableHandler(table_ui=self.parent.ui.obs_tableWidget)

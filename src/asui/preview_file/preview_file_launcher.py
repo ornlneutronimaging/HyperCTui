@@ -1,5 +1,7 @@
 from qtpy.QtWidgets import QDialog
 import os
+from pathlib import Path
+import logging
 
 from .. import load_ui
 from ..utilities.file_utilities import read_ascii, read_json
@@ -9,10 +11,15 @@ from ..utilities.table import TableHandler
 class PreviewFileLauncher(QDialog):
 
 	def __init__(self, parent=None, file_name=None):
+		QDialog.__init__(self, parent=parent)
+
+		if not Path(file_name).is_file():
+			logging.info(f"file name {file_name} doest not exist!")
+			return
+
 		self.parent = parent
 		self.file_name = file_name
 
-		QDialog.__init__(self, parent=parent)
 		ui_full_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
 									os.path.join('ui',
 												 'preview_file.ui'))
@@ -34,10 +41,15 @@ class PreviewFileLauncher(QDialog):
 class PreviewMetadataFileLauncher(QDialog):
 
 	def __init__(self, parent=None, file_name=None):
+		QDialog.__init__(self, parent=parent)
+
+		if not Path(file_name).is_file():
+			logging.info(f"file name {file_name} doest not exist!")
+			return
+
 		self.parent = parent
 		self.file_name = file_name
 
-		QDialog.__init__(self, parent=parent)
 		ui_full_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
 									os.path.join('ui',
 												 'preview_metadata_file.ui'))

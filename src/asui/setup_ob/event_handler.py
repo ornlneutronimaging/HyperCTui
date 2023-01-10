@@ -85,10 +85,14 @@ class EventHandler(Parent):
             self.update_list_of_obs()
 
     def update_list_of_obs(self):
+        self.clear_ob_table()
         top_folder = self.parent.ui.existing_ob_top_path.text()
         list_folders = list_ob_dirs(top_folder)
-        print(f"list_folders: {list_folders}")
         self.load_list_of_folders(list_folders=list_folders)
+
+    def clear_ob_table(self):
+        o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
+        o_table.remove_all_rows()
 
     def load_list_of_folders(self, list_folders):
         if list_folders is None:
@@ -107,7 +111,7 @@ class EventHandler(Parent):
                                 value=_folder)
             o_table.insert_item(row=_offset_row,
                                 column=1,
-                                value=list_proton_charge[_offset_row])
+                                value=f"{list_proton_charge[_offset_row]:.2f}")
 
     @staticmethod
     def retrieve_proton_charge_for_that_folder(folder):
@@ -132,5 +136,14 @@ class EventHandler(Parent):
         if proton_charge == "N/A":
             return proton_charge
 
-        proton_charge = float(proton_charge) * 1e-9
+        proton_charge_value = proton_charge["value"]
+        proton_charge_units = proton_charge["units"]
+        if proton_charge_units == "pc":
+            coeff = 1e-12
+        elif proton_charge_units == "nc":
+            coeff = 1e-9
+        else:
+            raise NotImplemented("Unit of proton charge not supported yet!")
+
+        proton_charge = float(proton_charge_value) * coeff
         return proton_charge

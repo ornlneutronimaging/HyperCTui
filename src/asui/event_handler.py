@@ -65,8 +65,7 @@ class EventHandler(Parent):
         if self.parent.ui.ob_tabWidget.currentIndex() == 0:
             number_of_obs = self.parent.ui.number_of_ob_spinBox.value()
             button_text += f"{number_of_obs} OBs and "
-        number_of_projections = self.parent.ui.number_of_projections_spinBox.value()
-        button_text += f"{number_of_projections} projections"
+        button_text += u"0\u00B0 and 180\u00B0 projections"
         self.parent.ui.start_acquisition_pushButton.setText(button_text)
 
     def main_tab_changed(self, new_tab_index=0):

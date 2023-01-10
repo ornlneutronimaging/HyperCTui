@@ -53,6 +53,9 @@ class GuiInitialization:
         self.parent.ui.projections_title_message.setVisible(False)
         self.parent.ui.top_crop_widget.setEnabled(False)
 
+        # 0 and 180 degrees label
+        self.parent.ui.setup_0_180_label.setText(u"0\u00B0 and 180\u00B0 projections will be acquired automatically!")
+
     def statusbar(self):
         self.parent.eventProgress = QProgressBar(self.parent.ui.statusbar)
         self.parent.eventProgress.setMinimumSize(20, 14)
