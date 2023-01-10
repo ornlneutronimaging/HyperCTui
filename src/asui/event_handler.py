@@ -9,6 +9,7 @@ from .session import SessionKeys
 from .setup_ob.event_handler import EventHandler as ObEventHandler
 from . import UiSizeLarge, UiSizeSmall
 from . import ObTabNames
+from .setup_ob.get import Get as ObGet
 
 
 class EventHandler(Parent):
@@ -58,6 +59,10 @@ class EventHandler(Parent):
             logging.info(f"Make sure the output folder exists (check instrument and IPTS)!")
             return False
 
+        if str(self.parent.ui.projections_p_charge_label.text()) == "N/A":
+            logging.info(f"")   # FIXME 
+            return False
+
         return True
 
     def set_start_acquisition_text(self):
@@ -74,6 +79,12 @@ class EventHandler(Parent):
         small version for the first 2 main tabs
         large version for the next 3 tabs
         """
+        if new_tab_index == 1:  # initialize first projections 0 and 180 degrees
+            # update p charge
+            o_get = ObGet(parent=self.parent)
+            proton_charge = o_get.proton_charge()
+            self.parent.ui.projections_p_charge_label.setText(str(proton_charge))
+
         small_tab_index = [0, 1]
 
         if new_tab_index in small_tab_index:
