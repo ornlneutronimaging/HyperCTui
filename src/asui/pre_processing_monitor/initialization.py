@@ -4,8 +4,8 @@ import numpy as np
 from asui.setup_ob.get import Get as GetOB
 from asui.utilities.get import Get
 from asui.utilities.table import TableHandler
-from asui.monitor.get import Get as GetMonitor
-from asui.monitor.event_handler import EventHandler
+from asui.pre_processing_monitor.get import Get as GetMonitor
+from asui.pre_processing_monitor.event_handler import EventHandler
 
 from . import READY, IN_PROGRESS, IN_QUEUE, FAILED
 from . import DataStatus

@@ -6,7 +6,7 @@ import numpy as np
 from asui.utilities.file_utilities import list_tof_dirs
 from asui.utilities.status_message_config import show_status_message, StatusMessageStatus
 from asui.utilities.table import TableHandler
-from asui.monitor.get import Get as GetMonitor
+from asui.pre_processing_monitor.get import Get as GetMonitor
 from ..session import SessionKeys
 
 from . import READY, IN_PROGRESS, IN_QUEUE, FAILED
