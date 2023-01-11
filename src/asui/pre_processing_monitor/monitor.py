@@ -77,11 +77,18 @@ class Monitor(QMainWindow):
                                       grand_parent=self.parent)
         o_event.checking_status_of_expected_obs()
         if self.all_obs_found:
-            o_event.checking_status_of_expected_projections()
-            if self.all_projections_found:
-                self.parent.session_dict[SessionKeys.all_tabs_visible] = True
-                o_widgets = UtilityWidgets(parent=self.parent)
-                o_widgets.make_tabs_visible(is_visible=True)
+
+            # check if obs have already been moved
+            if o_event.obs_have_been_moved_to_final_folder():
+
+                o_event.checking_status_of_expected_projections()
+                if self.all_projections_found:
+                    self.parent.session_dict[SessionKeys.all_tabs_visible] = True
+                    o_widgets = UtilityWidgets(parent=self.parent)
+                    o_widgets.make_tabs_visible(is_visible=True)
+
+            else:
+                o_event.move_obs_to_final_folder()
 
     def closeEvent(self, c):
         self.parent.monitor_ui = None

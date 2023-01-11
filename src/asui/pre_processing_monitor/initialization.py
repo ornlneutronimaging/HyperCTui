@@ -71,12 +71,16 @@ class Initialization:
         o_table = TableHandler(table_ui=self.parent.ui.obs_tableWidget)
         dict_ob_log_err_metadata = {}
 
+        ob_base_name = self.grand_parent.ui.location_of_ob_created.text()[:-1]
+
         for _row_index in np.arange(nbr_obs_expected):
+
+            _ob_name = f"{ob_base_name}{_row_index:03d}"
 
             o_table.insert_empty_row(row=_row_index)
             o_table.insert_item(row=_row_index,
                                 column=0,
-                                value="N/A")
+                                value=_ob_name)
             if _row_index == 0:
                 message = DataStatus.in_progress
                 color = IN_PROGRESS
