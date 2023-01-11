@@ -185,3 +185,11 @@ class EventHandler:
                                                      table_ui=self.parent.ui.projections_tableWidget,
                                                      dict_log_err_metadata=self.parent.dict_projections_log_err_metadata)
         self.grand_parent.session_dict[SessionKeys.list_projections_folders_initially_there] = list_folders_found
+
+    def obs_have_been_moved_to_final_folder(self):
+        # FIXME
+        pass
+
+    def move_obs_to_final_folder(self):
+        # FIXME
+        pass

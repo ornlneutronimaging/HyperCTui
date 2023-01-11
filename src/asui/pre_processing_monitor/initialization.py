@@ -1,5 +1,6 @@
 from qtpy.QtWidgets import QPushButton, QProgressBar
 import numpy as np
+import os
 
 from asui.setup_ob.get import Get as GetOB
 from asui.utilities.get import Get
@@ -93,7 +94,10 @@ class Initialization:
             o_table.set_background_color(row=_row_index,
                                          column=4,
                                          qcolor=color)
-            dict_ob_log_err_metadata[_row_index] = {}
+            dict_ob_log_err_metadata[_row_index] = {'file_name': _ob_name,
+                                                    'log_file': '',
+                                                    'err_file': '',
+                                                    'metadata_file': ''}
         self.parent.dict_ob_log_err_metadata = dict_ob_log_err_metadata
 
     def populate_table_with_existing_obs(self, list_ob=None):
@@ -178,8 +182,10 @@ class Initialization:
         dict_projections_log_err_metadata = {}
 
         title = self.grand_parent.ui.run_title_formatted_label.text()
-        first_projection_name = f"{title}_Angle_000_000"
-        last_projection_name = f"{title}_Angle_180_000"
+
+        output_folder = os.path.dirname(str(self.grand_parent.ui.projections_output_location_label.text()))
+        first_projection_name = os.path.join(output_folder, f"{title}_Angle_000_000")
+        last_projection_name = os.path.join(output_folder, f"{title}_Angle_180_000")
 
         for _row_index, file_name in enumerate([first_projection_name, last_projection_name]):
 
