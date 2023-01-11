@@ -136,10 +136,7 @@ class EventHandler(Parent):
         else:
             number_of_obs = 0
 
-        number_of_sample = self.parent.ui.number_of_projections_spinBox.value()
-
         self.parent.number_of_files_requested['ob'] = number_of_obs
-        self.parent.number_of_files_requested['sample'] = number_of_sample
 
         name_of_output_projection_folder = self.parent.ui.projections_output_location_label.text()
         self.parent.session_dict[SessionKeys.name_of_output_projection_folder] = name_of_output_projection_folder

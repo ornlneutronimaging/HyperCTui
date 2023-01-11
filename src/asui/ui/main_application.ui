@@ -30,7 +30,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideRight</enum>
@@ -46,7 +46,7 @@
            <enum>QTabWidget::West</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tab_10">
            <attribute name="title">
@@ -1260,7 +1260,7 @@
    <sender>actionMonitor</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>launch_monitor_view()</slot>
+   <slot>launch_pre_processing_monitor_view()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>
@@ -1305,7 +1305,7 @@
   <slot>number_of_projections_changed()</slot>
   <slot>number_of_obs_changed()</slot>
   <slot>main_tab_changed()</slot>
-  <slot>launch_monitor_view()</slot>
+  <slot>launch_pre_processing_monitor_view()</slot>
   <slot>checking_status_acquisition_button_clicked()</slot>
  </slots>
 </ui>

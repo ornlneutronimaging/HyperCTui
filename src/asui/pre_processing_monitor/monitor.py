@@ -40,7 +40,7 @@ class Monitor(QMainWindow):
 
         ui_full_path = os.path.join(os.path.dirname(__file__),
                                     os.path.join('../ui',
-                                                 'monitor.ui'))
+                                                 'pre_processing_monitor.ui'))
 
         self.ui = load_ui(ui_full_path, baseinstance=self)
 

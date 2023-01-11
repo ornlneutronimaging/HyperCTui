@@ -9,6 +9,7 @@ from asui.pre_processing_monitor.event_handler import EventHandler
 
 from . import READY, IN_PROGRESS, IN_QUEUE, FAILED
 from . import DataStatus
+from . import ColorDataStatus
 
 
 class Initialization:
@@ -40,16 +41,18 @@ class Initialization:
                                    grand_parent=self.grand_parent)
             o_event.checking_status_of_expected_obs()
 
-        nbr_sample_expected = self.grand_parent.number_of_projections_spinBox.value()
         folder_path = self.grand_parent.folder_path
-
-        self.populate_table_with_expected_projections(nbr_projections_expected=nbr_sample_expected)
+        self.populate_table_with_expected_projections()
 
         initial_list_of_reduction_log_files = \
             Get.list_of_files(folder=folder_path.reduction_log,
                               ext="*")
         self.parent.initial_list_of_reduction_log_files = \
             initial_list_of_reduction_log_files
+
+        self.parent.ui.final_ob_folder_label.setText(self.grand_parent.ui.final_location_of_ob_created.text())
+        self.parent.ui.final_ob_folder_status.setText(DataStatus.in_queue)
+        self.parent.ui.final_ob_folder_status.setStyleSheet(f"background-color: {ColorDataStatus.in_queue}")
 
     def ui(self):
         table_columns = [540, 50, 50, 50, 45]
@@ -64,10 +67,12 @@ class Initialization:
         self.parent.eventProgress.setVisible(False)
         self.parent.ui.statusbar.addPermanentWidget(self.parent.eventProgress)
 
-    def populate_table_with_expected_obs(self, nbr_obs_expected=0):
+    def populate_table_with_expected_obs(self, nbr_obs_expected=2):
         o_table = TableHandler(table_ui=self.parent.ui.obs_tableWidget)
         dict_ob_log_err_metadata = {}
+
         for _row_index in np.arange(nbr_obs_expected):
+
             o_table.insert_empty_row(row=_row_index)
             o_table.insert_item(row=_row_index,
                                 column=0,
@@ -162,14 +167,17 @@ class Initialization:
 
         self.parent.dict_ob_log_err_metadata = dict_ob_log_err_metadata
 
-    def populate_table_with_expected_projections(self, nbr_projections_expected=0):
-        if nbr_projections_expected == 0:
-            raise ValueError("We should request at least one projection!")
+    def populate_table_with_expected_projections(self):
 
         o_table = TableHandler(table_ui=self.parent.ui.projections_tableWidget)
 
         dict_projections_log_err_metadata = {}
-        for _row_index in np.arange(nbr_projections_expected):
+
+        title = self.grand_parent.ui.run_title_formatted_label.text()
+        first_projection_name = f"{title}_Angle_000_000"
+        last_projection_name = f"{title}_Angle_180_000"
+
+        for _row_index, file_name in enumerate([first_projection_name, last_projection_name]):
 
             if _row_index == 0:
                 if self.first_in_queue_is_projections:
@@ -185,7 +193,7 @@ class Initialization:
             o_table.insert_empty_row(row=_row_index)
             o_table.insert_item(row=_row_index,
                                 column=0,
-                                value="N/A")
+                                value=file_name)
 
             log_button = QPushButton("View")
             log_button.setEnabled(False)
@@ -221,7 +229,7 @@ class Initialization:
                                          column=4,
                                          qcolor=color)
 
-            dict_projections_log_err_metadata[_row_index] = {'file_name': "",
+            dict_projections_log_err_metadata[_row_index] = {'file_name': file_name,
                                                              'log_file': "",
                                                              'err_file': "",
                                                              'metadata_file': ""}

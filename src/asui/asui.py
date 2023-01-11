@@ -118,7 +118,7 @@ class ASUI(QMainWindow):
         o_event = EventHandler(parent=self)
         o_event.full_reset_clicked()
 
-    def launch_monitor_view(self):
+    def launch_pre_processing_monitor_view(self):
         if self.session_dict[SessionKeys.process_in_progress]:
             if self.monitor_ui:
                 self.monitor_ui.showMinimized()
@@ -181,11 +181,11 @@ class ASUI(QMainWindow):
         o_event = EventHandler(parent=self)
         o_event.start_acquisition()
         o_event.freeze_number_ob_sample_requested()
-        self.launch_monitor_view()
+        self.launch_pre_processing_monitor_view()
         self.ui.start_acquisition_pushButton.setEnabled(False)
 
     def checking_status_acquisition_button_clicked(self):
-        self.launch_monitor_view()
+        self.launch_pre_processing_monitor_view()
 
     # leaving ui
     def closeEvent(self, c):
