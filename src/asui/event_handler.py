@@ -34,6 +34,7 @@ class EventHandler(Parent):
             button_ready_to_be_used = False
         else:
             button_ready_to_be_used = self._is_start_acquisition_ready_to_be_used()
+
         self.parent.ui.start_acquisition_pushButton.setEnabled(button_ready_to_be_used)
         self.parent.ui.help_pushButton.setVisible(not button_ready_to_be_used)
         self.set_start_acquisition_text()
@@ -60,7 +61,10 @@ class EventHandler(Parent):
             return False
 
         if str(self.parent.ui.projections_p_charge_label.text()) == "N/A":
-            logging.info(f"")   # FIXME 
+            logging.info(f"ASUI is unable to determine the proton charge you want to use!")
+            logging.info(f"-> Possible correction: ")
+            logging.info(f"     * you want to use previously measured OBs and they don't seem to have the same "
+                         f"proton charge")
             return False
 
         return True

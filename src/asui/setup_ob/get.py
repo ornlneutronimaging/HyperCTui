@@ -29,12 +29,14 @@ class Get(MasterGet):
     def proton_charge(self):
         if self.ob_tab_selected() == 0:
             return self.parent.ui.open_beam_proton_charge_doubleSpinBox.value()
+
         else:
             o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
             nbr_row = o_table.row_count()
             if nbr_row == 0:
 
-                # FIXME - explain why in logging
+                logging.info(f"Unable to retrieve OB proton charge from empty table "
+                             f"(1- Setup the open beams / Select OBs)")
                 return "N/A"
 
             list_proton_charge = []
@@ -45,7 +47,7 @@ class Get(MasterGet):
             set_proton_charge = set(list_proton_charge)
             if len(set_proton_charge) > 1:
 
-                # FIXME - explain why in logging
+                logging.info(f"The OBs selected don't have the same proton charge!")
                 return "N/A"
 
             return list_proton_charge[0]
