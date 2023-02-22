@@ -2,6 +2,7 @@ import copy
 
 from qtpy.QtWidgets import QPushButton
 import numpy as np
+import logging
 
 from asui.utilities.file_utilities import list_tof_dirs
 from asui.utilities.status_message_config import show_status_message, StatusMessageStatus
@@ -162,7 +163,7 @@ class EventHandler:
 
     def checking_status_of_expected_obs(self):
         """look at the list of obs expected and updates the OB table
-        with the one already found"""
+        with the ones already found"""
         output_folder = self.grand_parent.ui.obs_output_location_label.text()
         nbr_obs_expected = self.grand_parent.ui.number_of_ob_spinBox.value()
 
@@ -173,8 +174,11 @@ class EventHandler:
                                                      table_ui=self.parent.ui.obs_tableWidget,
                                                      dict_log_err_metadata=self.parent.dict_ob_log_err_metadata)
         self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there] = list_folders_found
+        logging.info(f"-> list folders found: {list_folders_found}")
 
     def checking_status_of_expected_projections(self):
+        """look at the list of projections and updates the projection table
+        with the ones already found!"""
         output_folder = self.grand_parent.ui.projections_output_location_label.text()
         nbr_projections_expected = self.grand_parent.ui.number_of_projections_spinBox.value()
 

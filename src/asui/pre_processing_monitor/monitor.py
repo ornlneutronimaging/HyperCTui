@@ -73,22 +73,29 @@ class Monitor(QMainWindow):
         preview_file.show()
 
     def refresh_button_clicked(self):
+        logging.info("Updating monitor table!")
         o_event = MonitorEventHandler(parent=self,
                                       grand_parent=self.parent)
         o_event.checking_status_of_expected_obs()
         if self.all_obs_found:
 
+            logging.info(f"-> all obs found!")
             # check if obs have already been moved
             if o_event.obs_have_been_moved_to_final_folder():
 
                 o_event.checking_status_of_expected_projections()
                 if self.all_projections_found:
+
+                    logging.info(f"-> all projections found!")
                     self.parent.session_dict[SessionKeys.all_tabs_visible] = True
                     o_widgets = UtilityWidgets(parent=self.parent)
                     o_widgets.make_tabs_visible(is_visible=True)
 
             else:
                 o_event.move_obs_to_final_folder()
+
+        else:
+            logging.info(f"-> not all obs found!")
 
     def closeEvent(self, c):
         self.parent.monitor_ui = None
