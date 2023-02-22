@@ -1,4 +1,5 @@
 import copy
+import os
 
 from qtpy.QtWidgets import QPushButton
 import numpy as np
@@ -31,7 +32,7 @@ class EventHandler:
         and will update the table
         """
 
-        # get list of files requested
+        # get list of folders requested
         o_table = TableHandler(table_ui=table_ui)
         nbr_row = o_table.row_count()
         list_folder_requested = []
@@ -39,12 +40,28 @@ class EventHandler:
             _folder = o_table.get_item_str_from_cell(row=_row, column=0)
             list_folder_requested.append(_folder)
 
-        logging.info(f" -list folder requested: {list_folder_requested}")
+        logging.info(f" -list folder requested:")
+        for _folder in list_folder_requested:
+            logging.info(f"\t- {_folder}")
         logging.info(f"- data_type: {data_type}")
         logging.info(f"- output_folder: {output_folder}")
 
-        list_folders = list_tof_dirs(output_folder)
-        untouched_list_folders = copy.deepcopy(list_folders)
+        # checking the folders that do exists
+        list_folders_requested_and_found = []
+        for _folder in list_folder_requested:
+            if os.path.exists(_folder):
+                list_folders_requested_and_found.append(_folder)
+
+        logging.info(f"List of folders requested and found:")
+        if len(list_folders_requested_and_found) > 0:
+            for _folder in list_folders_requested_and_found:
+                logging.info(f"\t- {_folder}")
+        else:
+            logging.info(f"\n- None!")
+
+
+
+        untouched_list_folders = copy.deepcopy(list_folders_requested_and_found)
 
 
 
@@ -185,13 +202,12 @@ class EventHandler:
         """look at the list of obs expected and updates the OB table
         with the ones already found"""
         output_folder = self.grand_parent.ui.obs_output_location_label.text()
-        nbr_obs_expected = self.grand_parent.ui.number_of_ob_spinBox.value()
+        # nbr_obs_expected = self.grand_parent.ui.number_of_ob_spinBox.value()
 
         logging.info(f"Checking status of expected obs:")
         list_folders_found = self.checking_status_of(
                                                      data_type=DataType.ob,
                                                      output_folder=output_folder,
-                                                     nbr_files_expected=nbr_obs_expected,
                                                      table_ui=self.parent.ui.obs_tableWidget,
                                                      dict_log_err_metadata=self.parent.dict_ob_log_err_metadata)
         self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there] = list_folders_found
