@@ -1,4 +1,5 @@
 class SessionKeys:
+
     config_version = 'config version'
 
     instrument = 'instrument'
@@ -13,6 +14,7 @@ class SessionKeys:
     ob_tab_selected = "ob tab selected"
     list_ob_folders_initially_there = "list of ob folders initially there"
     name_of_output_ob_folder = "name of the output OB folder"
+    list_ob_folders_requested = "list of ob folders requested"
 
     # step projections
     run_title = 'run title'

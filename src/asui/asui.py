@@ -50,7 +50,8 @@ class ASUI(QMainWindow):
                     SessionKeys.instrument         : 'SNAP',
                     SessionKeys.ipts_selected      : None,
                     SessionKeys.ipts_index_selected: 0,
-                    SessionKeys.number_of_obs      : 5}
+                    SessionKeys.number_of_obs      : 5,
+                    SessionKeys.list_ob_folders_requested: None}
 
     tab2 = None  # handle to tab #2 - cropping
     tab3 = None  # handle to tab #3 - rotation center

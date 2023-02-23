@@ -32,6 +32,8 @@ class EventHandler:
         and will update the table
         """
 
+        logging.info(f"checking status for {data_type}:")
+
         # get list of folders requested
         o_table = TableHandler(table_ui=table_ui)
         nbr_row = o_table.row_count()
@@ -43,8 +45,6 @@ class EventHandler:
         logging.info(f" -list folder requested:")
         for _folder in list_folder_requested:
             logging.info(f"\t- {_folder}")
-        logging.info(f"- data_type: {data_type}")
-        logging.info(f"- output_folder: {output_folder}")
 
         # checking the folders that do exists
         list_folders_requested_and_found = []
