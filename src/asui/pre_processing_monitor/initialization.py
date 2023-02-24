@@ -7,6 +7,7 @@ from asui.utilities.get import Get
 from asui.utilities.table import TableHandler
 from asui.pre_processing_monitor.get import Get as GetMonitor
 from asui.pre_processing_monitor.event_handler import EventHandler
+from asui.session import SessionKeys
 
 from . import READY, IN_PROGRESS, IN_QUEUE, FAILED
 from . import DataStatus
@@ -74,9 +75,11 @@ class Initialization:
 
         ob_base_name = self.grand_parent.ui.location_of_ob_created.text()[:-1]
 
+        list_ob_expected = []
         for _row_index in np.arange(nbr_obs_expected):
 
             _ob_name = f"{ob_base_name}{_row_index:03d}"
+            list_ob_expected.append(_ob_name)
 
             o_table.insert_empty_row(row=_row_index)
             o_table.insert_item(row=_row_index,
@@ -99,6 +102,7 @@ class Initialization:
                                                     'err_file': '',
                                                     'metadata_file': ''}
         self.parent.dict_ob_log_err_metadata = dict_ob_log_err_metadata
+        self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested] = list_ob_expected
 
     def populate_table_with_existing_obs(self, list_ob=None):
         if list_ob is None:
