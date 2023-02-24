@@ -43,6 +43,7 @@ class Monitor(QMainWindow):
                                                  'pre_processing_monitor.ui'))
 
         self.ui = load_ui(ui_full_path, baseinstance=self)
+        self.setWindowTitle("Monitor")
 
         refresh_icon = QIcon(refresh_large_image)
         self.ui.refresh_pushButton.setIcon(refresh_icon)
