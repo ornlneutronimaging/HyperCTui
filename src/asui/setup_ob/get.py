@@ -94,3 +94,9 @@ class Get(MasterGet):
 
     def ob_tab_selected(self):
         return self.parent.ui.ob_tabWidget.currentIndex()
+
+    def ob_will_be_moved_to(self):
+        return str(self.parent.ui.final_location_of_ob_created.text())
+
+    def ob_will_be_saved_as(self):
+        return str(self.parent.ui.location_of_ob_created.text())

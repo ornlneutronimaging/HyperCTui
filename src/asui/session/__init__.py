@@ -15,6 +15,8 @@ class SessionKeys:
     list_ob_folders_initially_there = "list of ob folders initially there"
     name_of_output_ob_folder = "name of the output OB folder"
     list_ob_folders_requested = "list of ob folders requested"
+    ob_will_be_saved_as = "OB will be saved as"
+    ob_will_be_moved_to = "OB will be moved to"
 
     # step projections
     run_title = 'run title'

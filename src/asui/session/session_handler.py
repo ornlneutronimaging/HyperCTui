@@ -49,6 +49,8 @@ class SessionHandler:
         top_obs_folder = o_get_step1.top_ob_folder()
         list_ob_folders_selected = o_get_step1.list_ob_folders_selected()
         ob_tab_selected = o_get_step1.ob_tab_selected()
+        ob_will_be_moved_to = o_get_step1.ob_will_be_moved_to()
+        ob_will_be_saved_as = o_get_step1.ob_will_be_saved_as()
 
         session_dict[SessionKeys.instrument] = instrument
         session_dict[SessionKeys.ipts_selected] = ipts_selected
@@ -58,6 +60,8 @@ class SessionHandler:
         session_dict[SessionKeys.top_obs_folder] = top_obs_folder
         session_dict[SessionKeys.list_ob_folders_selected] = list_ob_folders_selected
         session_dict[SessionKeys.ob_tab_selected] = ob_tab_selected
+        session_dict[SessionKeys.ob_will_be_saved_as] = ob_will_be_saved_as
+        session_dict[SessionKeys.ob_will_be_moved_to] = ob_will_be_moved_to
 
         # step projections
         o_get_step2 = Step2Get(parent=self.parent)
@@ -106,6 +110,14 @@ class SessionHandler:
 
         proton_charge = session_dict.get(SessionKeys.proton_charge, DefaultValues.proton_charge)
         self.parent.ui.open_beam_proton_charge_doubleSpinBox.setValue(proton_charge)
+
+        ob_will_be_saved_as = session_dict.get(SessionKeys.ob_will_be_saved_as, None)
+        if ob_will_be_saved_as:
+            self.parent.ui.location_of_ob_created.setText(ob_will_be_saved_as)
+
+        ob_will_be_moved_to = session_dict.get(SessionKeys.ob_will_be_moved_to, None)
+        if ob_will_be_moved_to:
+            self.parent.ui.final_location_of_ob_created.setText(ob_will_be_moved_to)
 
         top_obs_folder = session_dict.get(SessionKeys.top_obs_folder, None)
         if top_obs_folder is None:

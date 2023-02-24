@@ -75,11 +75,21 @@ class Initialization:
 
         ob_base_name = self.grand_parent.ui.location_of_ob_created.text()[:-1]
 
-        list_ob_expected = []
-        for _row_index in np.arange(nbr_obs_expected):
+        if self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested]:
+            # list comes from session file
+            list_ob_expected = self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested]
 
-            _ob_name = f"{ob_base_name}{_row_index:03d}"
-            list_ob_expected.append(_ob_name)
+        else:
+
+            # first time figuring out the name of the files
+            list_ob_expected = []
+            for _row_index in np.arange(nbr_obs_expected):
+
+                _ob_name = f"{ob_base_name}{_row_index:03d}"
+                list_ob_expected.append(_ob_name)
+
+        # populating the table
+        for _row_index, _ob_name in enumerate(list_ob_expected):
 
             o_table.insert_empty_row(row=_row_index)
             o_table.insert_item(row=_row_index,
