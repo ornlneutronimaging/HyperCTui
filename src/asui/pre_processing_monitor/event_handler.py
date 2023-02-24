@@ -40,6 +40,9 @@ class EventHandler:
 
         list_folder_found = []
 
+        o_get = GetMonitor(parent=self.parent,
+                           grand_parent=self.grand_parent)
+
         # we go row by row to see if we need to change the status of the row
         for _row in np.arange(nbr_row):
 
@@ -57,6 +60,65 @@ class EventHandler:
                 logging.info(f"\tfile newly found!")
                 list_folder_found.append(file_name)
                 # update table and add widgets + change status of file
+
+                o_get.set_path(file_name)
+
+                log_file = o_get.log_file()
+                if log_file:
+                    enable_button = True
+                else:
+                    enable_button = False
+
+                log_button = QPushButton("View")
+                log_button.setEnabled(enable_button)
+                o_table.insert_widget(row=_row,
+                                      column=1,
+                                      widget=log_button)
+
+                log_button.clicked.connect(lambda state=0, row=_row:
+                                           self.parent.preview_log(row=row,
+                                                                   data_type='ob'))
+                err_file = o_get.err_file()
+                if err_file:
+                    enable_button = True
+                else:
+                    enable_button = False
+
+                err_button = QPushButton("View")
+                err_button.setEnabled(enable_button)
+                o_table.insert_widget(row=_row,
+                                      column=2,
+                                      widget=err_button)
+                err_button.clicked.connect(lambda state=0, row=_row:
+                                           self.parent.preview_err(row=row,
+                                                                   data_type='ob'))
+
+                metadata_file = o_get.metadata_file()
+                if metadata_file:
+                    enable_button = True
+                else:
+                    enable_button = False
+
+                summary_button = QPushButton("View")
+                summary_button.setEnabled(enable_button)
+                o_table.insert_widget(row=_row,
+                                      column=3,
+                                      widget=summary_button)
+                summary_button.clicked.connect(lambda state=0, row=_row:
+                                               self.parent.preview_summary(row=row,
+                                                                           data_type='ob'))
+
+                o_table.insert_item(row=_row,
+                                    column=4,
+                                    value=DataStatus.ready)
+                o_table.set_background_color(row=_row,
+                                             column=4,
+                                             qcolor=READY)
+
+                dict_log_err_metadata[_row] = {'file_name': file_name,
+                                               'log_file': log_file,
+                                               'err_file': err_file,
+                                               'metadata_file': metadata_file}
 
             else:
                 logging.info(f"\tnot found! we can leave now")

@@ -13,10 +13,6 @@ class PreviewFileLauncher(QDialog):
 	def __init__(self, parent=None, file_name=None):
 		QDialog.__init__(self, parent=parent)
 
-		if not Path(file_name).is_file():
-			logging.info(f"file name {file_name} doest not exist!")
-			return
-
 		self.parent = parent
 		self.file_name = file_name
 
@@ -27,8 +23,13 @@ class PreviewFileLauncher(QDialog):
 		self.ui = load_ui(ui_full_path, baseinstance=self)
 		self.setWindowTitle("Preview")
 
-		self.ui.file_name_label.setText(file_name)
-		self.display_file()
+		if not Path(file_name).is_file():
+			logging.info(f"file name {file_name} doest not exist!")
+			self.ui.file_name_label.setText(f"{file_name} can not be located!")
+
+		else:
+			self.ui.file_name_label.setText(file_name)
+			self.display_file()
 
 	def display_file(self):
 		if self.file_name is None:
