@@ -53,7 +53,7 @@ class Monitor(QMainWindow):
         o_init.data()
         o_init.ui()
 
-        # self.refresh_button_clicked()
+        self.refresh_button_clicked()
 
     def preview_log(self, state=0, row=-1, data_type='ob'):
         log_file = self.dict_ob_log_err_metadata[row]['log_file']
@@ -82,7 +82,7 @@ class Monitor(QMainWindow):
 
             logging.info(f"-> all obs found!")
             # check if obs have already been moved
-            if o_event.obs_have_been_moved_to_final_folder():
+            if o_event.obs_hyave_been_moved_to_final_folder():
 
                 o_event.checking_status_of_expected_projections()
                 if self.all_projections_found:
