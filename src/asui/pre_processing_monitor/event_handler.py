@@ -34,50 +34,87 @@ class EventHandler:
         """
 
         logging.info(f"Checking the monitor status of {data_type}")
-        logging.info(f"- here is the list of folder previously found:")
-        for _folder in list_folder_previously_found:
-            logging.info(f"\t - {_folder}")
 
-        # get list of folders requested
         o_table = TableHandler(table_ui=table_ui)
         nbr_row = o_table.row_count()
-        list_folder_requested = []
-        logging.info(f"- list folder requested:")
+
+        list_folder_found = []
+
+        # we go row by row to see if we need to change the status of the row
         for _row in np.arange(nbr_row):
-            _folder = o_table.get_item_str_from_cell(row=_row, column=0)
-            list_folder_requested.append(_folder)
-            logging.info(f"\t- {_folder}")
 
-        # checking the folders that do exists
-        logging.info(f"- Checking list of folders that exists:")
-        list_folders_requested_and_found = []
-        for _folder in list_folder_requested:
-            if os.path.exists(_folder):
-                list_folders_requested_and_found.append(_folder)
-                logging.info(f"\t {_folder}")
+            logging.info(f"- row #{_row}")
+            # if the last column says DONE, nothing to do
+            row_status = o_table.get_item_str_from_cell(row=_row, column=4)
+            file_name = o_table.get_item_str_from_cell(row=_row, column=0)
+            logging.info(f"\t {file_name} - {row_status}")
+            if row_status == READY:
+                logging.info(f"\tfile already found!")
+                list_folder_found.append(file_name)
+                continue
 
-        # let's remove from that list the folder that was previously found
-        # to only work with the one not been found yet
-        logging.info(f"- keeping only the new file created:")
-        list_folder_requested_and_newly_found = []
-        if list_folders_requested_and_found:
-            if list_folder_previously_found:
-                for _folder in list_folders_requested_and_found:
-                    if not (_folder in list_folder_previously_found):
-                        list_folder_requested_and_newly_found.append(_folder)
-                        logging.info(f"\t - {_folder}")
-        if len(list_folder_requested_and_newly_found) == 0:
-            logging.info(f"\t - None!")
+            if os.path.exists(file_name):
+                logging.info(f"\tfile newly found!")
+                list_folder_found.append(file_name)
+                # update table and add widgets + change status of file
+
+            else:
+                logging.info(f"\tnot found! we can leave now")
+                # no need to keep going, we leave the rest like it is
+                break
+
+        return list_folder_found
 
 
-        # no new folder found so we can just return the same list of folder previously found
-        if len(list_folder_requested_and_newly_found) == 0:
-            return list_folder_previously_found
-
-        # with the remaining folder, go one by one to find if they have been found now
-
-
-
+        # logging.info(f"- here is the list of folder previously found:")
+        # for _folder in list_folder_previously_found:
+        #     logging.info(f"\t - {_folder}")
+        #
+        # # get list of folders requested
+        # o_table = TableHandler(table_ui=table_ui)
+        # nbr_row = o_table.row_count()
+        # list_folder_requested = []
+        # logging.info(f"- list folder requested:")
+        # for _row in np.arange(nbr_row):
+        #     _folder = o_table.get_item_str_from_cell(row=_row, column=0)
+        #     list_folder_requested.append(_folder)
+        #     logging.info(f"\t- {_folder}")
+        #
+        # # checking the folders that do exists
+        # logging.info(f"- Checking list of folders that exists:")
+        # list_folders_requested_and_found = []
+        # for _folder in list_folder_requested:
+        #     if os.path.exists(_folder):
+        #         list_folders_requested_and_found.append(_folder)
+        #         logging.info(f"\t {_folder}")
+        #
+        # # let's remove from that list the folder that was previously found
+        # # to only work with the one not been found yet
+        # logging.info(f"- keeping only the new file created:")
+        # list_folder_requested_and_newly_found = []
+        # if list_folders_requested_and_found:
+        #     for _folder in list_folders_requested_and_found:
+        #         if not (_folder in list_folder_previously_found):
+        #             list_folder_requested_and_newly_found.append(_folder)
+        #             logging.info(f"\t - {_folder}")
+        #
+        # if len(list_folder_requested_and_newly_found) == 0:
+        #     logging.info(f"\t - None!")
+        #
+        # # no new folder found so we can just return the same list of folder previously found
+        # if len(list_folder_requested_and_newly_found) == 0:
+        #     return list_folder_previously_found
+        #
+        # # with the remaining folder, go one by one to find if they have been found now
+        #
+        #
+        #
+        #
+        #
+        #
+        # full_list_folder_found = list_folder_previously_found + list_folder_requested_and_newly_found
+        #
+        # return full_list_folder_found
 
 
         # logging.info(f"List of folders requested and found:")

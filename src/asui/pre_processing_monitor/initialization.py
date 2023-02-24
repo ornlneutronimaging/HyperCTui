@@ -41,7 +41,7 @@ class Initialization:
             self.populate_table_with_existing_obs(list_ob=list_ob)
             o_event = EventHandler(parent=self.parent,
                                    grand_parent=self.grand_parent)
-            o_event.checking_status_of_expected_obs()
+            o_event.checking_status_of_expected_projections()
 
         folder_path = self.grand_parent.folder_path
         self.populate_table_with_expected_projections()
