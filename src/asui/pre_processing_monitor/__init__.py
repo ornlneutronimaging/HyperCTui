@@ -7,11 +7,13 @@ class DataStatus:
 	in_progress = "In progress ..."
 	failed = "Failed!"
 	in_queue = "In queue"
+	done = "Done"
 
 
 class ColorDataStatus:
 
 	ready = 'green'
+	ready_button = 'light green'
 	in_progress = 'grey'
 	failed = 'red'
 	in_queue = 'cyan'

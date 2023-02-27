@@ -11,6 +11,8 @@ from .event_handler import EventHandler as MonitorEventHandler
 from ..preview_file.preview_file_launcher import PreviewFileLauncher, PreviewMetadataFileLauncher
 from ..session import SessionKeys
 from ..utilities.widgets import Widgets as UtilityWidgets
+from . import DataStatus
+from . import ColorDataStatus
 
 
 class Monitor(QMainWindow):
@@ -82,7 +84,7 @@ class Monitor(QMainWindow):
 
             logging.info(f"-> all obs found!")
             # check if obs have already been moved
-            if o_event.obs_hyave_been_moved_to_final_folder():
+            if o_event.obs_have_been_moved_to_final_folder():
 
                 o_event.checking_status_of_expected_projections()
                 if self.all_projections_found:
@@ -94,6 +96,10 @@ class Monitor(QMainWindow):
 
             else:
                 o_event.move_obs_to_final_folder()
+
+            # we moved the files so we can change the status of the move message
+            self.ui.final_ob_folder_status.setText(DataStatus.done)
+            self.ui.final_ob_folder_status.setStyleSheet(f"background-color: {ColorDataStatus.ready_button}")
 
         else:
             logging.info(f"-> not all obs found!")

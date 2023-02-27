@@ -82,6 +82,14 @@ def make_folder(folder_name):
         os.makedirs(folder_name)
 
 
+def move_list_files_to_folder(list_of_files=None, folder=None):
+    if list_of_files is None:
+        return
+
+    for _file in list_of_files:
+        shutil.move(_file, folder)
+
+
 def list_dirs(rootdir):
     """retrieve recursively the list of all folders within rootdir"""
     return [os.path.abspath(x[0]) for x in os.walk(rootdir)]

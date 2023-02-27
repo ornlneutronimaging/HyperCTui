@@ -24,9 +24,9 @@ class Initialization:
 
     def data(self):
         """
-               this is where we need to figure out the list of NeXus files already listed
-               and how many we are expecting
-               """
+        this is where we need to figure out the list of NeXus files already listed
+        and how many we are expecting
+        """
 
         if self.grand_parent.ui.ob_tabWidget.currentIndex() == 0:
             # we want to take new obs

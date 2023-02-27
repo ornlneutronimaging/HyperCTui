@@ -5,7 +5,7 @@ from qtpy.QtWidgets import QPushButton
 import numpy as np
 import logging
 
-from asui.utilities.file_utilities import list_tof_dirs
+from asui.utilities.file_utilities import list_tof_dirs, make_folder, move_list_files_to_folder
 from asui.utilities.status_message_config import show_status_message, StatusMessageStatus
 from asui.utilities.table import TableHandler
 from asui.pre_processing_monitor.get import Get as GetMonitor
@@ -180,9 +180,31 @@ class EventHandler:
         self.grand_parent.session_dict[SessionKeys.list_projections_folders_initially_there] = list_folders_found
 
     def obs_have_been_moved_to_final_folder(self):
-        # FIXME
-        pass
+        list_ob_folders = self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there]
+        final_location = self.grand_parent.ui.final_location_of_ob_created.text()
+        for _folder in list_ob_folders:
+            base_name = os.path.basename(_folder)
+            full_name_in_final_location = os.path.join(final_location, base_name)
+            if not os.path.exists(full_name_in_final_location):
+                return False
+        return True
 
     def move_obs_to_final_folder(self):
-        # FIXME
-        pass
+        """
+        If all the OBs have been found, it will move them to their final location and will update the table at the
+        same time to make sure we are now pointing to the final location.
+        """
+        logging.info(f"Moving obs to final folder!")
+        list_ob_folders = self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there]
+        final_location = self.grand_parent.ui.final_location_of_ob_created.text()
+        make_folder(final_location)
+        move_list_files_to_folder(list_of_files=list_ob_folders,
+                                  folder=final_location)
+
+        logging.info(f"Updating table with new location of obs!")
+        o_table = TableHandler(table_ui=self.parent.ui.obs_tableWidget)
+        for _row, _folder in enumerate(list_ob_folders):
+            _new_final_location = os.path.join(final_location, os.path.basename(_folder))
+            o_table.set_item_with_str(row=_row,
+                                      column=0,
+                                      value=_new_final_location)
