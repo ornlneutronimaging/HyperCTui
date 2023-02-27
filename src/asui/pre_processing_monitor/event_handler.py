@@ -152,16 +152,15 @@ class EventHandler:
         """look at the list of obs expected and updates the OB table
         with the ones already found"""
         output_folder = self.grand_parent.ui.obs_output_location_label.text()
-        # nbr_obs_expected = self.grand_parent.ui.number_of_ob_spinBox.value()
 
         logging.info(f"Checking status of expected obs:")
+        list_folder_previously_found = self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there]
         list_folders_found, self.parent.all_obs_found = self.checking_status_of(
                                                          data_type=DataType.ob,
                                                          output_folder=output_folder,
                                                          table_ui=self.parent.ui.obs_tableWidget,
                                                          dict_log_err_metadata=self.parent.dict_ob_log_err_metadata,
-                                                         list_folder_previously_found=
-                                                         self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there])
+                                                         list_folder_previously_found=list_folder_previously_found)
         self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there] = list_folders_found
         logging.info(f"-> list folders found: {list_folders_found}")
 
@@ -169,15 +168,29 @@ class EventHandler:
         """look at the list of projections and updates the projection table
         with the ones already found!"""
         output_folder = self.grand_parent.ui.projections_output_location_label.text()
-        nbr_projections_expected = self.grand_parent.ui.number_of_projections_spinBox.value()
 
+        logging.info(f"Checking status of expected projections:")
+        list_folder_previously_found = self.grand_parent.session_dict[SessionKeys.list_projections_folders_initially_there]
         list_folders_found, self.parent.all_projections_found = self.checking_status_of(
                                                                  data_type=DataType.projection,
                                                                  output_folder=output_folder,
-                                                                 nbr_files_expected=nbr_projections_expected,
                                                                  table_ui=self.parent.ui.projections_tableWidget,
-                                                                 dict_log_err_metadata=self.parent.dict_projections_log_err_metadata)
+                                                                 dict_log_err_metadata=self.parent.dict_projections_log_err_metadata,
+                                                                 list_folder_previously_found=list_folder_previously_found)
         self.grand_parent.session_dict[SessionKeys.list_projections_folders_initially_there] = list_folders_found
+
+    def first_projection_in_progress(self):
+        """
+        the first row of projections should change its status from queue to in_progress as we are checking
+        for the projections for the first time
+        """
+        o_table = TableHandler(table_ui=self.parent.ui.projections_tableWidget)
+        o_table.insert_item(row=0,
+                            column=4,
+                            value=DataStatus.in_progress)
+        o_table.set_background_color(row=0,
+                                     column=4,
+                                     qcolor=IN_PROGRESS)
 
     def obs_have_been_moved_to_final_folder(self):
         list_ob_folders = self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there]

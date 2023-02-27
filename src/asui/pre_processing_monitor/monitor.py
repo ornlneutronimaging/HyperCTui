@@ -96,6 +96,7 @@ class Monitor(QMainWindow):
 
             else:
                 o_event.move_obs_to_final_folder()
+                o_event.first_projection_in_progress()
 
             # we moved the files so we can change the status of the move message
             self.ui.final_ob_folder_status.setText(DataStatus.done)
