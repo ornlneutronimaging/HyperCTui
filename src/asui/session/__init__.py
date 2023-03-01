@@ -29,6 +29,12 @@ class SessionKeys:
     window_width = "window width"
     window_height = "window height"
 
+    # crop
+    crop_left = "crop left"
+    crop_right = "crop right"
+    crop_top = "crop top"
+    crop_bottom = "crop bottom"
+
     # general
     process_in_progress = "process in progress"
 

@@ -64,6 +64,8 @@ class GuiInitialization:
         self.parent.ui.statusbar.addPermanentWidget(self.parent.eventProgress)
 
     def pyqtgraph(self):
+
+        # crop tab
         self.parent.ui.crop_image_view = pg.ImageView(view=pg.PlotItem())
         self.parent.ui.crop_image_view.ui.roiBtn.hide()
         self.parent.ui.crop_image_view.ui.menuBtn.hide()

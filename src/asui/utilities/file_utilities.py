@@ -122,3 +122,18 @@ def read_json(file_name):
     with open(file_name) as f:
         config = json.load(f)
     return config
+
+
+def get_list_img_files_from_top_folders(list_projections):
+    """
+    list of projections is the top folder and we need to return the full path of the _SummedImg.fits file
+    inside a subfolder
+    """
+    list_img_files = []
+    for _projection in list_projections:
+        _folder = glob.glob(os.path.join(_projection, '*'))
+        if _folder:
+            img_file = glob.glob(os.path.join(_folder[0], '*_SummedImg.fits'))
+            list_img_files.append(img_file[0])
+
+    return list_img_files

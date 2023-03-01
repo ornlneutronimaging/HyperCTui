@@ -17,6 +17,7 @@ from .initialization.gui_initialization import GuiInitialization
 from .setup_ob.event_handler import EventHandler as Step1EventHandler
 from .setup_projections.event_handler import EventHandler as Step2EventHandler
 from .pre_processing_monitor.monitor import Monitor as PreProcessingMonitor
+from .crop.crop import Crop
 
 from . import UI_TITLE, TabNames, tab2_icon, tab3_icon, tab4_icon
 
@@ -187,6 +188,16 @@ class ASUI(QMainWindow):
 
     def checking_status_acquisition_button_clicked(self):
         self.launch_pre_processing_monitor_view()
+
+    # step crop
+    def initialize_crop(self):
+        o_crop = Crop(parent=self)
+        o_crop.load_projections()
+        o_crop.display_data()
+
+    # center of rotation
+    def initialize_center_of_rotation(self):
+        pass
 
     # leaving ui
     def closeEvent(self, c):

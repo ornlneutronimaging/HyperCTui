@@ -18,6 +18,7 @@ from ..event_handler import EventHandler as MainEventHandler
 from ..setup_projections.get import Get as Step2Get
 from .. import TabNames, tab2_icon, tab3_icon, tab4_icon
 from ..utilities.widgets import Widgets as UtilityWidgets
+from ..crop.crop import Crop
 
 
 class SessionHandler:
@@ -78,6 +79,17 @@ class SessionHandler:
 
         session_dict[SessionKeys.all_tabs_visible] = all_tabs_visible
         session_dict[SessionKeys.main_tab_selected] = main_tab_selected
+
+        # crop
+        left = self.parent.ui.crop_left_spinBox.value()
+        right = self.parent.ui.crop_right_spinBox.value()
+        top = self.parent.ui.crop_top_spinBox.value()
+        bottom = self.parent.ui.crop_bottom_spinBox.value()
+
+        session_dict[SessionKeys.crop_left] = left
+        session_dict[SessionKeys.crop_right] = right
+        session_dict[SessionKeys.crop_top] = top
+        session_dict[SessionKeys.crop_bottom] = bottom
 
         self.parent.session_dict = session_dict
 
@@ -177,6 +189,22 @@ class SessionHandler:
 
         main_tab_selected = session_dict.get(SessionKeys.main_tab_selected, DefaultValues.main_tab_selected)
         self.parent.ui.tabWidget.setCurrentIndex(main_tab_selected)
+
+        # crop
+        o_crop = Crop(parent=self.parent)
+        o_crop.load_projections()
+        o_crop.display_data()
+
+        left = session_dict.get(SessionKeys.crop_left, 0)
+        right = session_dict.get(SessionKeys.crop_right, 100)
+        top = session_dict.get(SessionKeys.crop_top, 0)
+        bottom = session_dict.get(SessionKeys.crop_bottom, 100)
+
+        self.parent.ui.crop_left_spinBox.setValue(left)
+        self.parent.ui.crop_right_spinBox.setValue(right)
+        self.parent.ui.crop_top_spinBox.setValue(top)
+        self.parent.ui.crop_bottom_spinBox.setValue(bottom)
+
 
     def _retrieve_general_settings(self):
         number_of_scanned_periods = self.parent.ui.number_of_scanned_periods_spinBox.value()

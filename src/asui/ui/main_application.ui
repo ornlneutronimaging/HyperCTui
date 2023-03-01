@@ -30,7 +30,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideRight</enum>
@@ -580,9 +580,9 @@
                     <item>
                      <layout class="QVBoxLayout" name="verticalLayout_7">
                       <item>
-                       <widget class="QLabel" name="label_8">
+                       <widget class="QLabel" name="crop_top_label">
                         <property name="text">
-                         <string>Left:</string>
+                         <string>Top</string>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -590,7 +590,7 @@
                        </widget>
                       </item>
                       <item>
-                       <widget class="QSpinBox" name="spinBox_3"/>
+                       <widget class="QSpinBox" name="crop_top_spinBox"/>
                       </item>
                      </layout>
                     </item>
@@ -640,7 +640,7 @@
                        </spacer>
                       </item>
                       <item>
-                       <widget class="QLabel" name="label_9">
+                       <widget class="QLabel" name="crop_left_label">
                         <property name="text">
                          <string>Left:</string>
                         </property>
@@ -650,7 +650,7 @@
                        </widget>
                       </item>
                       <item>
-                       <widget class="QSpinBox" name="spinBox"/>
+                       <widget class="QSpinBox" name="crop_left_spinBox"/>
                       </item>
                       <item>
                        <spacer name="verticalSpacer_5">
@@ -705,7 +705,7 @@
                        </spacer>
                       </item>
                       <item>
-                       <widget class="QLabel" name="label_10">
+                       <widget class="QLabel" name="crop_right_label">
                         <property name="text">
                          <string>Right:</string>
                         </property>
@@ -715,7 +715,7 @@
                        </widget>
                       </item>
                       <item>
-                       <widget class="QSpinBox" name="spinBox_2"/>
+                       <widget class="QSpinBox" name="crop_right_spinBox"/>
                       </item>
                       <item>
                        <spacer name="verticalSpacer_8">
@@ -765,9 +765,9 @@
                     <item>
                      <layout class="QVBoxLayout" name="verticalLayout_12">
                       <item>
-                       <widget class="QLabel" name="label_11">
+                       <widget class="QLabel" name="crop_bottom_label">
                         <property name="text">
-                         <string>Left:</string>
+                         <string>Bottom</string>
                         </property>
                         <property name="alignment">
                          <set>Qt::AlignCenter</set>
@@ -775,7 +775,7 @@
                        </widget>
                       </item>
                       <item>
-                       <widget class="QSpinBox" name="spinBox_4"/>
+                       <widget class="QSpinBox" name="crop_bottom_spinBox"/>
                       </item>
                      </layout>
                     </item>
