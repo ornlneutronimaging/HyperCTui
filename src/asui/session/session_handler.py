@@ -190,10 +190,15 @@ class SessionHandler:
         main_tab_selected = session_dict.get(SessionKeys.main_tab_selected, DefaultValues.main_tab_selected)
         self.parent.ui.tabWidget.setCurrentIndex(main_tab_selected)
 
+        # hide start acquisition if already ran for that config
+        if session_dict.get(SessionKeys.started_acquisition, False):
+            self.parent.ui.start_acquisition_pushButton.setVisible(False)
+            self.parent.ui.checking_status_acquisition_pushButton.setEnabled(True)
+
         # crop
         o_crop = Crop(parent=self.parent)
-        o_crop.load_projections()
-        o_crop.display_data()
+        # o_crop.load_projections()
+        # o_crop.display_data()
 
         left = session_dict.get(SessionKeys.crop_left, 0)
         right = session_dict.get(SessionKeys.crop_right, 100)

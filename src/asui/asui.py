@@ -52,7 +52,8 @@ class ASUI(QMainWindow):
                     SessionKeys.ipts_selected      : None,
                     SessionKeys.ipts_index_selected: 0,
                     SessionKeys.number_of_obs      : 5,
-                    SessionKeys.list_ob_folders_requested: None}
+                    SessionKeys.list_ob_folders_requested: None,
+                    SessionKeys.started_acquisition: False}
 
     tab2 = None  # handle to tab #2 - cropping
     tab3 = None  # handle to tab #3 - rotation center
@@ -180,6 +181,7 @@ class ASUI(QMainWindow):
 
     def start_acquisition_clicked(self):
         self.session_dict[SessionKeys.process_in_progress] = True
+        self.session_dict[SessionKeys.started_acquisition] = True
         o_event = EventHandler(parent=self)
         o_event.start_acquisition()
         o_event.freeze_number_ob_sample_requested()

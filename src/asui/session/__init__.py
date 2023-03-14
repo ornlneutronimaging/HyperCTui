@@ -37,6 +37,7 @@ class SessionKeys:
 
     # general
     process_in_progress = "process in progress"
+    started_acquisition = "started acquisition"
 
 
 class DefaultValues:
@@ -56,3 +57,5 @@ class DefaultValues:
     window_height = 800
 
     process_in_progress = False
+
+    started_acquisition = False

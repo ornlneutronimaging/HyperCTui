@@ -52,7 +52,9 @@ class NewSession(QDialog):
         self.parent.set_window_title()
         self.parent.inform_of_output_location()
 
-        # self.parent.ui.tabWidget.removeTab(2)
+        # make sure start acquisition button is visible
+        self.parent.ui.start_acquisition_pushButton.setVisible(True)
+        self.parent.ui.checking_status_acquisition_pushButton.setEnabled(False)
 
         self.parent.ui.tabWidget.setCurrentIndex(0)
         self.parent.ui.ob_tabWidget.setCurrentIndex(0)
