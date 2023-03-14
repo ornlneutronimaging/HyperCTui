@@ -166,11 +166,11 @@ class SessionHandler:
         self.parent.ui.run_title_lineEdit.setText(run_title)
         self.parent.ui.run_title_lineEdit.blockSignals(False)
         name_of_output_projection_folder = session_dict[SessionKeys.name_of_output_projection_folder]
-        self.parent.ui.run_title_formatted_label.setText(os.path.basename(name_of_output_projection_folder))
-        name_of_output_projection_folder_with_ext = session_dict[SessionKeys.name_of_output_projection_folder] + "_*"
+        self.parent.ui.run_title_formatted_label.setText(run_title)
+        name_of_output_projection_folder_with_ext = os.path.join(session_dict[SessionKeys.name_of_output_projection_folder], run_title + "_*")
         self.parent.ui.projections_output_location_label.setText(name_of_output_projection_folder_with_ext)
 
-        name_of_output_ob_folder = session_dict[SessionKeys.name_of_output_ob_folder] + "_*"
+        name_of_output_ob_folder = session_dict[SessionKeys.name_of_output_ob_folder]
         self.parent.ui.obs_output_location_label.setText(name_of_output_ob_folder)
 
         self.parent.ui.projections_p_charge_label.setText(str(proton_charge))

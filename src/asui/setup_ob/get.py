@@ -108,4 +108,3 @@ class Get(MasterGet):
 
     def ob_folder(self):
         return str(self.parent.ui.location_of_ob_created.text())
-    
