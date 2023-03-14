@@ -216,8 +216,12 @@ class EventHandler:
 
         logging.info(f"Updating table with new location of obs!")
         o_table = TableHandler(table_ui=self.parent.ui.obs_tableWidget)
+        new_list_ob_folders = []
         for _row, _folder in enumerate(list_ob_folders):
             _new_final_location = os.path.join(final_location, os.path.basename(_folder))
+            new_list_ob_folders.append(_new_final_location)
             o_table.set_item_with_str(row=_row,
                                       column=0,
                                       value=_new_final_location)
+        self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there] = new_list_ob_folders
+        self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested] = new_list_ob_folders

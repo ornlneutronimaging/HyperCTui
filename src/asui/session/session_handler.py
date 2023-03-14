@@ -196,19 +196,20 @@ class SessionHandler:
             self.parent.ui.checking_status_acquisition_pushButton.setEnabled(True)
 
         # crop
-        o_crop = Crop(parent=self.parent)
-        # o_crop.load_projections()
-        # o_crop.display_data()
+        if session_dict.get(SessionKeys.all_tabs_visible, False):
+            o_crop = Crop(parent=self.parent)
+            o_crop.load_projections()
+            o_crop.display_data()
 
-        left = session_dict.get(SessionKeys.crop_left, 0)
-        right = session_dict.get(SessionKeys.crop_right, 100)
-        top = session_dict.get(SessionKeys.crop_top, 0)
-        bottom = session_dict.get(SessionKeys.crop_bottom, 100)
+            left = session_dict.get(SessionKeys.crop_left, 0)
+            right = session_dict.get(SessionKeys.crop_right, 100)
+            top = session_dict.get(SessionKeys.crop_top, 0)
+            bottom = session_dict.get(SessionKeys.crop_bottom, 100)
 
-        self.parent.ui.crop_left_spinBox.setValue(left)
-        self.parent.ui.crop_right_spinBox.setValue(right)
-        self.parent.ui.crop_top_spinBox.setValue(top)
-        self.parent.ui.crop_bottom_spinBox.setValue(bottom)
+            self.parent.ui.crop_left_spinBox.setValue(left)
+            self.parent.ui.crop_right_spinBox.setValue(right)
+            self.parent.ui.crop_top_spinBox.setValue(top)
+            self.parent.ui.crop_bottom_spinBox.setValue(bottom)
 
 
     def _retrieve_general_settings(self):
