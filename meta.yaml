@@ -1,4 +1,4 @@
-{% set name = "AISUI" %}
+{% set name = "HyperCTui" %}
 {% set data = load_setup_py_data() %}
 {% set version = data.get('version') %}
 

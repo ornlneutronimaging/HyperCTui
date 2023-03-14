@@ -30,7 +30,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideRight</enum>
@@ -510,6 +510,13 @@
         <item>
          <widget class="QWidget" name="top_crop_widget" native="true">
           <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string>Preview showing 0 and 180 degrees projections combined.</string>
+             </property>
+            </widget>
+           </item>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_8">
              <item>

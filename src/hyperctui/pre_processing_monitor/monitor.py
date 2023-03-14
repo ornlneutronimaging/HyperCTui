@@ -3,8 +3,8 @@ import os
 import logging
 from qtpy.QtGui import QIcon
 
-from asui import load_ui
-from asui import refresh_large_image
+from hyperctui import load_ui
+from hyperctui import refresh_large_image
 
 from .initialization import Initialization
 from .event_handler import EventHandler as MonitorEventHandler

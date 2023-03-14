@@ -1,2 +1,2 @@
 include versioneer.py
-include src/asui/_version.py
+include src/hyperctui/_version.py

@@ -5,10 +5,10 @@ from qtpy.QtWidgets import QPushButton
 import numpy as np
 import logging
 
-from asui.utilities.file_utilities import list_tof_dirs, make_folder, move_list_files_to_folder
-from asui.utilities.status_message_config import show_status_message, StatusMessageStatus
-from asui.utilities.table import TableHandler
-from asui.pre_processing_monitor.get import Get as GetMonitor
+from hyperctui.utilities.file_utilities import list_tof_dirs, make_folder, move_list_files_to_folder
+from hyperctui.utilities.status_message_config import show_status_message, StatusMessageStatus
+from hyperctui.utilities.table import TableHandler
+from hyperctui.pre_processing_monitor.get import Get as GetMonitor
 from ..session import SessionKeys
 
 from . import READY, IN_PROGRESS, IN_QUEUE, FAILED
@@ -224,4 +224,4 @@ class EventHandler:
                                       column=0,
                                       value=_new_final_location)
         self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there] = new_list_ob_folders
-        self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested] = new_list_ob_folders
+        self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested]
