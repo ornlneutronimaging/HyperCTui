@@ -1,10 +1,13 @@
 import numpy as np
 import logging
+from qtpy import QtGui
+import pyqtgraph as pg
 
 from NeuNorm.normalization import Normalization
 
 from ..session import SessionKeys
 from ..utilities.file_utilities import get_list_img_files_from_top_folders
+
 
 class Crop:
 
@@ -23,15 +26,62 @@ class Crop:
         o_loader.load(file=list_summed_img, notebook=False)
 
         self.mean_image = np.mean(o_loader.data['sample']['data'][:], axis=0)
+        self.parent.crop_live_image = self.mean_image
 
-    def display_data(self):
+    def initialize(self):
+        self.load_projections()
+        self.parent.ui.cropping_groupBox.setEnabled(True)
         self.parent.ui.crop_image_view.clear()
-        self.parent.ui.crop_image_view.setImage(self.mean_image)
+        self.parent.ui.crop_image_view.setImage(np.transpose(self.mean_image))
+        self.parent.ui.top_crop_widget.setEnabled(True)
 
-    def display_roi(self):
+        [height, width] = np.shape(self.parent.crop_live_image)
+        self.parent.ui.crop_left_spinBox.setMaximum(width-1)
+        self.parent.ui.crop_right_spinBox.setMaximum(width-1)
+        self.parent.ui.crop_top_spinBox.setMaximum(height-1)
+        self.parent.ui.crop_bottom_spinBox.setMaximum(height-1)
+
+        left = self.parent.session_dict.get(SessionKeys.crop_left, 0)
+        right = self.parent.session_dict.get(SessionKeys.crop_right, 100)
+        top = self.parent.session_dict.get(SessionKeys.crop_top, 0)
+        bottom = self.parent.session_dict.get(SessionKeys.crop_bottom, 100)
+
+        left = np.min([left, right])
+        right = np.max([left, right])
+        top = np.min([top, bottom])
+        bottom = np.max([top, bottom])
+
+        self.parent.session_dict[SessionKeys.crop_left] = left
+        self.parent.session_dict[SessionKeys.crop_right] = right
+        self.parent.session_dict[SessionKeys.crop_top] = top
+        self.parent.session_dict[SessionKeys.crop_bottom] = bottom
+
+        self.parent.ui.crop_left_spinBox.setValue(left)
+        self.parent.ui.crop_right_spinBox.setValue(right)
+        self.parent.ui.crop_top_spinBox.setValue(top)
+        self.parent.ui.crop_bottom_spinBox.setValue(bottom)
+
+        _color = QtGui.QColor(62, 13, 244)
+        _pen = QtGui.QPen()
+        _pen.setColor(_color)
+        _pen.setWidthF(0.01)
+
+        width = right - left + 1
+        height = bottom - top + 1
+
+        _roi_id = pg.ROI([left, top], [width, height], pen=_pen, scaleSnap=True)
+
+        _roi_id.addScaleHandle([1, 1], [0, 0])
+        _roi_id.addScaleHandle([0, 0], [1, 1])
+
+        self.parent.ui.crop_image_view.addItem(_roi_id)
+
+        _roi_id.sigRegionChanged.connect(self.parent.crop_roi_manually_moved)
+
+    def update_roi(self):
         left = self.parent.ui.crop_left_spinBox.value()
         right = self.parent.ui.crop_right_spinBox.value()
         top = self.parent.ui.crop_top_spinBox.value()
         bottom = self.parent.ui.crop_bottom_spinBox.value()
 
-        #FIXME
+

@@ -545,7 +545,7 @@
                 </spacer>
                </item>
                <item>
-                <widget class="QGroupBox" name="groupBox_2">
+                <widget class="QGroupBox" name="cropping_groupBox">
                  <property name="maximumSize">
                   <size>
                    <width>300</width>
@@ -1207,8 +1207,8 @@
    <slot>step1_browse_obs_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>140</x>
-     <y>82</y>
+     <x>180</x>
+     <y>112</y>
     </hint>
     <hint type="destinationlabel">
      <x>740</x>
@@ -1272,7 +1272,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>886</x>
-     <y>961</y>
+     <y>955</y>
     </hint>
     <hint type="destinationlabel">
      <x>672</x>
@@ -1303,8 +1303,8 @@
    <slot>start_acquisition_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>384</x>
-     <y>962</y>
+     <x>399</x>
+     <y>956</y>
     </hint>
     <hint type="destinationlabel">
      <x>249</x>
@@ -1376,6 +1376,70 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>crop_top_spinBox</sender>
+   <signal>editingFinished()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>crop_top_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>769</x>
+     <y>424</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1003</x>
+     <y>987</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>crop_bottom_spinBox</sender>
+   <signal>editingFinished()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>crop_bottom_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>769</x>
+     <y>604</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>942</x>
+     <y>991</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>crop_right_spinBox</sender>
+   <signal>editingFinished()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>crop_right_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>853</x>
+     <y>515</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1219</x>
+     <y>678</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>crop_left_spinBox</sender>
+   <signal>editingFinished()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>crop_left_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>681</x>
+     <y>512</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1216</x>
+     <y>544</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>step1_instrument_changed()</slot>
@@ -1395,5 +1459,9 @@
   <slot>main_tab_changed()</slot>
   <slot>launch_pre_processing_monitor_view()</slot>
   <slot>checking_status_acquisition_button_clicked()</slot>
+  <slot>crop_top_changed()</slot>
+  <slot>crop_bottom_changed()</slot>
+  <slot>crop_left_changed()</slot>
+  <slot>crop_right_changed()</slot>
  </slots>
 </ui>

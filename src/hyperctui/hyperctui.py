@@ -64,6 +64,9 @@ class ASUI(QMainWindow):
     number_of_files_requested = {'ob': None,
                                  'sample': None}
 
+    # crop
+    crop_live_image = None
+
     def __init__(self, parent=None):
 
         super(ASUI, self).__init__(parent)
@@ -196,6 +199,25 @@ class ASUI(QMainWindow):
         o_crop = Crop(parent=self)
         o_crop.load_projections()
         o_crop.display_data()
+
+    def crop_top_changed(self):
+        self.crop_changed()
+
+    def crop_bottom_changed(self):
+        self.crop_changed()
+
+    def crop_left_changed(self):
+        self.crop_changed()
+
+    def crop_right_changed(self):
+        self.crop_changed()
+
+    def crop_changed(self):
+        o_crop = Crop(parent=self)
+        o_crop.update_roi()
+
+    def crop_roi_manually_moved(self):
+        pass
 
     # center of rotation
     def initialize_center_of_rotation(self):
