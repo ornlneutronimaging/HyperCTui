@@ -100,3 +100,12 @@ class Get(MasterGet):
 
     def ob_will_be_saved_as(self):
         return str(self.parent.ui.location_of_ob_created.text())
+
+    def projection_folder(self):
+        """return the location where the projections will be saved"""
+        folder = str(self.parent.ui.projections_output_location_label.text())
+        return os.path.dirname(folder)
+
+    def ob_folder(self):
+        return str(self.parent.ui.location_of_ob_created.text())
+    

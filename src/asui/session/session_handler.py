@@ -52,6 +52,8 @@ class SessionHandler:
         ob_tab_selected = o_get_step1.ob_tab_selected()
         ob_will_be_moved_to = o_get_step1.ob_will_be_moved_to()
         ob_will_be_saved_as = o_get_step1.ob_will_be_saved_as()
+        output_projection_folder = o_get_step1.projection_folder()
+        output_ob_folder = o_get_step1.ob_folder()
 
         session_dict[SessionKeys.instrument] = instrument
         session_dict[SessionKeys.ipts_selected] = ipts_selected
@@ -63,6 +65,8 @@ class SessionHandler:
         session_dict[SessionKeys.ob_tab_selected] = ob_tab_selected
         session_dict[SessionKeys.ob_will_be_saved_as] = ob_will_be_saved_as
         session_dict[SessionKeys.ob_will_be_moved_to] = ob_will_be_moved_to
+        session_dict[SessionKeys.name_of_output_projection_folder] = output_projection_folder
+        session_dict[SessionKeys.name_of_output_ob_folder] = output_ob_folder
 
         # step projections
         o_get_step2 = Step2Get(parent=self.parent)
