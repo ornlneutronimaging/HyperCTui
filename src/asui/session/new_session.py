@@ -55,6 +55,7 @@ class NewSession(QDialog):
         # make sure start acquisition button is visible
         self.parent.ui.start_acquisition_pushButton.setVisible(True)
         self.parent.ui.checking_status_acquisition_pushButton.setEnabled(False)
+        self.parent.session_dict[SessionKeys.started_acquisition] = False
 
         self.parent.ui.tabWidget.setCurrentIndex(0)
         self.parent.ui.ob_tabWidget.setCurrentIndex(0)
