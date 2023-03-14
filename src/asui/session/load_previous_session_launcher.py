@@ -17,8 +17,8 @@ class LoadPreviousSessionLauncher(QDialog):
                                                  'load_previous_session.ui'))
         self.ui = load_ui(ui_full_path, baseinstance=self)
         self.setWindowTitle("Load previous session?")
-        # self.ui.pushButton.setFocus(True)
-        self.ui.no_pushButton.setFocus(True)
+        self.ui.pushButton.setFocus(True)
+        # self.ui.no_pushButton.setFocus(True)
 
     def yes_clicked(self):
         self.close()

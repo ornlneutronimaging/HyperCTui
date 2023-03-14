@@ -1,7 +1,9 @@
 from qtpy.QtWidgets import QProgressBar, QVBoxLayout
 import pyqtgraph as pg
 from qtpy.QtGui import QIcon
+from qtpy.QtGui import QPixmap
 import numpy as np
+import os
 
 from ..utilities.config_handler import ConfigHandler
 from ..utilities.table import TableHandler
@@ -55,6 +57,14 @@ class GuiInitialization:
 
         # 0 and 180 degrees label
         self.parent.ui.setup_0_180_label.setText(u"0\u00B0 and 180\u00B0 projections will be acquired automatically!")
+
+        # add logo to background of tabs
+        _file_path = os.path.dirname(__file__)
+        background_file = os.path.abspath(os.path.join(_file_path,
+                                                       '../static/background_logo.png'))
+        logo_icon = QPixmap(background_file)
+        self.parent.ui.logo.setPixmap(logo_icon)
+        # self.parent.ui.tab.setStyleSheet("background-image: url('" +  background_file  + "'); background-repeat: no-repeat")
 
     def statusbar(self):
         self.parent.eventProgress = QProgressBar(self.parent.ui.statusbar)
