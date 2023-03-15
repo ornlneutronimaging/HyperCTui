@@ -100,6 +100,16 @@ class Monitor(QMainWindow):
             else:
                 o_event.move_obs_to_final_folder()
                 o_event.first_projection_in_progress()
+                o_event.checking_status_of_expected_projections()
+                if self.all_projections_found:
+
+                    logging.info(f"-> all projections found!")
+                    if not self.parent.session_dict.get(SessionKeys.all_tabs_visible, False):
+                        self.parent.session_dict[SessionKeys.all_tabs_visible] = True
+                        o_widgets = UtilityWidgets(parent=self.parent)
+                        o_widgets.make_tabs_visible(is_visible=True)
+                        self.parent.initialize_crop()
+                        self.parent.initialize_center_of_rotation()
 
             # we moved the files so we can change the status of the move message
             self.ui.final_ob_folder_status.setText(DataStatus.done)
