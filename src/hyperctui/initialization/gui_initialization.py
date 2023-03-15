@@ -81,3 +81,11 @@ class GuiInitialization:
         image_layout = QVBoxLayout()
         image_layout.addWidget(self.parent.ui.crop_image_view)
         self.parent.ui.crop_widget.setLayout(image_layout)
+
+        # # rotation center tab
+        self.parent.rotation_center_image_view = pg.ImageView(view=pg.PlotItem())
+        self.parent.rotation_center_image_view.ui.roiBtn.hide()
+        self.parent.rotation_center_image_view.ui.menuBtn.hide()
+        image_layout = QVBoxLayout()
+        image_layout.addWidget(self.parent.rotation_center_image_view)
+        self.parent.ui.rotation_center_widget.setLayout(image_layout)

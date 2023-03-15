@@ -69,6 +69,11 @@ class ASUI(QMainWindow):
     crop_live_image = None
     crop_roi_id = None
 
+    # rotation center
+    rotation_center_live_image = None
+    rotation_center_id = None
+    rotation_center_image_view = None
+
     def __init__(self, parent=None):
 
         super(ASUI, self).__init__(parent)
@@ -237,9 +242,19 @@ class ASUI(QMainWindow):
     def initialize_center_of_rotation(self):
         pass
 
-    def rotation_center_radio_button_changed(self):
+    def rotation_center_tomopy_clicked(self, button_state):
+        self.ui.rotation_center_user_defined_radioButton.blockSignals(True)
+        self.ui.rotation_center_user_defined_radioButton.setChecked(not button_state)
         o_event = RotationCenterEventHandler(parent=self)
-        o_event.radio_button_changed()
+        o_event.radio_button_changed(is_tomopy_checked=button_state)
+        self.ui.rotation_center_user_defined_radioButton.blockSignals(False)
+
+    def rotation_center_user_clicked(self, button_state):
+        self.ui.rotation_center_tomopy_radioButton.blockSignals(True)
+        self.ui.rotation_center_tomopy_radioButton.setChecked(not button_state)
+        o_event = RotationCenterEventHandler(parent=self)
+        o_event.radio_button_changed(is_tomopy_checked=not button_state)
+        self.ui.rotation_center_tomopy_radioButton.blockSignals(False)
 
     # leaving ui
     def closeEvent(self, c):

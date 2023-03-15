@@ -852,7 +852,7 @@
          </widget>
         </item>
         <item>
-         <widget class="QWidget" name="widget" native="true">
+         <widget class="QWidget" name="rotation_center_widget" native="true">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
             <horstretch>0</horstretch>
@@ -1601,33 +1601,33 @@
   </connection>
   <connection>
    <sender>rotation_center_tomopy_radioButton</sender>
-   <signal>clicked()</signal>
+   <signal>clicked(bool)</signal>
    <receiver>MainWindow</receiver>
-   <slot>rotation_center_radio_button_changed()</slot>
+   <slot>rotation_center_tomopy_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>100</x>
-     <y>910</y>
+     <x>155</x>
+     <y>911</y>
     </hint>
     <hint type="destinationlabel">
-     <x>248</x>
+     <x>542</x>
      <y>986</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>rotation_center_user_defined_radioButton</sender>
-   <signal>clicked()</signal>
+   <signal>clicked(bool)</signal>
    <receiver>MainWindow</receiver>
-   <slot>rotation_center_radio_button_changed()</slot>
+   <slot>rotation_center_user_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>72</x>
-     <y>938</y>
+     <x>192</x>
+     <y>940</y>
     </hint>
     <hint type="destinationlabel">
-     <x>85</x>
-     <y>989</y>
+     <x>42</x>
+     <y>986</y>
     </hint>
    </hints>
   </connection>
@@ -1659,5 +1659,7 @@
   <slot>crop_left_edit_finished()</slot>
   <slot>crop_right_edit_finished()</slot>
   <slot>rotation_center_radio_button_changed()</slot>
+  <slot>rotation_center_tomopy_clicked()</slot>
+  <slot>rotation_center_user_clicked()</slot>
  </slots>
 </ui>
