@@ -200,7 +200,6 @@ class SessionHandler:
             self.parent.ui.checking_status_acquisition_pushButton.setEnabled(True)
 
         # crop
-        print(self.parent.session_dict)
         if session_dict.get(SessionKeys.all_tabs_visible, False):
             o_crop = Crop(parent=self.parent)
             o_crop.initialize()

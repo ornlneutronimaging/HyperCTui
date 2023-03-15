@@ -61,6 +61,13 @@ class Crop:
         self.parent.ui.crop_top_spinBox.setValue(top)
         self.parent.ui.crop_bottom_spinBox.setValue(bottom)
 
+        self.init_roi(left, right, top, bottom)
+
+    def init_roi(self, left, right, top, bottom):
+
+        if self.parent.crop_roi_id:
+            self.parent.ui.crop_image_view.removeItem(self.parent.crop_roi_id)
+
         _color = QtGui.QColor(62, 13, 244)
         _pen = QtGui.QPen()
         _pen.setColor(_color)
@@ -77,6 +84,7 @@ class Crop:
         self.parent.ui.crop_image_view.addItem(_roi_id)
 
         _roi_id.sigRegionChanged.connect(self.parent.crop_roi_manually_moved)
+        self.parent.crop_roi_id = _roi_id
 
     def update_roi(self):
         left = self.parent.ui.crop_left_spinBox.value()
@@ -84,4 +92,28 @@ class Crop:
         top = self.parent.ui.crop_top_spinBox.value()
         bottom = self.parent.ui.crop_bottom_spinBox.value()
 
+        self.init_roi(left, right, top, bottom)
 
+    def roi_manually_moved(self):
+        region = self.parent.crop_roi_id.getArraySlice(self.parent.crop_live_image,
+                                                       self.parent.ui.crop_image_view.imageItem)
+
+        left = region[0][0].start
+        right = region[0][0].stop
+        top = region[0][1].start
+        bottom = region[0][1].stop
+
+        self.parent.ui.crop_left_spinBox.blockSignals(True)
+        self.parent.ui.crop_right_spinBox.blockSignals(True)
+        self.parent.ui.crop_top_spinBox.blockSignals(True)
+        self.parent.ui.crop_bottom_spinBox.blockSignals(True)
+
+        self.parent.ui.crop_left_spinBox.setValue(left)
+        self.parent.ui.crop_right_spinBox.setValue(right)
+        self.parent.ui.crop_top_spinBox.setValue(top)
+        self.parent.ui.crop_bottom_spinBox.setValue(bottom)
+
+        self.parent.ui.crop_left_spinBox.blockSignals(False)
+        self.parent.ui.crop_right_spinBox.blockSignals(False)
+        self.parent.ui.crop_top_spinBox.blockSignals(False)
+        self.parent.ui.crop_bottom_spinBox.blockSignals(False)

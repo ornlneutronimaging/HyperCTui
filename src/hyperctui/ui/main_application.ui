@@ -1380,7 +1380,7 @@
    <sender>crop_top_spinBox</sender>
    <signal>editingFinished()</signal>
    <receiver>MainWindow</receiver>
-   <slot>crop_top_changed()</slot>
+   <slot>crop_top_edit_finished()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>769</x>
@@ -1396,7 +1396,7 @@
    <sender>crop_bottom_spinBox</sender>
    <signal>editingFinished()</signal>
    <receiver>MainWindow</receiver>
-   <slot>crop_bottom_changed()</slot>
+   <slot>crop_bottom_edit_finished()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>769</x>
@@ -1412,7 +1412,7 @@
    <sender>crop_right_spinBox</sender>
    <signal>editingFinished()</signal>
    <receiver>MainWindow</receiver>
-   <slot>crop_right_changed()</slot>
+   <slot>crop_right_edit_finished()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>853</x>
@@ -1428,7 +1428,7 @@
    <sender>crop_left_spinBox</sender>
    <signal>editingFinished()</signal>
    <receiver>MainWindow</receiver>
-   <slot>crop_left_changed()</slot>
+   <slot>crop_left_edit_finished()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>681</x>
@@ -1437,6 +1437,70 @@
     <hint type="destinationlabel">
      <x>1216</x>
      <y>544</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>crop_top_spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>crop_top_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>775</x>
+     <y>427</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1217</x>
+     <y>457</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>crop_right_spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>crop_right_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>858</x>
+     <y>517</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1218</x>
+     <y>630</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>crop_bottom_spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>crop_bottom_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>766</x>
+     <y>611</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1220</x>
+     <y>955</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>crop_left_spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>crop_left_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>687</x>
+     <y>515</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1220</x>
+     <y>744</y>
     </hint>
    </hints>
   </connection>
@@ -1463,5 +1527,9 @@
   <slot>crop_bottom_changed()</slot>
   <slot>crop_left_changed()</slot>
   <slot>crop_right_changed()</slot>
+  <slot>crop_top_edit_finished()</slot>
+  <slot>crop_bottom_edit_finished()</slot>
+  <slot>crop_left_edit_finished()</slot>
+  <slot>crop_right_edit_finished()</slot>
  </slots>
 </ui>

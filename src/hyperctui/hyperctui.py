@@ -66,6 +66,7 @@ class ASUI(QMainWindow):
 
     # crop
     crop_live_image = None
+    crop_roi_id = None
 
     def __init__(self, parent=None):
 
@@ -200,16 +201,28 @@ class ASUI(QMainWindow):
         o_crop.load_projections()
         o_crop.display_data()
 
-    def crop_top_changed(self):
+    def crop_top_changed(self, value):
         self.crop_changed()
 
-    def crop_bottom_changed(self):
+    def crop_top_edit_finished(self):
         self.crop_changed()
 
-    def crop_left_changed(self):
+    def crop_bottom_changed(self, value):
         self.crop_changed()
 
-    def crop_right_changed(self):
+    def crop_bottom_edit_finished(self):
+        self.crop_changed()
+
+    def crop_left_changed(self, value):
+        self.crop_changed()
+
+    def crop_left_edit_finished(self):
+        self.crop_changed()
+
+    def crop_right_changed(self, value):
+        self.crop_changed()
+
+    def crop_right_edit_finished(self):
         self.crop_changed()
 
     def crop_changed(self):
@@ -217,7 +230,8 @@ class ASUI(QMainWindow):
         o_crop.update_roi()
 
     def crop_roi_manually_moved(self):
-        pass
+        o_crop = Crop(parent=self)
+        o_crop.roi_manually_moved()
 
     # center of rotation
     def initialize_center_of_rotation(self):
