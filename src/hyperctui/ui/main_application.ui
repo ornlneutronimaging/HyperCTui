@@ -30,7 +30,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideRight</enum>
@@ -843,6 +843,119 @@
        <attribute name="title">
         <string>Rotation center</string>
        </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_16">
+        <item>
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>The rotation center is evaluated using the 0 and 180 degrees projections.</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QWidget" name="widget" native="true">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="1" column="3">
+           <widget class="QLabel" name="rotation_center_user_label2">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>pixels from left</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QRadioButton" name="rotation_center_tomopy_radioButton">
+            <property name="text">
+             <string>Using Tomopy algorithm</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QLabel" name="rotation_center_tomopy_label2">
+            <property name="text">
+             <string>pixels from left</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLabel" name="rotation_center_tomopy_value">
+            <property name="text">
+             <string>N/A</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLabel" name="rotation_center_user_label1">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>rotation center: </string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="rotation_center_tomopy_label1">
+            <property name="text">
+             <string>rotation center: </string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QRadioButton" name="rotation_center_user_defined_radioButton">
+            <property name="text">
+             <string>User defined</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QSpinBox" name="rotation_center_user_value">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>80</width>
+              <height>0</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="4">
+           <spacer name="horizontalSpacer_11">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="tab_6">
        <attribute name="title">
@@ -1189,8 +1302,8 @@
    <slot>step1_browse_obs_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>180</x>
-     <y>112</y>
+     <x>140</x>
+     <y>82</y>
     </hint>
     <hint type="destinationlabel">
      <x>740</x>
@@ -1366,7 +1479,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>769</x>
-     <y>424</y>
+     <y>441</y>
     </hint>
     <hint type="destinationlabel">
      <x>1003</x>
@@ -1382,7 +1495,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>769</x>
-     <y>604</y>
+     <y>621</y>
     </hint>
     <hint type="destinationlabel">
      <x>942</x>
@@ -1398,7 +1511,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>853</x>
-     <y>515</y>
+     <y>532</y>
     </hint>
     <hint type="destinationlabel">
      <x>1219</x>
@@ -1414,7 +1527,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>681</x>
-     <y>512</y>
+     <y>529</y>
     </hint>
     <hint type="destinationlabel">
      <x>1216</x>
@@ -1430,7 +1543,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>775</x>
-     <y>427</y>
+     <y>444</y>
     </hint>
     <hint type="destinationlabel">
      <x>1217</x>
@@ -1446,7 +1559,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>858</x>
-     <y>517</y>
+     <y>534</y>
     </hint>
     <hint type="destinationlabel">
      <x>1218</x>
@@ -1462,7 +1575,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>766</x>
-     <y>611</y>
+     <y>628</y>
     </hint>
     <hint type="destinationlabel">
      <x>1220</x>
@@ -1478,11 +1591,43 @@
    <hints>
     <hint type="sourcelabel">
      <x>687</x>
-     <y>515</y>
+     <y>532</y>
     </hint>
     <hint type="destinationlabel">
      <x>1220</x>
      <y>744</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rotation_center_tomopy_radioButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>rotation_center_radio_button_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>100</x>
+     <y>910</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>248</x>
+     <y>986</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rotation_center_user_defined_radioButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>rotation_center_radio_button_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>72</x>
+     <y>938</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>85</x>
+     <y>989</y>
     </hint>
    </hints>
   </connection>
@@ -1513,5 +1658,6 @@
   <slot>crop_bottom_edit_finished()</slot>
   <slot>crop_left_edit_finished()</slot>
   <slot>crop_right_edit_finished()</slot>
+  <slot>rotation_center_radio_button_changed()</slot>
  </slots>
 </ui>

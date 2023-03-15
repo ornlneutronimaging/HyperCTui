@@ -18,6 +18,7 @@ from .setup_ob.event_handler import EventHandler as Step1EventHandler
 from .setup_projections.event_handler import EventHandler as Step2EventHandler
 from .pre_processing_monitor.monitor import Monitor as PreProcessingMonitor
 from .crop.crop import Crop
+from .rotation_center.event_handler import EventHandler as RotationCenterEventHandler
 
 from . import UI_TITLE, TabNames, tab2_icon, tab3_icon, tab4_icon
 
@@ -235,6 +236,10 @@ class ASUI(QMainWindow):
     # center of rotation
     def initialize_center_of_rotation(self):
         pass
+
+    def rotation_center_radio_button_changed(self):
+        o_event = RotationCenterEventHandler(parent=self)
+        o_event.radio_button_changed()
 
     # leaving ui
     def closeEvent(self, c):
