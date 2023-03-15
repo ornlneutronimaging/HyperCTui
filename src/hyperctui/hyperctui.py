@@ -198,8 +198,7 @@ class ASUI(QMainWindow):
     # step crop
     def initialize_crop(self):
         o_crop = Crop(parent=self)
-        o_crop.load_projections()
-        o_crop.display_data()
+        o_crop.initialize()
 
     def crop_top_changed(self, value):
         self.crop_changed()

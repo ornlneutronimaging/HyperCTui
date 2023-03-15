@@ -75,5 +75,12 @@ class NewSession(QDialog):
         o_ob_event = ObEventHandler(parent=self.parent)
         o_ob_event.update_list_of_obs()
 
-        self.parent.session_dict[SessionKeys.process_in_progress] = False
+        self.parent.session_dict[SessionKeys.all_tabs_visible] = False
+        self.parent.tab2 = self.parent.ui.tabWidget.widget(2)
+        self.parent.tab3 = self.parent.ui.tabWidget.widget(3)
+        self.parent.tab4 = self.parent.ui.tabWidget.widget(4)
+        for _ in np.arange(3):
+            self.parent.ui.tabWidget.removeTab(2)
+
         self.close()
+    
