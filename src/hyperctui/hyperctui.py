@@ -72,8 +72,7 @@ class ASUI(QMainWindow):
     # rotation center
     rotation_center_live_image = None
     rotation_center_id = None
-    rotation_center_image_view = None
-
+    
     image_0_degree = None
     image_180_degree = None
 

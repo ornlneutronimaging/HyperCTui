@@ -36,6 +36,18 @@ class EventHandler:
         """
         calculate the center of rotation using tomopy.recon.rotation algorithm
         """
-        value = rotation.find_center_pc(self.parent.image_0_degree,
-                                        self.parent.image_180_degree)
+
+        image_0_degree = self.parent.image_0_degree
+        image_180_degree = self.parent.image_180_degree
+
+        left = self.parent.ui.crop_left_spinBox.value()
+        right = self.parent.ui.crop_right_spinBox.value()
+        top = self.parent.ui.crop_top_spinBox.value()
+        bottom = self.parent.ui.crop_bottom_spinBox.value()
+
+        cropped_image_0_degree = image_0_degree[top:bottom+1, left:right+1].copy()
+        cropped_image_180_degree = image_180_degree[top:bottom+1, left:right+1].copy()
+
+        value = rotation.find_center_pc(cropped_image_0_degree,
+                                        cropped_image_180_degree)
         self.parent.ui.rotation_center_tomopy_value.setText(f"{int(value)}")
