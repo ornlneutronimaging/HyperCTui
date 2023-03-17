@@ -92,6 +92,7 @@ class EventHandler(Parent):
 
         elif new_tab_index == 3: # center of rotation
             o_center_event = RotationCenterEventHandler(parent=self.parent)
+            o_center_event.update_widgets()
             o_center_event.calculate_using_tomopy()
 
         small_tab_index = [0, 1]

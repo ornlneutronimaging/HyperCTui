@@ -33,6 +33,15 @@ class EventHandler:
 
         self.display_center_of_rotation()
 
+    def update_widgets(self):
+        """
+        1. max value of user center of rotation value is width-1 of cropped image
+        """
+        left = self.parent.ui.crop_left_spinBox.value()
+        right = self.parent.ui.crop_right_spinBox.value()
+        width = right - left
+        self.parent.ui.rotation_center_user_value.setMaximum(width-1)
+
     def calculate_using_tomopy(self):
         """
         calculate the center of rotation using tomopy.recon.rotation algorithm
