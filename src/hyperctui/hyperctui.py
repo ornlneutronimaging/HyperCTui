@@ -77,7 +77,6 @@ class ASUI(QMainWindow):
     image_0_degree = None
     image_180_degree = None
 
-
     def __init__(self, parent=None):
 
         super(ASUI, self).__init__(parent)

@@ -10,6 +10,7 @@ from .setup_ob.event_handler import EventHandler as ObEventHandler
 from . import UiSizeLarge, UiSizeSmall
 from . import ObTabNames
 from .setup_ob.get import Get as ObGet
+from .rotation_center.event_handler import EventHandler as RotationCenterEventHandler
 
 
 class EventHandler(Parent):
@@ -88,6 +89,10 @@ class EventHandler(Parent):
             o_get = ObGet(parent=self.parent)
             proton_charge = o_get.proton_charge()
             self.parent.ui.projections_p_charge_label.setText(str(proton_charge))
+
+        elif new_tab_index == 3: # center of rotation
+            o_center_event = RotationCenterEventHandler(parent=self.parent)
+            o_center_event.calculate_using_tomopy()
 
         small_tab_index = [0, 1]
 

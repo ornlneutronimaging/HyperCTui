@@ -181,19 +181,11 @@ class SessionHandler:
                             status=StatusMessageStatus.ready,
                             duration_s=10)
 
-        all_tabs_visible = session_dict.get(SessionKeys.all_tabs_visible, False)
-        # if not (self.parent.all_tabs_visible == all_tabs_visible):
-        o_main_widgets = UtilityWidgets(parent=self.parent)
-        o_main_widgets.make_tabs_visible(is_visible=all_tabs_visible)
-
         self.parent.blockSignals(False)
         self.parent.set_window_title()
 
         o_main_event = MainEventHandler(parent=self.parent)
         o_main_event.check_start_acquisition_button()
-
-        main_tab_selected = session_dict.get(SessionKeys.main_tab_selected, DefaultValues.main_tab_selected)
-        self.parent.ui.tabWidget.setCurrentIndex(main_tab_selected)
 
         # hide start acquisition if already ran for that config
         if session_dict.get(SessionKeys.started_acquisition, False):
@@ -208,6 +200,14 @@ class SessionHandler:
             # rotation center
             o_rotation = RotationCenter(parent=self.parent)
             o_rotation.initialize()
+
+        all_tabs_visible = session_dict.get(SessionKeys.all_tabs_visible, False)
+        # if not (self.parent.all_tabs_visible == all_tabs_visible):
+        o_main_widgets = UtilityWidgets(parent=self.parent)
+        o_main_widgets.make_tabs_visible(is_visible=all_tabs_visible)
+
+        main_tab_selected = session_dict.get(SessionKeys.main_tab_selected, DefaultValues.main_tab_selected)
+        self.parent.ui.tabWidget.setCurrentIndex(main_tab_selected)
 
     def _retrieve_general_settings(self):
         number_of_scanned_periods = self.parent.ui.number_of_scanned_periods_spinBox.value()

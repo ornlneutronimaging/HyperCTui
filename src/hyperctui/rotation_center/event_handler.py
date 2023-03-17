@@ -36,12 +36,6 @@ class EventHandler:
         """
         calculate the center of rotation using tomopy.recon.rotation algorithm
         """
-        QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
-        QApplication.processEvents()
-
         value = rotation.find_center_pc(self.parent.image_0_degree,
                                         self.parent.image_180_degree)
         self.parent.ui.rotation_center_tomopy_value.setText(f"{int(value)}")
-
-        QApplication.restoreOverrideCursor()
-        QApplication.processEvents()
