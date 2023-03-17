@@ -1654,6 +1654,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>rotation_center_user_value</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>rotation_center_user_value_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>363</x>
+     <y>944</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>415</x>
+     <y>991</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>step1_instrument_changed()</slot>
@@ -1685,5 +1701,6 @@
   <slot>rotation_center_tomopy_clicked()</slot>
   <slot>rotation_center_user_clicked()</slot>
   <slot>rotation_center_tomopy_calculate_clicked()</slot>
+  <slot>rotation_center_user_value_changed()</slot>
  </slots>
 </ui>
