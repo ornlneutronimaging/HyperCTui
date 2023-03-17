@@ -910,6 +910,19 @@
             </property>
            </widget>
           </item>
+          <item row="0" column="5">
+           <spacer name="horizontalSpacer_11">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
           <item row="0" column="1">
            <widget class="QLabel" name="rotation_center_tomopy_label1">
             <property name="text">
@@ -941,17 +954,11 @@
            </widget>
           </item>
           <item row="0" column="4">
-           <spacer name="horizontalSpacer_11">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
+           <widget class="QPushButton" name="rotation_center_tomopy_pushButton">
+            <property name="text">
+             <string>Calculate</string>
             </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
+           </widget>
           </item>
          </layout>
         </item>
@@ -1631,6 +1638,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>rotation_center_tomopy_pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>rotation_center_tomopy_calculate_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>564</x>
+     <y>902</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>854</x>
+     <y>982</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>step1_instrument_changed()</slot>
@@ -1661,5 +1684,6 @@
   <slot>rotation_center_radio_button_changed()</slot>
   <slot>rotation_center_tomopy_clicked()</slot>
   <slot>rotation_center_user_clicked()</slot>
+  <slot>rotation_center_tomopy_calculate_clicked()</slot>
  </slots>
 </ui>

@@ -19,6 +19,7 @@ from ..setup_projections.get import Get as Step2Get
 from .. import TabNames, tab2_icon, tab3_icon, tab4_icon
 from ..utilities.widgets import Widgets as UtilityWidgets
 from ..crop.crop import Crop
+from ..rotation_center.rotation_center import RotationCenter
 
 
 class SessionHandler:
@@ -199,10 +200,14 @@ class SessionHandler:
             self.parent.ui.start_acquisition_pushButton.setVisible(False)
             self.parent.ui.checking_status_acquisition_pushButton.setEnabled(True)
 
-        # crop
         if session_dict.get(SessionKeys.all_tabs_visible, False):
+            # crop
             o_crop = Crop(parent=self.parent)
             o_crop.initialize()
+
+            # rotation center
+            o_rotation = RotationCenter(parent=self.parent)
+            o_rotation.initialize()
 
     def _retrieve_general_settings(self):
         number_of_scanned_periods = self.parent.ui.number_of_scanned_periods_spinBox.value()

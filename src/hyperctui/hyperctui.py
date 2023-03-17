@@ -74,6 +74,10 @@ class ASUI(QMainWindow):
     rotation_center_id = None
     rotation_center_image_view = None
 
+    image_0_degree = None
+    image_180_degree = None
+
+
     def __init__(self, parent=None):
 
         super(ASUI, self).__init__(parent)
@@ -255,6 +259,10 @@ class ASUI(QMainWindow):
         o_event = RotationCenterEventHandler(parent=self)
         o_event.radio_button_changed(is_tomopy_checked=not button_state)
         self.ui.rotation_center_tomopy_radioButton.blockSignals(False)
+
+    def rotation_center_tomopy_calculate_clicked(self):
+        o_event = RotationCenterEventHandler(parent=self)
+        o_event.calculate_using_tomopy()
 
     # leaving ui
     def closeEvent(self, c):

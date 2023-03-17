@@ -1,3 +1,9 @@
+from qtpy.QtWidgets import QApplication
+from qtpy import QtCore
+import numpy as np
+from tomopy.recon import rotation
+
+
 class EventHandler:
 
     def __init__(self, parent=None):
@@ -25,3 +31,17 @@ class EventHandler:
 
         self.parent.ui.rotation_center_user_defined_radioButton.blockSignals(False)
         self.parent.ui.rotation_center_tomopy_radioButton.blockSignals(False)
+
+    def calculate_using_tomopy(self):
+        """
+        calculate the center of rotation using tomopy.recon.rotation algorithm
+        """
+        QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
+        QApplication.processEvents()
+
+        value = rotation.find_center_pc(self.parent.image_0_degree,
+                                        self.parent.image_180_degree)
+        self.parent.ui.rotation_center_tomopy_value.setText(f"{int(value)}")
+
+        QApplication.restoreOverrideCursor()
+        QApplication.processEvents()
