@@ -1001,7 +1001,7 @@
                  <item>
                   <widget class="QRadioButton" name="fixed_projections_angles_radioButton">
                    <property name="text">
-                    <string>Fixed (using golden ratio)</string>
+                    <string>Fixed (golden angle)</string>
                    </property>
                   </widget>
                  </item>
@@ -1040,6 +1040,12 @@
                  </item>
                  <item>
                   <widget class="QPushButton" name="automatic_projections_angles_pushButton">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
                    <property name="text">
                     <string>Select evaluation regions ...</string>
                    </property>
@@ -2032,6 +2038,118 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>fixed_projections_angles_radioButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>projections_angles_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>103</x>
+     <y>147</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>8</x>
+     <y>96</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>automatic_projections_angles_radioButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>projections_angles_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>71</x>
+     <y>188</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>9</x>
+     <y>222</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>automatic_projections_angles_pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>projections_angles_automatic_button_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>699</x>
+     <y>188</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1223</x>
+     <y>369</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>fixed_projections_angles_help_pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>projections_fixed_help_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1144</x>
+     <y>149</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1218</x>
+     <y>180</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>automatic_projections_angles_help_pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>projections_automatic_help_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1143</x>
+     <y>187</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1219</x>
+     <y>281</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>evaluation_frequency_help_pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>evaluation_frequency_help_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1153</x>
+     <y>264</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1219</x>
+     <y>325</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tof_region_of_interest_pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>tof_region_selection_button_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1005</x>
+     <y>376</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1219</x>
+     <y>488</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>step1_instrument_changed()</slot>
@@ -2064,5 +2182,11 @@
   <slot>rotation_center_user_clicked()</slot>
   <slot>rotation_center_tomopy_calculate_clicked()</slot>
   <slot>rotation_center_user_value_changed()</slot>
+  <slot>projections_angles_clicked()</slot>
+  <slot>projections_angles_automatic_button_clicked()</slot>
+  <slot>projections_fixed_help_clicked()</slot>
+  <slot>projections_automatic_help_clicked()</slot>
+  <slot>evaluation_frequency_help_clicked()</slot>
+  <slot>tof_region_selection_button_clicked()</slot>
  </slots>
 </ui>

@@ -19,6 +19,7 @@ from .setup_projections.event_handler import EventHandler as Step2EventHandler
 from .pre_processing_monitor.monitor import Monitor as PreProcessingMonitor
 from .crop.crop import Crop
 from .rotation_center.event_handler import EventHandler as RotationCenterEventHandler
+from .autonomous_reconstruction.event_handler import EventHandler as AutonomousReconstructionHandler
 
 from . import UI_TITLE, TabNames, tab2_icon, tab3_icon, tab4_icon
 
@@ -268,6 +269,31 @@ class ASUI(QMainWindow):
     def rotation_center_user_value_changed(self, value):
         o_event = RotationCenterEventHandler(parent=self)
         o_event.radio_button_changed(is_tomopy_checked=False)
+
+    # autonomous reconstruction
+    def projections_angles_clicked(self):
+        o_event = AutonomousReconstructionHandler(parent=self)
+        o_event.projections_angles_radioButton_changed()
+
+    def projections_fixed_help_clicked(self):
+        o_event = AutonomousReconstructionHandler(parent=self)
+        o_event.projections_fixed_help_clicked()
+
+    def projections_angles_automatic_button_clicked(self):
+        o_event = AutonomousReconstructionHandler(parent=self)
+        o_event.projections_angles_automatic_button_clicked()
+
+    def projections_automatic_help_clicked(self):
+        o_event = AutonomousReconstructionHandler(parent=self)
+        o_event.projections_automatic_help_clicked()
+
+    def evaluation_frequency_help_clicked(self):
+        o_event = AutonomousReconstructionHandler(parent=self)
+        o_event.evaluation_frequency_help_clicked()
+
+    def tof_region_selection_button_clicked(self):
+        o_event = AutonomousReconstructionHandler(parent=self)
+        o_event.tof_region_selection_button_clicked()
 
     # leaving ui
     def closeEvent(self, c):
