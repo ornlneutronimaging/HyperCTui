@@ -19,6 +19,20 @@ tab4_icon = os.path.join(root, "static/tab4.png")
 
 UI_TITLE = "Ai Svmbir UI"
 
+DEFAULT_EVALUATION_REGIONS = {0: {'name': 'Region 1',
+                                  'from': 20,
+                                  'to': 30,
+                                  },
+                              1: {'name': 'Region 2',
+                                  'from': 50,
+                                  'to': 60,
+                                  },
+                              2: {'name': 'Region 3',
+                                  'from': 200,
+                                  'to': 230,
+                                  },
+                              }
+
 
 # main window dimensions
 class UiSizeSmall:

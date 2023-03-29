@@ -49,9 +49,5 @@ class HelpGoldenAngle(QDialog):
                                                                       'golden_angle.csv'))
         table = pd.read_csv(golden_angle_file)
         data = list(table['angles'])
-        print(f"{data =}")
         model = TableModel(data)
         self.ui.tableView.setModel(model)
-
-
-

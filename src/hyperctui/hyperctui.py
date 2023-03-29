@@ -33,7 +33,7 @@ else:
     HOME_FOLDER = "/SNS"
 
 
-class ASUI(QMainWindow):
+class HyperCTui(QMainWindow):
     log_id = None  # UI id of the logger
     config = None  # config dictionary
 
@@ -80,9 +80,24 @@ class ASUI(QMainWindow):
     image_0_degree = None
     image_180_degree = None
 
+    # autonomous reconstruction
+    evaluation_regions = {0: {'name': 'Region 1',
+                              'from': 20,
+                              'to': 30,
+                              },
+                          1: {'name': 'Region 2',
+                              'from': 50,
+                              'to': 60,
+                              },
+                          2: {'name': 'Region 3',
+                              'from': 200,
+                              'to': 230,
+                              },
+                          }
+
     def __init__(self, parent=None):
 
-        super(ASUI, self).__init__(parent)
+        super(HyperCTui, self).__init__(parent)
 
         ui_full_path = os.path.join(os.path.dirname(__file__),
                                     os.path.join('ui',
@@ -361,7 +376,7 @@ def main(args):
     app.setStyle('Fusion')
     app.aboutToQuit.connect(clean_up)
     app.setApplicationDisplayName("Ai Svmbir UI")
-    window = ASUI()
+    window = HyperCTui()
     window.show()
     sys.exit(app.exec_())
 

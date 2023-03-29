@@ -1,4 +1,6 @@
 from hyperctui.autonomous_reconstruction.help_golden_angle import HelpGoldenAngle
+from hyperctui.autonomous_reconstruction.help_automatic_angles import HelpAutomaticAngles
+from hyperctui.autonomous_reconstruction.select_evaluation_regions import SelectEvaluationRegions
 
 
 class EventHandler:
@@ -11,14 +13,16 @@ class EventHandler:
         self.parent.ui.automatic_projections_angles_pushButton.setEnabled(not fixed_state)
 
     def projections_angles_automatic_button_clicked(self):
-        print("projections angles automatic button clicked!")
+        o_ui = SelectEvaluationRegions(parent=self.parent)
+        o_ui.show()
 
     def projections_fixed_help_clicked(self):
         o_ui = HelpGoldenAngle(parent=self.parent)
         o_ui.show()
 
     def projections_automatic_help_clicked(self):
-        pass
+        o_ui = HelpAutomaticAngles(parent=self.parent)
+        o_ui.show()
 
     def evaluation_frequency_help_clicked(self):
         pass
