@@ -94,6 +94,8 @@ class HyperCTui(QMainWindow):
                               'to': 230,
                               },
                           }
+    default_evaluation_region = {'from': 0,
+                                 'to': 10}
 
     def __init__(self, parent=None):
 
