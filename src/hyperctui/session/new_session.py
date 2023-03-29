@@ -83,4 +83,7 @@ class NewSession(QDialog):
             for _ in np.arange(3):
                 self.parent.ui.tabWidget.removeTab(2)
 
+        # bring back to life the move_obs_to_folder widgets
+        self.parent.session_dict[SessionKeys.obs_have_been_moved_already] = False
+
         self.close()

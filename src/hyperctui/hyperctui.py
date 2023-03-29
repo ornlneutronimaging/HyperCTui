@@ -54,7 +54,9 @@ class ASUI(QMainWindow):
                     SessionKeys.ipts_index_selected: 0,
                     SessionKeys.number_of_obs      : 5,
                     SessionKeys.list_ob_folders_requested: None,
-                    SessionKeys.started_acquisition: False}
+                    SessionKeys.started_acquisition: False,
+                    SessionKeys.obs_have_been_moved_already: False,
+                    }
 
     tab2 = None  # handle to tab #2 - cropping
     tab3 = None  # handle to tab #3 - rotation center
@@ -266,7 +268,6 @@ class ASUI(QMainWindow):
     def rotation_center_user_value_changed(self, value):
         o_event = RotationCenterEventHandler(parent=self)
         o_event.radio_button_changed(is_tomopy_checked=False)
-
 
     # leaving ui
     def closeEvent(self, c):

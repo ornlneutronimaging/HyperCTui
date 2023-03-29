@@ -1,8 +1,8 @@
 {
   "config version": "0.0.1",
-  "log_file_name": ".asui.log",
+  "log_file_name": ".hyperctui.log",
     "homepath": ["/Volumes/Buffalo/IPTS/IPTS-25967/raw",
     "/Volumes/G-DRIVE/SNS/",
     "/Volumes/Samsung_T5/IPTS/IPTS-25967-pyMBIR_UI/raw/"],
-  "session_file_name": ".asui_session.json"
+  "session_file_name": ".hyperctui_session.json"
 }

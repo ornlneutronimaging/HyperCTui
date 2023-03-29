@@ -39,6 +39,9 @@ class GuiInitialization:
             self.parent.ui.tabWidget.removeTab(2)
         self.parent.all_tabs_visible = False
 
+        # disable the second part of the Autonomous reconstruction
+        self.parent.ui.autonomous_reconstruction_toolBox.setItemEnabled(1, False)
+
     def tables(self):
         o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
         column_sizes = [600, 50]

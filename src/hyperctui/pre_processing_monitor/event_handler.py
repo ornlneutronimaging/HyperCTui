@@ -193,14 +193,28 @@ class EventHandler:
                                      qcolor=IN_PROGRESS)
 
     def obs_have_been_moved_to_final_folder(self):
-        list_ob_folders = self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there]
-        final_location = self.grand_parent.ui.final_location_of_ob_created.text()
-        for _folder in list_ob_folders:
-            base_name = os.path.basename(_folder)
-            full_name_in_final_location = os.path.join(final_location, base_name)
-            if not os.path.exists(full_name_in_final_location):
-                return False
-        return True
+        """
+        if the path of the first OB folder is the same as the final location, then yes,
+        the OBs have already been moved to their final location
+        """
+        final_location = os.path.normpath(self.grand_parent.ui.final_location_of_ob_created.text())
+        o_table = TableHandler(table_ui=self.parent.ui.obs_tableWidget)
+        first_folder = o_table.get_item_str_from_cell(row=0, column=0)
+        first_folder_path = os.path.normpath(os.path.dirname(first_folder))
+
+        if first_folder_path == final_location:
+            return True
+        else:
+            return False
+
+        # list_ob_folders = self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there]
+        # final_location = self.grand_parent.ui.final_location_of_ob_created.text()
+        # for _folder in list_ob_folders:
+        #     base_name = os.path.basename(_folder)
+        #     full_name_in_final_location = os.path.join(final_location, base_name)
+        #     if not os.path.exists(full_name_in_final_location):
+        #         return False
+        # return True
 
     def move_obs_to_final_folder(self):
         """

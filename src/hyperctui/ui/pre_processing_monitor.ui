@@ -80,7 +80,7 @@
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_4">
            <item>
-            <widget class="QLabel" name="label_6">
+            <widget class="QLabel" name="monitor_moving_obs_label">
              <property name="text">
               <string>Moving OBs to </string>
              </property>

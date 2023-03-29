@@ -30,7 +30,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>3</number>
+       <number>4</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideRight</enum>
@@ -968,6 +968,368 @@
        <attribute name="title">
         <string>Autonomous reconstruction</string>
        </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_19">
+        <item>
+         <widget class="QToolBox" name="autonomous_reconstruction_toolBox">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="page">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>1154</width>
+             <height>821</height>
+            </rect>
+           </property>
+           <attribute name="label">
+            <string>Parameters Initialization</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_20">
+            <item>
+             <widget class="QGroupBox" name="groupBox">
+              <property name="title">
+               <string>Projections angles</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_17">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_4">
+                 <item>
+                  <widget class="QRadioButton" name="fixed_projections_angles_radioButton">
+                   <property name="text">
+                    <string>Fixed (using golden ratio)</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="fixed_projections_angles_help_pushButton">
+                   <property name="minimumSize">
+                    <size>
+                     <width>40</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>40</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>?</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_12">
+                 <item>
+                  <widget class="QRadioButton" name="automatic_projections_angles_radioButton">
+                   <property name="text">
+                    <string>Automatic (using sample shape)</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="automatic_projections_angles_pushButton">
+                   <property name="text">
+                    <string>Select evaluation regions ...</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="automatic_projections_angles_help_pushButton">
+                   <property name="minimumSize">
+                    <size>
+                     <width>40</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>40</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>?</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox_2">
+              <property name="title">
+               <string>Evaluation frequency</string>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_13">
+               <item>
+                <widget class="QLabel" name="label_8">
+                 <property name="text">
+                  <string>Every </string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="evaluation_frequency_spinBox">
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="value">
+                  <number>3</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_9">
+                 <property name="text">
+                  <string>angles</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_12">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QPushButton" name="evaluation_frequency_help_pushButton">
+                 <property name="minimumSize">
+                  <size>
+                   <width>40</width>
+                   <height>0</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>40</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="text">
+                  <string>?</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="groupBox_3">
+              <property name="title">
+               <string>TOF - region(s) of interest</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_18">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_14">
+                 <item>
+                  <widget class="QLabel" name="tof_region_of_interest_label">
+                   <property name="text">
+                    <string>0 region selected !</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_13">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="tof_region_of_interest_error_label">
+                   <property name="palette">
+                    <palette>
+                     <active>
+                      <colorrole role="WindowText">
+                       <brush brushstyle="SolidPattern">
+                        <color alpha="255">
+                         <red>219</red>
+                         <green>37</green>
+                         <blue>22</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
+                      <colorrole role="Text">
+                       <brush brushstyle="SolidPattern">
+                        <color alpha="255">
+                         <red>219</red>
+                         <green>37</green>
+                         <blue>22</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
+                      <colorrole role="ButtonText">
+                       <brush brushstyle="SolidPattern">
+                        <color alpha="255">
+                         <red>219</red>
+                         <green>37</green>
+                         <blue>22</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
+                      <colorrole role="PlaceholderText">
+                       <brush brushstyle="SolidPattern">
+                        <color alpha="128">
+                         <red>219</red>
+                         <green>37</green>
+                         <blue>22</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
+                     </active>
+                     <inactive>
+                      <colorrole role="WindowText">
+                       <brush brushstyle="SolidPattern">
+                        <color alpha="255">
+                         <red>219</red>
+                         <green>37</green>
+                         <blue>22</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
+                      <colorrole role="Text">
+                       <brush brushstyle="SolidPattern">
+                        <color alpha="255">
+                         <red>219</red>
+                         <green>37</green>
+                         <blue>22</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
+                      <colorrole role="ButtonText">
+                       <brush brushstyle="SolidPattern">
+                        <color alpha="255">
+                         <red>219</red>
+                         <green>37</green>
+                         <blue>22</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
+                      <colorrole role="PlaceholderText">
+                       <brush brushstyle="SolidPattern">
+                        <color alpha="128">
+                         <red>219</red>
+                         <green>37</green>
+                         <blue>22</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
+                     </inactive>
+                     <disabled>
+                      <colorrole role="WindowText">
+                       <brush brushstyle="SolidPattern">
+                        <color alpha="63">
+                         <red>0</red>
+                         <green>0</green>
+                         <blue>0</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
+                      <colorrole role="Text">
+                       <brush brushstyle="SolidPattern">
+                        <color alpha="63">
+                         <red>0</red>
+                         <green>0</green>
+                         <blue>0</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
+                      <colorrole role="ButtonText">
+                       <brush brushstyle="SolidPattern">
+                        <color alpha="63">
+                         <red>0</red>
+                         <green>0</green>
+                         <blue>0</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
+                      <colorrole role="PlaceholderText">
+                       <brush brushstyle="SolidPattern">
+                        <color alpha="128">
+                         <red>0</red>
+                         <green>0</green>
+                         <blue>0</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
+                     </disabled>
+                    </palette>
+                   </property>
+                   <property name="text">
+                    <string>Please select at least 1 region !</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QPushButton" name="tof_region_of_interest_pushButton">
+                 <property name="text">
+                  <string>Select ...</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_13">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>493</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="page_2">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>1154</width>
+             <height>821</height>
+            </rect>
+           </property>
+           <attribute name="label">
+            <string>Full autonomous reconstruction</string>
+           </attribute>
+          </widget>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="tab_5">
        <attribute name="title">
@@ -1303,18 +1665,98 @@
    </hints>
   </connection>
   <connection>
-   <sender>where_to_look_for_ob_pushButton</sender>
-   <signal>clicked()</signal>
+   <sender>actionMonitor</sender>
+   <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
-   <slot>step1_browse_obs_clicked()</slot>
+   <slot>launch_pre_processing_monitor_view()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>140</x>
-     <y>82</y>
+     <x>-1</x>
+     <y>-1</y>
     </hint>
     <hint type="destinationlabel">
-     <x>740</x>
-     <y>508</y>
+     <x>615</x>
+     <y>449</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>crop_left_spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>crop_left_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>687</x>
+     <y>532</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1220</x>
+     <y>744</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>crop_top_spinBox</sender>
+   <signal>editingFinished()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>crop_top_edit_finished()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>769</x>
+     <y>441</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1003</x>
+     <y>987</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>start_acquisition_pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>start_acquisition_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>399</x>
+     <y>956</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>249</x>
+     <y>621</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>crop_bottom_spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>crop_bottom_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>766</x>
+     <y>628</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1220</x>
+     <y>955</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rotation_center_user_value</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>rotation_center_user_value_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>363</x>
+     <y>944</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>415</x>
+     <y>991</y>
     </hint>
    </hints>
   </connection>
@@ -1335,6 +1777,86 @@
    </hints>
   </connection>
   <connection>
+   <sender>crop_right_spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>crop_right_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>858</x>
+     <y>534</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1218</x>
+     <y>630</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>crop_left_spinBox</sender>
+   <signal>editingFinished()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>crop_left_edit_finished()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>681</x>
+     <y>529</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1216</x>
+     <y>544</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rotation_center_user_defined_radioButton</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>rotation_center_user_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>192</x>
+     <y>940</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>42</x>
+     <y>986</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rotation_center_tomopy_radioButton</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>rotation_center_tomopy_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>155</x>
+     <y>911</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>542</x>
+     <y>986</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tabWidget</sender>
+   <signal>currentChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>main_tab_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>308</x>
+     <y>45</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>831</x>
+     <y>125</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
    <sender>ob_tabWidget</sender>
    <signal>currentChanged(int)</signal>
    <receiver>MainWindow</receiver>
@@ -1351,18 +1873,18 @@
    </hints>
   </connection>
   <connection>
-   <sender>run_title_lineEdit</sender>
-   <signal>textChanged(QString)</signal>
+   <sender>number_of_ob_spinBox</sender>
+   <signal>valueChanged(int)</signal>
    <receiver>MainWindow</receiver>
-   <slot>run_title_changed()</slot>
+   <slot>number_of_obs_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>186</x>
-     <y>82</y>
+     <x>260</x>
+     <y>96</y>
     </hint>
     <hint type="destinationlabel">
-     <x>4</x>
-     <y>146</y>
+     <x>6</x>
+     <y>186</y>
     </hint>
    </hints>
   </connection>
@@ -1399,150 +1921,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>start_acquisition_pushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>start_acquisition_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>399</x>
-     <y>956</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>249</x>
-     <y>621</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>number_of_ob_spinBox</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>number_of_obs_changed()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>260</x>
-     <y>96</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>6</x>
-     <y>186</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>tabWidget</sender>
-   <signal>currentChanged(int)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>main_tab_changed()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>308</x>
-     <y>45</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>831</x>
-     <y>125</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionMonitor</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>launch_pre_processing_monitor_view()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>615</x>
-     <y>449</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>checking_status_acquisition_pushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>checking_status_acquisition_button_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>1032</x>
-     <y>948</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1070</x>
-     <y>995</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>crop_top_spinBox</sender>
-   <signal>editingFinished()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>crop_top_edit_finished()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>769</x>
-     <y>441</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1003</x>
-     <y>987</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>crop_bottom_spinBox</sender>
-   <signal>editingFinished()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>crop_bottom_edit_finished()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>769</x>
-     <y>621</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>942</x>
-     <y>991</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>crop_right_spinBox</sender>
-   <signal>editingFinished()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>crop_right_edit_finished()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>853</x>
-     <y>532</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1219</x>
-     <y>678</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>crop_left_spinBox</sender>
-   <signal>editingFinished()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>crop_left_edit_finished()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>681</x>
-     <y>529</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1216</x>
-     <y>544</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>crop_top_spinBox</sender>
    <signal>valueChanged(int)</signal>
    <receiver>MainWindow</receiver>
@@ -1555,86 +1933,6 @@
     <hint type="destinationlabel">
      <x>1217</x>
      <y>457</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>crop_right_spinBox</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>crop_right_changed()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>858</x>
-     <y>534</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1218</x>
-     <y>630</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>crop_bottom_spinBox</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>crop_bottom_changed()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>766</x>
-     <y>628</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1220</x>
-     <y>955</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>crop_left_spinBox</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>crop_left_changed()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>687</x>
-     <y>532</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1220</x>
-     <y>744</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>rotation_center_tomopy_radioButton</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>rotation_center_tomopy_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>155</x>
-     <y>911</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>542</x>
-     <y>986</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>rotation_center_user_defined_radioButton</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>MainWindow</receiver>
-   <slot>rotation_center_user_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>192</x>
-     <y>940</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>42</x>
-     <y>986</y>
     </hint>
    </hints>
   </connection>
@@ -1655,18 +1953,82 @@
    </hints>
   </connection>
   <connection>
-   <sender>rotation_center_user_value</sender>
-   <signal>valueChanged(int)</signal>
+   <sender>crop_right_spinBox</sender>
+   <signal>editingFinished()</signal>
    <receiver>MainWindow</receiver>
-   <slot>rotation_center_user_value_changed()</slot>
+   <slot>crop_right_edit_finished()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>363</x>
-     <y>944</y>
+     <x>853</x>
+     <y>532</y>
     </hint>
     <hint type="destinationlabel">
-     <x>415</x>
+     <x>1219</x>
+     <y>678</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>run_title_lineEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>run_title_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>186</x>
+     <y>82</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>4</x>
+     <y>146</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>where_to_look_for_ob_pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>step1_browse_obs_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>140</x>
+     <y>82</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>740</x>
+     <y>508</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>crop_bottom_spinBox</sender>
+   <signal>editingFinished()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>crop_bottom_edit_finished()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>769</x>
+     <y>621</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>942</x>
      <y>991</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checking_status_acquisition_pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>checking_status_acquisition_button_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1032</x>
+     <y>948</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1070</x>
+     <y>995</y>
     </hint>
    </hints>
   </connection>

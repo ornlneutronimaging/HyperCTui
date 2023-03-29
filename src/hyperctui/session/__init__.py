@@ -38,6 +38,7 @@ class SessionKeys:
     # general
     process_in_progress = "process in progress"
     started_acquisition = "started acquisition"
+    obs_have_been_moved_already = "obs files have already been moved"
 
 
 class DefaultValues:

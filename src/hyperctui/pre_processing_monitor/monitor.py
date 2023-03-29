@@ -84,7 +84,13 @@ class Monitor(QMainWindow):
 
             logging.info(f"-> all obs found!")
             # check if obs have already been moved
-            if o_event.obs_have_been_moved_to_final_folder():
+
+            if o_event.obs_have_been_moved_to_final_folder():  # all obs created and moved to their final folder
+
+                # we can hide the move OBs widgets
+                self.ui.monitor_moving_obs_label.setVisible(False)
+                self.ui.final_ob_folder_label.setVisible(False)
+                self.ui.final_ob_folder_status.setVisible(False)
 
                 o_event.checking_status_of_expected_projections()
                 if self.all_projections_found:
@@ -97,10 +103,17 @@ class Monitor(QMainWindow):
                         self.parent.initialize_crop()
                         self.parent.initialize_center_of_rotation()
 
-            else:
+            else:  # all OBs have been created but not been moved to their final location yet
+
                 o_event.move_obs_to_final_folder()
+                self.parent.session_dict[SessionKeys.obs_have_been_moved_already] = True
                 o_event.first_projection_in_progress()
                 o_event.checking_status_of_expected_projections()
+
+                # FIXME
+                # then we need to hide the Move_obs_to_folder widgets and we won't need to check for it
+                # anymore as long as those guys are gone!
+
                 if self.all_projections_found:
 
                     logging.info(f"-> all projections found!")
