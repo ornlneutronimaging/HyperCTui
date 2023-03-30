@@ -21,6 +21,7 @@ class SelectEvaluationRegions(QDialog):
         self.setWindowTitle("Select Evaluation Regions")
 
         self.initialization()
+        self.check_status_of_add_remove_buttons()
 
     def initialization(self):
         o_table = TableHandler(table_ui=self.ui.tableWidget)
@@ -41,9 +42,10 @@ class SelectEvaluationRegions(QDialog):
         o_table = TableHandler(table_ui=self.ui.tableWidget)
         row_count = o_table.row_count()
         o_table.insert_empty_row(row=row_count)
+        name_of_new_region = self.get_name_of_new_region()
         o_table.insert_item(row=row_count,
                             column=0,
-                            value=self.parent.default_evaluation_region['name'])
+                            value=name_of_new_region)
         o_table.insert_item(row=row_count,
                             column=1,
                             value=self.parent.default_evaluation_region['from'])
@@ -53,6 +55,16 @@ class SelectEvaluationRegions(QDialog):
         self.save_table()
         self.update_display()
         self.check_status_of_add_remove_buttons()
+
+    def get_name_of_new_region(self):
+        evaluation_regions = self.parent.evaluation_regions
+        index = 1
+        list_names = [evaluation_regions[key]['name'] for key in evaluation_regions.keys()]
+        while True:
+            region_name = self.parent.default_evaluation_region['name'] + f" {index}"
+            if not (region_name in list_names):
+                return region_name
+            index += 1
 
     def remove_selected_region_clicked(self):
         o_table = TableHandler(table_ui=self.ui.tableWidget)
@@ -66,9 +78,9 @@ class SelectEvaluationRegions(QDialog):
         o_table = TableHandler(table_ui=self.ui.tableWidget)
         nbr_row = o_table.row_count()
         if nbr_row > 3:
-            self.ui.remove_pushButton.setEnabled(False)
-        else:
             self.ui.remove_pushButton.setEnabled(True)
+        else:
+            self.ui.remove_pushButton.setEnabled(False)
 
     def save_table(self):
         o_table = TableHandler(table_ui=self.ui.tableWidget)
