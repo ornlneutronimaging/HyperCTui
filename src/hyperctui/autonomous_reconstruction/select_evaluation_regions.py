@@ -26,6 +26,7 @@ class SelectEvaluationRegions(QDialog):
     def initialization(self):
         o_table = TableHandler(table_ui=self.ui.tableWidget)
         evaluation_regions = self.parent.evaluation_regions
+        o_table.block_signals()
         for _row in evaluation_regions.keys():
             o_table.insert_empty_row(row=_row)
             o_table.insert_item(row=_row,
@@ -37,10 +38,12 @@ class SelectEvaluationRegions(QDialog):
             o_table.insert_item(row=_row,
                                 column=2,
                                 value=evaluation_regions[_row]['to'])
+        o_table.unblock_signals()
 
     def add_a_region_clicked(self):
         o_table = TableHandler(table_ui=self.ui.tableWidget)
         row_count = o_table.row_count()
+        o_table.block_signals()
         o_table.insert_empty_row(row=row_count)
         name_of_new_region = self.get_name_of_new_region()
         o_table.insert_item(row=row_count,
@@ -52,6 +55,7 @@ class SelectEvaluationRegions(QDialog):
         o_table.insert_item(row=row_count,
                             column=2,
                             value=self.parent.default_evaluation_region['to'])
+        o_table.unblock_signals()
         self.save_table()
         self.update_display()
         self.check_status_of_add_remove_buttons()
@@ -97,6 +101,9 @@ class SelectEvaluationRegions(QDialog):
                                         'from': _from,
                                         'to': _to}
         self.parent.evaluation_regions = evaluation_regions
+
+    def table_changed(self):
+        print("content changed")
 
     def update_display(self):
         #FIXME

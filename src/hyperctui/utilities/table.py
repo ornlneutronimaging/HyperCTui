@@ -156,3 +156,9 @@ class TableHandler:
 
     def insert_widget(self, row=0, column=0, widget=None):
         self.table_ui.setCellWidget(row, column, widget)
+
+    def block_signals(self):
+        self.table_ui.blockSignals(True)
+
+    def unblock_signals(self):
+        self.table_ui.blockSignals(False)

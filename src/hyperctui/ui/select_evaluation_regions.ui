@@ -193,8 +193,8 @@
    <slot>add_a_region_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>805</x>
-     <y>843</y>
+     <x>565</x>
+     <y>560</y>
     </hint>
     <hint type="destinationlabel">
      <x>674</x>
@@ -209,8 +209,8 @@
    <slot>remove_selected_region_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>128</x>
-     <y>849</y>
+     <x>369</x>
+     <y>566</y>
     </hint>
     <hint type="destinationlabel">
      <x>262</x>
@@ -218,9 +218,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>tableWidget</sender>
+   <signal>cellChanged(int,int)</signal>
+   <receiver>Dialog</receiver>
+   <slot>table_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>366</x>
+     <y>427</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>150</x>
+     <y>493</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>add_a_region_clicked()</slot>
   <slot>remove_selected_region_clicked()</slot>
+  <slot>table_changed()</slot>
  </slots>
 </ui>
