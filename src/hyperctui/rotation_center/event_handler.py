@@ -1,5 +1,6 @@
 from qtpy import QtGui
 import pyqtgraph as pg
+import numpy as np
 from tomopy.recon import rotation
 
 
@@ -55,15 +56,16 @@ class EventHandler:
         top = self.parent.ui.crop_top_spinBox.value()
         bottom = self.parent.ui.crop_bottom_spinBox.value()
 
-        cropped_image_0_degree = image_0_degree[top:bottom+1, left:right+1].copy()
-        cropped_image_180_degree = image_180_degree[top:bottom+1, left:right+1].copy()
+        if (not (image_0_degree is None)) and (not (image_180_degree is None)):
+            cropped_image_0_degree = image_0_degree[top:bottom+1, left:right+1].copy()
+            cropped_image_180_degree = image_180_degree[top:bottom+1, left:right+1].copy()
 
-        value = rotation.find_center_pc(cropped_image_0_degree,
-                                        cropped_image_180_degree)
-        self.parent.ui.rotation_center_tomopy_value.setText(f"{int(value)}")
+            value = rotation.find_center_pc(cropped_image_0_degree,
+                                            cropped_image_180_degree)
+            self.parent.ui.rotation_center_tomopy_value.setText(f"{int(value)}")
 
-        # display vertical line showing the center of rotation found
-        self.display_center_of_rotation()
+            # display vertical line showing the center of rotation found
+            self.display_center_of_rotation()
 
     def display_center_of_rotation(self):
 
@@ -75,14 +77,18 @@ class EventHandler:
         _pen.setWidth(1)
 
         center_of_rotation_value = self.get_center_of_rotation()
-        self.parent.center_of_rotation_item = pg.InfiniteLine(center_of_rotation_value,
-                                                              pen=_pen,
-                                                              angle=90,
-                                                              movable=False)
-        self.parent.ui.rotation_center_image_view.addItem(self.parent.center_of_rotation_item)
+        if np.isfinite(center_of_rotation_value):
+            self.parent.center_of_rotation_item = pg.InfiniteLine(center_of_rotation_value,
+                                                                  pen=_pen,
+                                                                  angle=90,
+                                                                  movable=False)
+            self.parent.ui.rotation_center_image_view.addItem(self.parent.center_of_rotation_item)
 
     def get_center_of_rotation(self):
-        if self.parent.ui.rotation_center_tomopy_radioButton.isChecked():
-            return int(str(self.parent.ui.rotation_center_tomopy_value.text()))
-        else:
-            return self.parent.ui.rotation_center_user_value.value()
+        try:
+            if self.parent.ui.rotation_center_tomopy_radioButton.isChecked():
+                return int(str(self.parent.ui.rotation_center_tomopy_value.text()))
+            else:
+                return self.parent.ui.rotation_center_user_value.value()
+        except ValueError:
+            return np.NaN

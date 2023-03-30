@@ -90,7 +90,7 @@ class EventHandler(Parent):
             proton_charge = o_get.proton_charge()
             self.parent.ui.projections_p_charge_label.setText(str(proton_charge))
 
-        elif new_tab_index == 3: # center of rotation
+        elif new_tab_index == 3:  # center of rotation
             o_center_event = RotationCenterEventHandler(parent=self.parent)
             o_center_event.update_widgets()
             o_center_event.calculate_using_tomopy()
