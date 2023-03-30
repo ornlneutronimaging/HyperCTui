@@ -1,3 +1,5 @@
+import copy
+
 from qtpy.QtWidgets import QMainWindow, QApplication
 import sys
 import os
@@ -100,6 +102,8 @@ class HyperCTui(QMainWindow):
                              'to': 230,
                              'id': None,
                              }
+    # will use this sorted dict to make sure the new values are correct (no overlap and at least 1 pixel high)
+    previous_evaluation_regions = copy.deepcopy(evaluation_regions)
 
     default_evaluation_region = {'name': 'Region',
                                  'from': 0,

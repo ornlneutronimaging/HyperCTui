@@ -140,4 +140,34 @@ class SelectEvaluationRegions(QDialog):
 
     def table_changed(self):
         self.save_table()
+        self.check_validity_of_table()
         self.update_display_regions()
+
+    def check_validity_of_table(self):
+        """
+        This is where we make sure the regions do not overlap and they are at least 1 pixel high.
+        """
+        o_table = TableHandler(table_ui=self.ui.tableWidget)
+        row_count = o_table.row_count()
+        list_borders = []
+        for _row in np.arange(row_count):
+            _name = o_table.get_item_str_from_cell(row=_row,
+                                                   column=0)
+            _from = int(o_table.get_item_str_from_cell(row=_row,
+                                                       column=1))
+            _to = int(o_table.get_item_str_from_cell(row=_row,
+                                                     column=2))
+            _from, _to = self.sort(_from, _to)
+            list_borders.append(_from)
+            list_borders.append(_to)
+
+        unsorted_list = list_borders[:]
+        list_borders.sort()
+
+        if unsorted_list == list_borders:
+            self.parent.previous_evaluation_regions = self.parent.evaluation_regions
+        else:
+            self.parent.evaluation_regions = self.parent.previous_evaluation_regions
+        #fixme
+        # fill table with evalution_regions content
+        
