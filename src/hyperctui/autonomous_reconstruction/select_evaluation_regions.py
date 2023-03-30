@@ -102,6 +102,7 @@ class SelectEvaluationRegions(QDialog):
         self.parent.evaluation_regions = evaluation_regions
 
     def update_display_regions(self):
+        print("update dipsplay")
         # replace all the regions
         for _key in self.parent.evaluation_regions.keys():
             _entry = self.parent.evaluation_regions[_key]
@@ -116,13 +117,17 @@ class SelectEvaluationRegions(QDialog):
             _entry['id'] = _roi_id
 
     def regions_manually_moved(self):
+        print("region manually moved")
         # replace all the regions
-        for _key in self.parent.evaluation_regions.keys():
+        o_table = TableHandler(table_ui=self.ui.tableWidget)
+        o_table.block_signals()
+        for _row, _key in enumerate(self.parent.evaluation_regions.keys()):
             _entry = self.parent.evaluation_regions[_key]
             _id = _entry['id']
-            print(f"for {_key}: region is : {_id.getRegion()}")
-
-
+            (_from, _to) = _id.getRegion()
+            o_table.set_item_with_str(row=_row, column=1, value=str(int(_from)))
+            o_table.set_item_with_str(row=_row, column=2, value=str(int(_to)))
+        o_table.unblock_signals()
 
     def table_changed(self):
         self.update_display_regions()
