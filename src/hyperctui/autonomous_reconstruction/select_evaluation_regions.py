@@ -79,11 +79,19 @@ class SelectEvaluationRegions(QDialog):
         else:
             self.ui.remove_pushButton.setEnabled(False)
 
-    def save_table(self):
+    def clear_all_regions(self):
         # clear all region items
         for _key in self.parent.evaluation_regions.keys():
-            if self.parent.evaluation_regions[_key][id]:
-                self.ui.image_view.removeItem(self.parent.evaluation_regions[_key][id])
+            if self.parent.evaluation_regions[_key]['id']:
+                self.ui.image_view.removeItem(self.parent.evaluation_regions[_key]['id'])
+
+    def sort(self, value1: int, value2: int):
+        minimum_value = np.min([value1, value2])
+        maximum_value = np.max([value1, value2])
+        return minimum_value, maximum_value
+
+    def save_table(self):
+        self.clear_all_regions()
 
         o_table = TableHandler(table_ui=self.ui.tableWidget)
         row_count = o_table.row_count()
@@ -91,18 +99,19 @@ class SelectEvaluationRegions(QDialog):
         for _row in np.arange(row_count):
             _name = o_table.get_item_str_from_cell(row=_row,
                                                   column=0)
-            _from = o_table.get_item_str_from_cell(row=_row,
-                                                  column=1)
-            _to = o_table.get_item_str_from_cell(row=_row,
-                                                 column=2)
+            _from = int(o_table.get_item_str_from_cell(row=_row,
+                                                  column=1))
+            _to = int(o_table.get_item_str_from_cell(row=_row,
+                                                 column=2))
+            _from, _to = self.sort(_from, _to)
+
             evaluation_regions[_row] = {'name': _name,
-                                        'from': _from,
-                                        'to': _to,
+                                        'from': int(_from),
+                                        'to': int(_to),
                                         'id': None}
         self.parent.evaluation_regions = evaluation_regions
 
     def update_display_regions(self):
-        print("update dipsplay")
         # replace all the regions
         for _key in self.parent.evaluation_regions.keys():
             _entry = self.parent.evaluation_regions[_key]
@@ -117,7 +126,6 @@ class SelectEvaluationRegions(QDialog):
             _entry['id'] = _roi_id
 
     def regions_manually_moved(self):
-        print("region manually moved")
         # replace all the regions
         o_table = TableHandler(table_ui=self.ui.tableWidget)
         o_table.block_signals()
@@ -125,9 +133,11 @@ class SelectEvaluationRegions(QDialog):
             _entry = self.parent.evaluation_regions[_key]
             _id = _entry['id']
             (_from, _to) = _id.getRegion()
+            _from, _to = self.sort(_from, _to)
             o_table.set_item_with_str(row=_row, column=1, value=str(int(_from)))
             o_table.set_item_with_str(row=_row, column=2, value=str(int(_to)))
         o_table.unblock_signals()
 
     def table_changed(self):
+        self.save_table()
         self.update_display_regions()
