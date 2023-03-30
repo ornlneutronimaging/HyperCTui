@@ -79,24 +79,31 @@ class HyperCTui(QMainWindow):
     rotation_center_image_view = None
     image_0_degree = None
     image_180_degree = None
+    image_size = {'height': None,
+                  'width': None}
 
     # autonomous reconstruction
     evaluation_regions = {0: {'name': 'Region 1',
                               'from': 20,
                               'to': 30,
+                              'id': None,
                               },
                           1: {'name': 'Region 2',
                               'from': 50,
                               'to': 60,
+                              'id': None,
                               },
                           2: {'name': 'Region 3',
                               'from': 200,
                               'to': 230,
+                              'id': None,
                               },
                           }
     default_evaluation_region = {'name': 'Region',
                                  'from': 0,
-                                 'to': 10}
+                                 'to': 10,
+                                 'id': None,
+                                 }
 
     def __init__(self, parent=None):
 

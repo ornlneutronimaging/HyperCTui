@@ -26,6 +26,8 @@ class Crop:
         o_loader.load(file=list_summed_img, notebook=False)
 
         self.mean_image = np.mean(o_loader.data['sample']['data'][:], axis=0)
+        [height, width] = np.shape(self.mean_image)
+        self.parent.image_size = {'height': height, 'width': width}
         self.parent.image_0_degree = o_loader.data['sample']['data'][0]
         self.parent.image_180_degree = o_loader.data['sample']['data'][1]
         self.parent.crop_live_image = self.mean_image
