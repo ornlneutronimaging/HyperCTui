@@ -102,7 +102,6 @@ class SelectEvaluationRegions(QDialog):
         self.parent.evaluation_regions = evaluation_regions
 
     def update_display_regions(self):
-        self.parent.list_regions_id = list()
         # replace all the regions
         for _key in self.parent.evaluation_regions.keys():
             _entry = self.parent.evaluation_regions[_key]
@@ -113,7 +112,17 @@ class SelectEvaluationRegions(QDialog):
                                           movable=True,
                                           bounds=[0, self.parent.image_size['width']])
             self.ui.image_view.addItem(_roi_id)
+            _roi_id.sigRegionChanged.connect(self.regions_manually_moved)
             _entry['id'] = _roi_id
+
+    def regions_manually_moved(self):
+        # replace all the regions
+        for _key in self.parent.evaluation_regions.keys():
+            _entry = self.parent.evaluation_regions[_key]
+            _id = _entry['id']
+            print(f"for {_key}: region is : {_id.getRegion()}")
+
+
 
     def table_changed(self):
         self.update_display_regions()
