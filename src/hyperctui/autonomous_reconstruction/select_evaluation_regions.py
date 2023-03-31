@@ -136,7 +136,20 @@ class SelectEvaluationRegions(QDialog):
             _from, _to = self.sort(_from, _to)
             o_table.set_item_with_str(row=_row, column=1, value=str(int(_from)))
             o_table.set_item_with_str(row=_row, column=2, value=str(int(_to)))
+        self.check_validity_of_table()
         o_table.unblock_signals()
+        self.update_evaluation_regions_dict()
+
+    def update_evaluation_regions_dict(self):
+        o_table = TableHandler(table_ui=self.ui.tableWidget)
+        row_count = o_table.row_count()
+        for _row in np.arange(row_count):
+            _from = int(o_table.get_item_str_from_cell(row=_row,
+                                                       column=1))
+            _to = int(o_table.get_item_str_from_cell(row=_row,
+                                                     column=2))
+            self.parent.evaluation_regions[_row]['from'] = str(_from)
+            self.parent.evaluation_regions[_row]['to'] = str(_to)
 
     def table_changed(self):
         self.save_table()
@@ -168,6 +181,18 @@ class SelectEvaluationRegions(QDialog):
             self.parent.previous_evaluation_regions = self.parent.evaluation_regions
         else:
             self.parent.evaluation_regions = self.parent.previous_evaluation_regions
-        #fixme
-        # fill table with evalution_regions content
-        
+
+            # fill table with evaluation_regions content
+            for _row, _key in enumerate(self.parent.evaluation_regions):
+                _entry = self.parent.evaluation_regions[_key]
+                _from = _entry['from']
+                o_table.set_item_with_str(row=_row,
+                                          column=1,
+                                          value=str(_from))
+                _to = _entry['to']
+                o_table.set_item_with_str(row=_row,
+                                          column=2,
+                                          value=str(_to))
+
+            # now we need to replot the regions
+            self.table_changed()
