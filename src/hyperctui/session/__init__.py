@@ -35,6 +35,9 @@ class SessionKeys:
     crop_top = "crop top"
     crop_bottom = "crop bottom"
 
+    # evaluation regions
+    evaluation_regions = "evaluation regions dict"
+
     # general
     process_in_progress = "process in progress"
     started_acquisition = "started acquisition"

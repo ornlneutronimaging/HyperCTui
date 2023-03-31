@@ -6,6 +6,7 @@ import numpy as np
 from qtpy.QtGui import QIcon
 from qtpy.QtCore import QRect
 
+from hyperctui import EvaluationRegionKeys
 from . import SessionKeys, DefaultValues
 from ..utilities.status_message_config import StatusMessageStatus, show_status_message
 from ..utilities.get import Get
@@ -95,6 +96,12 @@ class SessionHandler:
         session_dict[SessionKeys.crop_right] = right
         session_dict[SessionKeys.crop_top] = top
         session_dict[SessionKeys.crop_bottom] = bottom
+
+        # evaluation regions
+        evaluation_regions = self.parent.evaluation_regions
+        for _key in evaluation_regions.keys():
+            evaluation_regions[_key][EvaluationRegionKeys.id] = None
+        session_dict[SessionKeys.evaluation_regions] = evaluation_regions
 
         self.parent.session_dict = session_dict
 
@@ -200,6 +207,11 @@ class SessionHandler:
             # rotation center
             o_rotation = RotationCenter(parent=self.parent)
             o_rotation.initialize()
+
+            # autonomous reconstruction
+            ## evaluation regions
+            if session_dict.get(SessionKeys.evaluation_regions, None):
+                self.parent.evaluation_regions = session_dict[SessionKeys.evaluation_regions]
 
         all_tabs_visible = session_dict.get(SessionKeys.all_tabs_visible, False)
         # if not (self.parent.all_tabs_visible == all_tabs_visible):

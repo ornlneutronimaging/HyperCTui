@@ -176,3 +176,4 @@ class TableHandler:
 
     def unblock_signals(self):
         self.table_ui.blockSignals(False)
+        
