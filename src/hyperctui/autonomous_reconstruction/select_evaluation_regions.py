@@ -8,6 +8,7 @@ from hyperctui import load_ui, EvaluationRegionKeys
 from hyperctui.utilities.table import TableHandler
 from hyperctui.autonomous_reconstruction.initialization import Initialization
 from hyperctui.autonomous_reconstruction import ColumnIndex
+from hyperctui.utilities.check import is_int
 
 
 class SelectEvaluationRegions(QDialog):
@@ -121,6 +122,7 @@ class SelectEvaluationRegions(QDialog):
             self.parent.evaluation_regions[_row][EvaluationRegionKeys.to_value] = str(_to)
 
     def table_changed(self):
+        self.check_table_content()
         self.clear_all_regions()
         self.save_table()
         self.check_table_state()
@@ -131,6 +133,42 @@ class SelectEvaluationRegions(QDialog):
         self.save_table()
         self.update_display_regions()
         self.check_table_state()
+
+    def check_table_content(self):
+        """
+        make sure 'from' and 'to' values are int
+        make sure 'from' value is smaller than 'to' value, otherwise reverse them
+        """
+        o_table = TableHandler(table_ui=self.ui.tableWidget)
+        o_table.block_signals()
+        nbr_row = o_table.row_count()
+        for _row in np.arange(nbr_row):
+            from_value = o_table.get_item_str_from_cell(row=_row,
+                                                        column=ColumnIndex.from_value)
+            to_value = o_table.get_item_str_from_cell(row=_row,
+                                                      column=ColumnIndex.to_value)
+            if not is_int(from_value):
+                from_value = 0
+            else:
+                from_value = int(from_value)
+
+            if not is_int(to_value):
+                to_value = 10
+            else:
+                to_value = int(to_value)
+
+            minimum_value = np.min([from_value, to_value])
+            maximum_value = np.max([from_value, to_value])
+
+            from_value = str(minimum_value)
+            to_value = str(maximum_value)
+
+            o_table.set_item_with_str(row=_row,
+                                      column=ColumnIndex.from_value,
+                                      value=from_value)
+            o_table.set_item_with_str(row=_row,
+                                      column=ColumnIndex.to_value,
+                                      value=to_value)
 
     def check_table_state(self):
         """
