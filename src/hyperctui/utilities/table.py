@@ -1,5 +1,6 @@
 import numpy as np
 from qtpy import QtGui
+from qtpy import QtCore
 from qtpy.QtWidgets import QTableWidgetItem
 
 
@@ -148,6 +149,15 @@ class TableHandler:
             _str_value = format_str.format(np.float(float_value))
         _item = QtGui.QTableWidgetItem(_str_value)
         self.table_ui.setItem(row, column, _item)
+
+    def set_item_state(self, row=0, column=0, editable=True):
+        _item = self.table_ui.item(row, column)
+        if not editable:
+            # _item.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable)
+            _item.setFlags(QtCore.Qt.ItemIsSelectable)
+        else:
+            _item.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable)
+
 
     def insert_item(self, row=0, column=0, value="", format_str="{}"):
         _str_value = format_str.format(value)

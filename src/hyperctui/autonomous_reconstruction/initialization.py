@@ -1,6 +1,8 @@
 import pyqtgraph as pg
 from qtpy.QtWidgets import QVBoxLayout, QCheckBox
 
+from hyperctui import EvaluationRegionKeys
+
 from hyperctui.utilities.table import TableHandler
 from hyperctui.autonomous_reconstruction import ColumnIndex
 
@@ -26,19 +28,20 @@ class Initialization:
             o_table.insert_empty_row(row=_row)
 
             checked_button = QCheckBox()
-            checked_button.setChecked(True)
+            checked_button.setChecked(evaluation_regions[_row][EvaluationRegionKeys.state])
+            checked_button.clicked.connect(self.parent.checkButton_clicked)
             o_table.insert_widget(row=_row,
                                   column=ColumnIndex.enabled_state,
                                   widget=checked_button)
             o_table.insert_item(row=_row,
                                 column=ColumnIndex.name,
-                                value=evaluation_regions[_row]['name'])
+                                value=evaluation_regions[_row][EvaluationRegionKeys.name])
             o_table.insert_item(row=_row,
                                 column=ColumnIndex.from_value,
-                                value=evaluation_regions[_row]['from'])
+                                value=evaluation_regions[_row][EvaluationRegionKeys.from_value])
             o_table.insert_item(row=_row,
                                 column=ColumnIndex.to_value,
-                                value=evaluation_regions[_row]['to'])
+                                value=evaluation_regions[_row][EvaluationRegionKeys.to_value])
         o_table.unblock_signals()
 
     def display(self):

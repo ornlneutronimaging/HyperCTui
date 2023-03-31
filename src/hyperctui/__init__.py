@@ -64,5 +64,13 @@ class ObTabNames:
     selected_obs = 1
 
 
+class EvaluationRegionKeys:
+    state = "state of the checkbox"
+    from_value = "from value"
+    to_value = "to value"
+    id = "id of the pg horizontal line"
+    name = 'name of the region'
+
+
 def load_ui(ui_filename, baseinstance):
     return loadUi(ui_filename, baseinstance=baseinstance)
