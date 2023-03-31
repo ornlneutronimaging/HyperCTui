@@ -87,29 +87,38 @@ class HyperCTui(QMainWindow):
 
     # autonomous reconstruction
     evaluation_regions = OrderedDict()
-    evaluation_regions[0] = {'name': 'Region 1',
+    evaluation_regions[0] = {'state': True,
+                             'name': 'Region 1',
                              'from': 20,
                              'to': 30,
                              'id': None,
                              }
-    evaluation_regions[1] = {'name': 'Region 2',
+    evaluation_regions[1] = {'state': True,
+                             'name': 'Region 2',
                              'from': 50,
                              'to': 60,
                              'id': None,
                              }
-    evaluation_regions[2] = {'name': 'Region 3',
+    evaluation_regions[2] = {'state': True,
+                             'name': 'Region 3',
                              'from': 200,
                              'to': 230,
                              'id': None,
                              }
+    evaluation_regions[3] = {'state': True,
+                             'name': 'Region 4',
+                             'from': 240,
+                             'to': 300,
+                             'id': None,
+                             }
+    evaluation_regions[4] = {'state': True,
+                             'name': 'Region 5',
+                             'from': 350,
+                             'to': 400,
+                             'id': None,
+                             }
     # will use this sorted dict to make sure the new values are correct (no overlap and at least 1 pixel high)
     previous_evaluation_regions = copy.deepcopy(evaluation_regions)
-
-    default_evaluation_region = {'name': 'Region',
-                                 'from': 0,
-                                 'to': 10,
-                                 'id': None,
-                                 }
 
     def __init__(self, parent=None):
 

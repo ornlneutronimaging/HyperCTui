@@ -90,6 +90,10 @@ class TableHandler:
         item_selected = self.table_ui.item(row, column).text()
         return str(item_selected)
 
+    def get_widget(self, row=-1, column=-1):
+        _widget = self.table_ui.cellWidget(row, column)
+        return _widget
+
     def select_cell(self, row=0, column=0):
         self.select_everything(False)
         range_selected = QtGui.QTableWidgetSelectionRange(row, column, row, column)
