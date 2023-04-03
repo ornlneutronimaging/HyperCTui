@@ -1,10 +1,11 @@
-name: ASUI
+name: HyperCTui
 channels:
   - defaults
   - conda-forge
 dependencies:
-  - python=3.7
+  - python=3.10
   - qt=5.12.9
+  - pandas
   - pillow
   - scikit-image
   - inflect

@@ -9,6 +9,7 @@ from ..parent import Parent
 from .get import Get
 from ..utilities.table import TableHandler
 from ..utilities.file_utilities import list_ob_dirs
+from ..utilities.check import is_float
 from ..session import SessionKeys
 
 
@@ -109,9 +110,14 @@ class EventHandler(Parent):
             o_table.insert_item(row=_offset_row,
                                 column=0,
                                 value=_folder)
-            o_table.insert_item(row=_offset_row,
-                                column=1,
-                                value=f"{list_proton_charge[_offset_row]:.2f}")
+            if is_float(list_proton_charge[_offset_row]):
+                o_table.insert_item(row=_offset_row,
+                                    column=1,
+                                    value=f"{list_proton_charge[_offset_row]:.2f}")
+            else:
+                o_table.insert_item(row=_offset_row,
+                                    column=1,
+                                    value=f"N/A")
 
     @staticmethod
     def retrieve_proton_charge_for_that_folder(folder):

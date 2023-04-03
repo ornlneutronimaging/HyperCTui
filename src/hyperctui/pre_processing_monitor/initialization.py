@@ -57,7 +57,7 @@ class Initialization:
         self.parent.ui.final_ob_folder_status.setStyleSheet(f"background-color: {ColorDataStatus.in_queue}")
 
     def ui(self):
-        table_columns = [540, 50, 50, 50, 45]
+        table_columns = [540, 80, 80, 80, 100]
         o_ob_table = TableHandler(table_ui=self.parent.ui.obs_tableWidget)
         o_ob_table.set_column_sizes(column_sizes=table_columns)
         o_pro_table = TableHandler(table_ui=self.parent.ui.projections_tableWidget)
