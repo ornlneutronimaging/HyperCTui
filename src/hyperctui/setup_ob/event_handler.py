@@ -144,7 +144,7 @@ class EventHandler(Parent):
 
         proton_charge_value = proton_charge["value"]
         proton_charge_units = proton_charge["units"]
-        if proton_charge_units == "pc":
+        if proton_charge_units.lower() == "pc":
             coeff = 1e-12
         elif proton_charge_units == "nc":
             coeff = 1e-9

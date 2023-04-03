@@ -5,6 +5,7 @@ import os
 import numpy as np
 from qtpy.QtGui import QIcon
 from qtpy.QtCore import QRect
+from collections import OrderedDict
 
 from hyperctui import EvaluationRegionKeys
 from . import SessionKeys, DefaultValues
@@ -212,6 +213,12 @@ class SessionHandler:
             ## evaluation regions
             if session_dict.get(SessionKeys.evaluation_regions, None):
                 self.parent.evaluation_regions = session_dict[SessionKeys.evaluation_regions]
+
+            # key must be int because key=row in the table
+            new_evaluation_regions = OrderedDict()
+            for _key in self.parent.evaluation_regions.keys():
+                new_evaluation_regions[int(_key)] = self.parent.evaluation_regions[_key]
+            self.parent.evaluation_regions = new_evaluation_regions
 
         all_tabs_visible = session_dict.get(SessionKeys.all_tabs_visible, False)
         # if not (self.parent.all_tabs_visible == all_tabs_visible):
