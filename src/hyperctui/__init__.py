@@ -19,6 +19,9 @@ tab4_icon = os.path.join(root, "static/tab4.png")
 
 UI_TITLE = "Ai Svmbir UI"
 
+SOURCE_DETECTOR_DISTANCE = 19.855  # m, at SNAP
+DETECTOR_OFFSET = 0  # micros
+
 DEFAULT_EVALUATION_REGIONS = {0: {'name': 'Region 1',
                                   'from': 20,
                                   'to': 30,

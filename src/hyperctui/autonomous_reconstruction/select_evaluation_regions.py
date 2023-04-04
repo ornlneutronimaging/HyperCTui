@@ -7,7 +7,7 @@ import pyqtgraph as pg
 from hyperctui import load_ui, EvaluationRegionKeys
 
 from hyperctui.utilities.table import TableHandler
-from hyperctui.autonomous_reconstruction.initialization import InitializationSelectTofRegions
+from hyperctui.autonomous_reconstruction.initialization import InitializationSelectEvaluationRegions
 from hyperctui.autonomous_reconstruction import ColumnIndex
 from hyperctui.utilities.check import is_int
 
@@ -31,7 +31,7 @@ class SelectEvaluationRegions(QDialog):
         self.update_display_regions()
 
     def initialization(self):
-        o_init = InitializationSelectTofRegions(parent=self, grand_parent=self.parent)
+        o_init = InitializationSelectEvaluationRegions(parent=self, grand_parent=self.parent)
         o_init.all()
 
     def get_name_of_new_region(self):

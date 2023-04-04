@@ -2,12 +2,13 @@ import pyqtgraph as pg
 from qtpy.QtWidgets import QVBoxLayout, QCheckBox, QHBoxLayout, QSpacerItem, QSizePolicy, QWidget
 
 from hyperctui import EvaluationRegionKeys
+from hyperctui import DETECTOR_OFFSET, SOURCE_DETECTOR_DISTANCE
 
 from hyperctui.utilities.table import TableHandler
 from hyperctui.autonomous_reconstruction import ColumnIndex
 
 
-class InitializationSelectTofRegions:
+class InitializationSelectEvaluationRegions:
 
     column_sizes = [50, 200, 100, 100]
 
@@ -64,3 +65,42 @@ class InitializationSelectTofRegions:
         self.parent.ui.widget.setLayout(image_layout)
         image = self.grand_parent.image_0_degree
         self.parent.ui.image_view.setImage(image)
+
+
+class InitializationSelectTofRegions:
+
+    column_sizes = [60, 150, 90, 90]
+
+    def __init__(self, parent=None, grand_parent=None):
+        self.parent = parent
+        self.grand_parent = grand_parent
+
+    def all(self):
+        self.pyqtgraph()
+        self.widgets()
+
+    def pyqtgraph(self):
+        self.parent.ui.top_image_view = pg.ImageView(view=pg.PlotItem())
+        self.parent.ui.top_image_view.ui.roiBtn.hide()
+        self.parent.ui.top_image_view.ui.menuBtn.hide()
+        top_image_layout = QVBoxLayout()
+        top_image_layout.addWidget(self.parent.ui.top_image_view)
+        self.parent.ui.top_widget.setLayout(top_image_layout)
+
+        self.parent.ui.bottom_image_view = pg.ImageView(view=pg.PlotItem())
+        self.parent.ui.bottom_image_view.ui.roiBtn.hide()
+        self.parent.ui.bottom_image_view.ui.menuBtn.hide()
+        bottom_image_layout = QVBoxLayout()
+        bottom_image_layout.addWidget(self.parent.ui.bottom_image_view)
+        self.parent.ui.bottom_widget.setLayout(bottom_image_layout)
+
+    def widgets(self):
+        self.parent.ui.detector_offset_label.setText(u"Detector offset (\u00B5s)")
+        self.parent.ui.distance_source_detector_value.setText(f"{SOURCE_DETECTOR_DISTANCE: .3f}")
+        self.parent.ui.detector_offset_value.setText(f"{DETECTOR_OFFSET: .2f}")
+
+        o_table = TableHandler(table_ui=self.parent.ui.tableWidget)
+        o_table.set_column_sizes(self.column_sizes)
+
+        self.parent.ui.projections_0degree_radioButton.setText(u"0\u00B0")
+        self.parent.ui.projections_180degree_radioButton.setText(u"180\u00B0")
