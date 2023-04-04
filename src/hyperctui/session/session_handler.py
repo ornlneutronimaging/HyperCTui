@@ -102,6 +102,7 @@ class SessionHandler:
         evaluation_regions = self.parent.evaluation_regions
         for _key in evaluation_regions.keys():
             evaluation_regions[_key][EvaluationRegionKeys.id] = None
+            evaluation_regions[_key][EvaluationRegionKeys.label_id] = None
         session_dict[SessionKeys.evaluation_regions] = evaluation_regions
 
         # make sure key is a string
@@ -309,7 +310,7 @@ class SessionHandler:
                     logging.info(f"-> session version: {session_to_save['config version']}")
                     self.load_successful = False
 
-                if self.load_successful == False:
+                if not self.load_successful:
                     show_status_message(parent=self.parent,
                                         message=f"{config_file_name} not loaded! (check log for more information)",
                                         status=StatusMessageStatus.ready,

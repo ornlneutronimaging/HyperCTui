@@ -92,30 +92,35 @@ class HyperCTui(QMainWindow):
                              EvaluationRegionKeys.from_value: 20,
                              EvaluationRegionKeys.to_value: 30,
                              EvaluationRegionKeys.id: None,
+                             EvaluationRegionKeys.label_id: None,
                              }
     evaluation_regions[1] = {EvaluationRegionKeys.state: True,
                              EvaluationRegionKeys.name: 'Region 2',
                              EvaluationRegionKeys.from_value: 50,
                              EvaluationRegionKeys.to_value: 60,
                              EvaluationRegionKeys.id: None,
+                             EvaluationRegionKeys.label_id: None,
                              }
     evaluation_regions[2] = {EvaluationRegionKeys.state: True,
                              EvaluationRegionKeys.name: 'Region 3',
                              EvaluationRegionKeys.from_value: 200,
                              EvaluationRegionKeys.to_value: 230,
                              EvaluationRegionKeys.id: None,
+                             EvaluationRegionKeys.label_id: None,
                              }
     evaluation_regions[3] = {EvaluationRegionKeys.state: True,
                              EvaluationRegionKeys.name: 'Region 4',
                              EvaluationRegionKeys.from_value: 240,
                              EvaluationRegionKeys.to_value: 300,
                              EvaluationRegionKeys.id: None,
+                             EvaluationRegionKeys.label_id: None,
                              }
     evaluation_regions[4] = {EvaluationRegionKeys.state: True,
                              EvaluationRegionKeys.name: 'Region 5',
                              EvaluationRegionKeys.from_value: 350,
                              EvaluationRegionKeys.to_value: 400,
                              EvaluationRegionKeys.id: None,
+                             EvaluationRegionKeys.label_id: None,
                              }
     # will use this sorted dict to make sure the new values are correct (no overlap and at least 1 pixel high)
     previous_evaluation_regions = copy.deepcopy(evaluation_regions)

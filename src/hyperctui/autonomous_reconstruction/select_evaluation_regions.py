@@ -11,6 +11,8 @@ from hyperctui.autonomous_reconstruction.initialization import InitializationSel
 from hyperctui.autonomous_reconstruction import ColumnIndex
 from hyperctui.utilities.check import is_int
 
+LABEL_XOFFSET = -50
+
 
 class SelectEvaluationRegions(QDialog):
 
@@ -43,10 +45,11 @@ class SelectEvaluationRegions(QDialog):
             index += 1
 
     def clear_all_regions(self):
-        # clear all region items
+        # clear all region items and labels
         for _key in self.parent.evaluation_regions.keys():
             if self.parent.evaluation_regions[_key][EvaluationRegionKeys.id]:
                 self.ui.image_view.removeItem(self.parent.evaluation_regions[_key][EvaluationRegionKeys.id])
+                self.ui.image_view.removeItem(self.parent.evaluation_regions[_key][EvaluationRegionKeys.label_id])
 
     def sort(self, value1: int, value2: int):
         minimum_value = np.min([value1, value2])
@@ -94,11 +97,13 @@ class SelectEvaluationRegions(QDialog):
                 _entry[EvaluationRegionKeys.id] = _roi_id
 
                 # label of region
-                _label_id = pg.TextItem(html='<div style="text-align: center">' + f"Region {_key}" + '</div>',
+                _name_of_region = _entry[EvaluationRegionKeys.name]
+                _label_id = pg.TextItem(html='<div style="text-align: center">' + _name_of_region + '</div>',
                                         fill=QtGui.QColor(255, 255, 255),
                                         anchor=(0, 1))
-                _label_id.setPos(0, _from)
+                _label_id.setPos(LABEL_XOFFSET, _from)
                 self.ui.image_view.addItem(_label_id)
+                _entry[EvaluationRegionKeys.label_id] = _label_id
 
     def regions_manually_moved(self):
         # replace all the regions
@@ -118,6 +123,11 @@ class SelectEvaluationRegions(QDialog):
                 o_table.set_item_with_str(row=_row,
                                           column=ColumnIndex.to_value,
                                           value=str(int(_to)))
+
+                # move label as well
+                _label_id = _entry[EvaluationRegionKeys.label_id]
+                _label_id.setPos(LABEL_XOFFSET, _from)
+
         self.check_validity_of_table()
         o_table.unblock_signals()
         self.update_evaluation_regions_dict()
