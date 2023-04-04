@@ -1,4 +1,5 @@
 from qtpy.QtWidgets import QDialog
+from qtpy import QtGui
 import os
 import numpy as np
 import pyqtgraph as pg
@@ -92,11 +93,12 @@ class SelectEvaluationRegions(QDialog):
                 _roi_id.sigRegionChanged.connect(self.regions_manually_moved)
                 _entry[EvaluationRegionKeys.id] = _roi_id
 
-                # # label of region
-                # _label_id = pg.TextItem(text=f"Region {_key}",
-                #                         color=(200, 200, 200),
-                #                         anchor=(20, _from-20))
-                # self.ui.image_view.addItem(_label_id)
+                # label of region
+                _label_id = pg.TextItem(html='<div style="text-align: center">' + f"Region {_key}" + '</div>',
+                                        fill=QtGui.QColor(255, 255, 255),
+                                        anchor=(0, 1))
+                _label_id.setPos(0, _from)
+                self.ui.image_view.addItem(_label_id)
 
     def regions_manually_moved(self):
         # replace all the regions
