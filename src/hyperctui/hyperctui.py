@@ -86,6 +86,8 @@ class HyperCTui(QMainWindow):
                   'width': None}
 
     # autonomous reconstruction
+
+    # evaluation regions
     evaluation_regions = OrderedDict()
     evaluation_regions[0] = {EvaluationRegionKeys.state: True,
                              EvaluationRegionKeys.name: 'Region 1',
@@ -122,8 +124,37 @@ class HyperCTui(QMainWindow):
                              EvaluationRegionKeys.id: None,
                              EvaluationRegionKeys.label_id: None,
                              }
-    # will use this sorted dict to make sure the new values are correct (no overlap and at least 1 pixel high)
-    previous_evaluation_regions = copy.deepcopy(evaluation_regions)
+
+    # tof selection regions
+    tof_regions = OrderedDict()
+    tof_regions[0] = {EvaluationRegionKeys.state: True,
+                      EvaluationRegionKeys.name: 'TOF 1',
+                      EvaluationRegionKeys.from_value: 2.,
+                      EvaluationRegionKeys.to_value: 2.5,
+                      EvaluationRegionKeys.id: None,
+                      EvaluationRegionKeys.label_id: None
+                      }
+    tof_regions[1] = {EvaluationRegionKeys.state: False,
+                      EvaluationRegionKeys.name: 'TOF 1',
+                      EvaluationRegionKeys.from_value: 2.,
+                      EvaluationRegionKeys.to_value: 2.5,
+                      EvaluationRegionKeys.id: None,
+                      EvaluationRegionKeys.label_id: None
+                      }
+    tof_regions[2] = {EvaluationRegionKeys.state: False,
+                      EvaluationRegionKeys.name: 'TOF 1',
+                      EvaluationRegionKeys.from_value: 2.,
+                      EvaluationRegionKeys.to_value: 2.5,
+                      EvaluationRegionKeys.id: None,
+                      EvaluationRegionKeys.label_id: None
+                      }
+    tof_regions[3] = {EvaluationRegionKeys.state: False,
+                      EvaluationRegionKeys.name: 'TOF 1',
+                      EvaluationRegionKeys.from_value: 2.,
+                      EvaluationRegionKeys.to_value: 2.5,
+                      EvaluationRegionKeys.id: None,
+                      EvaluationRegionKeys.label_id: None
+                      }
 
     def __init__(self, parent=None):
 

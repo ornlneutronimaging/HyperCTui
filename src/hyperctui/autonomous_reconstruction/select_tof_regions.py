@@ -39,4 +39,3 @@ class SelectTofRegions(QDialog):
 
     def instrument_settings_changed(self):
         pass
-    
