@@ -92,21 +92,30 @@ class SelectEvaluationRegions(QDialog):
                 _roi_id.sigRegionChanged.connect(self.regions_manually_moved)
                 _entry[EvaluationRegionKeys.id] = _roi_id
 
+                # # label of region
+                # _label_id = pg.TextItem(text=f"Region {_key}",
+                #                         color=(200, 200, 200),
+                #                         anchor=(20, _from-20))
+                # self.ui.image_view.addItem(_label_id)
+
     def regions_manually_moved(self):
         # replace all the regions
         o_table = TableHandler(table_ui=self.ui.tableWidget)
         o_table.block_signals()
         for _row, _key in enumerate(self.parent.evaluation_regions.keys()):
+
             _entry = self.parent.evaluation_regions[_key]
-            _id = _entry[EvaluationRegionKeys.id]
-            (_from, _to) = _id.getRegion()
-            _from, _to = self.sort(_from, _to)
-            o_table.set_item_with_str(row=_row,
-                                      column=ColumnIndex.from_value,
-                                      value=str(int(_from)))
-            o_table.set_item_with_str(row=_row,
-                                      column=ColumnIndex.to_value,
-                                      value=str(int(_to)))
+            _state = _entry[EvaluationRegionKeys.state]
+            if _state:
+                _id = _entry[EvaluationRegionKeys.id]
+                (_from, _to) = _id.getRegion()
+                _from, _to = self.sort(_from, _to)
+                o_table.set_item_with_str(row=_row,
+                                          column=ColumnIndex.from_value,
+                                          value=str(int(_from)))
+                o_table.set_item_with_str(row=_row,
+                                          column=ColumnIndex.to_value,
+                                          value=str(int(_to)))
         self.check_validity_of_table()
         o_table.unblock_signals()
         self.update_evaluation_regions_dict()
