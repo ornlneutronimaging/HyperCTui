@@ -1,6 +1,7 @@
 from hyperctui.autonomous_reconstruction.help_golden_angle import HelpGoldenAngle
 from hyperctui.autonomous_reconstruction.help_automatic_angles import HelpAutomaticAngles
 from hyperctui.autonomous_reconstruction.select_evaluation_regions import SelectEvaluationRegions
+from hyperctui.autonomous_reconstruction.select_tof_regions import SelectTofRegions
 
 
 class EventHandler:
@@ -28,4 +29,5 @@ class EventHandler:
         pass
 
     def tof_region_selection_button_clicked(self):
-        pass
+        o_ui = SelectTofRegions(parent=self.parent)
+        o_ui.show()

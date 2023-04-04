@@ -104,6 +104,12 @@ class SessionHandler:
             evaluation_regions[_key][EvaluationRegionKeys.id] = None
         session_dict[SessionKeys.evaluation_regions] = evaluation_regions
 
+        # make sure key is a string
+        new_evaluation_regions = OrderedDict()
+        for _key in evaluation_regions.keys():
+            new_evaluation_regions[str(_key)] = evaluation_regions[_key]
+        session_dict[SessionKeys.evaluation_regions] = new_evaluation_regions
+
         self.parent.session_dict = session_dict
 
     def load_to_ui(self):
@@ -258,6 +264,7 @@ class SessionHandler:
         if config_file_name:
             output_file_name = config_file_name
             session_dict = self.parent.session_dict
+
             with open(output_file_name, 'w') as json_file:
                 json.dump(session_dict, json_file)
 

@@ -95,6 +95,13 @@ class TableHandler:
         _widget = self.table_ui.cellWidget(row, column)
         return _widget
 
+    def get_inner_widget(self, row=-1, column=-1, position_index=0):
+        """
+        when the widget is inside another widget
+        """
+        _widget = self.get_widget(row=row, column=column)
+        return _widget.children()[position_index]
+
     def select_cell(self, row=0, column=0):
         self.select_everything(False)
         range_selected = QtGui.QTableWidgetSelectionRange(row, column, row, column)
@@ -176,4 +183,3 @@ class TableHandler:
 
     def unblock_signals(self):
         self.table_ui.blockSignals(False)
-        

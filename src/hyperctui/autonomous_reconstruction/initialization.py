@@ -1,5 +1,5 @@
 import pyqtgraph as pg
-from qtpy.QtWidgets import QVBoxLayout, QCheckBox
+from qtpy.QtWidgets import QVBoxLayout, QCheckBox, QHBoxLayout, QSpacerItem, QSizePolicy, QWidget
 
 from hyperctui import EvaluationRegionKeys
 
@@ -7,7 +7,7 @@ from hyperctui.utilities.table import TableHandler
 from hyperctui.autonomous_reconstruction import ColumnIndex
 
 
-class Initialization:
+class InitializationSelectTofRegions:
 
     column_sizes = [50, 200, 100, 100]
 
@@ -30,15 +30,26 @@ class Initialization:
             checked_button = QCheckBox()
             checked_button.setChecked(evaluation_regions[_row][EvaluationRegionKeys.state])
             checked_button.clicked.connect(self.parent.checkButton_clicked)
+            horizontal_layout = QHBoxLayout()
+            spacer1 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+            horizontal_layout.addItem(spacer1)
+            horizontal_layout.addWidget(checked_button)
+            spacer2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+            horizontal_layout.addItem(spacer2)
+            checked_button_widget = QWidget()
+            checked_button_widget.setLayout(horizontal_layout)
             o_table.insert_widget(row=_row,
                                   column=ColumnIndex.enabled_state,
-                                  widget=checked_button)
+                                  widget=checked_button_widget)
+
             o_table.insert_item(row=_row,
                                 column=ColumnIndex.name,
                                 value=evaluation_regions[_row][EvaluationRegionKeys.name])
+
             o_table.insert_item(row=_row,
                                 column=ColumnIndex.from_value,
                                 value=evaluation_regions[_row][EvaluationRegionKeys.from_value])
+
             o_table.insert_item(row=_row,
                                 column=ColumnIndex.to_value,
                                 value=evaluation_regions[_row][EvaluationRegionKeys.to_value])

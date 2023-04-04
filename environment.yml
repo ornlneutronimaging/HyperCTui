@@ -16,6 +16,6 @@ dependencies:
   - dxchange
   - h5py=3.3.0
   - tomopy
+  - pyqtgraph
   - pip:
-      - pyqtgraph
       - NeuNorm

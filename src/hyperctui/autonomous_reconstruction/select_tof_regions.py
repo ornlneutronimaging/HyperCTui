@@ -6,29 +6,29 @@ import pyqtgraph as pg
 from hyperctui import load_ui, EvaluationRegionKeys
 
 from hyperctui.utilities.table import TableHandler
-from hyperctui.autonomous_reconstruction.initialization import InitializationSelectTofRegions
+# from hyperctui.autonomous_reconstruction.initialization import Initialization
 from hyperctui.autonomous_reconstruction import ColumnIndex
 from hyperctui.utilities.check import is_int
 
 
-class SelectEvaluationRegions(QDialog):
+class SelectTofRegions(QDialog):
 
     def __init__(self, parent=None):
-        super(SelectEvaluationRegions, self).__init__(parent)
+        super(SelectTofRegions, self).__init__(parent)
         self.parent = parent
 
         ui_full_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
                                     os.path.join('ui',
-                                                 'select_evaluation_regions.ui'))
+                                                 'select_tof_regions.ui'))
 
         self.ui = load_ui(ui_full_path, baseinstance=self)
-        self.setWindowTitle("Select Evaluation Regions")
+        self.setWindowTitle("Select TOF regions")
 
-        self.initialization()
-        self.update_display_regions()
+        # self.initialization()
+        # self.update_display_regions()
 
     def initialization(self):
-        o_init = InitializationSelectTofRegions(parent=self, grand_parent=self.parent)
+        o_init = Initialization(parent=self, grand_parent=self.parent)
         o_init.all()
 
     def get_name_of_new_region(self):
@@ -57,9 +57,8 @@ class SelectEvaluationRegions(QDialog):
         row_count = o_table.row_count()
         evaluation_regions = {}
         for _row in np.arange(row_count):
-            _state_widget = o_table.get_inner_widget(row=_row,
-                                                     column=ColumnIndex.enabled_state,
-                                                     position_index=1)
+            _state_widget = o_table.get_widget(row=_row,
+                                               column=ColumnIndex.enabled_state)
             _state = _state_widget.isChecked()
             _name = o_table.get_item_str_from_cell(row=_row,
                                                   column=ColumnIndex.name)
@@ -180,9 +179,8 @@ class SelectEvaluationRegions(QDialog):
         o_table.block_signals()
         nbr_row = o_table.row_count()
         for _row in np.arange(nbr_row):
-            _state_widget = o_table.get_inner_widget(row=_row,
-                                                     column=ColumnIndex.enabled_state,
-                                                     position_index=1)
+            _state_widget = o_table.get_widget(row=_row,
+                                               column=ColumnIndex.enabled_state)
             _state = _state_widget.isChecked()
 
             # disabled or not editing
