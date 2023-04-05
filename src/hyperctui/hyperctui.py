@@ -30,8 +30,9 @@ from . import UI_TITLE, TabNames, tab2_icon, tab3_icon, tab4_icon
 DEBUG = True
 
 if DEBUG:
-    # HOME_FOLDER = "/Volumes/JeanHardDrive/SNS/"  # mac at home
-    HOME_FOLDER = "/Users/j35/SNS/"              # mac at work
+    HOME_FOLDER = "/Volumes/JeanHardDrive/SNS/"  # mac at home
+    if not os.path.exists(HOME_FOLDER):
+        HOME_FOLDER = "/Users/j35/SNS/"              # mac at work
 else:
     HOME_FOLDER = "/SNS"
 

@@ -30,12 +30,22 @@ class SelectTofRegions(QDialog):
     def initialization(self):
         o_init = InitializationSelectTofRegions(parent=self, grand_parent=self.parent)
         o_init.all()
+        self.projections_changed()
 
     def table_changed(self):
         pass
 
     def projections_changed(self):
-        pass
+        self.update_top_view()
 
     def instrument_settings_changed(self):
         pass
+
+    def update_top_view(self):
+        if self.ui.projections_0degree_radioButton.isChecked():
+            image = self.parent.image_0_degree
+        elif self.ui.projections_180degree_radioButton.isChecked():
+            image = self.parent.image_180_degree
+        else:
+            raise NotImplementedError("image to display is not 0 or 180 degree!")
+        self.ui.top_image_view.setImage(image)
