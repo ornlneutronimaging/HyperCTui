@@ -1,5 +1,6 @@
 import pyqtgraph as pg
-from qtpy.QtWidgets import QVBoxLayout, QCheckBox, QHBoxLayout, QSpacerItem, QSizePolicy, QWidget
+from qtpy.QtWidgets import QVBoxLayout, QCheckBox, QHBoxLayout, QSpacerItem, \
+    QSizePolicy, QWidget, QProgressBar
 from qtpy import QtGui
 
 from hyperctui import EvaluationRegionKeys
@@ -81,6 +82,14 @@ class InitializationSelectTofRegions:
         self.pyqtgraph()
         self.widgets()
         self.roi()
+        self.statusbar()
+
+    def statusbar(self):
+        self.parent.eventProgress = QProgressBar(self.parent.ui.statusbar)
+        self.parent.eventProgress.setMinimumSize(20, 14)
+        self.parent.eventProgress.setMaximumSize(540, 100)
+        self.parent.eventProgress.setVisible(False)
+        self.parent.ui.statusbar.addPermanentWidget(self.parent.eventProgress)
 
     def pyqtgraph(self):
         self.parent.ui.top_image_view = pg.ImageView(view=pg.PlotItem())

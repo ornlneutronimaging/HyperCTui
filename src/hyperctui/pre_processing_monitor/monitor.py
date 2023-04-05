@@ -11,6 +11,7 @@ from .event_handler import EventHandler as MonitorEventHandler
 from ..preview_file.preview_file_launcher import PreviewFileLauncher, PreviewMetadataFileLauncher
 from ..session import SessionKeys
 from ..utilities.widgets import Widgets as UtilityWidgets
+from hyperctui.utilities.table import TableHandler
 from . import DataStatus
 from . import ColorDataStatus
 
@@ -123,6 +124,15 @@ class Monitor(QMainWindow):
                         o_widgets.make_tabs_visible(is_visible=True)
                         self.parent.initialize_crop()
                         self.parent.initialize_center_of_rotation()
+
+                    # saving the location of the 0 and 180 degrees folders
+                    o_table = TableHandler(table_ui=self.ui.projections_tableWidget)
+                    full_path_image_0_degree = o_table.get_item_str_from_cell(row=0, column=0)
+                    full_path_image_180_degree = o_table.get_item_str_from_cell(row=1, column=0)
+                    self.parent.session_dict[SessionKeys.full_path_to_projections][SessionKeys.image_0_degree] = \
+                        full_path_image_0_degree
+                    self.parent.session_dict[SessionKeys.full_path_to_projections][SessionKeys.image_180_degree] = \
+                        full_path_image_180_degree
 
             # we moved the files so we can change the status of the move message
             self.ui.final_ob_folder_status.setText(DataStatus.done)

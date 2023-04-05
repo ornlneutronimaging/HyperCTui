@@ -65,7 +65,9 @@ class HyperCTui(QMainWindow):
                                                  'y0': 5,
                                                  'x1': 200,
                                                  'y1': 200},
-                    }
+                    SessionKeys.full_path_to_projections: {SessionKeys.image_0_degree: None,
+                                                           SessionKeys.image_180_degree: None}
+    }
 
     tab2 = None  # handle to tab #2 - cropping
     tab3 = None  # handle to tab #3 - rotation center
@@ -160,6 +162,10 @@ class HyperCTui(QMainWindow):
                       EvaluationRegionKeys.id: None,
                       EvaluationRegionKeys.label_id: None
                       }
+    # dictionary that will store the 3D images (used in the TOF region selection)
+
+    image_data = {SessionKeys.image_0_degree: None,
+                  SessionKeys.image_180_degree: None}
 
     def __init__(self, parent=None):
 

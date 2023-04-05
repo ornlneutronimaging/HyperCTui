@@ -17,5 +17,10 @@ dependencies:
   - h5py=3.3.0
   - tomopy
   - pyqtgraph
+  - tqdm
+  - dxchange
+  - olefile
   - pip:
       - NeuNorm
+      - iMars3D
+      - param

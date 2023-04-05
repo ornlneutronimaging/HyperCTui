@@ -22,6 +22,9 @@ class SessionKeys:
     run_title = 'run title'
     list_projections_folders_initially_there = "list projections folders initially there"
     name_of_output_projection_folder = "name of the output projection folder"
+    full_path_to_projections = "full folder path to projections"
+    image_0_degree = "image at 0 degree"
+    image_180_degree = "image at 180 degree"
 
     # tabs
     all_tabs_visible = "all tabs visible"
@@ -37,6 +40,8 @@ class SessionKeys:
 
     # evaluation regions
     evaluation_regions = "evaluation regions dict"
+
+    # tof regions
     tof_roi_region = "TOF ROI region of top view dict"
     tof_regions = "TOF region dict"
 
