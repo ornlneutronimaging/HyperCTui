@@ -7,7 +7,7 @@ import os
 
 from ..utilities.config_handler import ConfigHandler
 from ..utilities.table import TableHandler
-from .. import more_infos, TabNames, tab0_icon, tab1_icon
+from .. import more_infos, TabNames, tab0_icon, tab1_icon, hourglass_image
 
 
 class GuiInitialization:
@@ -68,6 +68,11 @@ class GuiInitialization:
         logo_icon = QPixmap(background_file)
         self.parent.ui.logo.setPixmap(logo_icon)
         # self.parent.ui.tab.setStyleSheet("background-image: url('" +  background_file  + "'); background-repeat: no-repeat")
+
+        # hourglass
+        hourglass_icon = QPixmap(hourglass_image)
+        self.parent.ui.hourglass_label.setPixmap(hourglass_icon)
+        self.parent.ui.hourglass_label.setVisible(False)
 
     def statusbar(self):
         self.parent.eventProgress = QProgressBar(self.parent.ui.statusbar)

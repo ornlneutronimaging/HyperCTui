@@ -2,6 +2,7 @@ import pyqtgraph as pg
 from qtpy.QtWidgets import QVBoxLayout, QCheckBox, QHBoxLayout, QSpacerItem, \
     QSizePolicy, QWidget, QProgressBar
 from qtpy import QtGui
+from qtpy.QtGui import QPixmap
 
 from hyperctui import EvaluationRegionKeys
 from hyperctui import DETECTOR_OFFSET, SOURCE_DETECTOR_DISTANCE
@@ -9,6 +10,8 @@ from hyperctui.session import SessionKeys
 
 from hyperctui.utilities.table import TableHandler
 from hyperctui.autonomous_reconstruction import ColumnIndex
+
+from hyperctui import hourglass_image_small
 
 
 class InitializationSelectEvaluationRegions:
@@ -116,6 +119,11 @@ class InitializationSelectTofRegions:
 
         self.parent.ui.projections_0degree_radioButton.setText(u"0\u00B0")
         self.parent.ui.projections_180degree_radioButton.setText(u"180\u00B0")
+
+        # hourglass
+        hourglass_icon = QPixmap(hourglass_image_small)
+        self.parent.ui.hourglass_label.setPixmap(hourglass_icon)
+        self.parent.ui.hourglass_label.setVisible(False)
 
     def roi(self):
         roi = self.grand_parent.session_dict[SessionKeys.tof_roi_region]

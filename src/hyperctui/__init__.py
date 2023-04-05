@@ -16,6 +16,8 @@ tab1_icon = os.path.join(root, "static/tab1.png")
 tab2_icon = os.path.join(root, "static/tab2.png")
 tab3_icon = os.path.join(root, "static/tab3.png")
 tab4_icon = os.path.join(root, "static/tab4.png")
+hourglass_image = os.path.join(root, "static/loading_images.png")
+hourglass_image_small = os.path.join(root, "static/loading_images_small.png")
 
 UI_TITLE = "Ai Svmbir UI"
 

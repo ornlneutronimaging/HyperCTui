@@ -1,10 +1,9 @@
 from qtpy.QtWidgets import QMainWindow
+from qtpy.QtGui import QGuiApplication
 import os
-import numpy as np
-import pyqtgraph as pg
 import glob
 import logging
-import dxchange
+import time
 
 from imars3d.backend.dataio.data import _load_images as imars3d_load_images
 from imars3d.backend.util.functions import clamp_max_workers
@@ -12,10 +11,7 @@ from imars3d.backend.util.functions import clamp_max_workers
 from hyperctui import load_ui, EvaluationRegionKeys
 from hyperctui.session import SessionKeys
 
-from hyperctui.utilities.table import TableHandler
 from hyperctui.autonomous_reconstruction.initialization import InitializationSelectTofRegions
-from hyperctui.autonomous_reconstruction import ColumnIndex
-from hyperctui.utilities.check import is_int
 
 
 class SelectTofRegions(QMainWindow):
@@ -35,6 +31,7 @@ class SelectTofRegions(QMainWindow):
 
         self.initialization()
         self.load_images()
+        self.display_tof_profile()
 
     def initialization(self):
         o_init = InitializationSelectTofRegions(parent=self, grand_parent=self.parent)
@@ -45,16 +42,27 @@ class SelectTofRegions(QMainWindow):
         session_dict = self.parent.session_dict
         if self.ui.projections_0degree_radioButton.isChecked():
             if self.parent.image_data[SessionKeys.image_0_degree] is None:
+                self.parent.ui.hourglass_label.setVisible(True)
+                QGuiApplication.processEvents()
+                time.sleep(1)
+                QGuiApplication.processEvents()
                 logging.info("Loading stack of images at 0degree!")
                 image_0_full_path = session_dict[SessionKeys.full_path_to_projections][SessionKeys.image_0_degree]
                 self.parent.image_data[SessionKeys.image_0_degree] = \
                     SelectTofRegions.load_images_from_this_folder(folder_name=image_0_full_path)
+                self.parent.ui.hourglass_label.setVisible(False)
         else:
             if self.parent.image_data[SessionKeys.image_180_degree] is None:
+                self.ui.hourglass_label.setVisible(True)
+                time.sleep(1)
+                QGuiApplication.processEvents()
+                QGuiApplication.processEvents()
                 logging.info("Loading stack of images at 180degrees!")
                 image_180_full_path = session_dict[SessionKeys.full_path_to_projections][SessionKeys.image_180_degree]
                 self.parent.image_data[SessionKeys.image_180_degree] = \
                     SelectTofRegions.load_images_from_this_folder(folder_name=image_180_full_path)
+                # self.ui.hourglass_label.setVisible(False)
+        QGuiApplication.processEvents()
 
     @staticmethod
     def load_images_from_this_folder(folder_name):
@@ -63,19 +71,22 @@ class SelectTofRegions(QMainWindow):
         """
         folder_inside = glob.glob(os.path.join(folder_name, 'Run_*'))
         list_tiff = glob.glob(os.path.join(folder_inside[0], "*.tif"))
-        print(f"{os.path.join(folder_inside[0],'*.tif') =}")
+        logging.info(f"-> loading {len(list_tiff)} 'tif' files!")
         # load the tiff using iMars3D
-        print(f"{list_tiff =}")
         data = imars3d_load_images(filelist=list_tiff,
                                    desc="",
-                                   max_workers=clamp_max_workers(max_workers=0),
+                                   max_workers=clamp_max_workers(max_workers=10),
                                    tqdm_class=None)
-        print(np.shape(data))
+        return data
+
+    def display_tof_profile(self):
+        pass
 
     def table_changed(self):
         pass
 
     def projections_changed(self):
+        self.load_images()
         self.update_top_view()
 
     def instrument_settings_changed(self):
