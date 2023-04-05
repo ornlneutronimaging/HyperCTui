@@ -37,6 +37,8 @@ class SessionKeys:
 
     # evaluation regions
     evaluation_regions = "evaluation regions dict"
+    tof_roi_region = "TOF ROI region of top view dict"
+    tof_regions = "TOF region dict"
 
     # general
     process_in_progress = "process in progress"

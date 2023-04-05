@@ -13,6 +13,8 @@ from hyperctui.utilities.check import is_int
 
 class SelectTofRegions(QDialog):
 
+    top_roi_id = None
+
     def __init__(self, parent=None):
         super(SelectTofRegions, self).__init__(parent)
         self.parent = parent
@@ -49,3 +51,6 @@ class SelectTofRegions(QDialog):
         else:
             raise NotImplementedError("image to display is not 0 or 180 degree!")
         self.ui.top_image_view.setImage(image)
+
+    def top_roi_changed(self):
+        pass

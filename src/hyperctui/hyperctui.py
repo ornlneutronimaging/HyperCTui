@@ -61,6 +61,10 @@ class HyperCTui(QMainWindow):
                     SessionKeys.list_ob_folders_requested: None,
                     SessionKeys.started_acquisition: False,
                     SessionKeys.obs_have_been_moved_already: False,
+                    SessionKeys.tof_roi_region: {'x0': 5,
+                                                 'y0': 5,
+                                                 'x1': 200,
+                                                 'y1': 200},
                     }
 
     tab2 = None  # handle to tab #2 - cropping

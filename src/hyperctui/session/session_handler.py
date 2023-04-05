@@ -227,6 +227,13 @@ class SessionHandler:
                 new_evaluation_regions[int(_key)] = self.parent.evaluation_regions[_key]
             self.parent.evaluation_regions = new_evaluation_regions
 
+            ## tof regions
+            if not session_dict.get(SessionKeys.tof_roi_region, None):
+                session_dict[SessionKeys.tof_roi_region] = {'x0': 5,
+                                                            'y0': 5,
+                                                            'x1': 200,
+                                                            'y1': 200}
+
         all_tabs_visible = session_dict.get(SessionKeys.all_tabs_visible, False)
         # if not (self.parent.all_tabs_visible == all_tabs_visible):
         o_main_widgets = UtilityWidgets(parent=self.parent)

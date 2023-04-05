@@ -1,8 +1,10 @@
 import pyqtgraph as pg
 from qtpy.QtWidgets import QVBoxLayout, QCheckBox, QHBoxLayout, QSpacerItem, QSizePolicy, QWidget
+from qtpy import QtGui
 
 from hyperctui import EvaluationRegionKeys
 from hyperctui import DETECTOR_OFFSET, SOURCE_DETECTOR_DISTANCE
+from hyperctui.session import SessionKeys
 
 from hyperctui.utilities.table import TableHandler
 from hyperctui.autonomous_reconstruction import ColumnIndex
@@ -78,6 +80,7 @@ class InitializationSelectTofRegions:
     def all(self):
         self.pyqtgraph()
         self.widgets()
+        self.roi()
 
     def pyqtgraph(self):
         self.parent.ui.top_image_view = pg.ImageView(view=pg.PlotItem())
@@ -104,3 +107,29 @@ class InitializationSelectTofRegions:
 
         self.parent.ui.projections_0degree_radioButton.setText(u"0\u00B0")
         self.parent.ui.projections_180degree_radioButton.setText(u"180\u00B0")
+
+    def roi(self):
+        roi = self.grand_parent.session_dict[SessionKeys.tof_roi_region]
+        x0 = roi['x0']
+        y0 = roi['y0']
+        x1 = roi['x1']
+        y1 = roi['y1']
+
+        width = x1 - x0 + 1
+        height = y1 - y0 + 1
+
+        _color = QtGui.QColor(62, 13, 244)
+        _pen = QtGui.QPen()
+        _pen.setColor(_color)
+        _pen.setWidthF(0.01)
+
+        _roi_id = pg.ROI([x0, y0],
+                         [width, height],
+                         pen=_pen,
+                         scaleSnap=True)
+        _roi_id.addScaleHandle([1, 1], [0, 0])
+        _roi_id.addScaleHandle([0, 0], [1, 1])
+
+        self.parent.ui.top_image_view.addItem(_roi_id)
+        _roi_id.sigRegionChanged.connect(self.parent.top_roi_changed)
+        self.parent.top_roi_id = _roi_id
