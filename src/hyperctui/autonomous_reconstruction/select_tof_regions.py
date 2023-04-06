@@ -49,6 +49,10 @@ class SelectTofRegions(QMainWindow):
         o_init = InitializationSelectTofRegions(parent=self, grand_parent=self.parent)
         o_init.all()
 
+    def init_bragg_regions(self):
+        o_init = InitializationSelectTofRegions(parent=self, grand_parent=self.parent)
+        o_init.bragg_regions()
+
     def load_time_spectra(self):
         session_dict = self.parent.session_dict
         image_0_full_path = session_dict[SessionKeys.full_path_to_projections][SessionKeys.image_0_degree]
@@ -189,6 +193,12 @@ class SelectTofRegions(QMainWindow):
                                                                 'y1': bottom}
 
         self.display_tof_profile()
+
+    def checkButton_clicked(self):
+        print(f"checkButton clicked!")
+
+    def regions_manually_moved(self):
+        print("regions manually moved")
 
     def accept(self):
         self.close()

@@ -11,6 +11,8 @@ from hyperctui.session import SessionKeys
 from hyperctui.utilities.table import TableHandler
 from hyperctui.autonomous_reconstruction import ColumnIndex
 
+LABEL_YOFFSET = 20
+
 
 class InitializationSelectEvaluationRegions:
 
@@ -83,7 +85,12 @@ class InitializationSelectTofRegions:
         self.pyqtgraph()
         self.widgets()
         self.roi()
+        self.table()
         self.statusbar()
+        self.splitter()
+
+    def splitter(self):
+        self.parent.ui.splitter.setSizes([70, 50])
 
     def statusbar(self):
         self.parent.eventProgress = QProgressBar(self.parent.ui.statusbar)
@@ -113,9 +120,6 @@ class InitializationSelectTofRegions:
         self.parent.previous_distance_source_detector = SOURCE_DETECTOR_DISTANCE
         self.parent.previous_detector_offset = DETECTOR_OFFSET
 
-        o_table = TableHandler(table_ui=self.parent.ui.tableWidget)
-        o_table.set_column_sizes(self.column_sizes)
-
         self.parent.ui.projections_0degree_radioButton.setText(u"0\u00B0")
         self.parent.ui.projections_180degree_radioButton.setText(u"180\u00B0")
 
@@ -144,3 +148,70 @@ class InitializationSelectTofRegions:
         self.parent.ui.top_image_view.addItem(_roi_id)
         _roi_id.sigRegionChanged.connect(self.parent.top_roi_changed)
         self.parent.top_roi_id = _roi_id
+
+    def table(self):
+        o_table = TableHandler(table_ui=self.parent.ui.tableWidget)
+        o_table.set_column_sizes(self.column_sizes)
+        tof_regions = self.grand_parent.tof_regions
+        o_table.block_signals()
+        for _row in tof_regions.keys():
+            o_table.insert_empty_row(row=_row)
+
+            checked_button = QCheckBox()
+            checked_button.setChecked(tof_regions[_row][EvaluationRegionKeys.state])
+            checked_button.clicked.connect(self.parent.checkButton_clicked)
+            horizontal_layout = QHBoxLayout()
+            spacer1 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+            horizontal_layout.addItem(spacer1)
+            horizontal_layout.addWidget(checked_button)
+            spacer2 = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+            horizontal_layout.addItem(spacer2)
+            checked_button_widget = QWidget()
+            checked_button_widget.setLayout(horizontal_layout)
+            o_table.insert_widget(row=_row,
+                                  column=ColumnIndex.enabled_state,
+                                  widget=checked_button_widget)
+
+            o_table.insert_item(row=_row,
+                                column=ColumnIndex.name,
+                                value=tof_regions[_row][EvaluationRegionKeys.name])
+
+            o_table.insert_item(row=_row,
+                                column=ColumnIndex.from_value,
+                                value=tof_regions[_row][EvaluationRegionKeys.from_value])
+
+            o_table.insert_item(row=_row,
+                                column=ColumnIndex.to_value,
+                                value=tof_regions[_row][EvaluationRegionKeys.to_value])
+        o_table.unblock_signals()
+
+    def bragg_regions(self):
+        for _key in self.grand_parent.tof_regions.keys():
+            _entry = self.grand_parent.tof_regions[_key]
+            _state = _entry[EvaluationRegionKeys.state]
+            if _state:
+                _from = float(_entry[EvaluationRegionKeys.from_value])
+                _to = float(_entry[EvaluationRegionKeys.to_value])
+                _roi_id = pg.LinearRegionItem(values=(_from, _to),
+                                              orientation='vertical',
+                                              movable=True,
+                                              bounds=[0, self.grand_parent.image_size['height']])
+                self.parent.ui.bragg_edge_plot.addItem(_roi_id)
+                _roi_id.sigRegionChanged.connect(self.parent.regions_manually_moved)
+                _entry[EvaluationRegionKeys.id] = _roi_id
+
+                # # label of region
+                # _name_of_region = _entry[EvaluationRegionKeys.name]
+                # _label_id = pg.TextItem(html='<div style="text-align: center">' + _name_of_region + '</div>',
+                #                         fill=QtGui.QColor(255, 255, 255),
+                #                         anchor=(0, 1))
+                # _label_id.setPos(LABEL_YOFFSET, _from)
+                # self.ui.image_view.addItem(_label_id)
+                # _entry[EvaluationRegionKeys.label_id] = _label_id
+
+
+
+
+
+
+

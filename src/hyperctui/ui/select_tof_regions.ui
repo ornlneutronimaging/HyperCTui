@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>738</width>
-    <height>846</height>
+    <width>668</width>
+    <height>914</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -204,7 +204,7 @@
         <property name="maximumSize">
          <size>
           <width>1000</width>
-          <height>150</height>
+          <height>300</height>
          </size>
         </property>
         <property name="alternatingRowColors">
@@ -290,7 +290,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>738</width>
+     <width>668</width>
      <height>24</height>
     </rect>
    </property>
