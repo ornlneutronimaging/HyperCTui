@@ -100,11 +100,10 @@ class InitializationSelectTofRegions:
         top_image_layout.addWidget(self.parent.ui.top_image_view)
         self.parent.ui.top_widget.setLayout(top_image_layout)
 
-        self.parent.ui.bottom_image_view = pg.ImageView(view=pg.PlotItem())
-        self.parent.ui.bottom_image_view.ui.roiBtn.hide()
-        self.parent.ui.bottom_image_view.ui.menuBtn.hide()
+        self.parent.ui.bragg_edge_plot = pg.PlotWidget(title='TOF spectrum')
+        self.parent.ui.bragg_edge_plot.plot()
         bottom_image_layout = QVBoxLayout()
-        bottom_image_layout.addWidget(self.parent.ui.bottom_image_view)
+        bottom_image_layout.addWidget(self.parent.ui.bragg_edge_plot)
         self.parent.ui.bottom_widget.setLayout(bottom_image_layout)
 
     def widgets(self):

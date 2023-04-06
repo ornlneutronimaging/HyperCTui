@@ -3,8 +3,8 @@ from qtpy.QtGui import QGuiApplication
 import os
 import glob
 import logging
-import time
 import dxchange
+import numpy as np
 
 from hyperctui import load_ui, EvaluationRegionKeys
 from hyperctui.session import SessionKeys
@@ -54,6 +54,7 @@ class SelectTofRegions(QMainWindow):
         """
         folder_inside = glob.glob(os.path.join(folder_name, 'Run_*'))
         list_tiff = glob.glob(os.path.join(folder_inside[0], "*.tif"))
+        list_tiff.sort()
         logging.info(f"-> loading {len(list_tiff)} 'tif' files!")
         # load the tiff using iMars3D
 
@@ -63,8 +64,11 @@ class SelectTofRegions(QMainWindow):
         QGuiApplication.processEvents()
 
         data = []
+
+        import tifffile
         for _index, _file in enumerate(list_tiff):
-            _data = dxchange.read_tiff(_file)
+            # _data = dxchange.read_tiff(_file)
+            _data = tifffile.imread(_file)
             self.eventProgress.setValue(_index+1)
             QGuiApplication.processEvents()
             data.append(_data)
@@ -75,7 +79,24 @@ class SelectTofRegions(QMainWindow):
         return data
 
     def display_tof_profile(self):
-        pass
+        tof_roi_region = self.parent.session_dict[SessionKeys.tof_roi_region]
+        x0 = tof_roi_region['x0']
+        y0 = tof_roi_region['y0']
+        x1 = tof_roi_region['x1']
+        y1 = tof_roi_region['y1']
+        if self.ui.projections_0degree_radioButton.isChecked():
+            full_data = self.parent.image_data[SessionKeys.image_0_degree]
+        else:
+            full_data = self.parent.image_data[SessionKeys.image_180_degree]
+
+        tof_profile = []
+        for _index, _data in enumerate(full_data):
+            # print(f"{x0 =}, {y0 =}, {x1 =}, {y1 =} -> {_index =}: {np.shape(_data) =}")
+            _counts_of_roi = _data[y0:y1+1, x0:x1+1]
+            _mean_counts = np.mean(_counts_of_roi)
+            tof_profile.append(_mean_counts)
+
+        self.ui.bragg_edge_plot.plot(tof_profile)
 
     def table_changed(self):
         pass
