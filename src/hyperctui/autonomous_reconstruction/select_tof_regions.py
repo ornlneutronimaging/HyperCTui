@@ -3,8 +3,8 @@ from qtpy.QtGui import QGuiApplication
 import os
 import glob
 import logging
-import dxchange
 import numpy as np
+import tifffile
 
 from hyperctui import load_ui, EvaluationRegionKeys
 from hyperctui.session import SessionKeys
@@ -65,7 +65,6 @@ class SelectTofRegions(QMainWindow):
 
         data = []
 
-        import tifffile
         for _index, _file in enumerate(list_tiff):
             # _data = dxchange.read_tiff(_file)
             _data = tifffile.imread(_file)
@@ -91,12 +90,14 @@ class SelectTofRegions(QMainWindow):
 
         tof_profile = []
         for _index, _data in enumerate(full_data):
-            # print(f"{x0 =}, {y0 =}, {x1 =}, {y1 =} -> {_index =}: {np.shape(_data) =}")
             _counts_of_roi = _data[y0:y1+1, x0:x1+1]
             _mean_counts = np.mean(_counts_of_roi)
             tof_profile.append(_mean_counts)
 
+        self.ui.bragg_edge_plot.clear()
         self.ui.bragg_edge_plot.plot(tof_profile)
+        self.ui.bragg_edge_plot.setLabel("bottom", u"\u03BB (\u212B)")
+        self.ui.bragg_edge_plot.setLabel("left", "Average Counts")
 
     def table_changed(self):
         pass
@@ -132,6 +133,8 @@ class SelectTofRegions(QMainWindow):
                                                                 'y0': top,
                                                                 'x1': right,
                                                                 'y1': bottom}
+
+        self.display_tof_profile()
 
     def accept(self):
         self.close()
