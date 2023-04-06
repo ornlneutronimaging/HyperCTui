@@ -141,15 +141,15 @@ class HyperCTui(QMainWindow):
                       EvaluationRegionKeys.id: None,
                       EvaluationRegionKeys.label_id: None
                       }
-    tof_regions[1] = {EvaluationRegionKeys.state: False,
-                      EvaluationRegionKeys.name: 'TOF 1',
+    tof_regions[1] = {EvaluationRegionKeys.state: True,
+                      EvaluationRegionKeys.name: 'TOF 2',
                       EvaluationRegionKeys.from_value: 1.9,
                       EvaluationRegionKeys.to_value: 2.1,
                       EvaluationRegionKeys.id: None,
                       EvaluationRegionKeys.label_id: None
                       }
     tof_regions[2] = {EvaluationRegionKeys.state: False,
-                      EvaluationRegionKeys.name: 'TOF 1',
+                      EvaluationRegionKeys.name: 'TOF 3',
                       EvaluationRegionKeys.from_value: 2.9,
                       EvaluationRegionKeys.to_value: 3.1,
                       EvaluationRegionKeys.id: None,

@@ -9,11 +9,15 @@ import tifffile
 from neutronbraggedge.experiment_handler.tof import TOF
 from neutronbraggedge.experiment_handler.experiment import Experiment
 
+from hyperctui.utilities.table import TableHandler
 from hyperctui import load_ui, EvaluationRegionKeys
 from hyperctui.session import SessionKeys
 from hyperctui.utilities.check import is_float, is_int
 
 from hyperctui.autonomous_reconstruction.initialization import InitializationSelectTofRegions
+from hyperctui.autonomous_reconstruction import ColumnIndex
+
+LABEL_YOFFSET = 0
 
 
 class SelectTofRegions(QMainWindow):
@@ -195,10 +199,40 @@ class SelectTofRegions(QMainWindow):
         self.display_tof_profile()
 
     def checkButton_clicked(self):
-        print(f"checkButton clicked!")
+        pass
 
     def regions_manually_moved(self):
-        print("regions manually moved")
+        o_table = TableHandler(table_ui=self.ui.tableWidget)
+        o_table.block_signals()
+        for _row, _key in enumerate(self.parent.tof_regions.keys()):
+
+            _entry = self.parent.tof_regions[_key]
+            _state = _entry[EvaluationRegionKeys.state]
+            if _state:
+                _id = _entry[EvaluationRegionKeys.id]
+                (_from, _to) = _id.getRegion()
+                _from, _to = SelectTofRegions.sort(_from, _to)
+                o_table.set_item_with_str(row=_row,
+                                          column=ColumnIndex.from_value,
+                                          value=str(int(_from)))
+                o_table.set_item_with_str(row=_row,
+                                          column=ColumnIndex.to_value,
+                                          value=str(int(_to)))
+
+                # move label as well
+                _label_id = _entry[EvaluationRegionKeys.label_id]
+                _label_id.setPos(_from, LABEL_YOFFSET)
+
+        # self.check_validity_of_table()
+        o_table.unblock_signals()
+        # self.update_evaluation_regions_dict()
 
     def accept(self):
         self.close()
+
+    @staticmethod
+    def sort(value1: int, value2: int):
+        minimum_value = np.min([value1, value2])
+        maximum_value = np.max([value1, value2])
+        return minimum_value, maximum_value
+

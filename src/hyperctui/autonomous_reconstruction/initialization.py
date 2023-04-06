@@ -2,7 +2,6 @@ import pyqtgraph as pg
 from qtpy.QtWidgets import QVBoxLayout, QCheckBox, QHBoxLayout, QSpacerItem, \
     QSizePolicy, QWidget, QProgressBar
 from qtpy import QtGui
-from qtpy.QtGui import QPixmap
 
 from hyperctui import EvaluationRegionKeys
 from hyperctui import DETECTOR_OFFSET, SOURCE_DETECTOR_DISTANCE
@@ -11,7 +10,7 @@ from hyperctui.session import SessionKeys
 from hyperctui.utilities.table import TableHandler
 from hyperctui.autonomous_reconstruction import ColumnIndex
 
-LABEL_YOFFSET = 20
+LABEL_YOFFSET = 0
 
 
 class InitializationSelectEvaluationRegions:
@@ -200,14 +199,14 @@ class InitializationSelectTofRegions:
                 _roi_id.sigRegionChanged.connect(self.parent.regions_manually_moved)
                 _entry[EvaluationRegionKeys.id] = _roi_id
 
-                # # label of region
-                # _name_of_region = _entry[EvaluationRegionKeys.name]
-                # _label_id = pg.TextItem(html='<div style="text-align: center">' + _name_of_region + '</div>',
-                #                         fill=QtGui.QColor(255, 255, 255),
-                #                         anchor=(0, 1))
-                # _label_id.setPos(LABEL_YOFFSET, _from)
-                # self.ui.image_view.addItem(_label_id)
-                # _entry[EvaluationRegionKeys.label_id] = _label_id
+                # label of region
+                _name_of_region = _entry[EvaluationRegionKeys.name]
+                _label_id = pg.TextItem(html='<div style="text-align:center">' + _name_of_region + '</div>',
+                                        fill=QtGui.QColor(255, 255, 255),
+                                        anchor=(0, 1))
+                _label_id.setPos(_from, LABEL_YOFFSET)
+                self.parent.ui.bragg_edge_plot.addItem(_label_id)
+                _entry[EvaluationRegionKeys.label_id] = _label_id
 
 
 
