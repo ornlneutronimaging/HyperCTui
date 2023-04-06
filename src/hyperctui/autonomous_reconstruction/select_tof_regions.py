@@ -1,10 +1,12 @@
 from qtpy.QtWidgets import QMainWindow
 from qtpy.QtGui import QGuiApplication
+from qtpy import QtGui
 import os
 import glob
 import logging
 import numpy as np
 import tifffile
+import pyqtgraph as pg
 
 from neutronbraggedge.experiment_handler.tof import TOF
 from neutronbraggedge.experiment_handler.experiment import Experiment
@@ -197,9 +199,23 @@ class SelectTofRegions(QMainWindow):
                                                                 'y1': bottom}
 
         self.display_tof_profile()
+        self.replot_bragg_regions()
 
     def checkButton_clicked(self):
         pass
+
+    def replot_bragg_regions(self):
+        """replot the Bragg regions"""
+        for _key in self.parent.tof_regions.keys():
+            _entry = self.parent.tof_regions[_key]
+            _state = _entry[EvaluationRegionKeys.state]
+            if _state:
+                _roi_id = _entry[EvaluationRegionKeys.id]
+                self.ui.bragg_edge_plot.addItem(_roi_id)
+
+                # label of region
+                _label_id = _entry[EvaluationRegionKeys.label_id]
+                self.ui.bragg_edge_plot.addItem(_label_id)
 
     def regions_manually_moved(self):
         o_table = TableHandler(table_ui=self.ui.tableWidget)
@@ -214,10 +230,10 @@ class SelectTofRegions(QMainWindow):
                 _from, _to = SelectTofRegions.sort(_from, _to)
                 o_table.set_item_with_str(row=_row,
                                           column=ColumnIndex.from_value,
-                                          value=str(int(_from)))
+                                          value=f"{float(_from):.2f}")
                 o_table.set_item_with_str(row=_row,
                                           column=ColumnIndex.to_value,
-                                          value=str(int(_to)))
+                                          value=f"{float(_to):.2f}")
 
                 # move label as well
                 _label_id = _entry[EvaluationRegionKeys.label_id]
@@ -231,7 +247,7 @@ class SelectTofRegions(QMainWindow):
         self.close()
 
     @staticmethod
-    def sort(value1: int, value2: int):
+    def sort(value1: float, value2: float):
         minimum_value = np.min([value1, value2])
         maximum_value = np.max([value1, value2])
         return minimum_value, maximum_value

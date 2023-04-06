@@ -173,15 +173,15 @@ class InitializationSelectTofRegions:
 
             o_table.insert_item(row=_row,
                                 column=ColumnIndex.name,
-                                value=tof_regions[_row][EvaluationRegionKeys.name])
+                                value=f"{tof_regions[_row][EvaluationRegionKeys.name]}")
 
             o_table.insert_item(row=_row,
                                 column=ColumnIndex.from_value,
-                                value=tof_regions[_row][EvaluationRegionKeys.from_value])
+                                value=f"{float(tof_regions[_row][EvaluationRegionKeys.from_value]):.2f}")
 
             o_table.insert_item(row=_row,
                                 column=ColumnIndex.to_value,
-                                value=tof_regions[_row][EvaluationRegionKeys.to_value])
+                                value=f"{float(tof_regions[_row][EvaluationRegionKeys.to_value]):.2f}")
         o_table.unblock_signals()
 
     def bragg_regions(self):
