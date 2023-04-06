@@ -1,3 +1,5 @@
+from qtpy.QtGui import QGuiApplication
+
 from hyperctui.autonomous_reconstruction.help_golden_angle import HelpGoldenAngle
 from hyperctui.autonomous_reconstruction.help_automatic_angles import HelpAutomaticAngles
 from hyperctui.autonomous_reconstruction.select_evaluation_regions import SelectEvaluationRegions
@@ -31,3 +33,6 @@ class EventHandler:
     def tof_region_selection_button_clicked(self):
         o_ui = SelectTofRegions(parent=self.parent)
         o_ui.show()
+        QGuiApplication.processEvents()
+        o_ui.projections_changed()
+        QGuiApplication.processEvents()

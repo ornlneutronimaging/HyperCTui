@@ -19,8 +19,5 @@ dependencies:
   - pyqtgraph
   - tqdm
   - dxchange
-  - olefile
   - pip:
       - NeuNorm
-      - iMars3D
-      - param
