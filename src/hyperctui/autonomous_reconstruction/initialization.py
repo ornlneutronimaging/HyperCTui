@@ -110,6 +110,8 @@ class InitializationSelectTofRegions:
         self.parent.ui.detector_offset_label.setText(u"Detector offset (\u00B5s)")
         self.parent.ui.distance_source_detector_value.setText(f"{SOURCE_DETECTOR_DISTANCE: .3f}")
         self.parent.ui.detector_offset_value.setText(f"{DETECTOR_OFFSET: .2f}")
+        self.parent.previous_distance_source_detector = SOURCE_DETECTOR_DISTANCE
+        self.parent.previous_detector_offset = DETECTOR_OFFSET
 
         o_table = TableHandler(table_ui=self.parent.ui.tableWidget)
         o_table.set_column_sizes(self.column_sizes)

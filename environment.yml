@@ -21,3 +21,4 @@ dependencies:
   - dxchange
   - pip:
       - NeuNorm
+      - neutronbraggedge

@@ -6,8 +6,12 @@ import logging
 import numpy as np
 import tifffile
 
+from neutronbraggedge.experiment_handler.tof import TOF
+from neutronbraggedge.experiment_handler.experiment import Experiment
+
 from hyperctui import load_ui, EvaluationRegionKeys
 from hyperctui.session import SessionKeys
+from hyperctui.utilities.check import is_float, is_int
 
 from hyperctui.autonomous_reconstruction.initialization import InitializationSelectTofRegions
 
@@ -15,6 +19,16 @@ from hyperctui.autonomous_reconstruction.initialization import InitializationSel
 class SelectTofRegions(QMainWindow):
 
     top_roi_id = None
+
+    # used in case the value entered by the user are not valid
+    previous_distance_source_detector = None
+    previous_detector_offset = None
+
+    # tof array from spectra file (using the 0degree angle to retrieve it)
+    tof_array = None
+
+    # lambda array to use for x-axis of Bragg edge
+    lambda_array = None
 
     def __init__(self, parent=None):
         super(SelectTofRegions, self).__init__(parent)
@@ -28,10 +42,20 @@ class SelectTofRegions(QMainWindow):
         self.setWindowTitle("Select TOF regions")
 
         self.initialization()
+        self.load_time_spectra()
+        self.calculate_lambda_axis()
 
     def initialization(self):
         o_init = InitializationSelectTofRegions(parent=self, grand_parent=self.parent)
         o_init.all()
+
+    def load_time_spectra(self):
+        session_dict = self.parent.session_dict
+        image_0_full_path = session_dict[SessionKeys.full_path_to_projections][SessionKeys.image_0_degree]
+        folder_inside = glob.glob(os.path.join(image_0_full_path, 'Run_*'))
+        spectra_filename = glob.glob(os.path.join(folder_inside[0], "*_Spectra.txt"))
+        tof_handler = TOF(filename=spectra_filename[0])
+        self.tof_array = tof_handler.tof_array
 
     def load_images(self):
         session_dict = self.parent.session_dict
@@ -95,7 +119,7 @@ class SelectTofRegions(QMainWindow):
             tof_profile.append(_mean_counts)
 
         self.ui.bragg_edge_plot.clear()
-        self.ui.bragg_edge_plot.plot(tof_profile)
+        self.ui.bragg_edge_plot.plot(self.lambda_array, tof_profile)
         self.ui.bragg_edge_plot.setLabel("bottom", u"\u03BB (\u212B)")
         self.ui.bragg_edge_plot.setLabel("left", "Average Counts")
 
@@ -108,7 +132,34 @@ class SelectTofRegions(QMainWindow):
         self.display_tof_profile()
 
     def instrument_settings_changed(self):
-        pass
+        distance_source_detector = str(self.ui.distance_source_detector_value.text())
+        if not is_float(distance_source_detector):
+            distance_source_detector = self.previous_distance_source_detector
+        else:
+            self.previous_distance_source_detector = distance_source_detector
+
+        self.ui.distance_source_detector_value.blockSignals(True)
+        self.ui.distance_source_detector_value.setText(f"{float(distance_source_detector):.3f}")
+        self.ui.distance_source_detector_value.blockSignals(False)
+
+        detector_offset = str(self.ui.detector_offset_value.text())
+        if not is_int(detector_offset):
+            detector_offset = self.previous_detector_offset
+        else:
+            self.previous_detector_offset = detector_offset
+        self.ui.detector_offset_value.blockSignals(True)
+        self.ui.detector_offset_value.setText(f"{int(detector_offset)}")
+        self.ui.detector_offset_value.blockSignals(False)
+
+    def calculate_lambda_axis(self):
+        distance_source_detector = float(str(self.ui.distance_source_detector_value.text()))
+        detector_offset = float(str(self.ui.detector_offset_value.text()))
+
+        tof_array = self.tof_array
+        exp = Experiment(tof=tof_array,
+                         distance_source_detector_m=distance_source_detector,
+                         detector_offset_micros=detector_offset)
+        self.lambda_array = exp.lambda_array * 1e10  # to be in Angstroms
 
     def update_top_view(self):
         if self.ui.projections_0degree_radioButton.isChecked():
