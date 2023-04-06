@@ -185,32 +185,30 @@ class InitializationSelectTofRegions:
         o_table.unblock_signals()
 
     def bragg_regions(self):
+        self.parent.ui.tableWidget.blockSignals(True)
         for _key in self.grand_parent.tof_regions.keys():
             _entry = self.grand_parent.tof_regions[_key]
             _state = _entry[EvaluationRegionKeys.state]
+            _from = float(_entry[EvaluationRegionKeys.from_value])
+            _to = float(_entry[EvaluationRegionKeys.to_value])
+            _roi_id = pg.LinearRegionItem(values=(_from, _to),
+                                          orientation='vertical',
+                                          movable=True,
+                                          bounds=[0, self.grand_parent.image_size['height']])
+
+            _roi_id.sigRegionChanged.connect(self.parent.regions_manually_moved)
+            _entry[EvaluationRegionKeys.id] = _roi_id
+
+            # label of region
+            _name_of_region = _entry[EvaluationRegionKeys.name]
+            _label_id = pg.TextItem(html='<div style="text-align:center">' + _name_of_region + '</div>',
+                                    fill=QtGui.QColor(255, 255, 255),
+                                    anchor=(0, 1))
+            _label_id.setPos(_from, LABEL_YOFFSET)
+            _entry[EvaluationRegionKeys.label_id] = _label_id
+
             if _state:
-                _from = float(_entry[EvaluationRegionKeys.from_value])
-                _to = float(_entry[EvaluationRegionKeys.to_value])
-                _roi_id = pg.LinearRegionItem(values=(_from, _to),
-                                              orientation='vertical',
-                                              movable=True,
-                                              bounds=[0, self.grand_parent.image_size['height']])
                 self.parent.ui.bragg_edge_plot.addItem(_roi_id)
-                _roi_id.sigRegionChanged.connect(self.parent.regions_manually_moved)
-                _entry[EvaluationRegionKeys.id] = _roi_id
-
-                # label of region
-                _name_of_region = _entry[EvaluationRegionKeys.name]
-                _label_id = pg.TextItem(html='<div style="text-align:center">' + _name_of_region + '</div>',
-                                        fill=QtGui.QColor(255, 255, 255),
-                                        anchor=(0, 1))
-                _label_id.setPos(_from, LABEL_YOFFSET)
                 self.parent.ui.bragg_edge_plot.addItem(_label_id)
-                _entry[EvaluationRegionKeys.label_id] = _label_id
 
-
-
-
-
-
-
+        self.parent.ui.tableWidget.blockSignals(False)

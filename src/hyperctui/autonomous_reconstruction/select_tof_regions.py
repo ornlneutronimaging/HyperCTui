@@ -134,7 +134,123 @@ class SelectTofRegions(QMainWindow):
         self.ui.bragg_edge_plot.setLabel("left", "Average Counts")
 
     def table_changed(self):
-        pass
+        # self.check_table_content()
+        self.clear_all_regions()
+        self.save_table()
+        self.check_table_state()
+        self.update_display_regions()
+
+    def clear_all_regions(self):
+        # clear all region items and labels
+        for _key in self.parent.tof_regions.keys():
+            if self.parent.tof_regions[_key][EvaluationRegionKeys.id]:
+                self.ui.bragg_edge_plot.removeItem(self.parent.tof_regions[_key][EvaluationRegionKeys.id])
+                self.ui.bragg_edge_plot.removeItem(self.parent.tof_regions[_key][EvaluationRegionKeys.label_id])
+
+    def update_display_regions(self):
+        # replace all the regions
+        for _key in self.parent.tof_regions.keys():
+            _entry = self.parent.tof_regions[_key]
+            _state = _entry[EvaluationRegionKeys.state]
+            if _state:
+                _from = float(_entry[EvaluationRegionKeys.from_value])
+                _to = float(_entry[EvaluationRegionKeys.to_value])
+                _roi_id = pg.LinearRegionItem(values=(_from, _to),
+                                              orientation='vertical',
+                                              movable=True,
+                                              bounds=[0, self.parent.image_size['height']])
+                self.ui.bragg_edge_plot.addItem(_roi_id)
+                _roi_id.sigRegionChanged.connect(self.regions_manually_moved)
+                _entry[EvaluationRegionKeys.id] = _roi_id
+
+                # label of region
+                _name_of_region = _entry[EvaluationRegionKeys.name]
+                _label_id = pg.TextItem(html='<div style="text-align: center">' + _name_of_region + '</div>',
+                                        fill=QtGui.QColor(255, 255, 255),
+                                        anchor=(0, 1))
+                _label_id.setPos(_from, LABEL_YOFFSET)
+                self.ui.bragg_edge_plot.addItem(_label_id)
+                _entry[EvaluationRegionKeys.label_id] = _label_id
+
+    def save_table(self):
+        o_table = TableHandler(table_ui=self.ui.tableWidget)
+        row_count = o_table.row_count()
+        tof_regions = {}
+        for _row in np.arange(row_count):
+            _state_widget = o_table.get_inner_widget(row=_row,
+                                                     column=ColumnIndex.enabled_state,
+                                                     position_index=1)
+            _state = _state_widget.isChecked()
+            _name = o_table.get_item_str_from_cell(row=_row,
+                                                   column=ColumnIndex.name)
+            _from = float(o_table.get_item_str_from_cell(row=_row,
+                                                       column=ColumnIndex.from_value))
+            _to = float(o_table.get_item_str_from_cell(row=_row,
+                                                     column=ColumnIndex.to_value))
+            _from, _to = self.sort(_from, _to)
+
+            tof_regions[_row] = {EvaluationRegionKeys.state: _state,
+                                 EvaluationRegionKeys.name: _name,
+                                 EvaluationRegionKeys.from_value: float(_from),
+                                 EvaluationRegionKeys.to_value: float(_to),
+                                 EvaluationRegionKeys.id: None}
+        self.parent.tof_regions = tof_regions
+
+    def check_table_content(self):
+        """
+        make sure 'from' and 'to' values are int
+        make sure 'from' value is smaller than 'to' value, otherwise reverse them
+        """
+        o_table = TableHandler(table_ui=self.ui.tableWidget)
+        o_table.block_signals()
+        nbr_row = o_table.row_count()
+        for _row in np.arange(nbr_row):
+            from_value = o_table.get_item_str_from_cell(row=_row,
+                                                        column=ColumnIndex.from_value)
+            to_value = o_table.get_item_str_from_cell(row=_row,
+                                                      column=ColumnIndex.to_value)
+            if not is_float(from_value):
+                from_value = 0
+            else:
+                from_value = float(from_value)
+
+            if not is_float(to_value):
+                to_value = 10
+            else:
+                to_value = float(to_value)
+
+            minimum_value = np.min([from_value, to_value])
+            maximum_value = np.max([from_value, to_value])
+
+            from_value = str(minimum_value)
+            to_value = str(maximum_value)
+
+            o_table.set_item_with_str(row=_row,
+                                      column=ColumnIndex.from_value,
+                                      value=from_value)
+            o_table.set_item_with_str(row=_row,
+                                      column=ColumnIndex.to_value,
+                                      value=to_value)
+
+    def check_table_state(self):
+        """
+        for example, if a state is disabled, the other widgets/columns for that row will be disabled and
+        can not be edited
+        """
+        o_table = TableHandler(table_ui=self.ui.tableWidget)
+        o_table.block_signals()
+        nbr_row = o_table.row_count()
+        for _row in np.arange(nbr_row):
+            _state_widget = o_table.get_inner_widget(row=_row,
+                                                     column=ColumnIndex.enabled_state,
+                                                     position_index=1)
+            _state = _state_widget.isChecked()
+
+            # disabled or not editing
+            o_table.set_item_state(row=_row, column=ColumnIndex.name, editable=_state)
+            o_table.set_item_state(row=_row, column=ColumnIndex.from_value, editable=_state)
+            o_table.set_item_state(row=_row, column=ColumnIndex.to_value, editable=_state)
+        o_table.unblock_signals()
 
     def projections_changed(self):
         self.load_images()
@@ -197,12 +313,11 @@ class SelectTofRegions(QMainWindow):
                                                                 'y0': top,
                                                                 'x1': right,
                                                                 'y1': bottom}
-
         self.display_tof_profile()
         self.replot_bragg_regions()
 
     def checkButton_clicked(self):
-        pass
+        self.table_changed()
 
     def replot_bragg_regions(self):
         """replot the Bragg regions"""
@@ -218,6 +333,11 @@ class SelectTofRegions(QMainWindow):
                 self.ui.bragg_edge_plot.addItem(_label_id)
 
     def regions_manually_moved(self):
+        """
+        user moved one of the region using mouse click
+        so the program needs to record the new position of the regions and fill the
+        table with this value
+        """
         o_table = TableHandler(table_ui=self.ui.tableWidget)
         o_table.block_signals()
         for _row, _key in enumerate(self.parent.tof_regions.keys()):
