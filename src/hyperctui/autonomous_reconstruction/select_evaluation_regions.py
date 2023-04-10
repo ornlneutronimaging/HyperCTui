@@ -29,6 +29,7 @@ class SelectEvaluationRegions(QDialog):
 
         self.initialization()
         self.update_display_regions()
+        self.check_state_ok_button()
 
     def initialization(self):
         o_init = InitializationSelectEvaluationRegions(parent=self, grand_parent=self.parent)
@@ -154,6 +155,7 @@ class SelectEvaluationRegions(QDialog):
         self.save_table()
         self.update_display_regions()
         self.check_table_state()
+        self.check_state_ok_button()
 
     def check_table_content(self):
         """
@@ -211,6 +213,25 @@ class SelectEvaluationRegions(QDialog):
             o_table.set_item_state(row=_row, column=ColumnIndex.to_value, editable=_state)
         o_table.unblock_signals()
 
+    def is_ok_button_ready(self):
+        evaluation_regions = self.parent.evaluation_regions
+        nbr_region_enabled = 0
+        for _key in evaluation_regions.keys():
+            if evaluation_regions[_key][EvaluationRegionKeys.state]:
+                nbr_region_enabled += 1
+
+        if nbr_region_enabled > 0:
+            return True
+
+        return False
+
+    def check_state_ok_button(self):
+        if self.is_ok_button_ready():
+            self.ui.pushButton.setEnabled(True)
+        else:
+            self.ui.pushButton.setEnabled(False)
+
     def accept(self):
         self.save_table()
+        self.parent.update_autonomous_widgets()
         self.close()

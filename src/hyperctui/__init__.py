@@ -19,6 +19,10 @@ tab4_icon = os.path.join(root, "static/tab4.png")
 
 UI_TITLE = "Ai Svmbir UI"
 
+interact_me_style = "background-color: lime"
+error_style = "background-color: red"
+normal_style = ""
+
 SOURCE_DETECTOR_DISTANCE = 19.855  # m, at SNAP
 DETECTOR_OFFSET = 0  # micros
 

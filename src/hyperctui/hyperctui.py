@@ -367,10 +367,6 @@ class HyperCTui(QMainWindow):
         o_event = AutonomousReconstructionHandler(parent=self)
         o_event.projections_angles_automatic_button_clicked()
 
-    def projections_automatic_help_clicked(self):
-        o_event = AutonomousReconstructionHandler(parent=self)
-        o_event.projections_automatic_help_clicked()
-
     def evaluation_frequency_help_clicked(self):
         o_event = AutonomousReconstructionHandler(parent=self)
         o_event.evaluation_frequency_help_clicked()

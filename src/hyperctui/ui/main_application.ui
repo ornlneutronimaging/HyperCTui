@@ -983,7 +983,7 @@
              <x>0</x>
              <y>0</y>
              <width>1154</width>
-             <height>827</height>
+             <height>821</height>
             </rect>
            </property>
            <attribute name="label">
@@ -1051,25 +1051,6 @@
                    </property>
                   </widget>
                  </item>
-                 <item>
-                  <widget class="QPushButton" name="automatic_projections_angles_help_pushButton">
-                   <property name="minimumSize">
-                    <size>
-                     <width>40</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>40</width>
-                     <height>16777215</height>
-                    </size>
-                   </property>
-                   <property name="text">
-                    <string>?</string>
-                   </property>
-                  </widget>
-                 </item>
                 </layout>
                </item>
               </layout>
@@ -1119,21 +1100,9 @@
                 </spacer>
                </item>
                <item>
-                <widget class="QPushButton" name="evaluation_frequency_help_pushButton">
-                 <property name="minimumSize">
-                  <size>
-                   <width>40</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>40</width>
-                   <height>16777215</height>
-                  </size>
-                 </property>
+                <widget class="QLabel" name="label_10">
                  <property name="text">
-                  <string>?</string>
+                  <string>Numbers of projections acquired between evaluations.</string>
                  </property>
                 </widget>
                </item>
@@ -1200,6 +1169,15 @@
                         </color>
                        </brush>
                       </colorrole>
+                      <colorrole role="PlaceholderText">
+                       <brush brushstyle="SolidPattern">
+                        <color alpha="128">
+                         <red>219</red>
+                         <green>37</green>
+                         <blue>22</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
                      </active>
                      <inactive>
                       <colorrole role="WindowText">
@@ -1223,6 +1201,15 @@
                       <colorrole role="ButtonText">
                        <brush brushstyle="SolidPattern">
                         <color alpha="255">
+                         <red>219</red>
+                         <green>37</green>
+                         <blue>22</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
+                      <colorrole role="PlaceholderText">
+                       <brush brushstyle="SolidPattern">
+                        <color alpha="128">
                          <red>219</red>
                          <green>37</green>
                          <blue>22</blue>
@@ -1258,6 +1245,15 @@
                         </color>
                        </brush>
                       </colorrole>
+                      <colorrole role="PlaceholderText">
+                       <brush brushstyle="SolidPattern">
+                        <color alpha="128">
+                         <red>0</red>
+                         <green>0</green>
+                         <blue>0</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
                      </disabled>
                     </palette>
                    </property>
@@ -1279,68 +1275,6 @@
              </widget>
             </item>
             <item>
-             <spacer name="verticalSpacer_14">
-              <property name="orientation">
-               <enum>Qt::Vertical</enum>
-              </property>
-              <property name="sizeHint" stdset="0">
-               <size>
-                <width>20</width>
-                <height>40</height>
-               </size>
-              </property>
-             </spacer>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_15">
-              <item>
-               <spacer name="horizontalSpacer_14">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QLabel" name="hourglass_label">
-                <property name="minimumSize">
-                 <size>
-                  <width>200</width>
-                  <height>100</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>200</width>
-                  <height>100</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_15">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item>
              <spacer name="verticalSpacer_13">
               <property name="orientation">
                <enum>Qt::Vertical</enum>
@@ -1348,10 +1282,20 @@
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>493</height>
+                <height>459</height>
                </size>
               </property>
              </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="start_first_reconstruction_pushButton">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>Start first acquisition / reconstruction</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -1360,8 +1304,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>100</width>
-             <height>30</height>
+             <width>1154</width>
+             <height>821</height>
             </rect>
            </property>
            <attribute name="label">
@@ -2134,38 +2078,6 @@
     <hint type="destinationlabel">
      <x>1218</x>
      <y>180</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>automatic_projections_angles_help_pushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>projections_automatic_help_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>1143</x>
-     <y>187</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1219</x>
-     <y>281</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>evaluation_frequency_help_pushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>evaluation_frequency_help_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>1153</x>
-     <y>264</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1219</x>
-     <y>325</y>
     </hint>
    </hints>
   </connection>
