@@ -128,7 +128,6 @@ class SelectEvaluationRegions(QDialog):
                 _label_id = _entry[EvaluationRegionKeys.label_id]
                 _label_id.setPos(LABEL_XOFFSET, _from)
 
-        self.check_validity_of_table()
         o_table.unblock_signals()
         self.update_evaluation_regions_dict()
 
