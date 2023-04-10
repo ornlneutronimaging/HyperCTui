@@ -122,6 +122,8 @@ class EventHandler:
         self.init_autonomous_table()
 
     def init_autonomous_table(self):
+        output_table =
+
         pass
 
     def refresh_table_clicked(self):
