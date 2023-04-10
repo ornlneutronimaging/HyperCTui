@@ -47,6 +47,10 @@ class GuiInitialization:
         column_sizes = [600, 50]
         o_table.set_column_sizes(column_sizes=column_sizes)
 
+        table_columns = [540, 80, 80, 80, 100]
+        o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstruction_tableWidget)
+        o_table.set_column_sizes(column_sizes=table_columns)
+
     def full_reset(self):
         pass
 
@@ -68,6 +72,8 @@ class GuiInitialization:
         logo_icon = QPixmap(background_file)
         self.parent.ui.logo.setPixmap(logo_icon)
         # self.parent.ui.tab.setStyleSheet("background-image: url('" +  background_file  + "'); background-repeat: no-repeat")
+
+        self.parent.ui.autonomous_monitor_groupBox.setVisible(False)
 
     def statusbar(self):
         self.parent.eventProgress = QProgressBar(self.parent.ui.statusbar)

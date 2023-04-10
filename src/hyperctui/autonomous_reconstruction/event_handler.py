@@ -4,6 +4,8 @@ import inflect
 from hyperctui import EvaluationRegionKeys
 from hyperctui import interact_me_style, normal_style, error_style
 
+from hyperctui.utilities.status_message_config import StatusMessageStatus, show_status_message
+
 from hyperctui.autonomous_reconstruction.help_golden_angle import HelpGoldenAngle
 from hyperctui.autonomous_reconstruction.select_evaluation_regions import SelectEvaluationRegions
 from hyperctui.autonomous_reconstruction.select_tof_regions import SelectTofRegions
@@ -96,3 +98,31 @@ class EventHandler:
             self.parent.ui.start_first_reconstruction_pushButton.setStyleSheet(interact_me_style)
         else:
             self.parent.ui.start_first_reconstruction_pushButton.setStyleSheet(normal_style)
+
+    def evaluation_frequency_changed(self):
+        pass
+
+    def start_acquisition(self):
+        # disable all previous widgets
+        self.parent.ui.autonomous_projections_groupBox.setEnabled(False)
+        self.parent.ui.autonomous_evaluation_groupBox.setEnabled(False)
+        self.parent.ui.autonomous_tof_regions_groupBox.setEnabled(False)
+        self.parent.ui.start_first_reconstruction_pushButton.setEnabled(False)
+        self.parent.ui.start_first_reconstruction_pushButton.setStyleSheet(normal_style)
+
+        # enable table
+        self.parent.ui.autonomous_monitor_groupBox.setVisible(True)
+        self.parent.ui.autonomous_refresh_pushButton.setStyleSheet(interact_me_style)
+
+        number_angles = self.parent.ui.evaluation_frequency_spinBox.value()
+        show_status_message(parent=self.parent,
+                            message=f"Starting acquisition of {number_angles} angles!",
+                            duration_s=5)
+
+        self.init_autonomous_table()
+
+    def init_autonomous_table(self):
+        pass
+
+    def refresh_table_clicked(self):
+        pass

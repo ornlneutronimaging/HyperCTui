@@ -381,6 +381,18 @@ class HyperCTui(QMainWindow):
         o_event = AutonomousReconstructionHandler(parent=self)
         o_event.tof_region_selection_button_clicked()
 
+    def autonomous_evaluation_frequency_changed(self, new_value):
+        o_event = AutonomousReconstructionHandler(parent=self)
+        o_event.evaluation_frequency_changed()
+
+    def autonomous_start_acquisition_clicked(self):
+        o_event = AutonomousReconstructionHandler(parent=self)
+        o_event.start_acquisition()
+
+    def autonomous_refresh_table_clicked(self):
+        o_event = AutonomousReconstructionHandler(parent=self)
+        o_event.refresh_table_clicked()
+
     # leaving ui
     def closeEvent(self, c):
         o_session = SessionHandler(parent=self)

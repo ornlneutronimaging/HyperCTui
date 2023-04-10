@@ -991,7 +991,7 @@
            </attribute>
            <layout class="QVBoxLayout" name="verticalLayout_20">
             <item>
-             <widget class="QGroupBox" name="groupBox">
+             <widget class="QGroupBox" name="autonomous_projections_groupBox">
               <property name="title">
                <string>Projections angles</string>
               </property>
@@ -1057,7 +1057,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QGroupBox" name="groupBox_2">
+             <widget class="QGroupBox" name="autonomous_evaluation_groupBox">
               <property name="title">
                <string>Evaluation frequency</string>
               </property>
@@ -1110,7 +1110,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QGroupBox" name="groupBox_3">
+             <widget class="QGroupBox" name="autonomous_tof_regions_groupBox">
               <property name="title">
                <string>TOF - region(s) of interest</string>
               </property>
@@ -1282,7 +1282,7 @@
               <property name="sizeHint" stdset="0">
                <size>
                 <width>20</width>
-                <height>459</height>
+                <height>198</height>
                </size>
               </property>
              </spacer>
@@ -1295,6 +1295,80 @@
               <property name="text">
                <string>Start first acquisition / reconstruction</string>
               </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QGroupBox" name="autonomous_monitor_groupBox">
+              <property name="title">
+               <string>Monitor</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_21">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_15">
+                 <item>
+                  <spacer name="horizontalSpacer_14">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="autonomous_refresh_pushButton">
+                   <property name="text">
+                    <string>Refresh table</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QTableWidget" name="autonomous_reconstruction_tableWidget">
+                 <property name="alternatingRowColors">
+                  <bool>true</bool>
+                 </property>
+                 <property name="selectionMode">
+                  <enum>QAbstractItemView::SingleSelection</enum>
+                 </property>
+                 <property name="selectionBehavior">
+                  <enum>QAbstractItemView::SelectRows</enum>
+                 </property>
+                 <attribute name="horizontalHeaderStretchLastSection">
+                  <bool>true</bool>
+                 </attribute>
+                 <column>
+                  <property name="text">
+                   <string>File name</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Log</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Err</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Meta.</string>
+                  </property>
+                 </column>
+                 <column>
+                  <property name="text">
+                   <string>Status</string>
+                  </property>
+                 </column>
+                </widget>
+               </item>
+              </layout>
              </widget>
             </item>
            </layout>
@@ -2097,6 +2171,54 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>start_first_reconstruction_pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>autonomous_start_acquisition_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>552</x>
+     <y>657</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1221</x>
+     <y>789</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>evaluation_frequency_spinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>autonomous_evaluation_frequency_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>125</x>
+     <y>264</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>4</x>
+     <y>374</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>autonomous_refresh_pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>autonomous_refresh_table_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1101</x>
+     <y>686</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1217</x>
+     <y>852</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>step1_instrument_changed()</slot>
@@ -2135,5 +2257,8 @@
   <slot>projections_automatic_help_clicked()</slot>
   <slot>evaluation_frequency_help_clicked()</slot>
   <slot>tof_region_selection_button_clicked()</slot>
+  <slot>autonomous_start_acquisition_clicked()</slot>
+  <slot>autonomous_evaluation_frequency_changed()</slot>
+  <slot>autonomous_refresh_table_clicked()</slot>
  </slots>
 </ui>
