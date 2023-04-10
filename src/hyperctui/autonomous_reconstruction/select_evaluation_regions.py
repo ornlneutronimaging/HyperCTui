@@ -16,6 +16,8 @@ LABEL_XOFFSET = -50
 
 class SelectEvaluationRegions(QDialog):
 
+    ok_clicked = False
+
     def __init__(self, parent=None):
         super(SelectEvaluationRegions, self).__init__(parent)
         self.parent = parent
@@ -27,6 +29,7 @@ class SelectEvaluationRegions(QDialog):
         self.ui = load_ui(ui_full_path, baseinstance=self)
         self.setWindowTitle("Select Evaluation Regions")
 
+        self.parent.backup_evaluation_regions = self.parent.evaluation_regions
         self.initialization()
         self.update_display_regions()
         self.check_state_ok_button()
@@ -232,6 +235,16 @@ class SelectEvaluationRegions(QDialog):
             self.ui.pushButton.setEnabled(False)
 
     def accept(self):
+        self.ok_clicked = True
         self.save_table()
         self.parent.update_autonomous_widgets()
         self.close()
+
+    def cancel(self):
+        self.close()
+
+    def closeEvent(self, a0):
+        if self.ok_clicked:
+            pass
+        else:
+            self.parent.evaluation_regions = self.parent.backup_evaluation_regions
