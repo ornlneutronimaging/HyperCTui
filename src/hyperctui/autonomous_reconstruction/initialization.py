@@ -197,6 +197,7 @@ class InitializationSelectTofRegions:
                                           bounds=[0, self.grand_parent.image_size['height']])
 
             _roi_id.sigRegionChanged.connect(self.parent.regions_manually_moved)
+            _roi_id.sigRegionChangeFinished.connect(self.parent.regions_done_manually_moved)
             _entry[EvaluationRegionKeys.id] = _roi_id
 
             # label of region

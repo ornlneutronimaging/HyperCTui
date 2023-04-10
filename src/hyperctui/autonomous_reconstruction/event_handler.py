@@ -36,4 +36,4 @@ class EventHandler:
         QGuiApplication.processEvents()
         o_ui.projections_changed()
         QGuiApplication.processEvents()
-        o_ui.init_bragg_regions()
+        # o_ui.init_bragg_regions()

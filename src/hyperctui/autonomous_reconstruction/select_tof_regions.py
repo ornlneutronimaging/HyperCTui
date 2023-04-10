@@ -57,7 +57,7 @@ class SelectTofRegions(QMainWindow):
 
     def init_bragg_regions(self):
         o_init = InitializationSelectTofRegions(parent=self, grand_parent=self.parent)
-        o_init.bragg_regions()
+        # o_init.bragg_regions()
 
     def load_time_spectra(self):
         session_dict = self.parent.session_dict
@@ -161,6 +161,7 @@ class SelectTofRegions(QMainWindow):
                                               bounds=[0, self.parent.image_size['height']])
                 self.ui.bragg_edge_plot.addItem(_roi_id)
                 _roi_id.sigRegionChanged.connect(self.regions_manually_moved)
+                _roi_id.sigRegionChangeFinished.connect(self.regions_done_manually_moved)
                 _entry[EvaluationRegionKeys.id] = _roi_id
 
                 # label of region
@@ -256,6 +257,7 @@ class SelectTofRegions(QMainWindow):
         self.load_images()
         self.update_top_view()
         self.display_tof_profile()
+        self.update_display_regions()
 
     def instrument_settings_changed(self):
         distance_source_detector = str(self.ui.distance_source_detector_value.text())
@@ -332,6 +334,9 @@ class SelectTofRegions(QMainWindow):
                 # label of region
                 _label_id = _entry[EvaluationRegionKeys.label_id]
                 self.ui.bragg_edge_plot.addItem(_label_id)
+
+    def regions_done_manually_moved(self):
+        self.table_changed()
 
     def regions_manually_moved(self):
         """
