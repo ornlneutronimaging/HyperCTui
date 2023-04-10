@@ -54,6 +54,7 @@ class SelectTofRegions(QMainWindow):
         self.load_time_spectra()
         self.calculate_lambda_axis()
         self.check_table_state()
+        self.check_state_ok_button()
 
     def initialization(self):
         o_init = InitializationSelectTofRegions(parent=self, grand_parent=self.parent)
@@ -325,6 +326,7 @@ class SelectTofRegions(QMainWindow):
 
     def checkButton_clicked(self):
         self.table_changed()
+        self.check_state_ok_button()
 
     def replot_bragg_regions(self):
         """replot the Bragg regions"""
@@ -372,6 +374,25 @@ class SelectTofRegions(QMainWindow):
         # self.check_validity_of_table()
         o_table.unblock_signals()
         # self.update_evaluation_regions_dict()
+
+    def is_ok_button_ready(self):
+        tof_regions = self.parent.tof_regions
+        nbr_region_enabled = 0
+        for _key in tof_regions.keys():
+            if tof_regions[_key][EvaluationRegionKeys.state]:
+                nbr_region_enabled += 1
+
+        if nbr_region_enabled > 0:
+            return True
+
+        return False
+
+    def check_state_ok_button(self):
+        if self.is_ok_button_ready():
+            self.ui.pushButton.setEnabled(True)
+        else:
+            self.ui.pushButton.setEnabled(False)
+
 
     def accept(self):
         self.ok_clicked = True
