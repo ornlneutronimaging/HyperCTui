@@ -53,6 +53,7 @@ class SelectTofRegions(QMainWindow):
         self.initialization()
         self.load_time_spectra()
         self.calculate_lambda_axis()
+        self.check_table_state()
 
     def initialization(self):
         o_init = InitializationSelectTofRegions(parent=self, grand_parent=self.parent)
