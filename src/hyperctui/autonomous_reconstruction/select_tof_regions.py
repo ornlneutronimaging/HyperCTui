@@ -279,7 +279,8 @@ class SelectTofRegions(QMainWindow):
 
         self.calculate_lambda_axis()
         self.display_tof_profile()
-
+        self.update_display_regions()
+        
     def calculate_lambda_axis(self):
         distance_source_detector = float(str(self.ui.distance_source_detector_value.text()))
         detector_offset = float(str(self.ui.detector_offset_value.text()))
