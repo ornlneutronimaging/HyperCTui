@@ -262,6 +262,13 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
+       <widget class="QPushButton" name="pushButton_2">
+        <property name="text">
+         <string>Cancel</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -306,8 +313,8 @@
    <slot>projections_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>570</x>
-     <y>76</y>
+     <x>546</x>
+     <y>87</y>
     </hint>
     <hint type="destinationlabel">
      <x>734</x>
@@ -338,8 +345,8 @@
    <slot>instrument_settings_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>284</x>
-     <y>443</y>
+     <x>319</x>
+     <y>562</y>
     </hint>
     <hint type="destinationlabel">
      <x>730</x>
@@ -354,8 +361,8 @@
    <slot>instrument_settings_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>581</x>
-     <y>441</y>
+     <x>587</x>
+     <y>562</y>
     </hint>
     <hint type="destinationlabel">
      <x>729</x>
@@ -370,8 +377,8 @@
    <slot>table_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>386</x>
-     <y>617</y>
+     <x>526</x>
+     <y>940</y>
     </hint>
     <hint type="destinationlabel">
      <x>719</x>
@@ -386,12 +393,28 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>673</x>
-     <y>794</y>
+     <x>666</x>
+     <y>1030</y>
     </hint>
     <hint type="destinationlabel">
      <x>569</x>
      <y>783</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>cancel()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>56</x>
+     <y>1008</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>151</x>
+     <y>1010</y>
     </hint>
    </hints>
   </connection>
@@ -401,5 +424,6 @@
   <slot>projections_changed()</slot>
   <slot>instrument_settings_changed()</slot>
   <slot>accept()</slot>
+  <slot>cancel()</slot>
  </slots>
 </ui>

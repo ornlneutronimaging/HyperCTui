@@ -26,6 +26,8 @@ class SelectTofRegions(QMainWindow):
 
     top_roi_id = None
 
+    ok_clicked = False
+
     # used in case the value entered by the user are not valid
     previous_distance_source_detector = None
     previous_detector_offset = None
@@ -47,6 +49,7 @@ class SelectTofRegions(QMainWindow):
         self.ui = load_ui(ui_full_path, baseinstance=self)
         self.setWindowTitle("Select TOF regions")
 
+        self.parent.backup_tof_regions = self.parent.tof_regions
         self.initialization()
         self.load_time_spectra()
         self.calculate_lambda_axis()
@@ -370,9 +373,19 @@ class SelectTofRegions(QMainWindow):
         # self.update_evaluation_regions_dict()
 
     def accept(self):
+        self.ok_clicked = True
         self.save_table()
         self.parent.update_autonomous_widgets()
         self.close()
+
+    def cancel(self):
+        self.close()
+
+    def closeEvent(self, a0):
+        if self.ok_clicked:
+            pass
+        else:
+            self.parent.tof_regions = self.parent.backup_tof_regions
 
     @staticmethod
     def sort(value1: float, value2: float):

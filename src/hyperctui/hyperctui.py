@@ -131,6 +131,8 @@ class HyperCTui(QMainWindow):
                              EvaluationRegionKeys.id: None,
                              EvaluationRegionKeys.label_id: None,
                              }
+    # this will be a copy of evaluation regions used when user exit the view without using OK button
+    backup_evaluation_regions = None
 
     # tof selection regions
     tof_regions = OrderedDict()
@@ -155,6 +157,10 @@ class HyperCTui(QMainWindow):
                       EvaluationRegionKeys.id: None,
                       EvaluationRegionKeys.label_id: None
                       }
+
+    # this will be a copy of evaluation regions used when user exit the view without using OK button
+    backup_tof_regions = None
+
     # dictionary that will store the 3D images (used in the TOF region selection)
 
     image_data = {SessionKeys.image_0_degree: None,
