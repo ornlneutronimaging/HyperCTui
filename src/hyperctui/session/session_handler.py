@@ -98,18 +98,33 @@ class SessionHandler:
         session_dict[SessionKeys.crop_top] = top
         session_dict[SessionKeys.crop_bottom] = bottom
 
-        # evaluation regions
+        ## evaluation regions
+
+        # reset ids
         evaluation_regions = self.parent.evaluation_regions
         for _key in evaluation_regions.keys():
             evaluation_regions[_key][EvaluationRegionKeys.id] = None
             evaluation_regions[_key][EvaluationRegionKeys.label_id] = None
-        session_dict[SessionKeys.evaluation_regions] = evaluation_regions
 
         # make sure key is a string
         new_evaluation_regions = OrderedDict()
         for _key in evaluation_regions.keys():
             new_evaluation_regions[str(_key)] = evaluation_regions[_key]
         session_dict[SessionKeys.evaluation_regions] = new_evaluation_regions
+
+        ## tof regions
+
+        # reset ids
+        tof_regions = self.parent.tof_regions
+        for _key in tof_regions.keys():
+            tof_regions[_key][EvaluationRegionKeys.id] = None
+            tof_regions[_key][EvaluationRegionKeys.label_id] = None
+
+        # make sure key is a string
+        new_tof_regions = OrderedDict()
+        for _key in tof_regions.keys():
+            new_tof_regions[str(_key)] = tof_regions[_key]
+        session_dict[SessionKeys.tof_regions] = new_tof_regions
 
         self.parent.session_dict = session_dict
 
@@ -227,12 +242,22 @@ class SessionHandler:
                 new_evaluation_regions[int(_key)] = self.parent.evaluation_regions[_key]
             self.parent.evaluation_regions = new_evaluation_regions
 
-            ## tof regions
+            ## tof top ROI regions
             if not session_dict.get(SessionKeys.tof_roi_region, None):
                 session_dict[SessionKeys.tof_roi_region] = {'x0': 5,
                                                             'y0': 5,
                                                             'x1': 200,
                                                             'y1': 200}
+
+            ## tof_regions
+            if session_dict.get(SessionKeys.tof_regions, None):
+                self.parent.tof_regions = session_dict[SessionKeys.tof_regions]
+
+            # key must be int because key=row in the table
+            new_tof_regions = OrderedDict()
+            for _key in self.parent.tof_regions.keys():
+                new_tof_regions[int(_key)] = self.parent.tof_regions[_key]
+            self.parent.tof_regions = new_tof_regions
 
         all_tabs_visible = session_dict.get(SessionKeys.all_tabs_visible, False)
         # if not (self.parent.all_tabs_visible == all_tabs_visible):
