@@ -351,6 +351,10 @@ class HyperCTui(QMainWindow):
         o_event.radio_button_changed(is_tomopy_checked=False)
 
     # autonomous reconstruction
+    def update_autonomous_widgets(self):
+        o_event = AutonomousReconstructionHandler(parent=self)
+        o_event.update_widgets()
+
     def projections_angles_clicked(self):
         o_event = AutonomousReconstructionHandler(parent=self)
         o_event.projections_angles_radioButton_changed()

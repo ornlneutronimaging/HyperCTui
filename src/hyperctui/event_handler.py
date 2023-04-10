@@ -11,6 +11,7 @@ from . import UiSizeLarge, UiSizeSmall
 from . import ObTabNames
 from .setup_ob.get import Get as ObGet
 from .rotation_center.event_handler import EventHandler as RotationCenterEventHandler
+from hyperctui.autonomous_reconstruction.event_handler import EventHandler as AutoEventHandler
 
 
 class EventHandler(Parent):
@@ -94,6 +95,10 @@ class EventHandler(Parent):
             o_center_event = RotationCenterEventHandler(parent=self.parent)
             o_center_event.update_widgets()
             o_center_event.calculate_using_tomopy()
+
+        elif new_tab_index == 4:  # autonomous reconstruction
+            o_auto_event = AutoEventHandler(parent=self.parent)
+            o_auto_event.update_widgets()
 
         small_tab_index = [0, 1]
 

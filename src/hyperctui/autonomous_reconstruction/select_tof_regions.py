@@ -371,6 +371,7 @@ class SelectTofRegions(QMainWindow):
 
     def accept(self):
         self.save_table()
+        self.parent.update_autonomous_widgets()
         self.close()
 
     @staticmethod

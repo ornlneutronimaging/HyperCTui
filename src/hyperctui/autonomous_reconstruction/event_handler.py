@@ -1,4 +1,7 @@
 from qtpy.QtGui import QGuiApplication
+import inflect
+
+from hyperctui import EvaluationRegionKeys
 
 from hyperctui.autonomous_reconstruction.help_golden_angle import HelpGoldenAngle
 from hyperctui.autonomous_reconstruction.help_automatic_angles import HelpAutomaticAngles
@@ -36,4 +39,20 @@ class EventHandler:
         QGuiApplication.processEvents()
         o_ui.projections_changed()
         QGuiApplication.processEvents()
-        # o_ui.init_bragg_regions()
+
+    def update_widgets(self):
+        """ update the widgets such as the number of TOF regions selected"""
+        tof_regions = self.parent.tof_regions
+        nbr_regions_selected = 0
+        for _key in tof_regions.keys():
+            if tof_regions[_key][EvaluationRegionKeys.state]:
+                nbr_regions_selected += 1
+
+        p = inflect.engine()
+        self.parent.ui.tof_region_of_interest_label.setText(f"{nbr_regions_selected} " +
+                                                            p.plural("region", nbr_regions_selected) + " selected!")
+
+        if nbr_regions_selected > 0:
+            self.parent.ui.tof_region_of_interest_error_label.setVisible(False)
+        else:
+            self.parent.ui.tof_region_of_interest_error_label.setVisible(True)
