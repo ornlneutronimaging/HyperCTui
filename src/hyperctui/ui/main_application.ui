@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1224</width>
-    <height>1019</height>
+    <width>1273</width>
+    <height>1241</height>
    </rect>
   </property>
   <property name="baseSize">
@@ -982,14 +982,14 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1154</width>
-             <height>821</height>
+             <width>1203</width>
+             <height>1043</height>
             </rect>
            </property>
            <attribute name="label">
             <string>Parameters Initialization</string>
            </attribute>
-           <layout class="QVBoxLayout" name="verticalLayout_20">
+           <layout class="QVBoxLayout" name="verticalLayout_22">
             <item>
              <widget class="QGroupBox" name="autonomous_projections_groupBox">
               <property name="title">
@@ -1371,6 +1371,72 @@
               </layout>
              </widget>
             </item>
+            <item>
+             <widget class="QGroupBox" name="autonomous_reconstructed_groupBox">
+              <property name="title">
+               <string>Reconstructed images</string>
+              </property>
+              <layout class="QVBoxLayout" name="verticalLayout_20">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_16">
+                 <item>
+                  <widget class="QLabel" name="label_13">
+                   <property name="text">
+                    <string>Location:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="autonomous_reconstructed_location_label">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>N/A</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_17">
+                 <item>
+                  <widget class="QLabel" name="label_11">
+                   <property name="text">
+                    <string>Reconstruction process:</string>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="autonomous_reconstructed_status_label">
+                   <property name="minimumSize">
+                    <size>
+                     <width>100</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                   <property name="text">
+                    <string>N/A</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </widget>
+            </item>
            </layout>
           </widget>
           <widget class="QWidget" name="page_2">
@@ -1378,8 +1444,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1154</width>
-             <height>821</height>
+             <width>100</width>
+             <height>30</height>
             </rect>
            </property>
            <attribute name="label">
@@ -1486,7 +1552,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1224</width>
+     <width>1273</width>
      <height>24</height>
     </rect>
    </property>
