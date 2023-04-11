@@ -92,6 +92,7 @@ class Initialization:
         else:
 
             ob_base_name = self.grand_parent.ui.location_of_ob_created.text()[:-1]
+            list_ob_expected = self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested]
 
         if not self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested]:
 
