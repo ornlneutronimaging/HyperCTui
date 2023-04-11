@@ -117,14 +117,14 @@ class EventHandler:
         number_angles = self.parent.ui.evaluation_frequency_spinBox.value()
         show_status_message(parent=self.parent,
                             message=f"Starting acquisition of {number_angles} angles!",
-                            duration_s=5)
+                            duration_s=5,
+                            status=StatusMessageStatus.working)
 
         self.init_autonomous_table()
 
     def init_autonomous_table(self):
-        output_table =
-
-        pass
+        # output_table =
+         pass
 
     def refresh_table_clicked(self):
         pass

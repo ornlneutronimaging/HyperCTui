@@ -10,6 +10,7 @@ from . import load_ui, EvaluationRegionKeys
 
 from .log.log_launcher import LogLauncher
 from .utilities.get import Get
+from hyperctui.utilities.exceptions import CropError
 from .utilities.config_handler import ConfigHandler
 from .utilities.folder_path import FolderPath
 from .session.load_previous_session_launcher import LoadPreviousSessionLauncher
@@ -23,6 +24,7 @@ from .pre_processing_monitor.monitor import Monitor as PreProcessingMonitor
 from .crop.crop import Crop
 from .rotation_center.event_handler import EventHandler as RotationCenterEventHandler
 from .autonomous_reconstruction.event_handler import EventHandler as AutonomousReconstructionHandler
+from hyperctui.utilities.status_message_config import StatusMessageStatus, show_status_message
 
 from . import UI_TITLE, TabNames, tab2_icon, tab3_icon, tab4_icon
 
@@ -65,6 +67,7 @@ class HyperCTui(QMainWindow):
                                                  'y0': 5,
                                                  'x1': 200,
                                                  'y1': 200},
+                    SessionKeys.all_tabs_visible: False,
                     SessionKeys.full_path_to_projections: {SessionKeys.image_0_degree: None,
                                                            SessionKeys.image_180_degree: None}
     }
@@ -295,8 +298,14 @@ class HyperCTui(QMainWindow):
 
     # step crop
     def initialize_crop(self):
-        o_crop = Crop(parent=self)
-        o_crop.initialize()
+        try:
+            o_crop = Crop(parent=self)
+            o_crop.initialize()
+        except CropError:
+            show_status_message(parent=self,
+                                message="Initialization of crop failed! check log!",
+                                duration_s=10,
+                                status=StatusMessageStatus.error)
 
     def crop_top_changed(self, value):
         self.crop_changed()

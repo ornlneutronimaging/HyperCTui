@@ -7,6 +7,8 @@ from NeuNorm.normalization import Normalization
 
 from ..session import SessionKeys
 from ..utilities.file_utilities import get_list_img_files_from_top_folders
+from hyperctui.utilities.widgets import Widgets as UtilityWidgets
+from hyperctui.utilities.exceptions import CropError
 
 
 class Crop:
@@ -19,9 +21,14 @@ class Crop:
     def load_projections(self):
         logging.info(f"Loading projections in crop")
         list_projections = self.parent.session_dict[SessionKeys.list_projections_folders_initially_there]
-        list_summed_img = get_list_img_files_from_top_folders(list_projections=list_projections)
-        logging.info(f"-> list_projections: {list_summed_img}")
+        logging.info(f"-> list_projections: {list_projections}")
+        try:
+            list_summed_img = get_list_img_files_from_top_folders(list_projections=list_projections)
+        except IndexError as error:
+            logging.info(f"ERROR! unable to locate the _SummedImg.fits file in {error}")
+            raise CropError(f"ERROR! unable to locate the _SummedImg.fits file in {error}")
 
+        logging.info(f"-> list_projections: {list_summed_img}")
         o_loader = Normalization()
         o_loader.load(file=list_summed_img, notebook=False)
 
@@ -33,7 +40,13 @@ class Crop:
         self.parent.crop_live_image = self.mean_image
 
     def initialize(self):
-        self.load_projections()
+        try:
+            self.load_projections()
+        except CropError:
+            o_widgets = UtilityWidgets(parent=self.parent)
+            o_widgets.make_tabs_visible(is_visible=False)
+            raise CropError
+
         self.parent.ui.cropping_groupBox.setEnabled(True)
         self.parent.ui.crop_image_view.clear()
         self.parent.ui.crop_image_view.setImage(np.transpose(self.mean_image))

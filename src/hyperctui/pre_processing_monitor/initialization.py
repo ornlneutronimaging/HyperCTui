@@ -73,13 +73,27 @@ class Initialization:
         o_table = TableHandler(table_ui=self.parent.ui.obs_tableWidget)
         dict_ob_log_err_metadata = {}
 
-        ob_base_name = self.grand_parent.ui.location_of_ob_created.text()[:-1]
-
-        if self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested]:
-            # list comes from session file
+        if self.grand_parent.session_dict[SessionKeys.obs_have_been_moved_already]:
             list_ob_expected = self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested]
+            new_location = os.path.abspath(self.grand_parent.ui.final_location_of_ob_created.text())
+            new_list_ob_expected = []
+            for _folder in list_ob_expected:
+                folder_name = os.path.basename(_folder)
+                new_folder_name = os.path.join(new_location, folder_name)
+                new_list_ob_expected.append(new_folder_name)
+
+            # hide the widgets relative to moving the obs
+            self.parent.ui.monitor_moving_obs_label.setVisible(False)
+            self.parent.ui.final_ob_folder_label.setVisible(False)
+            self.parent.ui.final_ob_folder_status.setVisible(False)
+
+            list_ob_expected = new_list_ob_expected
 
         else:
+
+            ob_base_name = self.grand_parent.ui.location_of_ob_created.text()[:-1]
+
+        if not self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested]:
 
             # first time figuring out the name of the files
             list_ob_expected = []
@@ -87,6 +101,8 @@ class Initialization:
 
                 _ob_name = f"{ob_base_name}{_row_index:03d}"
                 list_ob_expected.append(_ob_name)
+
+            self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested] = list_ob_expected
 
         # populating the table
         for _row_index, _ob_name in enumerate(list_ob_expected):
@@ -112,7 +128,6 @@ class Initialization:
                                                     'err_file': '',
                                                     'metadata_file': ''}
         self.parent.dict_ob_log_err_metadata = dict_ob_log_err_metadata
-        self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested] = list_ob_expected
 
     def populate_table_with_existing_obs(self, list_ob=None):
         if list_ob is None:

@@ -11,6 +11,7 @@ from hyperctui import EvaluationRegionKeys
 from . import SessionKeys, DefaultValues
 from ..utilities.status_message_config import StatusMessageStatus, show_status_message
 from ..utilities.get import Get
+from hyperctui.utilities.exceptions import CropError
 from ..utilities.table import TableHandler
 from ..utilities.folder_path import FolderPath
 from ..setup_ob.get import Get as Step1Get
@@ -223,9 +224,13 @@ class SessionHandler:
             self.parent.ui.checking_status_acquisition_pushButton.setEnabled(True)
 
         if session_dict.get(SessionKeys.all_tabs_visible, False):
-            # crop
-            o_crop = Crop(parent=self.parent)
-            o_crop.initialize()
+
+            try:
+                # crop
+                o_crop = Crop(parent=self.parent)
+                o_crop.initialize()
+            except CropError:
+                return
 
             # rotation center
             o_rotation = RotationCenter(parent=self.parent)
