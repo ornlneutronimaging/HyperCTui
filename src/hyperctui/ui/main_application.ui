@@ -1288,14 +1288,28 @@
              </spacer>
             </item>
             <item>
-             <widget class="QPushButton" name="start_first_reconstruction_pushButton">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="text">
-               <string>Start first acquisition / reconstruction</string>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="horizontalLayout_18">
+              <item>
+               <widget class="QPushButton" name="start_first_reconstruction_pushButton">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>Start first acquisition / reconstruction</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="autonomous_refresh_pushButton">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>Refresh state</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
             <item>
              <widget class="QGroupBox" name="autonomous_monitor_groupBox">
@@ -1303,30 +1317,6 @@
                <string>Monitor</string>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_21">
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_15">
-                 <item>
-                  <spacer name="horizontalSpacer_14">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QPushButton" name="autonomous_refresh_pushButton">
-                   <property name="text">
-                    <string>Refresh table</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
                <item>
                 <widget class="QTableWidget" name="autonomous_reconstruction_tableWidget">
                  <property name="alternatingRowColors">

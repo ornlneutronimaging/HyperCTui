@@ -22,6 +22,7 @@ from .setup_ob.event_handler import EventHandler as Step1EventHandler
 from .setup_projections.event_handler import EventHandler as Step2EventHandler
 from .pre_processing_monitor.monitor import Monitor as PreProcessingMonitor
 from .crop.crop import Crop
+from .rotation_center.rotation_center import RotationCenter
 from .rotation_center.event_handler import EventHandler as RotationCenterEventHandler
 from .autonomous_reconstruction.event_handler import EventHandler as AutonomousReconstructionHandler
 from hyperctui.utilities.status_message_config import StatusMessageStatus, show_status_message
@@ -341,7 +342,8 @@ class HyperCTui(QMainWindow):
 
     # center of rotation
     def initialize_center_of_rotation(self):
-        pass
+        o_rot = RotationCenter(parent=self)
+        o_rot.initialize()
 
     def rotation_center_tomopy_clicked(self, button_state):
         self.ui.rotation_center_user_defined_radioButton.blockSignals(True)

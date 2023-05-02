@@ -15,4 +15,5 @@ class RotationCenter:
         bottom = self.parent.ui.crop_bottom_spinBox.value()
 
         self.parent.rotation_center_live_image = self.parent.crop_live_image[top: bottom+1, left: right+1].copy()
+
         self.parent.rotation_center_image_view.setImage(np.transpose(self.parent.rotation_center_live_image))

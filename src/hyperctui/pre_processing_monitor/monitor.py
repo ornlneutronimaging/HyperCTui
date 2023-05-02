@@ -104,6 +104,16 @@ class Monitor(QMainWindow):
                         self.parent.initialize_crop()
                         self.parent.initialize_center_of_rotation()
 
+                    # saving the location of the 0 and 180 degrees folders
+                    o_table = TableHandler(table_ui=self.ui.projections_tableWidget)
+                    full_path_image_0_degree = o_table.get_item_str_from_cell(row=0, column=0)
+                    full_path_image_180_degree = o_table.get_item_str_from_cell(row=1, column=0)
+
+                    self.parent.session_dict[SessionKeys.full_path_to_projections][SessionKeys.image_0_degree] = \
+                        full_path_image_0_degree
+                    self.parent.session_dict[SessionKeys.full_path_to_projections][SessionKeys.image_180_degree] = \
+                        full_path_image_180_degree
+
             else:  # all OBs have been created but not been moved to their final location yet
 
                 o_event.move_obs_to_final_folder()
@@ -129,10 +139,14 @@ class Monitor(QMainWindow):
                     o_table = TableHandler(table_ui=self.ui.projections_tableWidget)
                     full_path_image_0_degree = o_table.get_item_str_from_cell(row=0, column=0)
                     full_path_image_180_degree = o_table.get_item_str_from_cell(row=1, column=0)
+
                     self.parent.session_dict[SessionKeys.full_path_to_projections][SessionKeys.image_0_degree] = \
                         full_path_image_0_degree
                     self.parent.session_dict[SessionKeys.full_path_to_projections][SessionKeys.image_180_degree] = \
                         full_path_image_180_degree
+
+                else:
+                    return
 
             # we moved the files so we can change the status of the move message
             self.ui.final_ob_folder_status.setText(DataStatus.done)
