@@ -124,7 +124,21 @@ class EventHandler:
 
     def init_autonomous_table(self):
         # output_table =
-         pass
+        nbr_angles = self.parent.ui.evaluation_frequency_spinBox.value()
+        list_golden_ratio_angles_collected = self.parent.golden_ratio_angles[0:nbr_angles]
+
+        tof_regions = self.parent.tof_regions
+        list_tof_region_collected = []
+        for _index in tof_regions.keys():
+            if tof_regions[_index][EvaluationRegionKeys.state]:
+                _from = str(tof_regions[_index][EvaluationRegionKeys.from_value]).replace(".", "_")
+                _to = str(tof_regions[_index][EvaluationRegionKeys.to_value]).replace(".", "_")
+                list_tof_region_collected.append(f"from_{_from}Ang_to_{_to}Ang")
+
+
+
+
+
 
     def refresh_table_clicked(self):
         pass

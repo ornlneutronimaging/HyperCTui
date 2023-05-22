@@ -98,6 +98,9 @@ class HyperCTui(QMainWindow):
 
     # autonomous reconstruction
 
+    # angles
+    golden_ratio_angles = None
+
     # evaluation regions
     evaluation_regions = OrderedDict()
     evaluation_regions[0] = {EvaluationRegionKeys.state: True,

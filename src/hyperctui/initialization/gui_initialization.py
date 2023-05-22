@@ -5,9 +5,9 @@ from qtpy.QtGui import QPixmap
 import numpy as np
 import os
 
-from ..utilities.config_handler import ConfigHandler
-from ..utilities.table import TableHandler
-from .. import more_infos, TabNames, tab0_icon, tab1_icon
+from hyperctui.utilities.config_handler import ConfigHandler
+from hyperctui.utilities.table import TableHandler
+from hyperctui import more_infos, TabNames, tab0_icon, tab1_icon, golden_ratio_file
 
 
 class GuiInitialization:
@@ -25,6 +25,11 @@ class GuiInitialization:
         self.tables()
         self.tabs()
         self.pyqtgraph()
+        self.autonomous_reconstruction_data()
+
+    def autonomous_reconstruction_data(self):
+        table = pd.read_csv(golden_angle_file)
+        self.parent.golden_ratio_angles = list(table['angles'])
 
     def tabs(self):
         self.parent.ui.tabWidget.setTabText(0, TabNames.tab0)

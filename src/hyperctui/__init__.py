@@ -8,6 +8,9 @@ del get_versions
 __all__ = ['load_ui']
 
 root = os.path.dirname(os.path.realpath(__file__))
+
+golden_ratio_file = os.path.join(os.path.dirname(__file__), os.path.join('static', 'golden_angle.csv'))
+
 refresh_image = os.path.join(root, "static/refresh.png")
 refresh_large_image = os.path.join(root, "static/refresh_large.png")
 more_infos = os.path.join(root, "static/more_infos.png")
