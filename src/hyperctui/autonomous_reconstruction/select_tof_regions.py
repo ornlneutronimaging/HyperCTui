@@ -259,10 +259,12 @@ class SelectTofRegions(QMainWindow):
         o_table.unblock_signals()
 
     def projections_changed(self):
+        self.ui.setEnabled(False)
         self.load_images()
         self.update_top_view()
         self.display_tof_profile()
         self.update_display_regions()
+        self.ui.setEnabled(True)
 
     def instrument_settings_changed(self):
         distance_source_detector = str(self.ui.distance_source_detector_value.text())
