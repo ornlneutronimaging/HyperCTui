@@ -4,6 +4,7 @@ from qtpy.QtGui import QIcon
 from qtpy.QtGui import QPixmap
 import numpy as np
 import os
+import pandas as pd
 
 from hyperctui.utilities.config_handler import ConfigHandler
 from hyperctui.utilities.table import TableHandler
@@ -28,7 +29,7 @@ class GuiInitialization:
         self.autonomous_reconstruction_data()
 
     def autonomous_reconstruction_data(self):
-        table = pd.read_csv(golden_angle_file)
+        table = pd.read_csv(golden_ratio_file)
         self.parent.golden_ratio_angles = list(table['angles'])
 
     def tabs(self):

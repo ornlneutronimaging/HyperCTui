@@ -43,6 +43,7 @@ DEFAULT_EVALUATION_REGIONS = {0: {'name': 'Region 1',
                                   },
                               }
 
+
 # main window dimensions
 class UiSizeSmall:
     width = 800

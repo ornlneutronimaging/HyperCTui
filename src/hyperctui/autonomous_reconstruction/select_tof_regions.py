@@ -395,7 +395,6 @@ class SelectTofRegions(QMainWindow):
         else:
             self.ui.pushButton.setEnabled(False)
 
-
     def accept(self):
         self.ok_clicked = True
         self.save_table()
@@ -416,4 +415,3 @@ class SelectTofRegions(QMainWindow):
         minimum_value = np.min([value1, value2])
         maximum_value = np.max([value1, value2])
         return minimum_value, maximum_value
-

@@ -52,7 +52,7 @@
            </attribute>
            <column>
             <property name="text">
-             <string>File name</string>
+             <string>Folder name</string>
             </property>
            </column>
            <column>
@@ -138,7 +138,7 @@
            </attribute>
            <column>
             <property name="text">
-             <string>File name</string>
+             <string>Folder name</string>
             </property>
            </column>
            <column>

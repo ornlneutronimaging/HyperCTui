@@ -126,6 +126,8 @@ class EventHandler:
         # output_table =
         nbr_angles = self.parent.ui.evaluation_frequency_spinBox.value()
         list_golden_ratio_angles_collected = self.parent.golden_ratio_angles[0:nbr_angles]
+        formatted1_list_golden_ratio_angles_collected = [f"{_value:.2f}" for _value in list_golden_ratio_angles_collected]
+        formatted2_list_golden_ratio = [_value.replace(".", "_") for _value in formatted1_list_golden_ratio_angles_collected]
 
         tof_regions = self.parent.tof_regions
         list_tof_region_collected = []
@@ -135,10 +137,8 @@ class EventHandler:
                 _to = str(tof_regions[_index][EvaluationRegionKeys.to_value]).replace(".", "_")
                 list_tof_region_collected.append(f"from_{_from}Ang_to_{_to}Ang")
 
-
-
-
-
+        print(f"{formatted2_list_golden_ratio =}")
+        print(f"{list_tof_region_collected =}")
 
     def refresh_table_clicked(self):
         pass
