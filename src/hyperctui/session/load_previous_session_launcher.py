@@ -34,3 +34,7 @@ class LoadPreviousSessionLauncher(QDialog):
     def no_clicked(self):
         self.parent.new_session_clicked()
         self.close()
+
+    def reject(self):
+        self.parent.new_session_clicked()
+        super(LoadPreviousSessionLauncher, self).reject()
