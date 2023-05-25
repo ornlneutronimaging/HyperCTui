@@ -9,7 +9,7 @@ from ..parent import Parent
 from .get import Get
 from ..utilities.table import TableHandler
 from ..utilities.file_utilities import list_ob_dirs
-from ..utilities.check import is_float
+from ..utilities.check import is_float, are_equal
 from ..session import SessionKeys
 
 
@@ -99,6 +99,8 @@ class EventHandler(Parent):
         if list_folders is None:
             return
 
+        proton_charge_requested_for_projections = self.parent.ui.open_beam_proton_charge_doubleSpinBox.value()
+
         list_proton_charge = []
         for _folder in list_folders:
             _proton_charge = EventHandler.retrieve_proton_charge_for_that_folder(_folder)
@@ -110,14 +112,34 @@ class EventHandler(Parent):
             o_table.insert_item(row=_offset_row,
                                 column=0,
                                 value=_folder)
+
             if is_float(list_proton_charge[_offset_row]):
+
+                enabled = are_equal(proton_charge_requested_for_projections, list_proton_charge[_offset_row])
+
                 o_table.insert_item(row=_offset_row,
                                     column=1,
                                     value=f"{list_proton_charge[_offset_row]:.2f}")
+
+                o_table.set_item_enabled(row=_offset_row,
+                                         column=1,
+                                         enabled=enabled)
+                o_table.set_item_enabled(row=_offset_row,
+                                         column=0,
+                                         enabled=enabled)
+
             else:
                 o_table.insert_item(row=_offset_row,
                                     column=1,
                                     value=f"N/A")
+
+                o_table.set_item_enabled(row=_offset_row,
+                                         column=1,
+                                         enabled=False)
+                o_table.set_item_enabled(row=_offset_row,
+                                         column=0,
+                                         enabled=False)
+
 
     @staticmethod
     def retrieve_proton_charge_for_that_folder(folder):

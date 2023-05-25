@@ -26,3 +26,9 @@ def is_float(value):
         is_number = False
 
     return is_number
+
+
+def are_equal(value1, value2, tolerance=0.001):
+    if np.abs(value2 - value1) <= tolerance:
+        return True
+    return False

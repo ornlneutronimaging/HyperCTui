@@ -165,6 +165,12 @@ class TableHandler:
         else:
             _item.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable)
 
+    def set_item_enabled(self, row=0, column=0, enabled=True):
+        _item = self.table_ui.item(row, column)
+        if not enabled:
+            _item.setFlags(QtCore.Qt.ItemIsSelectable)
+        else:
+            _item.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable)
 
     def insert_item(self, row=0, column=0, value="", format_str="{}"):
         _str_value = format_str.format(value)
