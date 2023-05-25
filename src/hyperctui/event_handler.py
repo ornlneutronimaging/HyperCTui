@@ -31,6 +31,17 @@ class EventHandler(Parent):
             o_event = ObEventHandler(parent=self.parent)
             o_event.update_list_of_obs()
 
+    def check_state_of_steps_menu_button(self):
+        if self.parent.all_tabs_visible:
+            all_enable = True
+        else:
+            all_enable = False
+        list_ui = [self.parent.ui.action3_Crop,
+                   self.parent.ui.action4_Rotation_center,
+                   self.parent.ui.action5_autonomous_reconstruction]
+        for _ui in list_ui:
+            _ui.setEnabled(all_enable)
+
     def check_start_acquisition_button(self):
         if not self.parent.ui.run_title_groupBox.isEnabled():
             button_ready_to_be_used = False

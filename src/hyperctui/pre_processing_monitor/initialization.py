@@ -94,7 +94,7 @@ class Initialization:
 
         else:
 
-            ob_base_name = self.grand_parent.ui.location_of_ob_created.text()[:-1] + os.path.sep()  
+            ob_base_name = self.grand_parent.ui.location_of_ob_created.text() + os.path.sep
             list_ob_expected = self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested]
 
         if not self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested]:
@@ -104,7 +104,7 @@ class Initialization:
             for _row_index in np.arange(nbr_obs_expected):
 
                 # _ob_name = f"{ob_base_name}{_row_index:03d}"
-                _ob_name = f"{ob_base_name}<OB file #{_row_index:03d}>"
+                _ob_name = f"{ob_base_name}<OB file #{_row_index}>"
                 list_ob_expected.append(_ob_name)
 
             self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested] = list_ob_expected

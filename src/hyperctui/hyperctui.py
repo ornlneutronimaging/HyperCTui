@@ -244,6 +244,31 @@ class HyperCTui(QMainWindow):
                 self.monitor_ui = o_monitor
             self.ui.checking_status_acquisition_pushButton.setEnabled(False)
 
+    def action_step1_clicked(self):
+        self.ui.tabWidget.setCurrentIndex(0)
+
+    def action_step2_clicked(self):
+        self.ui.tabWidget.setCurrentIndex(1)
+
+    def action_step3_clicked(self):
+        self.ui.tabWidget.setCurrentIndex(2)
+
+    def action_step4_clicked(self):
+        self.ui.tabWidget.setCurrentIndex(3)
+
+    def action_step5_clicked(self):
+        self.ui.tabWidget.setCurrentIndex(4)
+
+    def action_settings_clicked(self):
+        if self.ui.tabWidget.count() > 3:
+            self.ui.tabWidget.setCurrentIndex(5)
+        else:
+            self.ui.tabWidget.setCurrentIndex(2)
+
+    def check_state_of_steps_menu_button(self):
+        o_event = EventHandler(parent=self)
+        o_event.check_state_of_steps_menu_button()
+
     # main tab
     def main_tab_changed(self, new_tab_index):
         o_event = EventHandler(parent=self)

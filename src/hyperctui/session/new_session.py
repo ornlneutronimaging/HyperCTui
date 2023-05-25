@@ -86,4 +86,6 @@ class NewSession(QDialog):
         # bring back to life the move_obs_to_folder widgets
         self.parent.session_dict[SessionKeys.obs_have_been_moved_already] = False
 
+        self.parent.check_state_of_steps_menu_button()
+
         self.close()

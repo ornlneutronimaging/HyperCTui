@@ -30,6 +30,7 @@ class LoadPreviousSessionLauncher(QDialog):
         self.parent.loading_from_config = False
         self.parent.folder_path = FolderPath(parent=self.parent)
         self.parent.folder_path.update()
+        self.parent.check_state_of_steps_menu_button()
 
     def no_clicked(self):
         self.parent.new_session_clicked()
