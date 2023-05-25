@@ -70,6 +70,9 @@ class Initialization:
         self.parent.ui.statusbar.addPermanentWidget(self.parent.eventProgress)
 
     def populate_table_with_expected_obs(self, nbr_obs_expected=2):
+        """
+        we initialize the table with fake OB file name, while waiting for the first one to show up
+        """
         o_table = TableHandler(table_ui=self.parent.ui.obs_tableWidget)
         dict_ob_log_err_metadata = {}
 
@@ -91,7 +94,7 @@ class Initialization:
 
         else:
 
-            ob_base_name = self.grand_parent.ui.location_of_ob_created.text()[:-1]
+            ob_base_name = self.grand_parent.ui.location_of_ob_created.text()[:-1] + os.path.sep()  
             list_ob_expected = self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested]
 
         if not self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested]:
@@ -100,7 +103,8 @@ class Initialization:
             list_ob_expected = []
             for _row_index in np.arange(nbr_obs_expected):
 
-                _ob_name = f"{ob_base_name}{_row_index:03d}"
+                # _ob_name = f"{ob_base_name}{_row_index:03d}"
+                _ob_name = f"{ob_base_name}<OB file #{_row_index:03d}>"
                 list_ob_expected.append(_ob_name)
 
             self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested] = list_ob_expected

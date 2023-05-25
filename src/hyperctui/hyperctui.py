@@ -62,6 +62,8 @@ class HyperCTui(QMainWindow):
                     SessionKeys.ipts_index_selected: 0,
                     SessionKeys.number_of_obs      : 5,
                     SessionKeys.list_ob_folders_requested: None,
+                    SessionKeys.list_ob_folders_initially_there: None,
+                    SessionKeys.list_projections_folders_initially_there: None,
                     SessionKeys.started_acquisition: False,
                     SessionKeys.obs_have_been_moved_already: False,
                     SessionKeys.tof_roi_region: {'x0': 5,
@@ -446,14 +448,14 @@ class HyperCTui(QMainWindow):
                                            "shared",
                                            "autoreduce",
                                            "mcp",
-                                           f"{title}_*"])
+                                           ])
             ob_output_location = os.sep.join([self.homepath,
                                               instrument,
                                               ipts,
                                               "shared",
                                               "autoreduce",
                                               "mcp",
-                                              f"OB_{title}_*"])
+                                              ])
             final_ob_output_location = os.sep.join([self.homepath,
                                               instrument,
                                               ipts,
