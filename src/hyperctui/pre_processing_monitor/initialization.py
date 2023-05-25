@@ -210,7 +210,6 @@ class Initialization:
         self.parent.dict_ob_log_err_metadata = dict_ob_log_err_metadata
 
     def populate_table_with_expected_projections(self):
-
         o_table = TableHandler(table_ui=self.parent.ui.projections_tableWidget)
 
         dict_projections_log_err_metadata = {}
@@ -218,8 +217,8 @@ class Initialization:
         title = self.grand_parent.ui.run_title_formatted_label.text()
 
         output_folder = os.path.dirname(str(self.grand_parent.ui.projections_output_location_label.text()))
-        first_projection_name = os.path.join(output_folder, f"{title}_Angle_000_000")
-        last_projection_name = os.path.join(output_folder, f"{title}_Angle_180_000")
+        first_projection_name = os.path.join(output_folder, f"<projection angle 0 degree>")
+        last_projection_name = os.path.join(output_folder, f"<projection angle 180 degree>")
 
         for _row_index, file_name in enumerate([first_projection_name, last_projection_name]):
 
