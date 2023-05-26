@@ -1,4 +1,4 @@
-from .hyperctui import main
+from hyperctui.hyperctui import main
 
 import multiprocessing
 import sys

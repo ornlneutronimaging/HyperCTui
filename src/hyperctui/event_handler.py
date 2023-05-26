@@ -1,16 +1,16 @@
 import logging
 from qtpy.QtCore import QRect
 
-from .parent import Parent
-from .initialization.gui_initialization import GuiInitialization
-from .setup_ob.get import Get as Step1Get
-from .session.new_session import NewSession
-from .session import SessionKeys
-from .setup_ob.event_handler import EventHandler as ObEventHandler
-from . import UiSizeLarge, UiSizeSmall
-from . import ObTabNames
-from .setup_ob.get import Get as ObGet
-from .rotation_center.event_handler import EventHandler as RotationCenterEventHandler
+from hyperctui.parent import Parent
+from hyperctui.initialization.gui_initialization import GuiInitialization
+from hyperctui.setup_ob.get import Get as Step1Get
+from hyperctui.session.new_session import NewSession
+from hyperctui.session import SessionKeys
+from hyperctui.setup_ob.event_handler import EventHandler as ObEventHandler
+from hyperctui import UiSizeLarge
+from hyperctui import ObTabNames
+from hyperctui.setup_ob.get import Get as ObGet
+from hyperctui.rotation_center.event_handler import EventHandler as RotationCenterEventHandler
 from hyperctui.autonomous_reconstruction.event_handler import EventHandler as AutoEventHandler
 
 

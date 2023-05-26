@@ -3,9 +3,9 @@ import os
 from pathlib import Path
 import logging
 
-from .. import load_ui
-from ..utilities.file_utilities import read_ascii, read_json
-from ..utilities.table import TableHandler
+from hyperctui import load_ui
+from hyperctui.utilities.file_utilities import read_ascii, read_json
+from hyperctui.utilities.table import TableHandler
 
 
 class PreviewFileLauncher(QDialog):

@@ -3,26 +3,23 @@ import json
 import logging
 import os
 import numpy as np
-from qtpy.QtGui import QIcon
 from qtpy.QtCore import QRect
 from collections import OrderedDict
 
 from hyperctui import EvaluationRegionKeys
-from . import SessionKeys, DefaultValues
-from ..utilities.status_message_config import StatusMessageStatus, show_status_message
-from ..utilities.get import Get
+from hyperctui.utilities.status_message_config import StatusMessageStatus, show_status_message
+from hyperctui.utilities.get import Get
 from hyperctui.utilities.exceptions import CropError
-from ..utilities.table import TableHandler
-from ..utilities.folder_path import FolderPath
-from ..setup_ob.get import Get as Step1Get
-from ..setup_ob.event_handler import EventHandler as Step1EventHandler
-from ..setup_projections.event_handler import EventHandler as Step2EventHandler
-from ..event_handler import EventHandler as MainEventHandler
-from ..setup_projections.get import Get as Step2Get
-from .. import TabNames, tab2_icon, tab3_icon, tab4_icon
-from ..utilities.widgets import Widgets as UtilityWidgets
-from ..crop.crop import Crop
-from ..rotation_center.rotation_center import RotationCenter
+from hyperctui.utilities.table import TableHandler
+from hyperctui.utilities.folder_path import FolderPath
+from hyperctui.setup_ob.get import Get as Step1Get
+from hyperctui.setup_ob.event_handler import EventHandler as Step1EventHandler
+from hyperctui.event_handler import EventHandler as MainEventHandler
+from hyperctui.setup_projections.get import Get as Step2Get
+from hyperctui.utilities.widgets import Widgets as UtilityWidgets
+from hyperctui.crop.crop import Crop
+from hyperctui.rotation_center.rotation_center import RotationCenter
+from hyperctui.session import SessionKeys, DefaultValues
 
 
 class SessionHandler:

@@ -1,8 +1,9 @@
 import json
 import os
-from .get import Get
 import logging
 import versioneer
+
+from hyperctui.utilities.get import Get
 
 
 class ConfigHandler:

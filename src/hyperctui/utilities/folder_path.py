@@ -1,7 +1,7 @@
 import os
 
-from ..parent import Parent
-from ..session import SessionKeys
+from hyperctui.parent import Parent
+from hyperctui.session import SessionKeys
 
 
 class FolderPath(Parent):

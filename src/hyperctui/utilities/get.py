@@ -8,7 +8,7 @@ import subprocess
 from collections import OrderedDict
 from PIL import Image
 
-from ..utilities.status_message_config import StatusMessageStatus, show_status_message
+from hyperctui.utilities.status_message_config import StatusMessageStatus, show_status_message
 
 
 class Get:

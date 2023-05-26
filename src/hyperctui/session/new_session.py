@@ -1,14 +1,13 @@
 from qtpy.QtWidgets import QDialog
 import os
 import numpy as np
-from pathlib import PurePath
 
-from .. import load_ui
-from ..setup_ob.get import Get
-from . import SessionKeys
-from ..utilities.folder_path import FolderPath
-from ..utilities.table import TableHandler
-from ..setup_ob.event_handler import EventHandler as ObEventHandler
+from hyperctui import load_ui
+from hyperctui.setup_ob.get import Get
+from hyperctui.utilities.folder_path import FolderPath
+from hyperctui.utilities.table import TableHandler
+from hyperctui.setup_ob.event_handler import EventHandler as ObEventHandler
+from hyperctui.session import SessionKeys
 
 
 class NewSession(QDialog):

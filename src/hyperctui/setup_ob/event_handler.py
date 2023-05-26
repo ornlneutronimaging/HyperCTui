@@ -5,12 +5,12 @@ import os
 import json
 from qtpy.QtWidgets import QFileDialog
 
-from ..parent import Parent
-from .get import Get
-from ..utilities.table import TableHandler
-from ..utilities.file_utilities import list_ob_dirs
-from ..utilities.check import is_float, are_equal
-from ..session import SessionKeys
+from hyperctui.parent import Parent
+from hyperctui.utilities.table import TableHandler
+from hyperctui.utilities.file_utilities import list_ob_dirs
+from hyperctui.utilities.check import is_float, are_equal
+from hyperctui.session import SessionKeys
+from hyperctui.setup_ob.get import Get
 
 
 class EventHandler(Parent):

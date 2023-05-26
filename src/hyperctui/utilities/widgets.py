@@ -1,8 +1,8 @@
 import numpy as np
 from qtpy.QtGui import QIcon
 
-from .. import TabNames, tab2_icon, tab3_icon, tab4_icon
-from ..parent import Parent
+from hyperctui import TabNames, tab2_icon, tab3_icon, tab4_icon
+from hyperctui.parent import Parent
 
 
 class Widgets(Parent):

@@ -1,7 +1,7 @@
 import os
 import logging
 
-from ..parent import Parent
+from hyperctui.parent import Parent
 
 
 class EventHandler(Parent):

@@ -1,7 +1,4 @@
-import glob
-import os
-
-from ..utilities.get import Get as MasterGet
+from hyperctui.utilities.get import Get as MasterGet
 
 
 class Get(MasterGet):

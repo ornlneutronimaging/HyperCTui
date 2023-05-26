@@ -1,4 +1,4 @@
-from ._version import get_versions
+from hyperctui._version import get_versions
 from qtpy.uic import loadUi
 import os
 
