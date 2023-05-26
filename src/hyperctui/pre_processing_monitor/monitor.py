@@ -5,15 +5,15 @@ from qtpy.QtGui import QIcon
 
 from hyperctui import load_ui
 from hyperctui import refresh_large_image
-
-from .initialization import Initialization
-from .event_handler import EventHandler as MonitorEventHandler
-from ..preview_file.preview_file_launcher import PreviewFileLauncher, PreviewMetadataFileLauncher
-from ..session import SessionKeys
-from ..utilities.widgets import Widgets as UtilityWidgets
+from hyperctui.preview_file.preview_file_launcher import PreviewFileLauncher, PreviewMetadataFileLauncher
+from hyperctui.session import SessionKeys
+from hyperctui.utilities.widgets import Widgets as UtilityWidgets
 from hyperctui.utilities.table import TableHandler
-from . import DataStatus
-from . import ColorDataStatus
+
+from hyperctui.pre_processing_monitor.initialization import Initialization
+from hyperctui.pre_processing_monitor.event_handler import EventHandler as MonitorEventHandler
+from hyperctui.pre_processing_monitor import DataStatus
+from hyperctui.pre_processing_monitor import ColorDataStatus
 
 
 class Monitor(QMainWindow):

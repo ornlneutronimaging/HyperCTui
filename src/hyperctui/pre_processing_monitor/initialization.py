@@ -5,13 +5,13 @@ import os
 from hyperctui.setup_ob.get import Get as GetOB
 from hyperctui.utilities.get import Get
 from hyperctui.utilities.table import TableHandler
-from hyperctui.pre_processing_monitor.get import Get as GetMonitor
-from hyperctui.pre_processing_monitor.event_handler import EventHandler
 from hyperctui.session import SessionKeys
 
-from . import READY, IN_PROGRESS, IN_QUEUE, FAILED
-from . import DataStatus
-from . import ColorDataStatus
+from hyperctui.pre_processing_monitor.get import Get as GetMonitor
+from hyperctui.pre_processing_monitor.event_handler import EventHandler
+from hyperctui.pre_processing_monitor import READY, IN_PROGRESS, IN_QUEUE
+from hyperctui.pre_processing_monitor import DataStatus
+from hyperctui.pre_processing_monitor import ColorDataStatus
 
 
 class Initialization:

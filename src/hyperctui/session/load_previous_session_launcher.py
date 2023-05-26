@@ -1,10 +1,10 @@
 from qtpy.QtWidgets import QDialog
 import os
 
-from .. import load_ui
-from .session_handler import SessionHandler
-from ..utilities.get import Get
-from ..utilities.folder_path import FolderPath
+from hyperctui import load_ui
+from hyperctui.utilities.get import Get
+from hyperctui.utilities.folder_path import FolderPath
+from hyperctui.session.session_handler import SessionHandler
 
 
 class LoadPreviousSessionLauncher(QDialog):

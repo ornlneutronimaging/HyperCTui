@@ -6,28 +6,27 @@ import os
 import logging
 from collections import OrderedDict
 
-from . import load_ui, EvaluationRegionKeys
+from hyperctui import load_ui, EvaluationRegionKeys
+from hyperctui import UI_TITLE, TabNames, tab2_icon, tab3_icon, tab4_icon
 
-from .log.log_launcher import LogLauncher
-from .utilities.get import Get
+from hyperctui.autonomous_reconstruction.event_handler import EventHandler as AutonomousReconstructionHandler
+from hyperctui.crop.crop import Crop
+from hyperctui.event_handler import EventHandler
+from hyperctui.initialization.gui_initialization import GuiInitialization
+from hyperctui.log.log_launcher import LogLauncher
+from hyperctui.pre_processing_monitor.monitor import Monitor as PreProcessingMonitor
+from hyperctui.rotation_center.rotation_center import RotationCenter
+from hyperctui.rotation_center.event_handler import EventHandler as RotationCenterEventHandler
+from hyperctui.session.load_previous_session_launcher import LoadPreviousSessionLauncher
+from hyperctui.session.session_handler import SessionHandler
+from hyperctui.session import SessionKeys
+from hyperctui.setup_ob.event_handler import EventHandler as Step1EventHandler
+from hyperctui.setup_projections.event_handler import EventHandler as Step2EventHandler
+from hyperctui.utilities.get import Get
 from hyperctui.utilities.exceptions import CropError
-from .utilities.config_handler import ConfigHandler
-from .utilities.folder_path import FolderPath
-from .session.load_previous_session_launcher import LoadPreviousSessionLauncher
-from .session.session_handler import SessionHandler
-from .session import SessionKeys
-from .event_handler import EventHandler
-from .initialization.gui_initialization import GuiInitialization
-from .setup_ob.event_handler import EventHandler as Step1EventHandler
-from .setup_projections.event_handler import EventHandler as Step2EventHandler
-from .pre_processing_monitor.monitor import Monitor as PreProcessingMonitor
-from .crop.crop import Crop
-from .rotation_center.rotation_center import RotationCenter
-from .rotation_center.event_handler import EventHandler as RotationCenterEventHandler
-from .autonomous_reconstruction.event_handler import EventHandler as AutonomousReconstructionHandler
+from hyperctui.utilities.config_handler import ConfigHandler
+from hyperctui.utilities.folder_path import FolderPath
 from hyperctui.utilities.status_message_config import StatusMessageStatus, show_status_message
-
-from . import UI_TITLE, TabNames, tab2_icon, tab3_icon, tab4_icon
 
 # warnings.filterwarnings('ignore')
 DEBUG = True
