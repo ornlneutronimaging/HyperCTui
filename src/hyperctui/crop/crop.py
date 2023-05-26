@@ -5,8 +5,8 @@ import pyqtgraph as pg
 
 from NeuNorm.normalization import Normalization
 
-from ..session import SessionKeys
-from ..utilities.file_utilities import get_list_img_files_from_top_folders
+from hyperctui.session import SessionKeys
+from hyperctui.utilities.file_utilities import get_list_img_files_from_top_folders
 from hyperctui.utilities.widgets import Widgets as UtilityWidgets
 from hyperctui.utilities.exceptions import CropError
 

@@ -1,5 +1,3 @@
-import copy
-
 from qtpy.QtWidgets import QMainWindow, QApplication
 import sys
 import os
@@ -7,7 +5,7 @@ import logging
 from collections import OrderedDict
 
 from hyperctui import load_ui, EvaluationRegionKeys
-from hyperctui import UI_TITLE, TabNames, tab2_icon, tab3_icon, tab4_icon
+from hyperctui import UI_TITLE
 
 from hyperctui.autonomous_reconstruction.event_handler import EventHandler as AutonomousReconstructionHandler
 from hyperctui.crop.crop import Crop

@@ -1,7 +1,7 @@
 import os
 import glob
 
-from ..session import SessionKeys
+from hyperctui.session import SessionKeys
 
 
 class Get:

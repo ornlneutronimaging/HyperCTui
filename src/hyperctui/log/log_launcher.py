@@ -4,10 +4,10 @@ from qtpy.QtGui import QIcon
 from qtpy import QtGui
 import logging
 
-from .. import load_ui
-from ..utilities.get import Get
-from ..utilities.file_utilities import read_ascii, write_ascii
-from .. import refresh_image
+from hyperctui import load_ui
+from hyperctui import refresh_image
+from hyperctui.utilities.get import Get
+from hyperctui.utilities.file_utilities import read_ascii, write_ascii
 
 
 class LogLauncher:
