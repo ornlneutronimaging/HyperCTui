@@ -3,6 +3,7 @@ import logging
 import glob
 import os
 import json
+import numpy as np
 from qtpy.QtWidgets import QFileDialog
 
 from hyperctui.parent import Parent
@@ -42,6 +43,49 @@ class EventHandler(Parent):
         logging.info(f"New IPTS selected: {ipts}")
         self.reset_ob_search_path()
         self.update_list_of_obs()
+
+    def update_state_of_rows(self):
+        o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
+        o_table.block_signals()
+
+        rows_selected = o_table.get_rows_of_table_selected()
+
+        clean_list_of_rows_selected = []
+        if rows_selected:
+            if len(rows_selected) == 1:
+
+                first_proton_charge = o_table.get_item_str_from_cell(row=rows_selected[0],
+                                                                     column=1)
+
+                # only enabled all the rows with the same proton charge
+                nbr_row = o_table.row_count()
+                for _row in np.arange(nbr_row):
+                    if _row == rows_selected[0]:
+                        pass
+                    else:
+                        _pc = o_table.get_item_str_from_cell(row=_row,
+                                                             column=1)
+                        if _pc != first_proton_charge:
+                            o_table.set_row_enabled(row=_row,
+                                                    enabled=False)
+
+            first_previous_row_selected = rows_selected[0]
+            proton_charge = o_table.get_item_str_from_cell(row=first_previous_row_selected,
+                                                           column=1)
+
+            clean_list_of_rows_selected.append(rows_selected[0])
+            for _row in rows_selected[1:]:
+                if o_table.get_item_str_from_cell(row=_row,
+                                                  column=1) == proton_charge:
+                    clean_list_of_rows_selected.append(_row)
+
+        else:
+            o_table.enable_all_rows(enabled=True)
+
+        # o_table.block_signals()
+        # o_table.select_rows(list_of_rows=clean_list_of_rows_selected)
+
+        o_table.unblock_signals()
 
     def reset_ob_search_path(self):
         logging.info(f"-> clearing the list of OBs table!")
@@ -99,7 +143,7 @@ class EventHandler(Parent):
         if list_folders is None:
             return
 
-        proton_charge_requested_for_projections = self.parent.ui.open_beam_proton_charge_doubleSpinBox.value()
+        # proton_charge_requested_for_projections = self.parent.ui.open_beam_proton_charge_doubleSpinBox.value()
 
         list_proton_charge = []
         for _folder in list_folders:
@@ -115,7 +159,8 @@ class EventHandler(Parent):
 
             if is_float(list_proton_charge[_offset_row]):
 
-                enabled = are_equal(proton_charge_requested_for_projections, list_proton_charge[_offset_row])
+                enabled = True
+                # enabed = are_equal(proton_charge_requested_for_projections, list_proton_charge[_offset_row])
 
                 o_table.insert_item(row=_offset_row,
                                     column=1,
@@ -139,7 +184,6 @@ class EventHandler(Parent):
                 o_table.set_item_enabled(row=_offset_row,
                                          column=0,
                                          enabled=False)
-
 
     @staticmethod
     def retrieve_proton_charge_for_that_folder(folder):

@@ -81,6 +81,9 @@ class HyperCTui(QMainWindow):
     number_of_files_requested = {'ob': None,
                                  'sample': None}
 
+    # step1 - setup ob tab
+    proton_charge_selected = None
+
     # crop
     crop_live_image = None
     crop_roi_id = None
@@ -286,8 +289,12 @@ class HyperCTui(QMainWindow):
         o_event.browse_obs()
 
     def list_obs_selection_changed(self):
+        o_event = Step1EventHandler(parent=self)
+        o_event.update_state_of_rows()
+
         o_event = EventHandler(parent=self)
         o_event.check_start_acquisition_button()
+
 
     def ob_proton_charge_changed(self, proton_charge):
         self.ui.projections_p_charge_label.setText(str(proton_charge))

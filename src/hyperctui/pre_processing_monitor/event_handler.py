@@ -5,6 +5,7 @@ import numpy as np
 import logging
 
 from hyperctui import DataType
+from hyperctui.utilities.get import Get
 from hyperctui.utilities.file_utilities import make_folder, move_list_files_to_folder
 from hyperctui.utilities.table import TableHandler
 from hyperctui.session import SessionKeys
@@ -31,8 +32,21 @@ class EventHandler:
 
         Return: list of folders found, are all files found
         """
-
         logging.info(f"Checking the monitor status of {data_type}")
+
+        # list_of_folders_now_present = Get.list_of_files(folder=output_folder, ext="*")
+        # if len(list_of_folders_now_present) == len(list_folder_previously_found):
+        #     logging.info(f"No new folders show up!")
+        #
+        #     return None,
+
+        # FIXME
+        # this is where we need to compare the list of folders found in the output folder with
+        # the list of folders already there. If a new folder shows up and contains the string 'ob' and the title
+        # defined by the user, then it's one of the OB we rested -> update the row with full folder name and buttons
+        # if the new folder only contains the title, but not ob, then it's one of our 2 projections. (NB: maybe check
+        # for string 000_000 and 180_000)
+
 
         o_table = TableHandler(table_ui=table_ui)
         if data_type == DataType.projection:

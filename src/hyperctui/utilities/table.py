@@ -1,7 +1,7 @@
 import numpy as np
 from qtpy import QtGui
 from qtpy import QtCore
-from qtpy.QtWidgets import QTableWidgetItem
+from qtpy.QtWidgets import QTableWidgetItem, QTableWidgetSelectionRange
 
 
 class TableHandler:
@@ -14,10 +14,13 @@ class TableHandler:
     def row_count(self):
         return self.table_ui.rowCount()
 
+    def column_count(self):
+        return self.table_ui.columnCount()
+
     def select_everything(self, state):
         nbr_row = self.table_ui.rowCount()
         nbr_column = self.table_ui.columnCount()
-        selection_range = QtGui.QTableWidgetSelectionRange(0, 0, nbr_row - 1, nbr_column - 1)
+        selection_range = QTableWidgetSelectionRange(0, 0, nbr_row - 1, nbr_column - 1)
         self.table_ui.setRangeSelected(selection_range, state)
 
     def select_rows(self, list_of_rows=None):
@@ -25,11 +28,10 @@ class TableHandler:
             return
 
         self.select_everything(False)
-        nbr_row = self.table_ui.rowCount()
         nbr_column = self.table_ui.columnCount()
 
         for _row in list_of_rows:
-            selection_range = QtGui.QTableWidgetSelectionRange(_row, 0, _row, nbr_column - 1)
+            selection_range = QTableWidgetSelectionRange(_row, 0, _row, nbr_column - 1)
             self.table_ui.setRangeSelected(selection_range, True)
 
     def remove_row(self, row=0):
@@ -171,6 +173,19 @@ class TableHandler:
             _item.setFlags(QtCore.Qt.ItemIsSelectable)
         else:
             _item.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable)
+
+    def set_row_enabled(self, row=0, enabled=True):
+        nbr_column = self.column_count()
+        for _col in np.arange(nbr_column):
+            self.set_item_enabled(row=row,
+                                  column=_col,
+                                  enabled=enabled)
+
+    def enable_all_rows(self, enabled=True):
+        nbr_rows = self.row_count()
+        for row in np.arange(nbr_rows):
+            self.set_row_enabled(row=row,
+                                 enabled=enabled)
 
     def insert_item(self, row=0, column=0, value="", format_str="{}"):
         _str_value = format_str.format(value)
