@@ -295,6 +295,11 @@ class HyperCTui(QMainWindow):
         o_event = EventHandler(parent=self)
         o_event.check_start_acquisition_button()
 
+    def refresh_list_of_obs_button_clicked(self):
+        o_event = Step1EventHandler(parent=self)
+        o_event.save_list_of_obs_selected()
+        o_event.update_list_of_obs()
+        o_event.reselect_the_obs_previously_selected()
 
     def ob_proton_charge_changed(self, proton_charge):
         self.ui.projections_p_charge_label.setText(str(proton_charge))

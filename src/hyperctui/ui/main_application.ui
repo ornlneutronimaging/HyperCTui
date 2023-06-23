@@ -46,7 +46,7 @@
            <enum>QTabWidget::West</enum>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tab_10">
            <attribute name="title">
@@ -266,6 +266,30 @@
                </property>
               </column>
              </widget>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_15">
+              <item>
+               <spacer name="horizontalSpacer_14">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="refresh_list_of_obs_pushButton">
+                <property name="text">
+                 <string>Refreshing list of OBs</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </widget>
@@ -1434,8 +1458,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>98</width>
-             <height>28</height>
+             <width>100</width>
+             <height>30</height>
             </rect>
            </property>
            <attribute name="label">
@@ -1872,8 +1896,8 @@
    <slot>crop_left_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>687</x>
-     <y>532</y>
+     <x>571</x>
+     <y>299</y>
     </hint>
     <hint type="destinationlabel">
      <x>1220</x>
@@ -1888,8 +1912,8 @@
    <slot>crop_top_edit_finished()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>769</x>
-     <y>441</y>
+     <x>656</x>
+     <y>214</y>
     </hint>
     <hint type="destinationlabel">
      <x>1003</x>
@@ -1904,8 +1928,8 @@
    <slot>start_acquisition_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>399</x>
-     <y>956</y>
+     <x>414</x>
+     <y>460</y>
     </hint>
     <hint type="destinationlabel">
      <x>249</x>
@@ -1920,8 +1944,8 @@
    <slot>crop_bottom_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>766</x>
-     <y>628</y>
+     <x>661</x>
+     <y>385</y>
     </hint>
     <hint type="destinationlabel">
      <x>1220</x>
@@ -1936,8 +1960,8 @@
    <slot>rotation_center_user_value_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>363</x>
-     <y>944</y>
+     <x>403</x>
+     <y>456</y>
     </hint>
     <hint type="destinationlabel">
      <x>415</x>
@@ -1952,8 +1976,8 @@
    <slot>list_obs_selection_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>140</x>
-     <y>88</y>
+     <x>181</x>
+     <y>183</y>
     </hint>
     <hint type="destinationlabel">
      <x>740</x>
@@ -1968,8 +1992,8 @@
    <slot>crop_right_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>858</x>
-     <y>534</y>
+     <x>741</x>
+     <y>299</y>
     </hint>
     <hint type="destinationlabel">
      <x>1218</x>
@@ -1984,8 +2008,8 @@
    <slot>crop_left_edit_finished()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>681</x>
-     <y>529</y>
+     <x>571</x>
+     <y>299</y>
     </hint>
     <hint type="destinationlabel">
      <x>1216</x>
@@ -2000,8 +2024,8 @@
    <slot>rotation_center_user_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>192</x>
-     <y>940</y>
+     <x>207</x>
+     <y>456</y>
     </hint>
     <hint type="destinationlabel">
      <x>42</x>
@@ -2016,8 +2040,8 @@
    <slot>rotation_center_tomopy_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>155</x>
-     <y>911</y>
+     <x>170</x>
+     <y>422</y>
     </hint>
     <hint type="destinationlabel">
      <x>542</x>
@@ -2080,8 +2104,8 @@
    <slot>menu_log_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>886</x>
-     <y>955</y>
+     <x>627</x>
+     <y>459</y>
     </hint>
     <hint type="destinationlabel">
      <x>672</x>
@@ -2112,8 +2136,8 @@
    <slot>crop_top_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>775</x>
-     <y>444</y>
+     <x>656</x>
+     <y>214</y>
     </hint>
     <hint type="destinationlabel">
      <x>1217</x>
@@ -2128,8 +2152,8 @@
    <slot>rotation_center_tomopy_calculate_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>564</x>
-     <y>902</y>
+     <x>611</x>
+     <y>429</y>
     </hint>
     <hint type="destinationlabel">
      <x>854</x>
@@ -2144,8 +2168,8 @@
    <slot>crop_right_edit_finished()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>853</x>
-     <y>532</y>
+     <x>741</x>
+     <y>299</y>
     </hint>
     <hint type="destinationlabel">
      <x>1219</x>
@@ -2176,8 +2200,8 @@
    <slot>step1_browse_obs_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>140</x>
-     <y>82</y>
+     <x>686</x>
+     <y>114</y>
     </hint>
     <hint type="destinationlabel">
      <x>740</x>
@@ -2192,8 +2216,8 @@
    <slot>crop_bottom_edit_finished()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>769</x>
-     <y>621</y>
+     <x>661</x>
+     <y>385</y>
     </hint>
     <hint type="destinationlabel">
      <x>942</x>
@@ -2208,8 +2232,8 @@
    <slot>checking_status_acquisition_button_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1032</x>
-     <y>948</y>
+     <x>929</x>
+     <y>460</y>
     </hint>
     <hint type="destinationlabel">
      <x>1070</x>
@@ -2272,8 +2296,8 @@
    <slot>projections_fixed_help_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1144</x>
-     <y>149</y>
+     <x>902</x>
+     <y>166</y>
     </hint>
     <hint type="destinationlabel">
      <x>1218</x>
@@ -2288,8 +2312,8 @@
    <slot>tof_region_selection_button_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1005</x>
-     <y>376</y>
+     <x>908</x>
+     <y>391</y>
     </hint>
     <hint type="destinationlabel">
      <x>1219</x>
@@ -2304,8 +2328,8 @@
    <slot>autonomous_start_acquisition_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>552</x>
-     <y>657</y>
+     <x>481</x>
+     <y>456</y>
     </hint>
     <hint type="destinationlabel">
      <x>1221</x>
@@ -2336,8 +2360,8 @@
    <slot>autonomous_refresh_table_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1101</x>
-     <y>686</y>
+     <x>917</x>
+     <y>456</y>
     </hint>
     <hint type="destinationlabel">
      <x>1217</x>
@@ -2441,6 +2465,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>refresh_list_of_obs_pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>refresh_list_of_obs_button_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>801</x>
+     <y>416</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>962</x>
+     <y>417</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>step1_instrument_changed()</slot>
@@ -2488,5 +2528,6 @@
   <slot>action_step4_clicked()</slot>
   <slot>action_step5_clicked()</slot>
   <slot>action_settings_clicked()</slot>
+  <slot>refresh_list_of_obs_button_clicked()</slot>
  </slots>
 </ui>

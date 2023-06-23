@@ -3,6 +3,7 @@ import logging
 import glob
 import os
 import json
+import copy
 import numpy as np
 from qtpy.QtWidgets import QFileDialog
 
@@ -140,9 +141,31 @@ class EventHandler(Parent):
         list_folders = list_ob_dirs(top_folder)
         self.load_list_of_folders(list_folders=list_folders)
 
+    def save_list_of_obs_selected(self):
+        o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
+        list_row_selected = o_table.get_rows_of_table_selected()
+        list_obs_selected = [o_table.get_item_str_from_cell(row=_row, column=0) for _row in list_row_selected]
+        self.parent.list_obs_selected = list_obs_selected
+
+    def reselect_the_obs_previously_selected(self):
+        o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
+        list_obs_selected = self.parent.list_obs_selected
+        nbr_row = o_table.row_count()
+        list_row_to_select = []
+        for _row in np.arange(nbr_row):
+            _file_name = o_table.get_item_str_from_cell(row=_row,
+                                                        column=0)
+            if _file_name in list_obs_selected:
+                list_row_to_select.append(_row)
+
+        if list_row_to_select:
+            o_table.select_rows(list_of_rows=list_row_to_select)
+
     def clear_ob_table(self):
         o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
+        o_table.block_signals()
         o_table.remove_all_rows()
+        o_table.unblock_signals()
 
     def load_list_of_folders(self, list_folders):
         if list_folders is None:
