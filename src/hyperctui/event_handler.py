@@ -26,10 +26,11 @@ class EventHandler(Parent):
         logging.info("Full reset of application!")
 
     def ob_tab_changed(self):
-        current_tab = self.parent.ui.ob_tabWidget.currentIndex()
-        if current_tab == ObTabNames.selected_obs:
-            o_event = ObEventHandler(parent=self.parent)
-            o_event.update_list_of_obs()
+        pass
+        # current_tab = self.parent.ui.ob_tabWidget.currentIndex()
+        # if current_tab == ObTabNames.selected_obs:
+        #     o_event = ObEventHandler(parent=self.parent)
+        #     o_event.update_list_of_obs()
 
     def check_state_of_steps_menu_button(self):
         if self.parent.all_tabs_visible:

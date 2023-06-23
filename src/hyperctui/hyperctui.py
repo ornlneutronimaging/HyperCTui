@@ -82,7 +82,7 @@ class HyperCTui(QMainWindow):
                                  'sample': None}
 
     # step1 - setup ob tab
-    proton_charge_selected = None
+    list_obs_selected = None
 
     # crop
     crop_live_image = None

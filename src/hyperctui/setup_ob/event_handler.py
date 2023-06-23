@@ -51,6 +51,8 @@ class EventHandler(Parent):
         rows_selected = o_table.get_rows_of_table_selected()
 
         clean_list_of_rows_selected = []
+        list_obs_selected = []
+
         if rows_selected:
             if len(rows_selected) == 1:
 
@@ -79,12 +81,15 @@ class EventHandler(Parent):
                                                   column=1) == proton_charge:
                     clean_list_of_rows_selected.append(_row)
 
+            for _row in rows_selected:
+                _file_name = o_table.get_item_str_from_cell(row=_row,
+                                                            column=0)
+                list_obs_selected.append(_file_name)
+
         else:
             o_table.enable_all_rows(enabled=True)
 
-        # o_table.block_signals()
-        # o_table.select_rows(list_of_rows=clean_list_of_rows_selected)
-
+        self.parent.list_obs_selected = list_obs_selected
         o_table.unblock_signals()
 
     def reset_ob_search_path(self):
