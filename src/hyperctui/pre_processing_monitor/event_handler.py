@@ -207,6 +207,8 @@ class EventHandler:
         """
         if the path of the first OB folder is the same as the final location, then yes,
         the OBs have already been moved to their final location
+
+        but if the files were already created in the past, no need to move them
         """
         final_location = os.path.normpath(self.grand_parent.ui.final_location_of_ob_created.text())
         o_table = TableHandler(table_ui=self.parent.ui.obs_tableWidget)

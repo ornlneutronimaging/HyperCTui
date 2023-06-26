@@ -86,7 +86,10 @@ class Monitor(QMainWindow):
             logging.info(f"-> all obs found!")
             # check if obs have already been moved
 
-            if o_event.obs_have_been_moved_to_final_folder():  # all obs created and moved to their final folder
+            # all obs created and moved to their final folder or using already created obs
+
+            if o_event.obs_have_been_moved_to_final_folder() or \
+                    (self.parent.ui.ob_tabWidget.currentIndex() == 1):
 
                 # we can hide the move OBs widgets
                 self.ui.monitor_moving_obs_label.setVisible(False)
