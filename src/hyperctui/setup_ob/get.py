@@ -27,6 +27,11 @@ class Get(MasterGet):
         return self.parent.ui.number_of_ob_spinBox.value()
 
     def proton_charge(self):
+        """
+        if the first OB tab is selected, just returns the value of the proton charge requested
+        if the second OB tab is selected, use the first row selected (if any) and returns the value of the proton charge
+        """
+
         if self.ob_tab_selected() == 0:
             return self.parent.ui.open_beam_proton_charge_doubleSpinBox.value()
 
@@ -39,18 +44,13 @@ class Get(MasterGet):
                              f"(1- Setup the open beams / Select OBs)")
                 return "N/A"
 
-            list_proton_charge = []
-            for _row in np.arange(nbr_row):
-                _pc = o_table.get_item_str_from_cell(row=_row, column=1)
-                list_proton_charge.append(_pc)
-
-            set_proton_charge = set(list_proton_charge)
-            if len(set_proton_charge) > 1:
-
-                logging.info(f"The OBs selected don't have the same proton charge!")
+            selected_rows = o_table.get_rows_of_table_selected()
+            if selected_rows is None:
                 return "N/A"
 
-            return list_proton_charge[0]
+            proton_charge = o_table.get_item_str_from_cell(row=selected_rows[0],
+                                                           column=1)
+            return proton_charge
 
     def top_ob_folder(self):
         return str(self.parent.ui.existing_ob_top_path.text())

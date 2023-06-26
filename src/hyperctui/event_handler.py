@@ -49,6 +49,16 @@ class EventHandler(Parent):
         else:
             button_ready_to_be_used = self._is_start_acquisition_ready_to_be_used()
 
+        if self.parent.ui.ob_tabWidget.currentIndex() == 1:
+            o_get = Step1Get(parent=self.parent)
+            list_of_selected = o_get.list_ob_folders_selected()
+            if len(list_of_selected) == 0:
+                self.parent.ui.ob_pcharge_error_label.setVisible(True)
+            else:
+                self.parent.ui.ob_pcharge_error_label.setVisible(False)
+        else:
+            self.parent.ui.ob_pcharge_error_label.setVisible(False)
+
         self.parent.ui.start_acquisition_pushButton.setEnabled(button_ready_to_be_used)
         self.parent.ui.help_pushButton.setVisible(not button_ready_to_be_used)
         self.set_start_acquisition_text()
@@ -102,6 +112,7 @@ class EventHandler(Parent):
             o_get = ObGet(parent=self.parent)
             proton_charge = o_get.proton_charge()
             self.parent.ui.projections_p_charge_label.setText(str(proton_charge))
+            self.check_start_acquisition_button()
 
         elif new_tab_index == 3:  # center of rotation
             o_center_event = RotationCenterEventHandler(parent=self.parent)
