@@ -27,7 +27,6 @@ class Initialization:
         this is where we need to figure out the list of NeXus files already listed
         and how many we are expecting
         """
-
         if self.grand_parent.ui.ob_tabWidget.currentIndex() == 0:
             # we want to take new obs
             nbr_obs_expected = self.grand_parent.ui.number_of_ob_spinBox.value()
@@ -142,8 +141,10 @@ class Initialization:
         o_get = GetMonitor(parent=self.parent,
                            grand_parent=self.grand_parent)
         dict_ob_log_err_metadata = {}
+
         for _row_index, _ob in enumerate(list_ob):
-            o_get.set_ob_folder_name(_ob)
+
+            o_get.set_ob(full_ob_folder_name=_ob)
 
             o_table.insert_empty_row(row=_row_index)
             o_table.insert_item(row=_row_index,
@@ -206,6 +207,11 @@ class Initialization:
                                                     'log_file': log_file,
                                                     'err_file': err_file,
                                                     'metadata_file': metadata_file}
+
+        # hide the widgets relative to moving the obs
+        self.parent.ui.monitor_moving_obs_label.setVisible(False)
+        self.parent.ui.final_ob_folder_label.setVisible(False)
+        self.parent.ui.final_ob_folder_status.setVisible(False)
 
         self.parent.dict_ob_log_err_metadata = dict_ob_log_err_metadata
 
