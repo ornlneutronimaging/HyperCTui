@@ -179,9 +179,13 @@ class EventHandler(Parent):
         self.parent.session_dict[SessionKeys.name_of_output_ob_folder] = name_of_output_ob_folder
 
         o_get = Step1Get(parent=self.parent)
-        list_ob_folders = o_get.list_ob_folders_in_output_directory(output_folder=name_of_output_ob_folder)
+        title = self.parent.ui.run_title_lineEdit.text()
+        list_ob_folders = o_get.list_ob_folders_in_output_directory(output_folder=name_of_output_ob_folder,
+                                                                    title=title)
         list_sample_folders = o_get.list_sample_folders_in_output_directory(output_folder=
-                                                                            name_of_output_projection_folder)
+                                                                            name_of_output_projection_folder,
+                                                                            title=title)
+
         self.parent.session_dict[SessionKeys.list_ob_folders_initially_there] = list_ob_folders
         self.parent.session_dict[SessionKeys.list_projections_folders_initially_there] = list_sample_folders
 

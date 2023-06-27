@@ -63,19 +63,21 @@ class Get(MasterGet):
                 list_folders.append(_entry)
         return list_folders
 
-    def list_ob_folders_in_output_directory(self, output_folder=None):
+    def list_ob_folders_in_output_directory(self, output_folder=None, title=""):
         list_folders = self.list_folders_in_output_directory(output_folder=output_folder)
         list_ob_folders = []
         for _folder in list_folders:
-            if os.path.basename(_folder).startswith("ob_"):
+            base_folder = os.path.basename(_folder)
+            if ("ob" in base_folder.lower()) and (title in base_folder):
                 list_ob_folders.append(_folder)
         return list_ob_folders
 
-    def list_sample_folders_in_output_directory(self, output_folder=None):
+    def list_sample_folders_in_output_directory(self, output_folder=None, title=""):
         list_folders = self.list_folders_in_output_directory(output_folder=output_folder)
         list_sample_folders = []
         for _folder in list_folders:
-            if not (os.path.basename(_folder).startswith("ob_")):
+            base_folder = os.path.basename(_folder)
+            if (not ("ob" in base_folder.lower())) and (title in base_folder):
                 list_sample_folders.append(_folder)
         return list_sample_folders
 
