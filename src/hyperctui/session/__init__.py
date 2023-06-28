@@ -15,6 +15,7 @@ class SessionKeys:
     list_ob_folders_initially_there = "list of ob folders initially there"
     name_of_output_ob_folder = "name of the output OB folder"
     list_ob_folders_requested = "list of ob folders requested"
+    list_ob_folders_acquired_so_far = "list of ob folders acquired so far for this experiment"
     ob_will_be_saved_as = "OB will be saved as"
     ob_will_be_moved_to = "OB will be moved to"
 

@@ -58,7 +58,8 @@ class HyperCTui(QMainWindow):
                     SessionKeys.ipts_selected      : None,
                     SessionKeys.ipts_index_selected: 0,
                     SessionKeys.number_of_obs      : 5,
-                    SessionKeys.list_ob_folders_requested: None,
+                    SessionKeys.list_ob_folders_requested: None,   # ob acquired so far in this experiment
+                    SessionKeys.list_ob_folders_acquired_so_far: None,
                     SessionKeys.list_ob_folders_initially_there: None,
                     SessionKeys.list_projections_folders_initially_there: None,
                     SessionKeys.started_acquisition: False,

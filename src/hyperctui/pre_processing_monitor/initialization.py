@@ -106,7 +106,7 @@ class Initialization:
                 _ob_name = f"{ob_base_name}<OB file #{_row_index}>"
                 list_ob_expected.append(_ob_name)
 
-            self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested] = list_ob_expected
+            # self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested] = list_ob_expected
 
         # populating the table
         for _row_index, _ob_name in enumerate(list_ob_expected):
