@@ -82,12 +82,81 @@ class EventHandler:
 
         # we go row by row to see if we need to change the status of the row
         range_row_to_update = np.arange(starting_working_row, starting_working_row + len(list_new_ob_folders))
-        for _row in range_row_to_update:
 
-            print(f"updating row: {_row}")
+        for _new_file_index, _row in enumerate(range_row_to_update):
 
+            new_file = list_new_ob_folders[_new_file_index]
+            o_table.set_item_with_str(row=_row,
+                                      column=0,
+                                      value=new_file)
 
+            o_get.set_path(new_file)
 
+            log_file = o_get.log_file()
+            # if log_file:
+            #     enable_button = True
+            # else:
+            #     enable_button = False
+
+            log_button = QPushButton("View")
+            # log_button.setEnabled(enable_button)
+            o_table.insert_widget(row=_row,
+                                  column=1,
+                                  widget=log_button)
+
+            log_button.clicked.connect(lambda state=0, row=_row:
+                                       self.parent.preview_log(row=row,
+                                                               data_type='ob'))
+
+            err_file = o_get.err_file()
+            if err_file:
+                enable_button = True
+            else:
+                enable_button = False
+
+            err_button = QPushButton("View")
+            err_button.setEnabled(enable_button)
+            o_table.insert_widget(row=_row,
+                                  column=2,
+                                  widget=err_button)
+            err_button.clicked.connect(lambda state=0, row=_row:
+                                       self.parent.preview_err(row=row,
+                                                               data_type='ob'))
+
+            metadata_file = o_get.metadata_file()
+            if metadata_file:
+                enable_button = True
+            else:
+                enable_button = False
+
+            summary_button = QPushButton("View")
+            summary_button.setEnabled(enable_button)
+            o_table.insert_widget(row=_row,
+                                  column=3,
+                                  widget=summary_button)
+            summary_button.clicked.connect(lambda state=0, row=_row:
+                                           self.parent.preview_summary(row=row,
+                                                                       data_type='ob'))
+
+            o_table.insert_item(row=_row,
+                                column=4,
+                                value=DataStatus.ready)
+            o_table.set_background_color(row=_row,
+                                         column=4,
+                                         qcolor=READY)
+
+            dict_log_err_metadata[_row] = {'file_name'    : new_file,
+                                           'log_file'     : log_file,
+                                           'err_file'     : err_file,
+                                           'metadata_file': metadata_file}
+
+            if _row < (nbr_total_row-1):
+                o_table.insert_item(row=_row+1,
+                                    column=4,
+                                    value=DataStatus.in_progress)
+                o_table.set_background_color(row=_row+1,
+                                             column=4,
+                                             qcolor=IN_PROGRESS)
 
             # logging.info(f"- row #{_row}")
             # # if the last column says DONE, nothing to do

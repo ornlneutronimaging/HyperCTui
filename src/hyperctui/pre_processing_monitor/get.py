@@ -26,7 +26,8 @@ class Get:
         self.full_ob_folder_name = "/SNS/VENUS/IPTS_0445345/shared/autoreduce/OB_test_10001/run_10001
         => self.run_number = 10001
         """
-        split_folder_path = self.full_ob_folder_name.split("/")
+        list_runs = glob.glob(self.full_ob_folder_name + "/Run_*")
+        split_folder_path = list_runs[0].split("/")
         _, run_number = split_folder_path[-1].split("_")
         self.run_number = run_number
 
