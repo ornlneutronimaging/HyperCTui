@@ -82,13 +82,18 @@ class Monitor(QMainWindow):
                                       grand_parent=self.parent)
         o_event.checking_status_of_expected_obs()
 
+        if self.all_obs_found:
 
+            logging.info(f"-> all obs found!")
 
+            #FIXME for now, hide those buttons
+            self.ui.monitor_moving_obs_label.setVisible(False)
+            self.ui.final_ob_folder_label.setVisible(False)
+            self.ui.final_ob_folder_status.setVisible(False)
 
-        # if self.all_obs_found:
-        #
-        #     logging.info(f"-> all obs found!")
-        #     # check if obs have already been moved
+            o_event.checking_status_of_expected_projections()
+
+            # check if obs have already been moved
         #
         #     # all obs created and moved to their final folder or using already created obs
         #
@@ -96,9 +101,9 @@ class Monitor(QMainWindow):
         #             (self.parent.ui.ob_tabWidget.currentIndex() == 1):
         #
         #         # we can hide the move OBs widgets
-        #         self.ui.monitor_moving_obs_label.setVisible(False)
-        #         self.ui.final_ob_folder_label.setVisible(False)
-        #         self.ui.final_ob_folder_status.setVisible(False)
+        #             self.ui.monitor_moving_obs_label.setVisible(False)
+        #             self.ui.final_ob_folder_label.setVisible(False)
+        #             self.ui.final_ob_folder_status.setVisible(False)
         #
         #         o_event.checking_status_of_expected_projections()
         #         if self.all_projections_found:

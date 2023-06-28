@@ -244,32 +244,32 @@ class Initialization:
                                 column=0,
                                 value=file_name)
 
-            log_button = QPushButton("View")
-            log_button.setEnabled(False)
-            o_table.insert_widget(row=_row_index,
-                                  column=1,
-                                  widget=log_button)
-            log_button.clicked.connect(lambda state=0, row=_row_index:
-                                       self.parent.preview_log(row=row,
-                                                               data_type='projections'))
-
-            err_button = QPushButton("View")
-            err_button.setEnabled(False)
-            o_table.insert_widget(row=_row_index,
-                                  column=2,
-                                  widget=err_button)
-            err_button.clicked.connect(lambda state=0, row=_row_index:
-                                       self.parent.preview_err(row=row,
-                                                               data_type='projections'))
-
-            summary_button = QPushButton("View")
-            summary_button.setEnabled(False)
-            o_table.insert_widget(row=_row_index,
-                                  column=3,
-                                  widget=summary_button)
-            summary_button.clicked.connect(lambda state=0, row=_row_index:
-                                           self.parent.preview_summary(row=row,
-                                                                       data_type='projections'))
+            # log_button = QPushButton("View")
+            # log_button.setEnabled(False)
+            # o_table.insert_widget(row=_row_index,
+            #                       column=1,
+            #                       widget=log_button)
+            # log_button.clicked.connect(lambda state=0, row=_row_index:
+            #                            self.parent.preview_log(row=row,
+            #                                                    data_type='projections'))
+            #
+            # err_button = QPushButton("View")
+            # err_button.setEnabled(False)
+            # o_table.insert_widget(row=_row_index,
+            #                       column=2,
+            #                       widget=err_button)
+            # err_button.clicked.connect(lambda state=0, row=_row_index:
+            #                            self.parent.preview_err(row=row,
+            #                                                    data_type='projections'))
+            #
+            # summary_button = QPushButton("View")
+            # summary_button.setEnabled(False)
+            # o_table.insert_widget(row=_row_index,
+            #                       column=3,
+            #                       widget=summary_button)
+            # summary_button.clicked.connect(lambda state=0, row=_row_index:
+            #                                self.parent.preview_summary(row=row,
+            #                                                            data_type='projections'))
 
             o_table.insert_item(row=_row_index,
                                 column=4,

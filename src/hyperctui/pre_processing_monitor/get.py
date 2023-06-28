@@ -27,6 +27,7 @@ class Get:
         => self.run_number = 10001
         """
         list_runs = glob.glob(self.full_ob_folder_name + "/Run_*")
+        self.run_number_full_path = list_runs[0]
         split_folder_path = list_runs[0].split("/")
         _, run_number = split_folder_path[-1].split("_")
         self.run_number = run_number
@@ -88,4 +89,4 @@ class Get:
         it needs to return
             /SNS/VENUS/IPTS-30023/shared/autoreduce/mcp/scan17/Run_57100/summary.json
         """
-        return os.path.join(self.full_ob_folder_name, "summary.json")
+        return os.path.join(self.run_number_full_path, "summary.json")

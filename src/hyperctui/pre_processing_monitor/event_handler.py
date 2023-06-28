@@ -21,29 +21,25 @@ class EventHandler:
         self.parent = parent
         self.grand_parent = grand_parent
 
-    def update_monitor_table(self,
-                           data_type=DataType.ob,
+    def update_ob_monitor_table(self,
                            output_folder=None,
-                           table_ui=None,
                            dict_log_err_metadata=None,
                            list_folder_previously_found=None):
         """
-        this method check the new folders showing up and updates the table
+        this method check the new OB folders showing up and updates the table
         """
-        print("in update monitor table")
-        logging.info(f"updating the monitor table of {data_type}")
+        print(f"in update monitor table with {DataType.ob}")
+        logging.info(f"updating the monitor table of {DataType.ob}")
+
+        table_ui = self.parent.ui.obs_tableWidget
 
         o_get = Step1Get(parent=self.grand_parent)
         title = self.grand_parent.ui.run_title_lineEdit.text()
         name_of_output_ob_folder = self.grand_parent.ui.obs_output_location_label.text()
         list_ob_folders = o_get.list_ob_folders_in_output_directory(output_folder=name_of_output_ob_folder,
                                                                     title=title)
-        if data_type == DataType.ob:
-            list_folder_previously_found = self.grand_parent.session_dict[
-                SessionKeys.list_ob_folders_initially_there]
-        else:
-            list_folder_previously_found = self.grand_parent.session_dict[
-                SessionKeys.list_projections_folders_initially_there]
+        list_folder_previously_found = self.grand_parent.session_dict[
+            SessionKeys.list_ob_folders_initially_there]
 
         if len(list_ob_folders) == len(list_folder_previously_found):
             logging.info(f"No new OBs have been found! nothing to update.")
@@ -62,18 +58,6 @@ class EventHandler:
         else:
             starting_working_row = len(list_ob_folders_acquired_so_far)
 
-        # o_table = TableHandler(table_ui=table_ui)
-        # if data_type == DataType.projection:
-        #     # only if we are looking at the projections and
-        #     # all the obs have been found!
-        #     if self.parent.all_obs_found:
-        #         o_table.insert_item(row=0,
-        #                             column=4,
-        #                             value=DataStatus.in_progress)
-        #         o_table.set_background_color(row=0,
-        #                                      column=4,
-        #                                      qcolor=IN_PROGRESS)
-
         o_table = TableHandler(table_ui=table_ui)
         nbr_total_row = o_table.row_count()
 
@@ -91,7 +75,6 @@ class EventHandler:
                                       value=new_file)
 
             o_get.set_path(new_file)
-
             log_file = o_get.log_file()
             # if log_file:
             #     enable_button = True
@@ -158,128 +141,9 @@ class EventHandler:
                                              column=4,
                                              qcolor=IN_PROGRESS)
 
-            # logging.info(f"- row #{_row}")
-            # # if the last column says DONE, nothing to do
-            # row_status = o_table.get_item_str_from_cell(row=_row, column=4)
-            # file_name = o_table.get_item_str_from_cell(row=_row, column=0)
-            # logging.info(f"\t {file_name} - {row_status}")
-            # if row_status == READY:
-            #     logging.info(f"\tfile already found!")
-            #     list_folder_found.append(file_name)
-            #     continue
-            #
-            # if os.path.exists(file_name):
-            #     logging.info(f"\tfile newly found!")
-            #     list_folder_found.append(file_name)
-            #     # update table and add widgets + change status of file
-            #
-            #     o_get.set_path(file_name)
-            #
-            #     log_file = o_get.log_file()
-            #     if log_file:
-            #         enable_button = True
-            #     else:
-            #         enable_button = False
-            #
-            #     log_button = QPushButton("View")
-            #     log_button.setEnabled(enable_button)
-            #     o_table.insert_widget(row=_row,
-            #                           column=1,
-            #                           widget=log_button)
-            #
-            #     log_button.clicked.connect(lambda state=0, row=_row:
-            #                                self.parent.preview_log(row=row,
-            #                                                        data_type='ob'))
-            #     err_file = o_get.err_file()
-            #     if err_file:
-            #         enable_button = True
-            #     else:
-            #         enable_button = False
-            #
-            #     err_button = QPushButton("View")
-            #     err_button.setEnabled(enable_button)
-            #     o_table.insert_widget(row=_row,
-            #                           column=2,
-            #                           widget=err_button)
-            #     err_button.clicked.connect(lambda state=0, row=_row:
-            #                                self.parent.preview_err(row=row,
-            #                                                        data_type='ob'))
-            #
-            #     metadata_file = o_get.metadata_file()
-            #     if metadata_file:
-            #         enable_button = True
-            #     else:
-            #         enable_button = False
-            #
-            #     summary_button = QPushButton("View")
-            #     summary_button.setEnabled(enable_button)
-            #     o_table.insert_widget(row=_row,
-            #                           column=3,
-            #                           widget=summary_button)
-            #     summary_button.clicked.connect(lambda state=0, row=_row:
-            #                                    self.parent.preview_summary(row=row,
-            #                                                                data_type='ob'))
-            #
-            #     o_table.insert_item(row=_row,
-            #                         column=4,
-            #                         value=DataStatus.ready)
-            #     o_table.set_background_color(row=_row,
-            #                                  column=4,
-            #                                  qcolor=READY)
-            #
-            #     dict_log_err_metadata[_row] = {'file_name'    : file_name,
-            #                                    'log_file'     : log_file,
-            #                                    'err_file'     : err_file,
-            #                                    'metadata_file': metadata_file}
-            #
-            # else:
-            #     logging.info(f"\tnot found! we can leave now")
-            #     # no need to keep going, except that this one is in progress
-            #     o_table.insert_item(row=_row,
-            #                         column=4,
-            #                         value=DataStatus.in_progress)
-            #     o_table.set_background_color(row=_row,
-            #                                  column=4,
-            #                                  qcolor=IN_PROGRESS)
-            #     break
-
-    def checking_status_of(self,
-                           data_type=DataType.ob,
-                           output_folder=None,
-                           table_ui=None,
-                           dict_log_err_metadata=None,
-                           list_folder_previously_found=None):
-        """
-        this method should check if the folder requested has been found (already created)
-        and will update the table
-
-        Return: list of folders found, are all files found
-        """
-        logging.info(f"Checking the monitor status of {data_type}")
-
-        # list_of_folders_now_present = Get.list_of_files(folder=output_folder, ext="*")
-        # if len(list_of_folders_now_present) == len(list_folder_previously_found):
-        #     logging.info(f"No new folders show up!")
-        #
-        #     return None,
-
-
-
-
-        # FIXME
-        # this is where we need to compare the list of folders found in the output folder with
-        # the list of folders already there. If a new folder shows up and contains the string 'ob' and the title
-        # defined by the user, then it's one of the OB we rested -> update the row with full folder name and buttons
-        # if the new folder only contains the title, but not ob, then it's one of our 2 projections. (NB: maybe check
-        # for string 000_000 and 180_000)
-
-
-        o_table = TableHandler(table_ui=table_ui)
-        if data_type == DataType.projection:
-            # only if we are looking at the projections and
-            # all the obs have been found!
-            if self.parent.all_obs_found:
-
+            elif _row == (nbr_total_row - 1):
+                # last row of the ob has been found!
+                o_table = TableHandler(table_ui=self.parent.ui.projections_tableWidget)
                 o_table.insert_item(row=0,
                                     column=4,
                                     value=DataStatus.in_progress)
@@ -287,103 +151,135 @@ class EventHandler:
                                              column=4,
                                              qcolor=IN_PROGRESS)
 
-        o_table = TableHandler(table_ui=table_ui)
-        nbr_row = o_table.row_count()
+                self.parent.all_obs_found = True
 
-        list_folder_found = []
+    def update_projections_monitor_table(self,
+                             output_folder=None,
+                             dict_log_err_metadata=None,
+                             list_folder_previously_found=None):
+        """
+        this method check the new folders showing up and updates the table
+        """
+        print(f"in update monitor table with {DataType.projection}")
+        logging.info(f"updating the monitor table of {DataType.projection}")
+
+        table_ui = self.parent.ui.projections_tableWidget
+
+        o_get = Step1Get(parent=self.grand_parent)
+        title = self.grand_parent.ui.run_title_lineEdit.text()
+        # name_of_output_ob_folder = self.grand_parent.ui.obs_output_location_label.text()
+        # list_ob_folders = o_get.list_ob_folders_in_output_directory(output_folder=name_of_output_ob_folder,
+        #                                                             title=title)
+        list_folder_previously_found = self.grand_parent.session_dict[
+            SessionKeys.list_projections_folders_initially_there]
+
+        # # just keeping the new folders located
+        # list_new_ob_folders = []
+        # for _folder in list_ob_folders:
+        #     if _folder in list_folder_previously_found:
+        #         continue
+        #     list_new_ob_folders.append(_folder)
+
+        # list_ob_folders_acquired_so_far = self.grand_parent.session_dict[SessionKeys.list_ob_folders_acquired_so_far]
+        # if list_ob_folders_acquired_so_far is None:
+        #     starting_working_row = 0
+        # else:
+        #     starting_working_row = len(list_ob_folders_acquired_so_far)
+
+        o_table = TableHandler(table_ui=table_ui)
+        nbr_total_row = o_table.row_count()
 
         o_get = GetMonitor(parent=self.parent,
                            grand_parent=self.grand_parent)
 
         # we go row by row to see if we need to change the status of the row
-        for _row in np.arange(nbr_row):
-
-            logging.info(f"- row #{_row}")
-            # if the last column says DONE, nothing to do
-            row_status = o_table.get_item_str_from_cell(row=_row, column=4)
-            file_name = o_table.get_item_str_from_cell(row=_row, column=0)
-            logging.info(f"\t {file_name} - {row_status}")
-            if row_status == READY:
-                logging.info(f"\tfile already found!")
-                list_folder_found.append(file_name)
-                continue
-
-            if os.path.exists(file_name):
-                logging.info(f"\tfile newly found!")
-                list_folder_found.append(file_name)
-                # update table and add widgets + change status of file
-
-                o_get.set_path(file_name)
-
-                log_file = o_get.log_file()
-                if log_file:
-                    enable_button = True
-                else:
-                    enable_button = False
-
-                log_button = QPushButton("View")
-                log_button.setEnabled(enable_button)
-                o_table.insert_widget(row=_row,
-                                      column=1,
-                                      widget=log_button)
-
-                log_button.clicked.connect(lambda state=0, row=_row:
-                                           self.parent.preview_log(row=row,
-                                                                   data_type='ob'))
-                err_file = o_get.err_file()
-                if err_file:
-                    enable_button = True
-                else:
-                    enable_button = False
-
-                err_button = QPushButton("View")
-                err_button.setEnabled(enable_button)
-                o_table.insert_widget(row=_row,
-                                      column=2,
-                                      widget=err_button)
-                err_button.clicked.connect(lambda state=0, row=_row:
-                                           self.parent.preview_err(row=row,
-                                                                   data_type='ob'))
-
-                metadata_file = o_get.metadata_file()
-                if metadata_file:
-                    enable_button = True
-                else:
-                    enable_button = False
-
-                summary_button = QPushButton("View")
-                summary_button.setEnabled(enable_button)
-                o_table.insert_widget(row=_row,
-                                      column=3,
-                                      widget=summary_button)
-                summary_button.clicked.connect(lambda state=0, row=_row:
-                                               self.parent.preview_summary(row=row,
-                                                                           data_type='ob'))
-
-                o_table.insert_item(row=_row,
-                                    column=4,
-                                    value=DataStatus.ready)
-                o_table.set_background_color(row=_row,
-                                             column=4,
-                                             qcolor=READY)
-
-                dict_log_err_metadata[_row] = {'file_name': file_name,
-                                               'log_file': log_file,
-                                               'err_file': err_file,
-                                               'metadata_file': metadata_file}
-
-            else:
-                logging.info(f"\tnot found! we can leave now")
-                # no need to keep going, except that this one is in progress
-                o_table.insert_item(row=_row,
-                                    column=4,
-                                    value=DataStatus.in_progress)
-                o_table.set_background_color(row=_row,
-                                             column=4,
-                                             qcolor=IN_PROGRESS)
-                break
-
-        return list_folder_found, len(list_folder_found) == nbr_row
+        # range_row_to_update = np.arange(starting_working_row, starting_working_row + len(list_new_ob_folders))
+        #
+        # for _new_file_index, _row in enumerate(range_row_to_update):
+        #
+        #     new_file = list_new_ob_folders[_new_file_index]
+        #     o_table.set_item_with_str(row=_row,
+        #                               column=0,
+        #                               value=new_file)
+        #
+        #     o_get.set_path(new_file)
+        #     log_file = o_get.log_file()
+        #     # if log_file:
+        #     #     enable_button = True
+        #     # else:
+        #     #     enable_button = False
+        #
+        #     log_button = QPushButton("View")
+        #     # log_button.setEnabled(enable_button)
+        #     o_table.insert_widget(row=_row,
+        #                           column=1,
+        #                           widget=log_button)
+        #
+        #     log_button.clicked.connect(lambda state=0, row=_row:
+        #                                self.parent.preview_log(row=row,
+        #                                                        data_type='ob'))
+        #
+        #     err_file = o_get.err_file()
+        #     if err_file:
+        #         enable_button = True
+        #     else:
+        #         enable_button = False
+        #
+        #     err_button = QPushButton("View")
+        #     err_button.setEnabled(enable_button)
+        #     o_table.insert_widget(row=_row,
+        #                           column=2,
+        #                           widget=err_button)
+        #     err_button.clicked.connect(lambda state=0, row=_row:
+        #                                self.parent.preview_err(row=row,
+        #                                                        data_type='ob'))
+        #
+        #     metadata_file = o_get.metadata_file()
+        #     if metadata_file:
+        #         enable_button = True
+        #     else:
+        #         enable_button = False
+        #
+        #     summary_button = QPushButton("View")
+        #     summary_button.setEnabled(enable_button)
+        #     o_table.insert_widget(row=_row,
+        #                           column=3,
+        #                           widget=summary_button)
+        #     summary_button.clicked.connect(lambda state=0, row=_row:
+        #                                    self.parent.preview_summary(row=row,
+        #                                                                data_type='ob'))
+        #
+        #     o_table.insert_item(row=_row,
+        #                         column=4,
+        #                         value=DataStatus.ready)
+        #     o_table.set_background_color(row=_row,
+        #                                  column=4,
+        #                                  qcolor=READY)
+        #
+        #     dict_log_err_metadata[_row] = {'file_name'    : new_file,
+        #                                    'log_file'     : log_file,
+        #                                    'err_file'     : err_file,
+        #                                    'metadata_file': metadata_file}
+        #
+        #     if _row < (nbr_total_row - 1):
+        #         o_table.insert_item(row=_row + 1,
+        #                             column=4,
+        #                             value=DataStatus.in_progress)
+        #         o_table.set_background_color(row=_row + 1,
+        #                                      column=4,
+        #                                      qcolor=IN_PROGRESS)
+        #
+        #     elif (_row == (nbr_total_row - 1)) and (data_type == DataType.ob):
+        #         # last row of the ob has been found!
+        #         o_table = TableHandler(table_ui=self.parent.ui.projections_tableWidget)
+        #         o_table.insert_item(row=0,
+        #                             column=4,
+        #                             value=DataStatus.in_progress)
+        #         o_table.set_background_color(row=0,
+        #                                      column=4,
+        #                                      qcolor=IN_PROGRESS)
+        #
+        #         self.parent.all_obs_found = True
 
     def checking_status_of_expected_obs(self):
         """look at the list of obs expected and updates the OB table
@@ -401,12 +297,9 @@ class EventHandler:
         # self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there] = list_folders_found
         # logging.info(f"-> list folders found: {list_new_folders_found}")
 
-        self.update_monitor_table(data_type=DataType.ob,
-                                  output_folder=output_folder,
-                                  table_ui=self.parent.ui.obs_tableWidget,
-                                  dict_log_err_metadata=self.parent.dict_ob_log_err_metadata,
-                                  list_folder_previously_found=list_folder_previously_found)
-        print(f"")
+        self.update_ob_monitor_table(output_folder=output_folder,
+                                     dict_log_err_metadata=self.parent.dict_ob_log_err_metadata,
+                                     list_folder_previously_found=list_folder_previously_found)
 
     def checking_status_of_expected_projections(self):
         """look at the list of projections and updates the projection table
@@ -415,13 +308,10 @@ class EventHandler:
 
         logging.info(f"Checking status of expected projections:")
         list_folder_previously_found = self.grand_parent.session_dict[SessionKeys.list_projections_folders_initially_there]
-        list_folders_found, self.parent.all_projections_found = self.checking_status_of(
-                                                                 data_type=DataType.projection,
-                                                                 output_folder=output_folder,
-                                                                 table_ui=self.parent.ui.projections_tableWidget,
-                                                                 dict_log_err_metadata=self.parent.dict_projections_log_err_metadata,
-                                                                 list_folder_previously_found=list_folder_previously_found)
-        self.grand_parent.session_dict[SessionKeys.list_projections_folders_initially_there] = list_folders_found
+        self.update_projections_monitor_table(output_folder=output_folder,
+                                              dict_log_err_metadata=self.parent.dict_projections_log_err_metadata,
+                                              list_folder_previously_found=list_folder_previously_found)
+        # self.grand_parent.session_dict[SessionKeys.list_projections_folders_initially_there] = list_folders_found
 
     def first_projection_in_progress(self):
         """
