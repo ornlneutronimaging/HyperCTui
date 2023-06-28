@@ -73,8 +73,11 @@ class Get(MasterGet):
         return list_ob_folders
 
     def list_sample_folders_in_output_directory(self, output_folder=None, title=""):
+        print("in list sample folders in output directory")
         list_folders = self.list_folders_in_output_directory(output_folder=output_folder)
+        print(f"-> output_folder: {output_folder}")
         list_sample_folders = []
+        print(f"-> {list_folders =}")
         for _folder in list_folders:
             base_folder = os.path.basename(_folder)
             if (not ("ob" in base_folder.lower())) and (title in base_folder):
@@ -106,7 +109,7 @@ class Get(MasterGet):
     def projection_folder(self):
         """return the location where the projections will be saved"""
         folder = str(self.parent.ui.projections_output_location_label.text())
-        return os.path.dirname(folder)
+        return folder
 
     def ob_folder(self):
         return str(self.parent.ui.location_of_ob_created.text())

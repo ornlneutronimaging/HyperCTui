@@ -172,19 +172,23 @@ class EventHandler:
         #                                                             title=title)
         list_folder_previously_found = self.grand_parent.session_dict[
             SessionKeys.list_projections_folders_initially_there]
+        output_folder = os.path.dirname(self.grand_parent.ui.projections_output_location_label.text())
+        list_projections_folders = o_get.list_sample_folders_in_output_directory(output_folder=output_folder,
+                                                                                 title=title)
 
-        # # just keeping the new folders located
-        # list_new_ob_folders = []
-        # for _folder in list_ob_folders:
-        #     if _folder in list_folder_previously_found:
-        #         continue
-        #     list_new_ob_folders.append(_folder)
+        # just keeping the new folders located
+        list_new_projections_folders = []
+        for _folder in list_projections_folders:
+            if _folder in list_folder_previously_found:
+                continue
+            list_new_projections_folders.append(_folder)
 
-        # list_ob_folders_acquired_so_far = self.grand_parent.session_dict[SessionKeys.list_ob_folders_acquired_so_far]
-        # if list_ob_folders_acquired_so_far is None:
-        #     starting_working_row = 0
-        # else:
-        #     starting_working_row = len(list_ob_folders_acquired_so_far)
+        list_projections_folders_acquired_so_far = self.grand_parent.session_dict[
+            SessionKeys.list_projections_folders_acquired_so_far]
+        if list_projections_folders_acquired_so_far is None:
+            starting_working_row = 0
+        else:
+            starting_working_row = len(list_projections_folders_acquired_so_far)
 
         o_table = TableHandler(table_ui=table_ui)
         nbr_total_row = o_table.row_count()
