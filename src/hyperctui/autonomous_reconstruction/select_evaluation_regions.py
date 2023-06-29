@@ -164,10 +164,12 @@ class SelectEvaluationRegions(QDialog):
         """
         make sure 'from' and 'to' values are int
         make sure 'from' value is smaller than 'to' value, otherwise reverse them
+        make sure that at least 3 regions have been selected
         """
         o_table = TableHandler(table_ui=self.ui.tableWidget)
         o_table.block_signals()
         nbr_row = o_table.row_count()
+        nbr_row_selected = 0
         for _row in np.arange(nbr_row):
             from_value = o_table.get_item_str_from_cell(row=_row,
                                                         column=ColumnIndex.from_value)
@@ -204,6 +206,7 @@ class SelectEvaluationRegions(QDialog):
         o_table = TableHandler(table_ui=self.ui.tableWidget)
         o_table.block_signals()
         nbr_row = o_table.row_count()
+        nbr_row_selected = 0
         for _row in np.arange(nbr_row):
             _state_widget = o_table.get_inner_widget(row=_row,
                                                      column=ColumnIndex.enabled_state,
@@ -214,6 +217,7 @@ class SelectEvaluationRegions(QDialog):
             o_table.set_item_state(row=_row, column=ColumnIndex.name, editable=_state)
             o_table.set_item_state(row=_row, column=ColumnIndex.from_value, editable=_state)
             o_table.set_item_state(row=_row, column=ColumnIndex.to_value, editable=_state)
+
         o_table.unblock_signals()
 
     def is_ok_button_ready(self):
@@ -223,7 +227,7 @@ class SelectEvaluationRegions(QDialog):
             if evaluation_regions[_key][EvaluationRegionKeys.state]:
                 nbr_region_enabled += 1
 
-        if nbr_region_enabled > 0:
+        if nbr_region_enabled > 2:
             return True
 
         return False

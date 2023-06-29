@@ -448,6 +448,10 @@ class HyperCTui(QMainWindow):
         o_event = AutonomousReconstructionHandler(parent=self)
         o_event.start_acquisition()
 
+    def autonomous_reconstruction_stop_process_button_clicked(self):
+        o_event = AutonomousReconstructionHandler(parent=self)
+        o_event.stop_acquisition()
+
     def autonomous_refresh_table_clicked(self):
         o_event = AutonomousReconstructionHandler(parent=self)
         o_event.refresh_table_clicked()

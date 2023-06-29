@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1151</width>
-    <height>533</height>
+    <width>1133</width>
+    <height>789</height>
    </rect>
   </property>
   <property name="baseSize">
@@ -30,7 +30,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideRight</enum>
@@ -1050,8 +1050,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1081</width>
-             <height>593</height>
+             <width>1063</width>
+             <height>635</height>
             </rect>
            </property>
            <attribute name="label">
@@ -1331,9 +1331,34 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_18">
               <item>
+               <spacer name="horizontalSpacer_17">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
                <widget class="QPushButton" name="start_first_reconstruction_pushButton">
                 <property name="enabled">
                  <bool>false</bool>
+                </property>
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
                 </property>
                 <property name="text">
                  <string>Start first acquisition / reconstruction</string>
@@ -1341,12 +1366,34 @@
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="autonomous_refresh_pushButton">
-                <property name="enabled">
-                 <bool>false</bool>
+               <spacer name="horizontalSpacer_15">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButton">
+                <property name="minimumSize">
+                 <size>
+                  <width>50</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>100</width>
+                  <height>16777215</height>
+                 </size>
                 </property>
                 <property name="text">
-                 <string>Refresh state</string>
+                 <string>Kill process</string>
                 </property>
                </widget>
               </item>
@@ -1358,6 +1405,33 @@
                <string>Monitor</string>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_21">
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_19">
+                 <item>
+                  <spacer name="horizontalSpacer_16">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="autonomous_refresh_pushButton">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>Refresh table</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
                <item>
                 <widget class="QTableWidget" name="autonomous_reconstruction_tableWidget">
                  <property name="alternatingRowColors">
@@ -1475,8 +1549,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>98</width>
-             <height>28</height>
+             <width>100</width>
+             <height>30</height>
             </rect>
            </property>
            <attribute name="label">
@@ -1583,7 +1657,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1151</width>
+     <width>1133</width>
      <height>24</height>
     </rect>
    </property>
@@ -1913,11 +1987,11 @@
    <slot>crop_left_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>571</x>
-     <y>299</y>
+     <x>655</x>
+     <y>437</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1220</x>
+     <x>1132</x>
      <y>744</y>
     </hint>
    </hints>
@@ -1929,12 +2003,12 @@
    <slot>crop_top_edit_finished()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>656</x>
-     <y>214</y>
+     <x>746</x>
+     <y>348</y>
     </hint>
     <hint type="destinationlabel">
      <x>1003</x>
-     <y>987</y>
+     <y>788</y>
     </hint>
    </hints>
   </connection>
@@ -1945,8 +2019,8 @@
    <slot>start_acquisition_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>414</x>
-     <y>460</y>
+     <x>429</x>
+     <y>732</y>
     </hint>
     <hint type="destinationlabel">
      <x>249</x>
@@ -1961,12 +2035,12 @@
    <slot>crop_bottom_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>661</x>
-     <y>385</y>
+     <x>746</x>
+     <y>527</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1220</x>
-     <y>955</y>
+     <x>1132</x>
+     <y>788</y>
     </hint>
    </hints>
   </connection>
@@ -1978,11 +2052,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>403</x>
-     <y>456</y>
+     <y>728</y>
     </hint>
     <hint type="destinationlabel">
      <x>415</x>
-     <y>991</y>
+     <y>788</y>
     </hint>
    </hints>
   </connection>
@@ -2009,11 +2083,11 @@
    <slot>crop_right_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>741</x>
-     <y>299</y>
+     <x>837</x>
+     <y>437</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1218</x>
+     <x>1132</x>
      <y>630</y>
     </hint>
    </hints>
@@ -2025,11 +2099,11 @@
    <slot>crop_left_edit_finished()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>571</x>
-     <y>299</y>
+     <x>655</x>
+     <y>437</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1216</x>
+     <x>1132</x>
      <y>544</y>
     </hint>
    </hints>
@@ -2041,12 +2115,12 @@
    <slot>rotation_center_user_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>207</x>
-     <y>456</y>
+     <x>208</x>
+     <y>727</y>
     </hint>
     <hint type="destinationlabel">
      <x>42</x>
-     <y>986</y>
+     <y>788</y>
     </hint>
    </hints>
   </connection>
@@ -2057,12 +2131,12 @@
    <slot>rotation_center_tomopy_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>170</x>
-     <y>422</y>
+     <x>185</x>
+     <y>691</y>
     </hint>
     <hint type="destinationlabel">
      <x>542</x>
-     <y>986</y>
+     <y>788</y>
     </hint>
    </hints>
   </connection>
@@ -2121,8 +2195,8 @@
    <slot>menu_log_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>627</x>
-     <y>459</y>
+     <x>795</x>
+     <y>731</y>
     </hint>
     <hint type="destinationlabel">
      <x>672</x>
@@ -2153,11 +2227,11 @@
    <slot>crop_top_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>656</x>
-     <y>214</y>
+     <x>746</x>
+     <y>348</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1217</x>
+     <x>1132</x>
      <y>457</y>
     </hint>
    </hints>
@@ -2170,11 +2244,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>611</x>
-     <y>429</y>
+     <y>698</y>
     </hint>
     <hint type="destinationlabel">
      <x>854</x>
-     <y>982</y>
+     <y>788</y>
     </hint>
    </hints>
   </connection>
@@ -2185,11 +2259,11 @@
    <slot>crop_right_edit_finished()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>741</x>
-     <y>299</y>
+     <x>837</x>
+     <y>437</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1219</x>
+     <x>1132</x>
      <y>678</y>
     </hint>
    </hints>
@@ -2217,7 +2291,7 @@
    <slot>step1_browse_obs_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>686</x>
+     <x>1092</x>
      <y>114</y>
     </hint>
     <hint type="destinationlabel">
@@ -2233,12 +2307,12 @@
    <slot>crop_bottom_edit_finished()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>661</x>
-     <y>385</y>
+     <x>746</x>
+     <y>527</y>
     </hint>
     <hint type="destinationlabel">
      <x>942</x>
-     <y>991</y>
+     <y>788</y>
     </hint>
    </hints>
   </connection>
@@ -2249,12 +2323,12 @@
    <slot>checking_status_acquisition_button_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>929</x>
-     <y>460</y>
+     <x>1097</x>
+     <y>732</y>
     </hint>
     <hint type="destinationlabel">
      <x>1070</x>
-     <y>995</y>
+     <y>788</y>
     </hint>
    </hints>
   </connection>
@@ -2301,7 +2375,7 @@
      <y>188</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1223</x>
+     <x>1132</x>
      <y>369</y>
     </hint>
    </hints>
@@ -2313,11 +2387,11 @@
    <slot>projections_fixed_help_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>902</x>
+     <x>1070</x>
      <y>166</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1218</x>
+     <x>1132</x>
      <y>180</y>
     </hint>
    </hints>
@@ -2333,7 +2407,7 @@
      <y>391</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1219</x>
+     <x>1132</x>
      <y>488</y>
     </hint>
    </hints>
@@ -2349,8 +2423,8 @@
      <y>456</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1221</x>
-     <y>789</y>
+     <x>1132</x>
+     <y>788</y>
     </hint>
    </hints>
   </connection>
@@ -2377,12 +2451,12 @@
    <slot>autonomous_refresh_table_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>917</x>
-     <y>456</y>
+     <x>1070</x>
+     <y>525</y>
     </hint>
     <hint type="destinationlabel">
-     <x>1217</x>
-     <y>852</y>
+     <x>1132</x>
+     <y>788</y>
     </hint>
    </hints>
   </connection>
@@ -2489,12 +2563,28 @@
    <slot>refresh_list_of_obs_button_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>801</x>
-     <y>416</y>
+     <x>1092</x>
+     <y>453</y>
     </hint>
     <hint type="destinationlabel">
      <x>962</x>
      <y>417</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>autonomous_reconstruction_stop_process_button_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1026</x>
+     <y>444</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1128</x>
+     <y>581</y>
     </hint>
    </hints>
   </connection>
@@ -2546,5 +2636,6 @@
   <slot>action_step5_clicked()</slot>
   <slot>action_settings_clicked()</slot>
   <slot>refresh_list_of_obs_button_clicked()</slot>
+  <slot>autonomous_reconstruction_stop_process_button_clicked()</slot>
  </slots>
 </ui>

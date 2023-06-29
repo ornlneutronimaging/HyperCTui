@@ -109,6 +109,7 @@ class EventHandler:
         self.parent.ui.autonomous_tof_regions_groupBox.setEnabled(False)
         self.parent.ui.start_first_reconstruction_pushButton.setEnabled(False)
         self.parent.ui.start_first_reconstruction_pushButton.setStyleSheet(normal_style)
+        self.parent.ui.autonomous_refresh_pushButton.setEnabled(True)
 
         # enable table
         self.parent.ui.autonomous_monitor_groupBox.setVisible(True)
@@ -121,6 +122,19 @@ class EventHandler:
                             status=StatusMessageStatus.working)
 
         self.init_autonomous_table()
+
+    def stop_acquisition(self):
+        self.parent.ui.autonomous_projections_groupBox.setEnabled(True)
+        self.parent.ui.autonomous_evaluation_groupBox.setEnabled(True)
+        self.parent.ui.autonomous_tof_regions_groupBox.setEnabled(True)
+        self.parent.ui.start_first_reconstruction_pushButton.setEnabled(True)
+
+        self.parent.ui.autonomous_refresh_pushButton.setStyleSheet(normal_style)
+
+        show_status_message(parent=self.parent,
+                            message=f"Stopped acquisition!",
+                            duration_s=5,
+                            status=StatusMessageStatus.warning)
 
     def init_autonomous_table(self):
         # output_table =
@@ -141,4 +155,5 @@ class EventHandler:
         print(f"{list_tof_region_collected =}")
 
     def refresh_table_clicked(self):
+        """refresh button next to the table has been clicked"""
         pass
