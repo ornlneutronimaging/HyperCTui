@@ -41,12 +41,12 @@ class Crop:
         self.parent.crop_live_image = self.mean_image
 
     def initialize(self):
-        # try:
-        self.load_projections()
-        # except CropError:
-        #     o_widgets = UtilityWidgets(parent=self.parent)
-        #     o_widgets.make_tabs_visible(is_visible=False)
-        #     raise CropError
+        try:
+            self.load_projections()
+        except CropError:
+            o_widgets = UtilityWidgets(parent=self.parent)
+            o_widgets.make_tabs_visible(is_visible=False)
+            raise CropError
 
         self.parent.ui.cropping_groupBox.setEnabled(True)
         self.parent.ui.crop_image_view.clear()
@@ -59,10 +59,16 @@ class Crop:
         self.parent.ui.crop_top_spinBox.setMaximum(height-1)
         self.parent.ui.crop_bottom_spinBox.setMaximum(height-1)
 
-        left = self.parent.session_dict.get(SessionKeys.crop_left, 0)
-        right = self.parent.session_dict.get(SessionKeys.crop_right, 100)
-        top = self.parent.session_dict.get(SessionKeys.crop_top, 0)
-        bottom = self.parent.session_dict.get(SessionKeys.crop_bottom, 100)
+        default_left = 0 + width/3
+        default_right = width - width/3
+
+        default_top = 0 + height/3
+        default_bottom = height - height/3
+
+        left = self.parent.session_dict.get(SessionKeys.crop_left, default_left)
+        right = self.parent.session_dict.get(SessionKeys.crop_right, default_right)
+        top = self.parent.session_dict.get(SessionKeys.crop_top, default_top)
+        bottom = self.parent.session_dict.get(SessionKeys.crop_bottom, default_bottom)
 
         left = np.min([left, right])
         right = np.max([left, right])
