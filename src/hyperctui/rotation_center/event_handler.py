@@ -3,6 +3,8 @@ import pyqtgraph as pg
 import numpy as np
 from tomopy.recon import rotation
 
+from hyperctui.utilities.status_message_config import StatusMessageStatus, show_status_message
+
 
 class EventHandler:
 
@@ -66,6 +68,10 @@ class EventHandler:
 
             # display vertical line showing the center of rotation found
             self.display_center_of_rotation()
+            show_status_message(parent=self.parent,
+                                message="calculation of center of rotation: Done!",
+                                status=StatusMessageStatus.ready,
+                                duration_s=5)
 
     def display_center_of_rotation(self):
 
