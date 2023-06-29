@@ -28,7 +28,6 @@ class EventHandler:
         """
         this method check the new OB folders showing up and updates the table
         """
-        print(f"in update monitor table with {DataType.ob}")
         logging.info(f"updating the monitor table of {DataType.ob}")
 
         table_ui = self.parent.ui.obs_tableWidget
@@ -160,7 +159,6 @@ class EventHandler:
         """
         this method check the new folders showing up and updates the table
         """
-        print(f"in update monitor table with {DataType.projection}")
         logging.info(f"updating the monitor table of {DataType.projection}")
 
         table_ui = self.parent.ui.projections_tableWidget
@@ -172,7 +170,7 @@ class EventHandler:
         #                                                             title=title)
         list_folder_previously_found = self.grand_parent.session_dict[
             SessionKeys.list_projections_folders_initially_there]
-        output_folder = os.path.dirname(self.grand_parent.ui.projections_output_location_label.text())
+        output_folder = self.grand_parent.ui.projections_output_location_label.text()
         list_projections_folders = o_get.list_sample_folders_in_output_directory(output_folder=output_folder,
                                                                                  title=title)
 
@@ -197,93 +195,71 @@ class EventHandler:
                            grand_parent=self.grand_parent)
 
         # we go row by row to see if we need to change the status of the row
-        # range_row_to_update = np.arange(starting_working_row, starting_working_row + len(list_new_ob_folders))
-        #
-        # for _new_file_index, _row in enumerate(range_row_to_update):
-        #
-        #     new_file = list_new_ob_folders[_new_file_index]
-        #     o_table.set_item_with_str(row=_row,
-        #                               column=0,
-        #                               value=new_file)
-        #
-        #     o_get.set_path(new_file)
-        #     log_file = o_get.log_file()
-        #     # if log_file:
-        #     #     enable_button = True
-        #     # else:
-        #     #     enable_button = False
-        #
-        #     log_button = QPushButton("View")
-        #     # log_button.setEnabled(enable_button)
-        #     o_table.insert_widget(row=_row,
-        #                           column=1,
-        #                           widget=log_button)
-        #
-        #     log_button.clicked.connect(lambda state=0, row=_row:
-        #                                self.parent.preview_log(row=row,
-        #                                                        data_type='ob'))
-        #
-        #     err_file = o_get.err_file()
-        #     if err_file:
-        #         enable_button = True
-        #     else:
-        #         enable_button = False
-        #
-        #     err_button = QPushButton("View")
-        #     err_button.setEnabled(enable_button)
-        #     o_table.insert_widget(row=_row,
-        #                           column=2,
-        #                           widget=err_button)
-        #     err_button.clicked.connect(lambda state=0, row=_row:
-        #                                self.parent.preview_err(row=row,
-        #                                                        data_type='ob'))
-        #
-        #     metadata_file = o_get.metadata_file()
-        #     if metadata_file:
-        #         enable_button = True
-        #     else:
-        #         enable_button = False
-        #
-        #     summary_button = QPushButton("View")
-        #     summary_button.setEnabled(enable_button)
-        #     o_table.insert_widget(row=_row,
-        #                           column=3,
-        #                           widget=summary_button)
-        #     summary_button.clicked.connect(lambda state=0, row=_row:
-        #                                    self.parent.preview_summary(row=row,
-        #                                                                data_type='ob'))
-        #
-        #     o_table.insert_item(row=_row,
-        #                         column=4,
-        #                         value=DataStatus.ready)
-        #     o_table.set_background_color(row=_row,
-        #                                  column=4,
-        #                                  qcolor=READY)
-        #
-        #     dict_log_err_metadata[_row] = {'file_name'    : new_file,
-        #                                    'log_file'     : log_file,
-        #                                    'err_file'     : err_file,
-        #                                    'metadata_file': metadata_file}
-        #
-        #     if _row < (nbr_total_row - 1):
-        #         o_table.insert_item(row=_row + 1,
-        #                             column=4,
-        #                             value=DataStatus.in_progress)
-        #         o_table.set_background_color(row=_row + 1,
-        #                                      column=4,
-        #                                      qcolor=IN_PROGRESS)
-        #
-        #     elif (_row == (nbr_total_row - 1)) and (data_type == DataType.ob):
-        #         # last row of the ob has been found!
-        #         o_table = TableHandler(table_ui=self.parent.ui.projections_tableWidget)
-        #         o_table.insert_item(row=0,
-        #                             column=4,
-        #                             value=DataStatus.in_progress)
-        #         o_table.set_background_color(row=0,
-        #                                      column=4,
-        #                                      qcolor=IN_PROGRESS)
-        #
-        #         self.parent.all_obs_found = True
+        range_row_to_update = np.arange(starting_working_row, starting_working_row + len(list_new_projections_folders))
+
+        for _new_file_index, _row in enumerate(range_row_to_update):
+
+            new_file = list_new_projections_folders[_new_file_index]
+            o_table.set_item_with_str(row=_row,
+                                      column=0,
+                                      value=new_file)
+
+            o_get.set_path(new_file)
+            log_file = o_get.log_file()
+            log_button = QPushButton("View")
+            o_table.insert_widget(row=_row,
+                                  column=1,
+                                  widget=log_button)
+
+            log_button.clicked.connect(lambda state=0, row=_row:
+                                       self.parent.preview_log(row=row,
+                                                               data_type=DataType.projection))
+
+            err_file = o_get.err_file()
+            err_button = QPushButton("View")
+            o_table.insert_widget(row=_row,
+                                  column=2,
+                                  widget=err_button)
+            err_button.clicked.connect(lambda state=0, row=_row:
+                                       self.parent.preview_err(row=row,
+                                                               data_type=DataType.projection))
+
+            metadata_file = o_get.metadata_file()
+            summary_button = QPushButton("View")
+            o_table.insert_widget(row=_row,
+                                  column=3,
+                                  widget=summary_button)
+            summary_button.clicked.connect(lambda state=0, row=_row:
+                                           self.parent.preview_summary(row=row,
+                                                                       data_type=DataType.projection))
+
+            o_table.insert_item(row=_row,
+                                column=4,
+                                value=DataStatus.ready)
+            o_table.set_background_color(row=_row,
+                                         column=4,
+                                         qcolor=READY)
+
+            dict_log_err_metadata[_row] = {'file_name'    : new_file,
+                                           'log_file'     : log_file,
+                                           'err_file'     : err_file,
+                                           'metadata_file': metadata_file}
+
+            if _row < (nbr_total_row - 1):
+                o_table.insert_item(row=_row + 1,
+                                    column=4,
+                                    value=DataStatus.in_progress)
+                o_table.set_background_color(row=_row + 1,
+                                             column=4,
+                                             qcolor=IN_PROGRESS)
+
+            elif _row == (nbr_total_row - 1):
+                self.parent.all_projections_found = True
+
+            if self.grand_parent.session_dict[SessionKeys.list_projections] is None:
+                self.grand_parent.session_dict[SessionKeys.list_projections] = [new_file]
+            else:
+                self.grand_parent.session_dict[SessionKeys.list_projections].append(new_file)
 
     def checking_status_of_expected_obs(self):
         """look at the list of obs expected and updates the OB table
@@ -292,15 +268,6 @@ class EventHandler:
 
         logging.info(f"Checking status of expected obs:")
         list_folder_previously_found = self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there]
-        # list_new_folders_found, self.parent.all_obs_found = self.checking_status_of(
-        #                                                  data_type=DataType.ob,
-        #                                                  output_folder=output_folder,
-        #                                                  table_ui=self.parent.ui.obs_tableWidget,
-        #                                                  dict_log_err_metadata=self.parent.dict_ob_log_err_metadata,
-        #                                                  list_folder_previously_found=list_folder_previously_found)
-        # self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there] = list_folders_found
-        # logging.info(f"-> list folders found: {list_new_folders_found}")
-
         self.update_ob_monitor_table(output_folder=output_folder,
                                      dict_log_err_metadata=self.parent.dict_ob_log_err_metadata,
                                      list_folder_previously_found=list_folder_previously_found)
@@ -378,4 +345,4 @@ class EventHandler:
                                       column=0,
                                       value=_new_final_location)
         self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there] = new_list_ob_folders
-        self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested]
+        # self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested]

@@ -21,6 +21,7 @@ class SessionKeys:
 
     # step projections
     run_title = 'run title'
+    list_projections = "list projections"
     list_projections_folders_initially_there = "list projections folders initially there"
     list_projections_folders_acquired_so_far = "list of projections folders acquired so far for this experiment"
     name_of_output_projection_folder = "name of the output projection folder"

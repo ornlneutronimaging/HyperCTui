@@ -21,7 +21,7 @@ from hyperctui.session import SessionKeys
 from hyperctui.setup_ob.event_handler import EventHandler as Step1EventHandler
 from hyperctui.setup_projections.event_handler import EventHandler as Step2EventHandler
 from hyperctui.utilities.get import Get
-from hyperctui.utilities.exceptions import CropError
+from hyperctui.utilities.exceptions import CropError, CenterOfRotationError
 from hyperctui.utilities.config_handler import ConfigHandler
 from hyperctui.utilities.folder_path import FolderPath
 from hyperctui.utilities.status_message_config import StatusMessageStatus, show_status_message
@@ -61,6 +61,7 @@ class HyperCTui(QMainWindow):
                     SessionKeys.list_ob_folders_requested: None,   # ob acquired so far in this experiment
                     SessionKeys.list_ob_folders_acquired_so_far: None,
                     SessionKeys.list_ob_folders_initially_there: None,
+                    SessionKeys.list_projections: None,
                     SessionKeys.list_projections_folders_initially_there: None,
                     SessionKeys.list_projections_folders_acquired_so_far: None,
                     SessionKeys.started_acquisition: False,
@@ -340,14 +341,14 @@ class HyperCTui(QMainWindow):
 
     # step crop
     def initialize_crop(self):
-        try:
-            o_crop = Crop(parent=self)
-            o_crop.initialize()
-        except CropError:
-            show_status_message(parent=self,
-                                message="Initialization of crop failed! check log!",
-                                duration_s=10,
-                                status=StatusMessageStatus.error)
+        # try:
+        o_crop = Crop(parent=self)
+        o_crop.initialize()
+        # except CropError:
+        #     show_status_message(parent=self,
+        #                         message="Initialization of crop failed! check log!",
+        #                         duration_s=10,
+        #                         status=StatusMessageStatus.error)
 
     def crop_top_changed(self, value):
         self.crop_changed()
@@ -383,8 +384,14 @@ class HyperCTui(QMainWindow):
 
     # center of rotation
     def initialize_center_of_rotation(self):
-        o_rot = RotationCenter(parent=self)
-        o_rot.initialize()
+        try:
+            o_rot = RotationCenter(parent=self)
+            o_rot.initialize()
+        except CenterOfRotationError:
+            show_status_message(parent=self,
+                                message="Initialization of center of rotation failed! check log!",
+                                duration_s=10,
+                                status=StatusMessageStatus.error)
 
     def rotation_center_tomopy_clicked(self, button_state):
         self.ui.rotation_center_user_defined_radioButton.blockSignals(True)

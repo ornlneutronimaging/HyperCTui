@@ -92,6 +92,15 @@ class Monitor(QMainWindow):
             self.ui.final_ob_folder_status.setVisible(False)
 
             o_event.checking_status_of_expected_projections()
+            if self.all_projections_found:
+
+                logging.info(f"-> all projections found!")
+                if not self.parent.session_dict[SessionKeys.all_tabs_visible]:
+                    self.parent.session_dict[SessionKeys.all_tabs_visible] = True
+                    o_widgets = UtilityWidgets(parent=self.parent)
+                    o_widgets.make_tabs_visible(is_visible=True)
+                    self.parent.initialize_crop()
+                    self.parent.initialize_center_of_rotation()
 
             # check if obs have already been moved
         #

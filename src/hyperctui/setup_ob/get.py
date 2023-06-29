@@ -73,11 +73,8 @@ class Get(MasterGet):
         return list_ob_folders
 
     def list_sample_folders_in_output_directory(self, output_folder=None, title=""):
-        print("in list sample folders in output directory")
         list_folders = self.list_folders_in_output_directory(output_folder=output_folder)
-        print(f"-> output_folder: {output_folder}")
         list_sample_folders = []
-        print(f"-> {list_folders =}")
         for _folder in list_folders:
             base_folder = os.path.basename(_folder)
             if (not ("ob" in base_folder.lower())) and (title in base_folder):

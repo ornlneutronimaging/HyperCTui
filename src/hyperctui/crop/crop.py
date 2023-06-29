@@ -20,8 +20,9 @@ class Crop:
 
     def load_projections(self):
         logging.info(f"Loading projections in crop")
-        list_projections = self.parent.session_dict[SessionKeys.list_projections_folders_initially_there]
+        list_projections = self.parent.session_dict[SessionKeys.list_projections]
         logging.info(f"-> list_projections: {list_projections}")
+
         try:
             list_summed_img = get_list_img_files_from_top_folders(list_projections=list_projections)
         except IndexError as error:
@@ -40,12 +41,12 @@ class Crop:
         self.parent.crop_live_image = self.mean_image
 
     def initialize(self):
-        try:
-            self.load_projections()
-        except CropError:
-            o_widgets = UtilityWidgets(parent=self.parent)
-            o_widgets.make_tabs_visible(is_visible=False)
-            raise CropError
+        # try:
+        self.load_projections()
+        # except CropError:
+        #     o_widgets = UtilityWidgets(parent=self.parent)
+        #     o_widgets.make_tabs_visible(is_visible=False)
+        #     raise CropError
 
         self.parent.ui.cropping_groupBox.setEnabled(True)
         self.parent.ui.crop_image_view.clear()
