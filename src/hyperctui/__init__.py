@@ -81,6 +81,8 @@ class EvaluationRegionKeys:
     id = "id of the pg horizontal line"
     name = 'name of the region'
     label_id = "id of the label naming the region"
+    from_index = "from file index"
+    to_index = "to file index"
 
 
 def load_ui(ui_filename, baseinstance):

@@ -12,6 +12,7 @@ from neutronbraggedge.experiment_handler.tof import TOF
 from neutronbraggedge.experiment_handler.experiment import Experiment
 
 from hyperctui.utilities.table import TableHandler
+from hyperctui.utilities.array import get_nearest_index
 from hyperctui import load_ui, EvaluationRegionKeys
 from hyperctui.session import SessionKeys
 from hyperctui.utilities.check import is_float, is_int
@@ -190,17 +191,27 @@ class SelectTofRegions(QMainWindow):
             _name = o_table.get_item_str_from_cell(row=_row,
                                                    column=ColumnIndex.name)
             _from = float(o_table.get_item_str_from_cell(row=_row,
-                                                       column=ColumnIndex.from_value))
+                                                         column=ColumnIndex.from_value))
             _to = float(o_table.get_item_str_from_cell(row=_row,
-                                                     column=ColumnIndex.to_value))
+                                                       column=ColumnIndex.to_value))
             _from, _to = self.sort(_from, _to)
+
+            _from_index = self.get_corresponding_index(lambda_value=_from,
+                                                       lambda_array=self.lambda_array)
+            _to_index = self.get_corresponding_index(lambda_value=_to,
+                                                     lambda_array=self.lambda_array)
 
             tof_regions[_row] = {EvaluationRegionKeys.state: _state,
                                  EvaluationRegionKeys.name: _name,
                                  EvaluationRegionKeys.from_value: float(_from),
                                  EvaluationRegionKeys.to_value: float(_to),
-                                 EvaluationRegionKeys.id: None}
+                                 EvaluationRegionKeys.id: None,
+                                 EvaluationRegionKeys.from_index: _from_index,
+                                 EvaluationRegionKeys.to_index: _to_index}
         self.parent.tof_regions = tof_regions
+
+    def get_corresponding_index(self, lambda_value=None, lambda_array=None):
+        return get_nearest_index(lambda_array, lambda_value)
 
     def check_table_content(self):
         """

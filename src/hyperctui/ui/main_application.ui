@@ -1378,25 +1378,6 @@
                 </property>
                </spacer>
               </item>
-              <item>
-               <widget class="QPushButton" name="pushButton">
-                <property name="minimumSize">
-                 <size>
-                  <width>50</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>100</width>
-                  <height>16777215</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>Kill process</string>
-                </property>
-               </widget>
-              </item>
              </layout>
             </item>
             <item>
@@ -2572,22 +2553,6 @@
     </hint>
    </hints>
   </connection>
-  <connection>
-   <sender>pushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>autonomous_reconstruction_stop_process_button_clicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>1026</x>
-     <y>444</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>1128</x>
-     <y>581</y>
-    </hint>
-   </hints>
-  </connection>
  </connections>
  <slots>
   <slot>step1_instrument_changed()</slot>
@@ -2636,6 +2601,5 @@
   <slot>action_step5_clicked()</slot>
   <slot>action_settings_clicked()</slot>
   <slot>refresh_list_of_obs_button_clicked()</slot>
-  <slot>autonomous_reconstruction_stop_process_button_clicked()</slot>
  </slots>
 </ui>

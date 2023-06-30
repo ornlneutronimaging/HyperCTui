@@ -145,14 +145,21 @@ class EventHandler:
 
         tof_regions = self.parent.tof_regions
         list_tof_region_collected = []
+        list_tof_region_index = []
         for _index in tof_regions.keys():
             if tof_regions[_index][EvaluationRegionKeys.state]:
                 _from = str(tof_regions[_index][EvaluationRegionKeys.from_value]).replace(".", "_")
                 _to = str(tof_regions[_index][EvaluationRegionKeys.to_value]).replace(".", "_")
+
+                _from_index = tof_regions[_index][EvaluationRegionKeys.from_index]
+                _to_index = tof_regions[_index][EvaluationRegionKeys.to_index]
+
                 list_tof_region_collected.append(f"from_{_from}Ang_to_{_to}Ang")
+                list_tof_region_index.append(f"from index: {_from_index} to index: {_to_index}")
 
         print(f"{formatted2_list_golden_ratio =}")
         print(f"{list_tof_region_collected =}")
+        print(f"{list_tof_region_index =}")
 
     def refresh_table_clicked(self):
         """refresh button next to the table has been clicked"""
