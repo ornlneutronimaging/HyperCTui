@@ -93,6 +93,14 @@ class EventHandler:
 
     def check_state_of_start_pre_acquisition_button(self):
         is_button_ready = self.is_start_pre_acquisition_button_ready()
+
+        # no TOF selected yet
+        if self.parent.tof_regions[0].get(EvaluationRegionKeys.from_index, None) is None:
+            self.parent.ui.tof_region_of_interest_pushButton.setStyleSheet(interact_me_style)
+            is_button_ready = False
+        else:
+            self.parent.ui.tof_region_of_interest_pushButton.setStyleSheet(normal_style)
+
         self.parent.ui.start_first_reconstruction_pushButton.setEnabled(is_button_ready)
         if is_button_ready:
             self.parent.ui.start_first_reconstruction_pushButton.setStyleSheet(interact_me_style)

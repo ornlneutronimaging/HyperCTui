@@ -153,21 +153,27 @@ class HyperCTui(QMainWindow):
                       EvaluationRegionKeys.from_value: 0.9,
                       EvaluationRegionKeys.to_value: 1.1,
                       EvaluationRegionKeys.id: None,
-                      EvaluationRegionKeys.label_id: None
+                      EvaluationRegionKeys.label_id: None,
+                      EvaluationRegionKeys.from_index: None,
+                      EvaluationRegionKeys.to_index: None,
                       }
     tof_regions[1] = {EvaluationRegionKeys.state: True,
                       EvaluationRegionKeys.name: 'TOF 2',
                       EvaluationRegionKeys.from_value: 1.9,
                       EvaluationRegionKeys.to_value: 2.1,
                       EvaluationRegionKeys.id: None,
-                      EvaluationRegionKeys.label_id: None
+                      EvaluationRegionKeys.label_id: None,
+                      EvaluationRegionKeys.from_index: None,
+                      EvaluationRegionKeys.to_index: None,
                       }
     tof_regions[2] = {EvaluationRegionKeys.state: False,
                       EvaluationRegionKeys.name: 'TOF 3',
                       EvaluationRegionKeys.from_value: 2.9,
                       EvaluationRegionKeys.to_value: 3.1,
                       EvaluationRegionKeys.id: None,
-                      EvaluationRegionKeys.label_id: None
+                      EvaluationRegionKeys.label_id: None,
+                      EvaluationRegionKeys.from_index: None,
+                      EvaluationRegionKeys.to_index: None,
                       }
 
     # this will be a copy of evaluation regions used when user exit the view without using OK button
@@ -341,14 +347,14 @@ class HyperCTui(QMainWindow):
 
     # step crop
     def initialize_crop(self):
-        # try:
-        o_crop = Crop(parent=self)
-        o_crop.initialize()
-        # except CropError:
-        #     show_status_message(parent=self,
-        #                         message="Initialization of crop failed! check log!",
-        #                         duration_s=10,
-        #                         status=StatusMessageStatus.error)
+        try:
+            o_crop = Crop(parent=self)
+            o_crop.initialize()
+        except CropError:
+            show_status_message(parent=self,
+                                message="Initialization of crop failed! check log!",
+                                duration_s=10,
+                                status=StatusMessageStatus.error)
 
     def crop_top_changed(self, value):
         self.crop_changed()
@@ -416,6 +422,7 @@ class HyperCTui(QMainWindow):
         o_event.radio_button_changed(is_tomopy_checked=False)
 
     # autonomous reconstruction
+
     def update_autonomous_widgets(self):
         o_event = AutonomousReconstructionHandler(parent=self)
         o_event.update_widgets()

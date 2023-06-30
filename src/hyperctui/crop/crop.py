@@ -70,10 +70,10 @@ class Crop:
         top = self.parent.session_dict.get(SessionKeys.crop_top, default_top)
         bottom = self.parent.session_dict.get(SessionKeys.crop_bottom, default_bottom)
 
-        left = np.min([left, right])
-        right = np.max([left, right])
-        top = np.min([top, bottom])
-        bottom = np.max([top, bottom])
+        left = int(np.min([left, right]))
+        right = int(np.max([left, right]))
+        top = int(np.min([top, bottom]))
+        bottom = int(np.max([top, bottom]))
 
         self.parent.session_dict[SessionKeys.crop_left] = left
         self.parent.session_dict[SessionKeys.crop_right] = right

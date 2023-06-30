@@ -7,6 +7,9 @@ class RotationCenter:
         self.parent = parent
 
     def initialize(self):
+
+        print("DEBUG: in initialization of rotation center")
+
         self.parent.rotation_center_image_view.clear()
 
         left = self.parent.ui.crop_left_spinBox.value()
