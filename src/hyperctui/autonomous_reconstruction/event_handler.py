@@ -148,8 +148,13 @@ class EventHandler:
         # output_table =
         nbr_angles = self.parent.ui.evaluation_frequency_spinBox.value()
         list_golden_ratio_angles_collected = self.parent.golden_ratio_angles[0:nbr_angles]
-        formatted1_list_golden_ratio_angles_collected = [f"{_value:.2f}" for _value in list_golden_ratio_angles_collected]
-        formatted2_list_golden_ratio = [_value.replace(".", "_") for _value in formatted1_list_golden_ratio_angles_collected]
+        formatted1_list_golden_ratio_angles_collected = [f"{_value:.2f}" for _value in
+                                                         list_golden_ratio_angles_collected]
+        formatted2_list_golden_ratio = [_value.replace(".", "_") for _value in
+                                        formatted1_list_golden_ratio_angles_collected]
+
+        folder_path = self.parent.folder_path
+        print(f"{folder_path =}")
 
         tof_regions = self.parent.tof_regions
         list_tof_region_collected = []
@@ -166,8 +171,11 @@ class EventHandler:
                 list_tof_region_index.append(f"from index: {_from_index} to index: {_to_index}")
 
         print(f"{formatted2_list_golden_ratio =}")
-        print(f"{list_tof_region_collected =}")
+        print(f"{ list_tof_region_collected =}")
         print(f"{list_tof_region_index =}")
+
+
+
 
     def refresh_table_clicked(self):
         """refresh button next to the table has been clicked"""

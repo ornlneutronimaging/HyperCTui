@@ -18,6 +18,7 @@ class FolderPath(Parent):
     reduction_log = None
     nexus = None
     mcp_raw = None
+    recon = None
 
     def update(self):
 
@@ -25,6 +26,7 @@ class FolderPath(Parent):
         self.root = homepath
         ipts = self.parent.session_dict[SessionKeys.ipts_selected]
         instrument = self.parent.session_dict[SessionKeys.instrument]
+        title = self.parent.ui.run_title_formatted_label.text()
 
         if (instrument is None) | (ipts is None):
             return
@@ -38,7 +40,14 @@ class FolderPath(Parent):
         self.reduction_log()
         self.nexus()
         self.mcp()
+        self.recon(title=title)
         self.create_mcp_raw()
+
+    def __repr__(self):
+        return f"folder_path:\n" + \
+            f"- shared: \t\t{self.shared}\n-autoreduce: \t\t{self.autoreduce}" + \
+            f"\n-mcp: \t\t\t{self.mcp}\n-reduction_log: \t{self.reduction_log}\n-nexus: \t\t{self.nexus}" + \
+            f"\n-mcp_raw: \t\t{self.mcp_raw}"
 
     def shared(self):
         self.shared = os.sep.join([self.ipts_full_path, "shared"])
@@ -57,6 +66,9 @@ class FolderPath(Parent):
 
     def mcp(self):
         self.mcp = os.sep.join([self.autoreduce, "mcp"])
+
+    def recon(self, title=None):
+        self.recon = os.sep.join([self.shared], "insitu_recon", "recon", title)
 
     def create_mcp_raw(self):
         self.mcp_raw = os.sep.join([self.ipts_full_path,

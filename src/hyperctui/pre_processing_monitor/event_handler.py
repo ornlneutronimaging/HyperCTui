@@ -22,9 +22,9 @@ class EventHandler:
         self.grand_parent = grand_parent
 
     def update_ob_monitor_table(self,
-                           output_folder=None,
-                           dict_log_err_metadata=None,
-                           list_folder_previously_found=None):
+                                output_folder=None,
+                                dict_log_err_metadata=None,
+                                list_folder_previously_found=None):
         """
         this method check the new OB folders showing up and updates the table
         """
