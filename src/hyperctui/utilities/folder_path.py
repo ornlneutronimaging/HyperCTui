@@ -68,7 +68,7 @@ class FolderPath(Parent):
         self.mcp = os.sep.join([self.autoreduce, "mcp"])
 
     def recon(self, title=None):
-        self.recon = os.sep.join([self.shared], "insitu_recon", "recon", title)
+        self.recon = os.sep.join([self.shared, "insitu_recon", "recon", title])
 
     def create_mcp_raw(self):
         self.mcp_raw = os.sep.join([self.ipts_full_path,

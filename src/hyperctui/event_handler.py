@@ -108,6 +108,7 @@ class EventHandler(Parent):
         large version for the next 3 tabs
         """
         if new_tab_index == 1:  # initialize first projections 0 and 180 degrees
+            self.parent.run_title_changed(self.parent.ui.run_title_lineEdit.text())
             # update p charge
             o_get = ObGet(parent=self.parent)
             proton_charge = o_get.proton_charge()
