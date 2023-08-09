@@ -1,9 +1,12 @@
 from qtpy.QtGui import QGuiApplication
 import inflect
 import numpy as np
+import logging
 
 from hyperctui import EvaluationRegionKeys
 from hyperctui import interact_me_style, normal_style, error_style, label_in_focus_style
+from hyperctui.session import SessionKeys
+from hyperctui.utilities.get import Get
 
 from hyperctui.utilities.status_message_config import StatusMessageStatus, show_status_message
 from hyperctui.utilities.table import TableHandler
@@ -11,7 +14,7 @@ from hyperctui.utilities.table import TableHandler
 from hyperctui.autonomous_reconstruction.help_golden_angle import HelpGoldenAngle
 from hyperctui.autonomous_reconstruction.select_evaluation_regions import SelectEvaluationRegions
 from hyperctui.autonomous_reconstruction.select_tof_regions import SelectTofRegions
-from hyperctui.pre_autonomous_monitor import DataStatus, ColorDataStatus
+from hyperctui.pre_autonomous_monitor import DataStatus
 
 
 class EventHandler:
@@ -148,7 +151,8 @@ class EventHandler:
                             status=StatusMessageStatus.warning)
 
     def init_autonomous_table(self):
-        # output_table =
+        logging.info("Initialization of the autonomous table:")
+
         nbr_angles = self.parent.ui.evaluation_frequency_spinBox.value()
         list_golden_ratio_angles_collected = self.parent.golden_ratio_angles[0:nbr_angles]
         formatted1_list_golden_ratio_angles_collected = [f"{_value:.2f}" for _value in
@@ -157,8 +161,7 @@ class EventHandler:
                                         formatted1_list_golden_ratio_angles_collected]
 
         folder_path = self.parent.folder_path
-        print(f"{folder_path =}")
-
+        logging.info(f"- {folder_path}")
         tof_regions = self.parent.tof_regions
         list_tof_region_collected = []
         list_tof_region_index = []
@@ -181,6 +184,10 @@ class EventHandler:
                 list_tof_region_collected.append(f"from_{_from}Ang_to_{_to}Ang")
                 list_tof_region_index.append(f"from index: {_from_index:04d} to index: {_to_index:04d}")
 
+        logging.info(f"- {formatted2_list_golden_ratio =}")
+        logging.info(f"- {list_tof_region_index =}")
+        logging.info(f"- {list_tof_region_collected =}")
+
         print(f"{formatted2_list_golden_ratio =}")
         print(f"{ list_tof_region_collected =}")
         print(f"{list_tof_region_index =}")
@@ -188,14 +195,30 @@ class EventHandler:
         o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstruction_tableWidget)
         o_table.remove_all_rows()
 
+        # retrieve the list of folders in the output folder (any new one will be the one we are looking for)
+        self.update_list_projections_folders_initially_there(folder_path=folder_path)
+        list_folders_there = self.parent.session_dict[SessionKeys.list_projections_folders_initially_there]
+        formatted_list_folders_there = "\n".join(list_folders_there)
+        logging.info(f"- list folders initially there:\n"
+                     f"{formatted_list_folders_there}")
+        print(f"list projections:\n {formatted_list_folders_there}")
+
         for _row in np.arange(nbr_angles):
             o_table.insert_empty_row(row=_row)
 
+            o_table.insert_item(row=_row,
+                                column=0,
+                                value=f"projection for angle {formatted2_list_golden_ratio[_row].replace('_', '.')} "
+                                      f"degrees")
 
+            if _row == 0:
+                message = DataStatus.in_progress
+            else:
+                message = DataStatus.in_queue
 
-
-
-
+            o_table.insert_item(row=_row,
+                                column=4,
+                                value=message)
 
         self.parent.ui.autonomous_reconstructed_location_label.setText(folder_path.recon)
         self.parent.ui.autonomous_reconstructed_status_label.setText(DataStatus.in_progress)
@@ -204,3 +227,11 @@ class EventHandler:
     def refresh_table_clicked(self):
         """refresh button next to the table has been clicked"""
         pass
+
+    def update_list_projections_folders_initially_there(self, folder_path=None):
+        """
+        List the folders in the output folder. This will be used as a base to any new folder showing up.
+        """
+        o_get = Get(parent=self.parent)
+        list_folders = o_get.list_folders_in_output_directory(output_folder=folder_path.mcp)
+        self.parent.session_dict[SessionKeys.list_projections_folders_initially_there] = list_folders

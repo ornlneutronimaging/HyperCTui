@@ -1,10 +1,9 @@
 import glob
 import os
-import numpy as np
 import logging
 
-from ..utilities.get import Get as MasterGet
-from ..utilities.table import TableHandler
+from hyperctui.utilities.get import Get as MasterGet
+from hyperctui.utilities.table import TableHandler
 
 
 class Get(MasterGet):

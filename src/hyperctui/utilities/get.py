@@ -34,6 +34,14 @@ class Get:
         full_config_file_name = Get.full_home_file_name(config_file_name)
         return full_config_file_name
 
+    def list_folders_in_output_directory(self, output_folder=None):
+        list_raw = glob.glob(output_folder + os.sep + "*")
+        list_folders = []
+        for _entry in list_raw:
+            if os.path.isdir(_entry):
+                list_folders.append(_entry)
+        return list_folders
+
     def get_file_index_of_180_degree_image(self):
         # """
         # using the fact that the file name is based on the following structure, this method will return

@@ -268,7 +268,6 @@ class EventHandler:
                 self.grand_parent.session_dict[SessionKeys.full_path_to_projections][SessionKeys.image_180_degree] = \
                     new_file
 
-
     def checking_status_of_expected_obs(self):
         """look at the list of obs expected and updates the OB table
         with the ones already found"""
