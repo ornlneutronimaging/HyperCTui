@@ -26,6 +26,9 @@ interact_me_style = "background-color: lime"
 error_style = "background-color: red"
 normal_style = ""
 
+label_in_focus_style = "color: blue"
+label_out_focus_style = ""
+
 SOURCE_DETECTOR_DISTANCE = 19.855  # m, at SNAP
 DETECTOR_OFFSET = 0  # micros
 

@@ -45,9 +45,9 @@ class FolderPath(Parent):
 
     def __repr__(self):
         return f"folder_path:\n" + \
-            f"- shared: \t\t{self.shared}\n-autoreduce: \t\t{self.autoreduce}" + \
-            f"\n-mcp: \t\t\t{self.mcp}\n-reduction_log: \t{self.reduction_log}\n-nexus: \t\t{self.nexus}" + \
-            f"\n-mcp_raw: \t\t{self.mcp_raw}"
+            f"- shared: \t\t{self.shared}\n- autoreduce: \t\t{self.autoreduce}" + \
+            f"\n- mcp: \t\t\t{self.mcp}\n- reduction_log: \t{self.reduction_log}\n- nexus: \t\t{self.nexus}" + \
+            f"\n- mcp_raw: \t\t{self.mcp_raw}\n- recon: \t\t{self.recon}"
 
     def shared(self):
         self.shared = os.sep.join([self.ipts_full_path, "shared"])

@@ -1,14 +1,17 @@
 from qtpy.QtGui import QGuiApplication
 import inflect
+import numpy as np
 
 from hyperctui import EvaluationRegionKeys
-from hyperctui import interact_me_style, normal_style, error_style
+from hyperctui import interact_me_style, normal_style, error_style, label_in_focus_style
 
 from hyperctui.utilities.status_message_config import StatusMessageStatus, show_status_message
+from hyperctui.utilities.table import TableHandler
 
 from hyperctui.autonomous_reconstruction.help_golden_angle import HelpGoldenAngle
 from hyperctui.autonomous_reconstruction.select_evaluation_regions import SelectEvaluationRegions
 from hyperctui.autonomous_reconstruction.select_tof_regions import SelectTofRegions
+from hyperctui.pre_autonomous_monitor import DataStatus, ColorDataStatus
 
 
 class EventHandler:
@@ -161,21 +164,42 @@ class EventHandler:
         list_tof_region_index = []
         for _index in tof_regions.keys():
             if tof_regions[_index][EvaluationRegionKeys.state]:
-                _from = str(tof_regions[_index][EvaluationRegionKeys.from_value]).replace(".", "_")
-                _to = str(tof_regions[_index][EvaluationRegionKeys.to_value]).replace(".", "_")
+                _from_value = float(tof_regions[_index][EvaluationRegionKeys.from_value])
+                _from_value = f"{_from_value:06.3f}"
+
+                _from_pre, _from_post = _from_value.split(".")
+                _from = "{:03d}_{:d}".format(int(_from_pre), int(_from_post))
+
+                _to_value = float(tof_regions[_index][EvaluationRegionKeys.to_value])
+                _to_value = f"{_to_value:06.3f}"
+                _to_pre, _to_post = _to_value.split(".")
+                _to = "{:03d}_{:d}".format(int(_to_pre), int(_to_post))
 
                 _from_index = tof_regions[_index][EvaluationRegionKeys.from_index]
                 _to_index = tof_regions[_index][EvaluationRegionKeys.to_index]
 
                 list_tof_region_collected.append(f"from_{_from}Ang_to_{_to}Ang")
-                list_tof_region_index.append(f"from index: {_from_index} to index: {_to_index}")
+                list_tof_region_index.append(f"from index: {_from_index:04d} to index: {_to_index:04d}")
 
         print(f"{formatted2_list_golden_ratio =}")
         print(f"{ list_tof_region_collected =}")
         print(f"{list_tof_region_index =}")
 
+        o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstruction_tableWidget)
+        o_table.remove_all_rows()
+
+        for _row in np.arange(nbr_angles):
+            o_table.insert_empty_row(row=_row)
 
 
+
+
+
+
+
+        self.parent.ui.autonomous_reconstructed_location_label.setText(folder_path.recon)
+        self.parent.ui.autonomous_reconstructed_status_label.setText(DataStatus.in_progress)
+        self.parent.ui.autonomous_reconstructed_status_label.setStyleSheet(label_in_focus_style)
 
     def refresh_table_clicked(self):
         """refresh button next to the table has been clicked"""
