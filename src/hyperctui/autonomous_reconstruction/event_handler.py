@@ -5,6 +5,7 @@ import logging
 
 from hyperctui import EvaluationRegionKeys
 from hyperctui import interact_me_style, normal_style, error_style, label_in_focus_style
+
 from hyperctui.session import SessionKeys
 from hyperctui.utilities.get import Get
 
@@ -15,7 +16,7 @@ from hyperctui.autonomous_reconstruction.help_golden_angle import HelpGoldenAngl
 from hyperctui.autonomous_reconstruction.select_evaluation_regions import SelectEvaluationRegions
 from hyperctui.autonomous_reconstruction.select_tof_regions import SelectTofRegions
 from hyperctui.pre_autonomous_monitor import DataStatus
-
+from hyperctui.pre_processing_monitor import IN_PROGRESS, IN_QUEUE, READY
 
 class EventHandler:
 
@@ -188,9 +189,9 @@ class EventHandler:
         logging.info(f"- {list_tof_region_index =}")
         logging.info(f"- {list_tof_region_collected =}")
 
-        print(f"{formatted2_list_golden_ratio =}")
-        print(f"{ list_tof_region_collected =}")
-        print(f"{list_tof_region_index =}")
+        # print(f"{formatted2_list_golden_ratio =}")
+        # print(f"{ list_tof_region_collected =}")
+        # print(f"{list_tof_region_index =}")
 
         o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstruction_tableWidget)
         o_table.remove_all_rows()
@@ -201,7 +202,7 @@ class EventHandler:
         formatted_list_folders_there = "\n".join(list_folders_there)
         logging.info(f"- list folders initially there:\n"
                      f"{formatted_list_folders_there}")
-        print(f"list projections:\n {formatted_list_folders_there}")
+        # print(f"list projections:\n {formatted_list_folders_there}")
 
         for _row in np.arange(nbr_angles):
             o_table.insert_empty_row(row=_row)
@@ -213,12 +214,17 @@ class EventHandler:
 
             if _row == 0:
                 message = DataStatus.in_progress
+                background_color = IN_PROGRESS
             else:
                 message = DataStatus.in_queue
+                background_color = IN_QUEUE
 
             o_table.insert_item(row=_row,
                                 column=4,
                                 value=message)
+            o_table.set_background_color(row=_row,
+                                         column=4,
+                                         qcolor=background_color)
 
         self.parent.ui.autonomous_reconstructed_location_label.setText(folder_path.recon)
         self.parent.ui.autonomous_reconstructed_status_label.setText(DataStatus.in_progress)
@@ -226,7 +232,60 @@ class EventHandler:
 
     def refresh_table_clicked(self):
         """refresh button next to the table has been clicked"""
-        pass
+        logging.info("User refreshing the autonomous reconstruction step1 table!")
+
+        print("in refresh table clicked!")
+
+        list_projections_folders_initially_there = \
+            self.parent.session_dict[SessionKeys.list_projections_folders_initially_there]
+        list_projections_folders_acquired_so_far = \
+            self.parent.session_dict[SessionKeys.list_projections_folders_acquired_so_far]
+
+        print(f"{list_projections_folders_initially_there =}")
+        print(f"")
+        print(f"{list_projections_folders_acquired_so_far =}")
+
+
+        # previous_list_of_folders = \
+        #     list_projections_folders_initially_there.extend(list_projections_folders_acquired_so_far)
+        #
+        # list_new_folders = self.list_new_folders(folder_path=self.parent.folder_path,
+        #                                          previous_list_of_folders=previous_list_of_folders)
+        #
+        # if not list_new_folders:
+        #     # no new folders
+        #     return
+        #
+        # o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstruction_tableWidget)
+        # starting_row_index = len(list_projections_folders_acquired_so_far)
+        # for _offset_row_index in np.arange(len(list_new_folders)):
+        #
+        #     _row = starting_row_index + _offset_row_index
+        #
+        #     # change value of first column
+        #     o_table.set_item_with_str(row=_row,
+        #                               column=0,
+        #                               value=list_new_folders[_offset_row_index])
+        #
+        #     # add err, log, metadata buttons
+        #
+        #     # change state of last column
+        #     o_table.set_item_with_str(row=_row,
+        #                               column=4,
+        #                               value=DataStatus.ready)
+        #
+        #     o_table.set_background_color(row=_row,
+        #                                  column=4,
+        #                                  qcolor=READY)
+        #
+        #     if _row < (o_table.row_count()-1):
+        #
+        #         o_table.set_item_with_str(row=_row+1,
+        #                                   column=4,
+        #                                   value=DataStatus.in_progress)
+        #         o_table.set_background_color(row=_row+1,
+        #                                      column=4,
+        #                                      qcolor=IN_PROGRESS)
 
     def update_list_projections_folders_initially_there(self, folder_path=None):
         """
@@ -235,3 +294,18 @@ class EventHandler:
         o_get = Get(parent=self.parent)
         list_folders = o_get.list_folders_in_output_directory(output_folder=folder_path.mcp)
         self.parent.session_dict[SessionKeys.list_projections_folders_initially_there] = list_folders
+
+    def list_new_folders(self, folder_path=None, previous_list_of_folders=None):
+        """
+        retrieve the list of folders in the folder_path location and compare it to the previous_list_of_folders.
+        All the new folders will be returned as a list
+        """
+        o_get = Get(parent=self.parent)
+        list_folders = o_get.list_folders_in_output_directory(output_folder=folder_path.mcp)
+        list_new_folders = []
+        for _folder in list_folders:
+            if _folder in previous_list_of_folders:
+                continue
+            list_new_folders.append(_folder)
+        return list_new_folders
+
