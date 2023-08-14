@@ -24,6 +24,7 @@ class SessionKeys:
     list_projections = "list projections"
     list_projections_folders_initially_there = "list projections folders initially there"
     list_projections_folders_acquired_so_far = "list of projections folders acquired so far for this experiment"
+    list_recon_folders_initially_there = "list reconstruction folders initially there"
     name_of_output_projection_folder = "name of the output projection folder"
     full_path_to_projections = "full folder path to projections"
     image_0_degree = "image at 0 degree"

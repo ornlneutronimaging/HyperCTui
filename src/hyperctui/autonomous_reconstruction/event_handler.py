@@ -1,7 +1,9 @@
 from qtpy.QtGui import QGuiApplication
+from qtpy.QtWidgets import QPushButton
 import inflect
 import numpy as np
 import logging
+import os
 
 from hyperctui import EvaluationRegionKeys
 from hyperctui import interact_me_style, normal_style, error_style, label_in_focus_style
@@ -12,11 +14,15 @@ from hyperctui.utilities.get import Get
 from hyperctui.utilities.status_message_config import StatusMessageStatus, show_status_message
 from hyperctui.utilities.table import TableHandler
 
+from hyperctui.preview_file.preview_file_launcher import PreviewFileLauncher, PreviewMetadataFileLauncher
+
 from hyperctui.autonomous_reconstruction.help_golden_angle import HelpGoldenAngle
 from hyperctui.autonomous_reconstruction.select_evaluation_regions import SelectEvaluationRegions
 from hyperctui.autonomous_reconstruction.select_tof_regions import SelectTofRegions
 from hyperctui.pre_autonomous_monitor import DataStatus
 from hyperctui.pre_processing_monitor import IN_PROGRESS, IN_QUEUE, READY
+from hyperctui.pre_processing_monitor.get import Get as GetMonitor
+
 
 class EventHandler:
 
@@ -204,6 +210,9 @@ class EventHandler:
                      f"{formatted_list_folders_there}")
         # print(f"list projections:\n {formatted_list_folders_there}")
 
+        # retrieve list of folders in the reconstruction folder
+        self.update_list_recon_folders_initially_there(folder_path=folder_path)
+
         for _row in np.arange(nbr_angles):
             o_table.insert_empty_row(row=_row)
 
@@ -227,65 +236,174 @@ class EventHandler:
                                          qcolor=background_color)
 
         self.parent.ui.autonomous_reconstructed_location_label.setText(folder_path.recon)
-        self.parent.ui.autonomous_reconstructed_status_label.setText(DataStatus.in_progress)
+        self.parent.ui.autonomous_reconstructed_status_label.setText(DataStatus.in_queue)
         self.parent.ui.autonomous_reconstructed_status_label.setStyleSheet(label_in_focus_style)
+
+    def preview_log(self, state=0, row=-1, data_type='ob'):
+        log_file = self.parent.dict_projection_log_err_metadata[row]['log_file']
+        preview_file = PreviewFileLauncher(parent=self.parent,
+                                           file_name=log_file)
+        preview_file.show()
+
+    def preview_err(self, state=0, row=-1, data_type='ob'):
+        err_file = self.parent.dict_projection_log_err_metadata[row]['err_file']
+        preview_file = PreviewFileLauncher(parent=self.parent,
+                                           file_name=err_file)
+        preview_file.show()
+
+    def preview_summary(self, state=0, row=-1, data_type='ob'):
+        file_name = self.parent.dict_projection_log_err_metadata[row]['metadata_file']
+        preview_file = PreviewMetadataFileLauncher(parent=self.parent,
+                                                   file_name=file_name)
+        preview_file.show()
 
     def refresh_table_clicked(self):
         """refresh button next to the table has been clicked"""
         logging.info("User refreshing the autonomous reconstruction step1 table!")
-
-        print("in refresh table clicked!")
 
         list_projections_folders_initially_there = \
             self.parent.session_dict[SessionKeys.list_projections_folders_initially_there]
         list_projections_folders_acquired_so_far = \
             self.parent.session_dict[SessionKeys.list_projections_folders_acquired_so_far]
 
-        print(f"{list_projections_folders_initially_there =}")
-        print(f"")
-        print(f"{list_projections_folders_acquired_so_far =}")
+        if list_projections_folders_acquired_so_far:
+            previous_list_of_folders = \
+                list_projections_folders_initially_there.extend(list_projections_folders_acquired_so_far)
+        else:
+            previous_list_of_folders = list_projections_folders_initially_there
 
+        list_new_folders = self.list_new_folders(folder_path=self.parent.folder_path,
+                                                 previous_list_of_folders=previous_list_of_folders)
 
-        # previous_list_of_folders = \
-        #     list_projections_folders_initially_there.extend(list_projections_folders_acquired_so_far)
-        #
-        # list_new_folders = self.list_new_folders(folder_path=self.parent.folder_path,
-        #                                          previous_list_of_folders=previous_list_of_folders)
-        #
-        # if not list_new_folders:
-        #     # no new folders
-        #     return
-        #
-        # o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstruction_tableWidget)
-        # starting_row_index = len(list_projections_folders_acquired_so_far)
-        # for _offset_row_index in np.arange(len(list_new_folders)):
-        #
-        #     _row = starting_row_index + _offset_row_index
-        #
-        #     # change value of first column
-        #     o_table.set_item_with_str(row=_row,
-        #                               column=0,
-        #                               value=list_new_folders[_offset_row_index])
-        #
-        #     # add err, log, metadata buttons
-        #
-        #     # change state of last column
-        #     o_table.set_item_with_str(row=_row,
-        #                               column=4,
-        #                               value=DataStatus.ready)
-        #
-        #     o_table.set_background_color(row=_row,
-        #                                  column=4,
-        #                                  qcolor=READY)
-        #
-        #     if _row < (o_table.row_count()-1):
-        #
-        #         o_table.set_item_with_str(row=_row+1,
-        #                                   column=4,
-        #                                   value=DataStatus.in_progress)
-        #         o_table.set_background_color(row=_row+1,
-        #                                      column=4,
-        #                                      qcolor=IN_PROGRESS)
+        if not list_new_folders:
+            # no new folders
+            return
+
+        o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstruction_tableWidget)
+        if list_projections_folders_acquired_so_far:
+            starting_row_index = len(list_projections_folders_acquired_so_far)
+        else:
+            starting_row_index = 0
+
+        if list_projections_folders_acquired_so_far:
+            list_projections_folders_acquired_so_far += list_new_folders
+        else:
+            list_projections_folders_acquired_so_far = list_new_folders
+
+        self.parent.session_dict[SessionKeys.list_projections_folders_acquired_so_far] = \
+            list_projections_folders_acquired_so_far
+
+        o_get = GetMonitor(grand_parent=self.parent)
+        for _offset_row_index in np.arange(len(list_new_folders)):
+
+            _row = starting_row_index + _offset_row_index
+            new_file = list_new_folders[_offset_row_index]
+
+            # change value of first column
+            o_table.set_item_with_str(row=_row,
+                                      column=0,
+                                      value=new_file)
+
+            # add err, log, metadata buttons
+            o_get.set_path(new_file)
+            log_file = o_get.log_file()
+            # if log_file:
+            #     enable_button = True
+            # else:
+            #     enable_button = False
+
+            log_button = QPushButton("View")
+            # log_button.setEnabled(enable_button)
+            o_table.insert_widget(row=_row,
+                                  column=1,
+                                  widget=log_button)
+
+            log_button.clicked.connect(lambda state=0, row=_row:
+                                       self.preview_log(row=row,
+                                                        data_type='ob'))
+
+            err_file = o_get.err_file()
+            if err_file:
+                enable_button = True
+            else:
+                enable_button = False
+
+            err_button = QPushButton("View")
+            err_button.setEnabled(enable_button)
+            o_table.insert_widget(row=_row,
+                                  column=2,
+                                  widget=err_button)
+            err_button.clicked.connect(lambda state=0, row=_row:
+                                       self.preview_err(row=row,
+                                                        data_type='ob'))
+
+            metadata_file = o_get.metadata_file()
+            if metadata_file:
+                enable_button = True
+            else:
+                enable_button = False
+
+            summary_button = QPushButton("View")
+            summary_button.setEnabled(enable_button)
+            o_table.insert_widget(row=_row,
+                                  column=3,
+                                  widget=summary_button)
+            summary_button.clicked.connect(lambda state=0, row=_row:
+                                           self.preview_summary(row=row,
+                                                                data_type='ob'))
+
+            self.parent.dict_projection_log_err_metadata[_row] = {'file_name'    : new_file,
+                                                                  'log_file'     : log_file,
+                                                                  'err_file'     : err_file,
+                                                                  'metadata_file': metadata_file}
+
+            # change state of last column
+            o_table.set_item_with_str(row=_row,
+                                      column=4,
+                                      value=DataStatus.ready)
+
+            o_table.set_background_color(row=_row,
+                                         column=4,
+                                         qcolor=READY)
+
+            if _row < (o_table.row_count()-1):
+
+                o_table.set_item_with_str(row=_row+1,
+                                          column=4,
+                                          value=DataStatus.in_progress)
+                o_table.set_background_color(row=_row+1,
+                                             column=4,
+                                             qcolor=IN_PROGRESS)
+
+        if len(list_projections_folders_acquired_so_far) == 3:
+            # checking if any reconstruction showed up
+            if self.is_reconstruction_done():
+                self.parent.ui.autonomous_reconstructed_status_label.setText(DataStatus.ready)
+
+            else:
+                # if not
+                self.parent.ui.autonomous_reconstructed_status_label.setText(DataStatus.in_progress)
+
+    def is_reconstruction_done(self):
+        # if folder does not even exist, it's not done
+        if not os.path.exists(self.parent.folder_path.recon):
+            return False
+
+        o_get = Get(parent=self.parent)
+        list_folders_initially_there = self.parent.session_dict[SessionKeys.list_recon_folders_initially_there]
+        list_folders_now_there = o_get.list_folders_in_output_directory(output_folder=self.parent.folder_path.recon)
+        if len(list_folders_now_there) > len(list_folders_initially_there):
+            return True
+        else:
+            return False
+
+    def update_list_recon_folders_initially_there(self, folder_path=None):
+        """
+        list the folders in the recon folder.
+        """
+        o_get = Get(parent=self.parent)
+        list_folders = o_get.list_folders_in_output_directory(output_folder=folder_path.recon)
+        self.parent.session_dict[SessionKeys.list_recon_folders_initially_there] = list_folders
 
     def update_list_projections_folders_initially_there(self, folder_path=None):
         """
@@ -308,4 +426,3 @@ class EventHandler:
                 continue
             list_new_folders.append(_folder)
         return list_new_folders
-

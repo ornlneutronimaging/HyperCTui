@@ -64,6 +64,7 @@ class HyperCTui(QMainWindow):
                     SessionKeys.list_projections: None,
                     SessionKeys.list_projections_folders_initially_there: None,
                     SessionKeys.list_projections_folders_acquired_so_far: None,
+                    SessionKeys.list_recon_folders_initially_there: None,
                     SessionKeys.started_acquisition: False,
                     SessionKeys.obs_have_been_moved_already: False,
                     SessionKeys.tof_roi_region: {'x0': 5,
@@ -180,9 +181,11 @@ class HyperCTui(QMainWindow):
     backup_tof_regions = None
 
     # dictionary that will store the 3D images (used in the TOF region selection)
-
     image_data = {SessionKeys.image_0_degree: None,
                   SessionKeys.image_180_degree: None}
+
+    # list of files (err, status, metadata) associated to each row of projections
+    dict_projection_log_err_metadata = {}
 
     def __init__(self, parent=None):
 
