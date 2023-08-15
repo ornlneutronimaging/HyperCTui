@@ -205,10 +205,13 @@ class EventHandler:
         # retrieve the list of folders in the output folder (any new one will be the one we are looking for)
         self.update_list_projections_folders_initially_there(folder_path=folder_path)
         list_folders_there = self.parent.session_dict[SessionKeys.list_projections_folders_initially_there]
+        list_folders_there.sort()
         formatted_list_folders_there = "\n".join(list_folders_there)
         logging.info(f"- list folders initially there:\n"
                      f"{formatted_list_folders_there}")
-        # print(f"list projections:\n {formatted_list_folders_there}")
+
+        # no projections yet as we just started
+        self.parent.session_dict[SessionKeys.list_projections_folders_acquired_so_far] = None
 
         # retrieve list of folders in the reconstruction folder
         self.update_list_recon_folders_initially_there(folder_path=folder_path)
@@ -266,14 +269,20 @@ class EventHandler:
         list_projections_folders_acquired_so_far = \
             self.parent.session_dict[SessionKeys.list_projections_folders_acquired_so_far]
 
+        logging.info(f"-> {list_projections_folders_acquired_so_far =}")
+        logging.info(f"-> {list_projections_folders_initially_there =}")
+
         if list_projections_folders_acquired_so_far:
             previous_list_of_folders = \
                 list_projections_folders_initially_there.extend(list_projections_folders_acquired_so_far)
         else:
             previous_list_of_folders = list_projections_folders_initially_there
 
+        logging.info(f"-> {previous_list_of_folders =}")
+
         list_new_folders = self.list_new_folders(folder_path=self.parent.folder_path,
                                                  previous_list_of_folders=previous_list_of_folders)
+        logging.info(f"-> {list_new_folders =}")
 
         if not list_new_folders:
             # no new folders
@@ -290,10 +299,17 @@ class EventHandler:
         else:
             list_projections_folders_acquired_so_far = list_new_folders
 
+        logging.info(f"Updating list of projections folders acquired so far!")
+        logging.info(f"-> {list_projections_folders_acquired_so_far}")
+
         self.parent.session_dict[SessionKeys.list_projections_folders_acquired_so_far] = \
             list_projections_folders_acquired_so_far
 
         o_get = GetMonitor(grand_parent=self.parent)
+
+
+        print(f"{list_new_folders =}")
+
         for _offset_row_index in np.arange(len(list_new_folders)):
 
             _row = starting_row_index + _offset_row_index
@@ -420,6 +436,9 @@ class EventHandler:
         """
         o_get = Get(parent=self.parent)
         list_folders = o_get.list_folders_in_output_directory(output_folder=folder_path.mcp)
+        if previous_list_of_folders is None:
+            return list_folders
+
         list_new_folders = []
         for _folder in list_folders:
             if _folder in previous_list_of_folders:

@@ -74,7 +74,7 @@ class HyperCTui(QMainWindow):
                     SessionKeys.all_tabs_visible: False,
                     SessionKeys.full_path_to_projections: {SessionKeys.image_0_degree: None,
                                                            SessionKeys.image_180_degree: None}
-    }
+                    }
 
     tab2 = None  # handle to tab #2 - cropping
     tab3 = None  # handle to tab #3 - rotation center
