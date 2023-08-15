@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1133</width>
-    <height>789</height>
+    <width>1152</width>
+    <height>843</height>
    </rect>
   </property>
   <property name="baseSize">
@@ -30,7 +30,7 @@
        <enum>QTabWidget::North</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <property name="elideMode">
        <enum>Qt::ElideRight</enum>
@@ -1050,8 +1050,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>1063</width>
-             <height>623</height>
+             <width>1082</width>
+             <height>645</height>
             </rect>
            </property>
            <attribute name="label">
@@ -1237,6 +1237,15 @@
                         </color>
                        </brush>
                       </colorrole>
+                      <colorrole role="PlaceholderText">
+                       <brush brushstyle="NoBrush">
+                        <color alpha="128">
+                         <red>219</red>
+                         <green>37</green>
+                         <blue>22</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
                      </active>
                      <inactive>
                       <colorrole role="WindowText">
@@ -1260,6 +1269,15 @@
                       <colorrole role="ButtonText">
                        <brush brushstyle="SolidPattern">
                         <color alpha="255">
+                         <red>219</red>
+                         <green>37</green>
+                         <blue>22</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
+                      <colorrole role="PlaceholderText">
+                       <brush brushstyle="NoBrush">
+                        <color alpha="128">
                          <red>219</red>
                          <green>37</green>
                          <blue>22</blue>
@@ -1292,6 +1310,15 @@
                          <red>0</red>
                          <green>0</green>
                          <blue>0</blue>
+                        </color>
+                       </brush>
+                      </colorrole>
+                      <colorrole role="PlaceholderText">
+                       <brush brushstyle="NoBrush">
+                        <color alpha="128">
+                         <red>219</red>
+                         <green>37</green>
+                         <blue>22</blue>
                         </color>
                        </brush>
                       </colorrole>
@@ -1455,6 +1482,16 @@
                    </property>
                   </widget>
                  </item>
+                 <item>
+                  <widget class="QPushButton" name="autonomous_checking_reconstruction_pushButton">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>Checking reconstruction</string>
+                   </property>
+                  </widget>
+                 </item>
                 </layout>
                </item>
                <item>
@@ -1500,8 +1537,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>98</width>
-             <height>28</height>
+             <width>100</width>
+             <height>30</height>
             </rect>
            </property>
            <attribute name="label">
@@ -1608,7 +1645,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1133</width>
+     <width>1152</width>
      <height>24</height>
     </rect>
    </property>
@@ -1938,8 +1975,8 @@
    <slot>crop_left_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>655</x>
-     <y>437</y>
+     <x>664</x>
+     <y>460</y>
     </hint>
     <hint type="destinationlabel">
      <x>1132</x>
@@ -1954,8 +1991,8 @@
    <slot>crop_top_edit_finished()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>746</x>
-     <y>348</y>
+     <x>749</x>
+     <y>370</y>
     </hint>
     <hint type="destinationlabel">
      <x>1003</x>
@@ -1970,8 +2007,8 @@
    <slot>start_acquisition_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>429</x>
-     <y>732</y>
+     <x>444</x>
+     <y>780</y>
     </hint>
     <hint type="destinationlabel">
      <x>249</x>
@@ -1986,8 +2023,8 @@
    <slot>crop_bottom_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>746</x>
-     <y>527</y>
+     <x>754</x>
+     <y>550</y>
     </hint>
     <hint type="destinationlabel">
      <x>1132</x>
@@ -2003,7 +2040,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>403</x>
-     <y>728</y>
+     <y>776</y>
     </hint>
     <hint type="destinationlabel">
      <x>415</x>
@@ -2034,8 +2071,8 @@
    <slot>crop_right_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>837</x>
-     <y>437</y>
+     <x>834</x>
+     <y>460</y>
     </hint>
     <hint type="destinationlabel">
      <x>1132</x>
@@ -2050,8 +2087,8 @@
    <slot>crop_left_edit_finished()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>655</x>
-     <y>437</y>
+     <x>664</x>
+     <y>460</y>
     </hint>
     <hint type="destinationlabel">
      <x>1132</x>
@@ -2067,7 +2104,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>208</x>
-     <y>727</y>
+     <y>776</y>
     </hint>
     <hint type="destinationlabel">
      <x>42</x>
@@ -2082,8 +2119,8 @@
    <slot>rotation_center_tomopy_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>185</x>
-     <y>691</y>
+     <x>200</x>
+     <y>742</y>
     </hint>
     <hint type="destinationlabel">
      <x>542</x>
@@ -2146,8 +2183,8 @@
    <slot>menu_log_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>795</x>
-     <y>731</y>
+     <x>814</x>
+     <y>779</y>
     </hint>
     <hint type="destinationlabel">
      <x>672</x>
@@ -2178,8 +2215,8 @@
    <slot>crop_top_changed()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>746</x>
-     <y>348</y>
+     <x>749</x>
+     <y>370</y>
     </hint>
     <hint type="destinationlabel">
      <x>1132</x>
@@ -2195,7 +2232,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>611</x>
-     <y>698</y>
+     <y>749</y>
     </hint>
     <hint type="destinationlabel">
      <x>854</x>
@@ -2210,8 +2247,8 @@
    <slot>crop_right_edit_finished()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>837</x>
-     <y>437</y>
+     <x>834</x>
+     <y>460</y>
     </hint>
     <hint type="destinationlabel">
      <x>1132</x>
@@ -2258,8 +2295,8 @@
    <slot>crop_bottom_edit_finished()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>746</x>
-     <y>527</y>
+     <x>754</x>
+     <y>550</y>
     </hint>
     <hint type="destinationlabel">
      <x>942</x>
@@ -2274,8 +2311,8 @@
    <slot>checking_status_acquisition_button_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1097</x>
-     <y>732</y>
+     <x>1116</x>
+     <y>780</y>
     </hint>
     <hint type="destinationlabel">
      <x>1070</x>
@@ -2514,12 +2551,28 @@
    <slot>refresh_list_of_obs_button_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1092</x>
-     <y>453</y>
+     <x>1093</x>
+     <y>757</y>
     </hint>
     <hint type="destinationlabel">
      <x>962</x>
      <y>417</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>autonomous_checking_reconstruction_pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>autonomous_checking_reconstruction_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1029</x>
+     <y>672</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1089</x>
+     <y>810</y>
     </hint>
    </hints>
   </connection>
@@ -2571,5 +2624,6 @@
   <slot>action_step5_clicked()</slot>
   <slot>action_settings_clicked()</slot>
   <slot>refresh_list_of_obs_button_clicked()</slot>
+  <slot>autonomous_checking_reconstruction_clicked()</slot>
  </slots>
 </ui>

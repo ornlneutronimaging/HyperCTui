@@ -13,6 +13,7 @@ from hyperctui.utilities.get import Get
 
 from hyperctui.utilities.status_message_config import StatusMessageStatus, show_status_message
 from hyperctui.utilities.table import TableHandler
+from hyperctui.utilities.array import formatting_list_for_print
 
 from hyperctui.preview_file.preview_file_launcher import PreviewFileLauncher, PreviewMetadataFileLauncher
 
@@ -269,20 +270,23 @@ class EventHandler:
         list_projections_folders_acquired_so_far = \
             self.parent.session_dict[SessionKeys.list_projections_folders_acquired_so_far]
 
-        logging.info(f"-> {list_projections_folders_acquired_so_far =}")
-        logging.info(f"-> {list_projections_folders_initially_there =}")
+        logging.info(f"-> list_projections_folders_acquired_so_far:\n"
+                     f"{formatting_list_for_print(list_projections_folders_acquired_so_far)}")
+        logging.info(f"-> list_projections_folders_initially_there:\n"
+                     f" {formatting_list_for_print(list_projections_folders_initially_there)}")
 
         if list_projections_folders_acquired_so_far:
-            previous_list_of_folders = \
-                list_projections_folders_initially_there.extend(list_projections_folders_acquired_so_far)
+            previous_list_of_folders = list_projections_folders_initially_there
+            previous_list_of_folders.extend(list_projections_folders_acquired_so_far)
+
         else:
             previous_list_of_folders = list_projections_folders_initially_there
 
-        logging.info(f"-> {previous_list_of_folders =}")
+        logging.info(f"-> previous_list_of_folders:\n{formatting_list_for_print(previous_list_of_folders)}")
 
         list_new_folders = self.list_new_folders(folder_path=self.parent.folder_path,
                                                  previous_list_of_folders=previous_list_of_folders)
-        logging.info(f"-> {list_new_folders =}")
+        logging.info(f"-> list_new_folders: \n{formatting_list_for_print(list_new_folders)}")
 
         if not list_new_folders:
             # no new folders
@@ -299,16 +303,13 @@ class EventHandler:
         else:
             list_projections_folders_acquired_so_far = list_new_folders
 
-        logging.info(f"Updating list of projections folders acquired so far!")
-        logging.info(f"-> {list_projections_folders_acquired_so_far}")
+        logging.info(f"Updating list of projections folders acquired so far:\n->"
+                     f"{list_projections_folders_acquired_so_far}")
 
         self.parent.session_dict[SessionKeys.list_projections_folders_acquired_so_far] = \
             list_projections_folders_acquired_so_far
 
         o_get = GetMonitor(grand_parent=self.parent)
-
-
-        print(f"{list_new_folders =}")
 
         for _offset_row_index in np.arange(len(list_new_folders)):
 
@@ -392,6 +393,13 @@ class EventHandler:
                                              qcolor=IN_PROGRESS)
 
         if len(list_projections_folders_acquired_so_far) == 3:
+
+            # all the projections showed up, no need to click the refresh button anymore
+            self.parent.ui.autonomous_refresh_pushButton.setEnabled(False)
+            self.parent.ui.autonomous_refresh_pushButton.setStyleSheet(normal_style)
+            self.parent.ui.autonomous_checking_reconstruction_pushButton.setEnabled(True)
+            self.parent.ui.autonomous_checking_reconstruction_pushButton.setStyleSheet(interact_me_style)
+
             # checking if any reconstruction showed up
             if self.is_reconstruction_done():
                 self.parent.ui.autonomous_reconstructed_status_label.setText(DataStatus.ready)
@@ -399,6 +407,9 @@ class EventHandler:
             else:
                 # if not
                 self.parent.ui.autonomous_reconstructed_status_label.setText(DataStatus.in_progress)
+
+    def checking_reconstruction_clicked(self):
+        logging.info("User is checking the state of the reconstruction.")
 
     def is_reconstruction_done(self):
         # if folder does not even exist, it's not done
