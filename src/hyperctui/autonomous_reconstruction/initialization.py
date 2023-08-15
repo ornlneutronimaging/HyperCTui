@@ -6,6 +6,7 @@ from qtpy import QtGui
 from hyperctui import EvaluationRegionKeys
 from hyperctui import DETECTOR_OFFSET, SOURCE_DETECTOR_DISTANCE
 from hyperctui.session import SessionKeys
+from hyperctui import interact_me_style, normal_style
 
 from hyperctui.utilities.table import TableHandler
 from hyperctui.autonomous_reconstruction import ColumnIndex

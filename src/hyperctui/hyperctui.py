@@ -11,7 +11,7 @@ from hyperctui.autonomous_reconstruction.event_handler import EventHandler as Au
 from hyperctui.crop.crop import Crop
 from hyperctui.event_handler import EventHandler
 from hyperctui.initialization.gui_initialization import GuiInitialization
-from hyperctui.log.log_launcher import LogLauncher
+from hyperctui.log.log_launcher import LogLauncher, LogHandler
 from hyperctui.pre_processing_monitor.monitor import Monitor as PreProcessingMonitor
 from hyperctui.rotation_center.rotation_center import RotationCenter
 from hyperctui.rotation_center.event_handler import EventHandler as RotationCenterEventHandler
@@ -40,6 +40,8 @@ else:
 class HyperCTui(QMainWindow):
     log_id = None  # UI id of the logger
     config = None  # config dictionary
+
+    log_buffer_size = 500  #  500 lines
 
     # path
     homepath = HOME_FOLDER
@@ -206,10 +208,18 @@ class HyperCTui(QMainWindow):
 
         self.set_window_title()
         self.inform_of_output_location()
+        self.check_log_file_size()
 
     def _loading_config(self):
         o_config = ConfigHandler(parent=self)
         o_config.load()
+
+    def check_log_file_size(self):
+        o_get = Get(parent=self)
+        log_file_name = o_get.get_log_file_name()
+        o_handler = LogHandler(parent=self,
+                               log_file_name=log_file_name)
+        o_handler.cut_log_size_if_bigger_than_buffer()
 
     def _loading_previous_session_automatically(self):
         o_get = Get(parent=self)

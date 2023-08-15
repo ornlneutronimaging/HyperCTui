@@ -20,6 +20,7 @@ from hyperctui.utilities.widgets import Widgets as UtilityWidgets
 from hyperctui.crop.crop import Crop
 from hyperctui.rotation_center.rotation_center import RotationCenter
 from hyperctui.session import SessionKeys, DefaultValues
+from hyperctui.autonomous_reconstruction.event_handler import EventHandler as AutonomousReconstructionEventHandler
 
 
 class SessionHandler:
@@ -268,6 +269,9 @@ class SessionHandler:
 
         main_tab_selected = session_dict.get(SessionKeys.main_tab_selected, DefaultValues.main_tab_selected)
         self.parent.ui.tabWidget.setCurrentIndex(main_tab_selected)
+        if main_tab_selected == 4:
+            o_event = AutonomousReconstructionEventHandler(parent=self.parent)
+            o_event.update_autonomous_reconstruction_widgets()
 
     def _retrieve_general_settings(self):
         number_of_scanned_periods = self.parent.ui.number_of_scanned_periods_spinBox.value()

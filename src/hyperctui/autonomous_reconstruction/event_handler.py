@@ -143,6 +143,21 @@ class EventHandler:
                             duration_s=5,
                             status=StatusMessageStatus.working)
 
+        folder_path = self.parent.folder_path
+        # retrieve the list of folders in the output folder (any new one will be the one we are looking for)
+        self.update_list_projections_folders_initially_there(folder_path=folder_path)
+        list_folders_there = self.parent.session_dict[SessionKeys.list_projections_folders_initially_there]
+        list_folders_there.sort()
+        formatted_list_folders_there = "\n".join(list_folders_there)
+        logging.info(f"- list folders initially there:\n"
+                     f"{formatted_list_folders_there}")
+
+        # no projections yet as we just started
+        self.parent.session_dict[SessionKeys.list_projections_folders_acquired_so_far] = None
+
+        # retrieve list of folders in the reconstruction folder
+        self.update_list_recon_folders_initially_there(folder_path=folder_path)
+
         self.init_autonomous_table()
 
     def stop_acquisition(self):
@@ -203,19 +218,19 @@ class EventHandler:
         o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstruction_tableWidget)
         o_table.remove_all_rows()
 
-        # retrieve the list of folders in the output folder (any new one will be the one we are looking for)
-        self.update_list_projections_folders_initially_there(folder_path=folder_path)
-        list_folders_there = self.parent.session_dict[SessionKeys.list_projections_folders_initially_there]
-        list_folders_there.sort()
-        formatted_list_folders_there = "\n".join(list_folders_there)
-        logging.info(f"- list folders initially there:\n"
-                     f"{formatted_list_folders_there}")
-
-        # no projections yet as we just started
-        self.parent.session_dict[SessionKeys.list_projections_folders_acquired_so_far] = None
-
-        # retrieve list of folders in the reconstruction folder
-        self.update_list_recon_folders_initially_there(folder_path=folder_path)
+        # # retrieve the list of folders in the output folder (any new one will be the one we are looking for)
+        # self.update_list_projections_folders_initially_there(folder_path=folder_path)
+        # list_folders_there = self.parent.session_dict[SessionKeys.list_projections_folders_initially_there]
+        # list_folders_there.sort()
+        # formatted_list_folders_there = "\n".join(list_folders_there)
+        # logging.info(f"- list folders initially there:\n"
+        #              f"{formatted_list_folders_there}")
+        #
+        # # no projections yet as we just started
+        # self.parent.session_dict[SessionKeys.list_projections_folders_acquired_so_far] = None
+        #
+        # # retrieve list of folders in the reconstruction folder
+        # self.update_list_recon_folders_initially_there(folder_path=folder_path)
 
         for _row in np.arange(nbr_angles):
             o_table.insert_empty_row(row=_row)
@@ -261,7 +276,7 @@ class EventHandler:
                                                    file_name=file_name)
         preview_file.show()
 
-    def refresh_table_clicked(self):
+    def refresh_table_clicked(self, fill_with_existing_folders_acquired=False):
         """refresh button next to the table has been clicked"""
         logging.info("User refreshing the autonomous reconstruction step1 table!")
 
@@ -275,12 +290,16 @@ class EventHandler:
         logging.info(f"-> list_projections_folders_initially_there:\n"
                      f" {formatting_list_for_print(list_projections_folders_initially_there)}")
 
-        if list_projections_folders_acquired_so_far:
+        if fill_with_existing_folders_acquired:
             previous_list_of_folders = list_projections_folders_initially_there
-            previous_list_of_folders.extend(list_projections_folders_acquired_so_far)
 
         else:
-            previous_list_of_folders = list_projections_folders_initially_there
+            if list_projections_folders_acquired_so_far:
+                previous_list_of_folders = list_projections_folders_initially_there
+                previous_list_of_folders.extend(list_projections_folders_acquired_so_far)
+
+            else:
+                previous_list_of_folders = list_projections_folders_initially_there
 
         logging.info(f"-> previous_list_of_folders:\n{formatting_list_for_print(previous_list_of_folders)}")
 
@@ -293,15 +312,21 @@ class EventHandler:
             return
 
         o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstruction_tableWidget)
-        if list_projections_folders_acquired_so_far:
-            starting_row_index = len(list_projections_folders_acquired_so_far)
-        else:
+        if fill_with_existing_folders_acquired:
             starting_row_index = 0
+        else:
+            if list_projections_folders_acquired_so_far:
+                starting_row_index = len(list_projections_folders_acquired_so_far)
+            else:
+                starting_row_index = 0
 
         if list_projections_folders_acquired_so_far:
             list_projections_folders_acquired_so_far += list_new_folders
         else:
             list_projections_folders_acquired_so_far = list_new_folders
+
+        # to remove duplicates
+        list_projections_folders_acquired_so_far = list(set(list_projections_folders_acquired_so_far))
 
         logging.info(f"Updating list of projections folders acquired so far:\n->"
                      f"{list_projections_folders_acquired_so_far}")
@@ -430,7 +455,7 @@ class EventHandler:
         """
         o_get = Get(parent=self.parent)
         list_folders = o_get.list_folders_in_output_directory(output_folder=folder_path.recon)
-        self.parent.session_dict[SessionKeys.list_recon_folders_initially_there] = list_folders
+        self.parent.session_dict[SessionKeys.list_recon_folders_initially_there] = list(set(list_folders))
 
     def update_list_projections_folders_initially_there(self, folder_path=None):
         """
@@ -438,7 +463,7 @@ class EventHandler:
         """
         o_get = Get(parent=self.parent)
         list_folders = o_get.list_folders_in_output_directory(output_folder=folder_path.mcp)
-        self.parent.session_dict[SessionKeys.list_projections_folders_initially_there] = list_folders
+        self.parent.session_dict[SessionKeys.list_projections_folders_initially_there] = list(set(list_folders))
 
     def list_new_folders(self, folder_path=None, previous_list_of_folders=None):
         """
@@ -456,3 +481,19 @@ class EventHandler:
                 continue
             list_new_folders.append(_folder)
         return list_new_folders
+
+    def update_autonomous_reconstruction_widgets(self):
+
+        if self.parent.session_dict[SessionKeys.list_projections_folders_acquired_so_far]:
+
+            self.parent.ui.start_first_reconstruction_pushButton.setEnabled(False)
+            self.parent.ui.start_first_reconstruction_pushButton.setStyleSheet(normal_style)
+            self.parent.ui.autonomous_refresh_pushButton.setEnabled(True)
+
+            # enable table
+            self.parent.ui.autonomous_monitor_groupBox.setVisible(True)
+            self.parent.ui.autonomous_refresh_pushButton.setStyleSheet(interact_me_style)
+
+            # populate first projections table
+            self.init_autonomous_table()
+            self.refresh_table_clicked(fill_with_existing_folders_acquired=True)
