@@ -276,7 +276,7 @@ class EventHandler:
                                                    file_name=file_name)
         preview_file.show()
 
-    def refresh_table_clicked(self, fill_with_existing_folders_acquired=False):
+    def refresh_table_clicked(self):
         """refresh button next to the table has been clicked"""
         logging.info("User refreshing the autonomous reconstruction step1 table!")
 
@@ -290,19 +290,15 @@ class EventHandler:
         logging.info(f"-> list_projections_folders_initially_there:\n"
                      f" {formatting_list_for_print(list_projections_folders_initially_there)}")
 
-        if fill_with_existing_folders_acquired:
+        # updating the list of projections by adding the folders already acquired
+        if list_projections_folders_acquired_so_far:
             previous_list_of_folders = list_projections_folders_initially_there
-
+            previous_list_of_folders.extend(list_projections_folders_acquired_so_far)
         else:
-            if list_projections_folders_acquired_so_far:
-                previous_list_of_folders = list_projections_folders_initially_there
-                previous_list_of_folders.extend(list_projections_folders_acquired_so_far)
-
-            else:
-                previous_list_of_folders = list_projections_folders_initially_there
-
+            previous_list_of_folders = list_projections_folders_initially_there
         logging.info(f"-> previous_list_of_folders:\n{formatting_list_for_print(previous_list_of_folders)}")
 
+        # listing only the new folders
         list_new_folders = self.list_new_folders(folder_path=self.parent.folder_path,
                                                  previous_list_of_folders=previous_list_of_folders)
         logging.info(f"-> list_new_folders: \n{formatting_list_for_print(list_new_folders)}")
@@ -311,22 +307,15 @@ class EventHandler:
             # no new folders
             return
 
-        o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstruction_tableWidget)
-        if fill_with_existing_folders_acquired:
-            starting_row_index = 0
-        else:
-            if list_projections_folders_acquired_so_far:
-                starting_row_index = len(list_projections_folders_acquired_so_far)
-            else:
-                starting_row_index = 0
-
         if list_projections_folders_acquired_so_far:
-            list_projections_folders_acquired_so_far += list_new_folders
-        else:
-            list_projections_folders_acquired_so_far = list_new_folders
+            starting_row_index = len(list_projections_folders_acquired_so_far)
 
-        # to remove duplicates
-        list_projections_folders_acquired_so_far = list(set(list_projections_folders_acquired_so_far))
+            # to remove duplicates
+            list_projections_folders_acquired_so_far = list(set(list_projections_folders_acquired_so_far))
+            list_projections_folders_acquired_so_far.extend(list_new_folders)
+        else:
+            starting_row_index = 0
+            list_projections_folders_acquired_so_far = list_new_folders
 
         logging.info(f"Updating list of projections folders acquired so far:\n->"
                      f"{list_projections_folders_acquired_so_far}")
@@ -334,12 +323,123 @@ class EventHandler:
         self.parent.session_dict[SessionKeys.list_projections_folders_acquired_so_far] = \
             list_projections_folders_acquired_so_far
 
-        o_get = GetMonitor(grand_parent=self.parent)
+        self.fill_table_with_list_folders(list_folders=list_new_folders,
+                                          starting_row_index=starting_row_index)
 
-        for _offset_row_index in np.arange(len(list_new_folders)):
+        # o_get = GetMonitor(grand_parent=self.parent)
+        #
+        # for _offset_row_index in np.arange(len(list_new_folders)):
+        #
+        #     _row = starting_row_index + _offset_row_index
+        #     new_file = list_new_folders[_offset_row_index]
+        #
+        #     # change value of first column
+        #     o_table.set_item_with_str(row=_row,
+        #                               column=0,
+        #                               value=new_file)
+        #
+        #     # add err, log, metadata buttons
+        #     o_get.set_path(new_file)
+        #     log_file = o_get.log_file()
+        #     # if log_file:
+        #     #     enable_button = True
+        #     # else:
+        #     #     enable_button = False
+        #
+        #     log_button = QPushButton("View")
+        #     # log_button.setEnabled(enable_button)
+        #     o_table.insert_widget(row=_row,
+        #                           column=1,
+        #                           widget=log_button)
+        #
+        #     log_button.clicked.connect(lambda state=0, row=_row:
+        #                                self.preview_log(row=row,
+        #                                                 data_type='ob'))
+        #
+        #     err_file = o_get.err_file()
+        #     if err_file:
+        #         enable_button = True
+        #     else:
+        #         enable_button = False
+        #
+        #     err_button = QPushButton("View")
+        #     err_button.setEnabled(enable_button)
+        #     o_table.insert_widget(row=_row,
+        #                           column=2,
+        #                           widget=err_button)
+        #     err_button.clicked.connect(lambda state=0, row=_row:
+        #                                self.preview_err(row=row,
+        #                                                 data_type='ob'))
+        #
+        #     metadata_file = o_get.metadata_file()
+        #     if metadata_file:
+        #         enable_button = True
+        #     else:
+        #         enable_button = False
+        #
+        #     summary_button = QPushButton("View")
+        #     summary_button.setEnabled(enable_button)
+        #     o_table.insert_widget(row=_row,
+        #                           column=3,
+        #                           widget=summary_button)
+        #     summary_button.clicked.connect(lambda state=0, row=_row:
+        #                                    self.preview_summary(row=row,
+        #                                                         data_type='ob'))
+        #
+        #     self.parent.dict_projection_log_err_metadata[_row] = {'file_name'    : new_file,
+        #                                                           'log_file'     : log_file,
+        #                                                           'err_file'     : err_file,
+        #                                                           'metadata_file': metadata_file}
+        #
+        #     # change state of last column
+        #     o_table.set_item_with_str(row=_row,
+        #                               column=4,
+        #                               value=DataStatus.ready)
+        #
+        #     o_table.set_background_color(row=_row,
+        #                                  column=4,
+        #                                  qcolor=READY)
+        #
+        #     if _row < (o_table.row_count()-1):
+        #
+        #         o_table.set_item_with_str(row=_row+1,
+        #                                   column=4,
+        #                                   value=DataStatus.in_progress)
+        #         o_table.set_background_color(row=_row+1,
+        #                                      column=4,
+        #                                      qcolor=IN_PROGRESS)
+
+        if list_projections_folders_acquired_so_far is None:
+            return
+
+        if len(list_projections_folders_acquired_so_far) == 3:
+
+            # all the projections showed up, no need to click the refresh button anymore
+            self.parent.ui.autonomous_refresh_pushButton.setEnabled(False)
+            self.parent.ui.autonomous_refresh_pushButton.setStyleSheet(normal_style)
+            self.parent.ui.autonomous_checking_reconstruction_pushButton.setEnabled(True)
+            self.parent.ui.autonomous_checking_reconstruction_pushButton.setStyleSheet(interact_me_style)
+
+            # checking if any reconstruction showed up
+            if self.is_reconstruction_done():
+                self.parent.ui.autonomous_reconstructed_status_label.setText(DataStatus.ready)
+
+            else:
+                # if not
+                self.parent.ui.autonomous_reconstructed_status_label.setText(DataStatus.in_progress)
+
+    def fill_table_with_list_folders(self, list_folders=None, starting_row_index=0):
+
+        if list_folders is None:
+            return
+
+        o_get = GetMonitor(grand_parent=self.parent)
+        o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstruction_tableWidget)
+
+        for _offset_row_index in np.arange(len(list_folders)):
 
             _row = starting_row_index + _offset_row_index
-            new_file = list_new_folders[_offset_row_index]
+            new_file = list_folders[_offset_row_index]
 
             # change value of first column
             o_table.set_item_with_str(row=_row,
@@ -417,22 +517,6 @@ class EventHandler:
                                              column=4,
                                              qcolor=IN_PROGRESS)
 
-        if len(list_projections_folders_acquired_so_far) == 3:
-
-            # all the projections showed up, no need to click the refresh button anymore
-            self.parent.ui.autonomous_refresh_pushButton.setEnabled(False)
-            self.parent.ui.autonomous_refresh_pushButton.setStyleSheet(normal_style)
-            self.parent.ui.autonomous_checking_reconstruction_pushButton.setEnabled(True)
-            self.parent.ui.autonomous_checking_reconstruction_pushButton.setStyleSheet(interact_me_style)
-
-            # checking if any reconstruction showed up
-            if self.is_reconstruction_done():
-                self.parent.ui.autonomous_reconstructed_status_label.setText(DataStatus.ready)
-
-            else:
-                # if not
-                self.parent.ui.autonomous_reconstructed_status_label.setText(DataStatus.in_progress)
-
     def checking_reconstruction_clicked(self):
         logging.info("User is checking the state of the reconstruction.")
 
@@ -496,4 +580,6 @@ class EventHandler:
 
             # populate first projections table
             self.init_autonomous_table()
-            self.refresh_table_clicked(fill_with_existing_folders_acquired=True)
+            list_folders_acquired = self.parent.session_dict[SessionKeys.list_projections_folders_acquired_so_far]
+            self.fill_table_with_list_folders(list_folders=list_folders_acquired,
+                                              starting_row_index=0)
