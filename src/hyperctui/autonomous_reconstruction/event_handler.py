@@ -326,88 +326,12 @@ class EventHandler:
         self.fill_table_with_list_folders(list_folders=list_new_folders,
                                           starting_row_index=starting_row_index)
 
-        # o_get = GetMonitor(grand_parent=self.parent)
-        #
-        # for _offset_row_index in np.arange(len(list_new_folders)):
-        #
-        #     _row = starting_row_index + _offset_row_index
-        #     new_file = list_new_folders[_offset_row_index]
-        #
-        #     # change value of first column
-        #     o_table.set_item_with_str(row=_row,
-        #                               column=0,
-        #                               value=new_file)
-        #
-        #     # add err, log, metadata buttons
-        #     o_get.set_path(new_file)
-        #     log_file = o_get.log_file()
-        #     # if log_file:
-        #     #     enable_button = True
-        #     # else:
-        #     #     enable_button = False
-        #
-        #     log_button = QPushButton("View")
-        #     # log_button.setEnabled(enable_button)
-        #     o_table.insert_widget(row=_row,
-        #                           column=1,
-        #                           widget=log_button)
-        #
-        #     log_button.clicked.connect(lambda state=0, row=_row:
-        #                                self.preview_log(row=row,
-        #                                                 data_type='ob'))
-        #
-        #     err_file = o_get.err_file()
-        #     if err_file:
-        #         enable_button = True
-        #     else:
-        #         enable_button = False
-        #
-        #     err_button = QPushButton("View")
-        #     err_button.setEnabled(enable_button)
-        #     o_table.insert_widget(row=_row,
-        #                           column=2,
-        #                           widget=err_button)
-        #     err_button.clicked.connect(lambda state=0, row=_row:
-        #                                self.preview_err(row=row,
-        #                                                 data_type='ob'))
-        #
-        #     metadata_file = o_get.metadata_file()
-        #     if metadata_file:
-        #         enable_button = True
-        #     else:
-        #         enable_button = False
-        #
-        #     summary_button = QPushButton("View")
-        #     summary_button.setEnabled(enable_button)
-        #     o_table.insert_widget(row=_row,
-        #                           column=3,
-        #                           widget=summary_button)
-        #     summary_button.clicked.connect(lambda state=0, row=_row:
-        #                                    self.preview_summary(row=row,
-        #                                                         data_type='ob'))
-        #
-        #     self.parent.dict_projection_log_err_metadata[_row] = {'file_name'    : new_file,
-        #                                                           'log_file'     : log_file,
-        #                                                           'err_file'     : err_file,
-        #                                                           'metadata_file': metadata_file}
-        #
-        #     # change state of last column
-        #     o_table.set_item_with_str(row=_row,
-        #                               column=4,
-        #                               value=DataStatus.ready)
-        #
-        #     o_table.set_background_color(row=_row,
-        #                                  column=4,
-        #                                  qcolor=READY)
-        #
-        #     if _row < (o_table.row_count()-1):
-        #
-        #         o_table.set_item_with_str(row=_row+1,
-        #                                   column=4,
-        #                                   value=DataStatus.in_progress)
-        #         o_table.set_background_color(row=_row+1,
-        #                                      column=4,
-        #                                      qcolor=IN_PROGRESS)
+        self.checking_state_of_widgets_post_reconstruction()
+
+    def checking_state_of_widgets_post_reconstruction(self):
+
+        list_projections_folders_acquired_so_far = \
+            self.parent.session_dict[SessionKeys.list_projections_folders_acquired_so_far]
 
         if list_projections_folders_acquired_so_far is None:
             return
@@ -583,3 +507,5 @@ class EventHandler:
             list_folders_acquired = self.parent.session_dict[SessionKeys.list_projections_folders_acquired_so_far]
             self.fill_table_with_list_folders(list_folders=list_folders_acquired,
                                               starting_row_index=0)
+            self.checking_state_of_widgets_post_reconstruction()
+            
