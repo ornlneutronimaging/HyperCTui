@@ -329,6 +329,8 @@ class EventHandler:
         self.checking_state_of_widgets_post_reconstruction()
 
     def checking_state_of_widgets_post_reconstruction(self):
+        """This is looking for all the projections angles requested. If they are all there, then
+        it will change the state of the widgets."""
 
         list_projections_folders_acquired_so_far = \
             self.parent.session_dict[SessionKeys.list_projections_folders_acquired_so_far]
@@ -336,7 +338,8 @@ class EventHandler:
         if list_projections_folders_acquired_so_far is None:
             return
 
-        if len(list_projections_folders_acquired_so_far) == 3:
+        number_of_projections_requested = self.parent.ui.evaluation_frequency_spinBox.value()
+        if len(list_projections_folders_acquired_so_far) == number_of_projections_requested:
 
             # all the projections showed up, no need to click the refresh button anymore
             self.parent.ui.autonomous_refresh_pushButton.setEnabled(False)
@@ -508,4 +511,3 @@ class EventHandler:
             self.fill_table_with_list_folders(list_folders=list_folders_acquired,
                                               starting_row_index=0)
             self.checking_state_of_widgets_post_reconstruction()
-            
