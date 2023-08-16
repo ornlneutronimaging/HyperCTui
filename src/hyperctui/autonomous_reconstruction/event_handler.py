@@ -131,9 +131,9 @@ class EventHandler:
         self.parent.ui.autonomous_tof_regions_groupBox.setEnabled(False)
         self.parent.ui.start_first_reconstruction_pushButton.setEnabled(False)
         self.parent.ui.start_first_reconstruction_pushButton.setStyleSheet(normal_style)
-        self.parent.ui.autonomous_refresh_pushButton.setEnabled(True)
 
-        # enable table
+        # enable
+        self.parent.ui.autonomous_refresh_pushButton.setEnabled(True)
         self.parent.ui.autonomous_monitor_groupBox.setVisible(True)
         self.parent.ui.autonomous_refresh_pushButton.setStyleSheet(interact_me_style)
 

@@ -44,6 +44,7 @@ class SessionKeys:
 
     # evaluation regions
     evaluation_regions = "evaluation regions dict"
+    evaluation_frequency = "evaluation frequency"
 
     # tof regions
     tof_roi_region = "TOF ROI region of top view dict"

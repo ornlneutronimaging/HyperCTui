@@ -125,6 +125,9 @@ class SessionHandler:
             new_tof_regions[str(_key)] = tof_regions[_key]
         session_dict[SessionKeys.tof_regions] = new_tof_regions
 
+        # evaluation frequency
+        session_dict[SessionKeys.evaluation_frequency] = self.parent.ui.evaluation_frequency_spinBox.value()
+
         self.parent.session_dict = session_dict
 
     def load_to_ui(self):
@@ -244,6 +247,9 @@ class SessionHandler:
             for _key in self.parent.evaluation_regions.keys():
                 new_evaluation_regions[int(_key)] = self.parent.evaluation_regions[_key]
             self.parent.evaluation_regions = new_evaluation_regions
+
+            evaluation_frequency = session_dict.get(SessionKeys.evaluation_frequency, 3)
+            self.parent.ui.evaluation_frequency_spinBox.setValue(evaluation_frequency)
 
             ## tof top ROI regions
             if not session_dict.get(SessionKeys.tof_roi_region, None):
