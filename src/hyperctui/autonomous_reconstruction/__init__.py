@@ -4,3 +4,13 @@ class ColumnIndex:
     name = 1
     from_value = 2
     to_value = 3
+
+
+class ProjectionsTableColumnIndex:
+
+    folder_name = 0
+    log = 1
+    err = 2
+    meta = 3
+    preview = 4
+    status = 5

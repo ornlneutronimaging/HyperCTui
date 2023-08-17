@@ -90,3 +90,16 @@ class Get:
             /SNS/VENUS/IPTS-30023/shared/autoreduce/mcp/scan17/Run_57100/summary.json
         """
         return os.path.join(self.run_number_full_path, "summary.json")
+
+    def preview_file(self):
+        """
+        if full_ob_folder_name is
+            /SNS/VENUS/IPTS-30023/shared/autoreduce/mcp/scan17/Run_57100
+        it needs to return
+            /SNS/VENUS/IPTS-30023/shared/autoreduce/mcp/scan17/Run_57100/*_SummedImg.fits
+        """
+        list_summed_files = glob.glob(os.path.join(self.run_number_full_path, "*_SummedImg.fits"))
+        if list_summed_files:
+            return list_summed_files[0]
+        else:
+            return None

@@ -17,12 +17,14 @@ from hyperctui.utilities.array import formatting_list_for_print
 
 from hyperctui.preview_file.preview_file_launcher import PreviewFileLauncher, PreviewMetadataFileLauncher
 
-from hyperctui.autonomous_reconstruction.help_golden_angle import HelpGoldenAngle
-from hyperctui.autonomous_reconstruction.select_evaluation_regions import SelectEvaluationRegions
-from hyperctui.autonomous_reconstruction.select_tof_regions import SelectTofRegions
 from hyperctui.pre_autonomous_monitor import DataStatus
 from hyperctui.pre_processing_monitor import IN_PROGRESS, IN_QUEUE, READY
 from hyperctui.pre_processing_monitor.get import Get as GetMonitor
+
+from hyperctui.autonomous_reconstruction.help_golden_angle import HelpGoldenAngle
+from hyperctui.autonomous_reconstruction.select_evaluation_regions import SelectEvaluationRegions
+from hyperctui.autonomous_reconstruction.select_tof_regions import SelectTofRegions
+from hyperctui.autonomous_reconstruction import ProjectionsTableColumnIndex
 
 
 class EventHandler:
@@ -220,7 +222,7 @@ class EventHandler:
             o_table.insert_empty_row(row=_row)
 
             o_table.insert_item(row=_row,
-                                column=0,
+                                column=ProjectionsTableColumnIndex.folder_name,
                                 value=f"projection for angle {formatted2_list_golden_ratio[_row].replace('_', '.')} "
                                       f"degrees")
 
@@ -232,10 +234,10 @@ class EventHandler:
                 background_color = IN_QUEUE
 
             o_table.insert_item(row=_row,
-                                column=4,
+                                column=ProjectionsTableColumnIndex.status,
                                 value=message)
             o_table.set_background_color(row=_row,
-                                         column=4,
+                                         column=ProjectionsTableColumnIndex.status,
                                          qcolor=background_color)
 
         self.parent.ui.autonomous_reconstructed_location_label.setText(folder_path.recon)
@@ -259,6 +261,10 @@ class EventHandler:
         preview_file = PreviewMetadataFileLauncher(parent=self.parent,
                                                    file_name=file_name)
         preview_file.show()
+
+    def preview_data(self, row=-1):
+        """display the summedImg image with pyqtgraph"""
+        print("preview data")
 
     def refresh_table_clicked(self):
         """refresh button next to the table has been clicked"""
@@ -333,6 +339,14 @@ class EventHandler:
             self.parent.ui.autonomous_reconstruction_tabWidget.setTabEnabled(1, True)
             self.parent.ui.autonomous_reconstruction_tabWidget.setCurrentIndex(1)
 
+            # fill table with as many as TOF regions reconstruction requested
+            # FIXME
+
+
+
+
+
+
             # checking if any reconstruction showed up
             if self.is_reconstruction_done():
                 self.parent.ui.autonomous_reconstructed_status_label.setText(DataStatus.ready)
@@ -356,7 +370,7 @@ class EventHandler:
 
             # change value of first column
             o_table.set_item_with_str(row=_row,
-                                      column=0,
+                                      column=ProjectionsTableColumnIndex.folder_name,
                                       value=new_file)
 
             # add err, log, metadata buttons
@@ -370,12 +384,11 @@ class EventHandler:
             log_button = QPushButton("View")
             # log_button.setEnabled(enable_button)
             o_table.insert_widget(row=_row,
-                                  column=1,
+                                  column=ProjectionsTableColumnIndex.log,
                                   widget=log_button)
 
             log_button.clicked.connect(lambda state=0, row=_row:
-                                       self.preview_log(row=row,
-                                                        data_type='ob'))
+                                       self.preview_log(row=row))
 
             err_file = o_get.err_file()
             if err_file:
@@ -386,11 +399,10 @@ class EventHandler:
             err_button = QPushButton("View")
             err_button.setEnabled(enable_button)
             o_table.insert_widget(row=_row,
-                                  column=2,
+                                  column=ProjectionsTableColumnIndex.err,
                                   widget=err_button)
             err_button.clicked.connect(lambda state=0, row=_row:
-                                       self.preview_err(row=row,
-                                                        data_type='ob'))
+                                       self.preview_err(row=row))
 
             metadata_file = o_get.metadata_file()
             if metadata_file:
@@ -401,33 +413,46 @@ class EventHandler:
             summary_button = QPushButton("View")
             summary_button.setEnabled(enable_button)
             o_table.insert_widget(row=_row,
-                                  column=3,
+                                  column=ProjectionsTableColumnIndex.meta,
                                   widget=summary_button)
             summary_button.clicked.connect(lambda state=0, row=_row:
-                                           self.preview_summary(row=row,
-                                                                data_type='ob'))
+                                           self.preview_summary(row=row))
+
+            # preview
+            preview_file = o_get.preview_file()
+            enable_button = True if preview_file else False
+            preview_button = QPushButton("View")
+            preview_button.setEnabled(enable_button)
+            o_table.insert_widget(row=_row,
+                                  column=ProjectionsTableColumnIndex.preview,
+                                  widget=preview_button)
+            preview_button.clicked.connect(lambda state=0, row=_row:
+                                           self.preview_data(row=row))
 
             self.parent.dict_projection_log_err_metadata[_row] = {'file_name'    : new_file,
                                                                   'log_file'     : log_file,
                                                                   'err_file'     : err_file,
+                                                                  'preview_file' : preview_file,
                                                                   'metadata_file': metadata_file}
+
+
 
             # change state of last column
             o_table.set_item_with_str(row=_row,
-                                      column=4,
+                                      column=ProjectionsTableColumnIndex.status,
                                       value=DataStatus.ready)
 
             o_table.set_background_color(row=_row,
-                                         column=4,
+                                         column=ProjectionsTableColumnIndex.status,
                                          qcolor=READY)
 
             if _row < (o_table.row_count()-1):
 
                 o_table.set_item_with_str(row=_row+1,
-                                          column=4,
+                                          column=ProjectionsTableColumnIndex.status,
                                           value=DataStatus.in_progress)
                 o_table.set_background_color(row=_row+1,
-                                             column=4,
+                                             column=ProjectionsTableColumnIndex.status,
                                              qcolor=IN_PROGRESS)
 
     def checking_reconstruction_clicked(self):
