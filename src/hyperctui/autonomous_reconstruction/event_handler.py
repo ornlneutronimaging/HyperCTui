@@ -158,6 +158,8 @@ class EventHandler:
         # retrieve list of folders in the reconstruction folder
         self.update_list_recon_folders_initially_there(folder_path=folder_path)
 
+        self.parent.ui.autonomous_projection_location_label.setText(folder_path.mcp)
+
         self.init_autonomous_table()
 
     def stop_acquisition(self):
@@ -211,26 +213,8 @@ class EventHandler:
         logging.info(f"- {list_tof_region_index =}")
         logging.info(f"- {list_tof_region_collected =}")
 
-        # print(f"{formatted2_list_golden_ratio =}")
-        # print(f"{ list_tof_region_collected =}")
-        # print(f"{list_tof_region_index =}")
-
         o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstruction_tableWidget)
         o_table.remove_all_rows()
-
-        # # retrieve the list of folders in the output folder (any new one will be the one we are looking for)
-        # self.update_list_projections_folders_initially_there(folder_path=folder_path)
-        # list_folders_there = self.parent.session_dict[SessionKeys.list_projections_folders_initially_there]
-        # list_folders_there.sort()
-        # formatted_list_folders_there = "\n".join(list_folders_there)
-        # logging.info(f"- list folders initially there:\n"
-        #              f"{formatted_list_folders_there}")
-        #
-        # # no projections yet as we just started
-        # self.parent.session_dict[SessionKeys.list_projections_folders_acquired_so_far] = None
-        #
-        # # retrieve list of folders in the reconstruction folder
-        # self.update_list_recon_folders_initially_there(folder_path=folder_path)
 
         for _row in np.arange(nbr_angles):
             o_table.insert_empty_row(row=_row)
@@ -255,8 +239,8 @@ class EventHandler:
                                          qcolor=background_color)
 
         self.parent.ui.autonomous_reconstructed_location_label.setText(folder_path.recon)
-        self.parent.ui.autonomous_reconstructed_status_label.setText(DataStatus.in_queue)
-        self.parent.ui.autonomous_reconstructed_status_label.setStyleSheet(label_in_focus_style)
+        # self.parent.ui.autonomous_reconstructed_status_label.setStyleSheet(label_in_focus_style)
+        self.parent.ui.autonomous_reconstruction_tabWidget.setTabEnabled(1, False)
 
     def preview_log(self, state=0, row=-1, data_type='ob'):
         log_file = self.parent.dict_projection_log_err_metadata[row]['log_file']
@@ -346,6 +330,8 @@ class EventHandler:
             self.parent.ui.autonomous_refresh_pushButton.setStyleSheet(normal_style)
             self.parent.ui.autonomous_checking_reconstruction_pushButton.setEnabled(True)
             self.parent.ui.autonomous_checking_reconstruction_pushButton.setStyleSheet(interact_me_style)
+            self.parent.ui.autonomous_reconstruction_tabWidget.setTabEnabled(1, True)
+            self.parent.ui.autonomous_reconstruction_tabWidget.setCurrentIndex(1)
 
             # checking if any reconstruction showed up
             if self.is_reconstruction_done():
@@ -353,7 +339,7 @@ class EventHandler:
 
             else:
                 # if not
-                self.parent.ui.autonomous_reconstructed_status_label.setText(DataStatus.in_progress)
+                pass
 
     def fill_table_with_list_folders(self, list_folders=None, starting_row_index=0):
 
@@ -501,8 +487,10 @@ class EventHandler:
             self.parent.ui.start_first_reconstruction_pushButton.setStyleSheet(normal_style)
             self.parent.ui.autonomous_refresh_pushButton.setEnabled(True)
 
+            self.parent.ui.autonomous_projection_location_label.setText(self.parent.folder_path.mcp)
+
             # enable table
-            self.parent.ui.autonomous_monitor_groupBox.setVisible(True)
+            self.parent.ui.autonomous_reconstruction_tabWidget.setVisible(True)
             self.parent.ui.autonomous_refresh_pushButton.setStyleSheet(interact_me_style)
 
             # populate first projections table

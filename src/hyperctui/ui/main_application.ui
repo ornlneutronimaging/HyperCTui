@@ -1378,7 +1378,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QTabWidget" name="tabWidget_2">
+             <widget class="QTabWidget" name="autonomous_reconstruction_tabWidget">
               <property name="currentIndex">
                <number>0</number>
               </property>
@@ -1389,6 +1389,20 @@
                <layout class="QVBoxLayout" name="verticalLayout_23">
                 <item>
                  <layout class="QHBoxLayout" name="horizontalLayout_19">
+                  <item>
+                   <widget class="QLabel" name="label_11">
+                    <property name="text">
+                     <string>Location:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QLabel" name="autonomous_projection_location_label">
+                    <property name="text">
+                     <string>N/A</string>
+                    </property>
+                   </widget>
+                  </item>
                   <item>
                    <spacer name="horizontalSpacer_16">
                     <property name="orientation">
@@ -1526,8 +1540,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>100</width>
-             <height>30</height>
+             <width>1082</width>
+             <height>645</height>
             </rect>
            </property>
            <attribute name="label">

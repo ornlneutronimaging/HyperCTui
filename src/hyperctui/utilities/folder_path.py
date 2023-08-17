@@ -26,7 +26,7 @@ class FolderPath(Parent):
         self.root = homepath
         ipts = self.parent.session_dict[SessionKeys.ipts_selected]
         instrument = self.parent.session_dict[SessionKeys.instrument]
-        title = self.parent.ui.run_title_formatted_label.text()
+        title = self.parent.session_dict[SessionKeys.run_title]
 
         if (instrument is None) | (ipts is None):
             return
@@ -68,7 +68,7 @@ class FolderPath(Parent):
         self.mcp = os.sep.join([self.autoreduce, "mcp"])
 
     def recon(self, title=None):
-        self.recon = os.sep.join([self.shared, "insitu_recon", "recon", title])
+        self.recon = os.sep.join([self.shared, "insitu_recon", title, "recon"])
 
     def create_mcp_raw(self):
         self.mcp_raw = os.sep.join([self.ipts_full_path,

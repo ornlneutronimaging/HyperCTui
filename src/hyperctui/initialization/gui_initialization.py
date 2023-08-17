@@ -79,7 +79,7 @@ class GuiInitialization:
         self.parent.ui.logo.setPixmap(logo_icon)
         # self.parent.ui.tab.setStyleSheet("background-image: url('" +  background_file  + "'); background-repeat: no-repeat")
 
-        self.parent.ui.autonomous_monitor_groupBox.setVisible(False)
+        self.parent.ui.autonomous_reconstruction_tabWidget.setVisible(False)
 
     def statusbar(self):
         self.parent.eventProgress = QProgressBar(self.parent.ui.statusbar)
