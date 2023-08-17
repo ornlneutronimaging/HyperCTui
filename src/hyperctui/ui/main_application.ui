@@ -1380,7 +1380,7 @@
             <item>
              <widget class="QTabWidget" name="autonomous_reconstruction_tabWidget">
               <property name="currentIndex">
-               <number>0</number>
+               <number>1</number>
               </property>
               <widget class="QWidget" name="tab_7">
                <attribute name="title">
@@ -1532,7 +1532,7 @@
                  </layout>
                 </item>
                 <item>
-                 <widget class="QTableWidget" name="tableWidget"/>
+                 <widget class="QTableWidget" name="autonomous_reconstructions_tableWidget"/>
                 </item>
                </layout>
               </widget>

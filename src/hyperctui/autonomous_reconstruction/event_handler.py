@@ -25,7 +25,8 @@ from hyperctui.pre_processing_monitor.get import Get as GetMonitor
 from hyperctui.autonomous_reconstruction.help_golden_angle import HelpGoldenAngle
 from hyperctui.autonomous_reconstruction.select_evaluation_regions import SelectEvaluationRegions
 from hyperctui.autonomous_reconstruction.select_tof_regions import SelectTofRegions
-from hyperctui.autonomous_reconstruction import ProjectionsTableColumnIndex
+from hyperctui.autonomous_reconstruction import ProjectionsTableColumnIndex, ReconstructionTableColumnIndex
+from hyperctui.autonomous_reconstruction.get import Get as AutonomousGet
 
 
 class EventHandler:
@@ -344,12 +345,38 @@ class EventHandler:
             self.parent.ui.autonomous_reconstruction_tabWidget.setCurrentIndex(1)
 
             # fill table with as many as TOF regions reconstruction requested
-            # FIXME
+            o_get = AutonomousGet(parent=self.parent)
+            nbr_tof_regions = o_get.get_nbr_tof_regions()
 
+            tof_regions_dict = self.parent.session_dict[SessionKeys.tof_regions]
 
+            o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstructions_tableWidget)
+            o_table.insert_empty_row(row=nbr_tof_regions)
 
+            row_index = 0
+            for _key in tof_regions_dict.keys():
+                if tof_regions_dict[_key][EvaluationRegionKeys.state]:
+                    o_table.insert_empty_row(row=row_index)
 
+                    # temporary folder name holder
+                    o_table.insert_item(row=row_index,
+                                        column=ReconstructionTableColumnIndex.folder_name,
+                                        value=tof_regions_dict[_key][EvaluationRegionKeys.str_from_to_value])
 
+                    if row_index == 0:
+                        message = DataStatus.in_progress
+                        background_color = IN_PROGRESS
+
+                    else:
+                        message = DataStatus.in_queue
+                        background_color = IN_QUEUE
+
+                    o_table.insert_item(row=row_index,
+                                        column=ReconstructionTableColumnIndex.status,
+                                        value=message)
+                    o_table.set_background_color(row=row_index,
+                                                 column=ReconstructionTableColumnIndex.status,
+                                                 qcolor=background_color)
 
             # checking if any reconstruction showed up
             if self.is_reconstruction_done():

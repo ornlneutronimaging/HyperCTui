@@ -8,13 +8,12 @@ import subprocess
 from collections import OrderedDict
 from PIL import Image
 
+from hyperctui.utilities.parent import Parent
+
 from hyperctui.utilities.status_message_config import StatusMessageStatus, show_status_message
 
 
-class Get:
-
-    def __init__(self, parent=None):
-        self.parent = parent
+class Get(Parent):
 
     def get_log_file_name(self):
         log_file_name = self.parent.config['log_file_name']

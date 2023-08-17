@@ -86,6 +86,7 @@ class EvaluationRegionKeys:
     label_id = "id of the label naming the region"
     from_index = "from file index"
     to_index = "to file index"
+    str_from_to_value = "string form of from -> to range"
 
 
 def load_ui(ui_filename, baseinstance):

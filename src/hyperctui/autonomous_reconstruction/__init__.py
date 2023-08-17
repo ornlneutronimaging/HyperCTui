@@ -14,3 +14,10 @@ class ProjectionsTableColumnIndex:
     meta = 3
     preview = 4
     status = 5
+
+
+class ReconstructionTableColumnIndex:
+
+    folder_name = 0
+    preview = 1
+    status = 2

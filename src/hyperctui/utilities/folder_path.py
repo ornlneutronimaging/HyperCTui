@@ -26,7 +26,7 @@ class FolderPath(Parent):
         self.root = homepath
         ipts = self.parent.session_dict[SessionKeys.ipts_selected]
         instrument = self.parent.session_dict[SessionKeys.instrument]
-        title = self.parent.session_dict[SessionKeys.run_title]
+        title = self.parent.session_dict.get(SessionKeys.run_title, "")
 
         if (instrument is None) | (ipts is None):
             return

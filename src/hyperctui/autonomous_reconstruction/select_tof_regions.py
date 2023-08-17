@@ -196,6 +196,14 @@ class SelectTofRegions(QMainWindow):
                                                        column=ColumnIndex.to_value))
             _from, _to = self.sort(_from, _to)
 
+            _str_from_value = f"{_from:06.3f}"
+            _from_pre, _from_post = _str_from_value.split(".")
+            _str_from = "{:03d}_{:d}".format(int(_from_pre), int(_from_post))
+            _str_to_value = f"{_to:06.3f}"
+            _to_pre, _to_post = _str_to_value.split(".")
+            _str_to = "{:03d}_{:d}".format(int(_to_pre), int(_to_post))
+            str_from_to_value = f"from_{_str_from}Ang_to_{_str_to}Ang"
+
             _from_index = self.get_corresponding_index(lambda_value=_from,
                                                        lambda_array=self.lambda_array)
             _to_index = self.get_corresponding_index(lambda_value=_to,
@@ -207,7 +215,8 @@ class SelectTofRegions(QMainWindow):
                                  EvaluationRegionKeys.to_value: float(_to),
                                  EvaluationRegionKeys.id: None,
                                  EvaluationRegionKeys.from_index: _from_index,
-                                 EvaluationRegionKeys.to_index: _to_index}
+                                 EvaluationRegionKeys.to_index: _to_index,
+                                 EvaluationRegionKeys.str_from_to_value: str_from_to_value,}
         self.parent.tof_regions = tof_regions
 
     def get_corresponding_index(self, lambda_value=None, lambda_array=None):
