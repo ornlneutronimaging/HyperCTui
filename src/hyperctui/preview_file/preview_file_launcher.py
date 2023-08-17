@@ -1,11 +1,53 @@
-from qtpy.QtWidgets import QDialog
+from qtpy.QtWidgets import QDialog, QVBoxLayout
 import os
 from pathlib import Path
 import logging
+import pyqtgraph as pg
+from astropy.io import fits
 
 from hyperctui import load_ui
 from hyperctui.utilities.file_utilities import read_ascii, read_json
 from hyperctui.utilities.table import TableHandler
+
+
+class PreviewImageLauncher(QDialog):
+
+	def __init__(self, parent=None, file_name=None):
+		QDialog.__init__(self, parent=parent)
+
+		self.parent = parent
+		self.file_name = file_name
+
+		ui_full_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
+									os.path.join('ui',
+												 'preview_image.ui'))
+
+		self.ui = load_ui(ui_full_path, baseinstance=self)
+		self.setWindowTitle("Preview")
+
+		if not Path(file_name).is_file():
+			logging.info(f"file name {file_name} doest not exist!")
+			self.ui.file_name_label.setText(f"{file_name} can not be located!")
+
+		else:
+			self.ui.file_name_label.setText(os.path.basename(file_name))
+			self.display_image()
+
+	def display_image(self):
+		image_view = pg.ImageView(view=pg.PlotItem())
+		image_view.ui.roiBtn.hide()
+		image_view.ui.menuBtn.hide()
+		image_layout = QVBoxLayout()
+		image_layout.addWidget(image_view)
+		self.ui.widget.setLayout(image_layout)
+
+		tmp = fits.open(self.file_name, ignore_missing_simple=True)[0].data
+		if len(tmp.shape) == 3:
+			image_data = tmp.reshape(tmp.shape[1:])
+		else:
+			image_data = tmp
+
+		image_view.setImage(image_data)
 
 
 class PreviewFileLauncher(QDialog):

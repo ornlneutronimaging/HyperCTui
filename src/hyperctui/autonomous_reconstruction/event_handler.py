@@ -15,7 +15,8 @@ from hyperctui.utilities.status_message_config import StatusMessageStatus, show_
 from hyperctui.utilities.table import TableHandler
 from hyperctui.utilities.array import formatting_list_for_print
 
-from hyperctui.preview_file.preview_file_launcher import PreviewFileLauncher, PreviewMetadataFileLauncher
+from hyperctui.preview_file.preview_file_launcher import PreviewFileLauncher, PreviewMetadataFileLauncher, \
+    PreviewImageLauncher
 
 from hyperctui.pre_autonomous_monitor import DataStatus
 from hyperctui.pre_processing_monitor import IN_PROGRESS, IN_QUEUE, READY
@@ -264,7 +265,10 @@ class EventHandler:
 
     def preview_data(self, row=-1):
         """display the summedImg image with pyqtgraph"""
-        print("preview data")
+        file_name = self.parent.dict_projection_log_err_metadata[row]['preview_file']
+        preview_image = PreviewImageLauncher(parent=self.parent,
+                                             file_name=file_name)
+        preview_image.show()
 
     def refresh_table_clicked(self):
         """refresh button next to the table has been clicked"""
@@ -434,8 +438,6 @@ class EventHandler:
                                                                   'err_file'     : err_file,
                                                                   'preview_file' : preview_file,
                                                                   'metadata_file': metadata_file}
-
-
 
             # change state of last column
             o_table.set_item_with_str(row=_row,

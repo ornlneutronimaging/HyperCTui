@@ -73,8 +73,7 @@ class GuiInitialization:
 
         # add logo to background of tabs
         _file_path = os.path.dirname(__file__)
-        background_file = os.path.abspath(os.path.join(_file_path,
-                                                       '../static/hyperctui_logo.png'))
+        background_file = os.path.abspath(os.path.join(_file_path, '../static/hyperctui_logo.png'))
         logo_icon = QPixmap(background_file)
         self.parent.ui.logo.setPixmap(logo_icon)
         # self.parent.ui.tab.setStyleSheet("background-image: url('" +  background_file  + "'); background-repeat: no-repeat")
