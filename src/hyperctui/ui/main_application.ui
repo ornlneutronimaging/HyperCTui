@@ -1429,7 +1429,7 @@
                  </layout>
                 </item>
                 <item>
-                 <widget class="QTableWidget" name="autonomous_reconstruction_tableWidget">
+                 <widget class="QTableWidget" name="autonomous_projections_tableWidget">
                   <property name="alternatingRowColors">
                    <bool>true</bool>
                   </property>
@@ -1532,7 +1532,29 @@
                  </layout>
                 </item>
                 <item>
-                 <widget class="QTableWidget" name="autonomous_reconstructions_tableWidget"/>
+                 <widget class="QTableWidget" name="autonomous_reconstructions_tableWidget">
+                  <attribute name="horizontalHeaderStretchLastSection">
+                   <bool>true</bool>
+                  </attribute>
+                  <attribute name="verticalHeaderStretchLastSection">
+                   <bool>false</bool>
+                  </attribute>
+                  <column>
+                   <property name="text">
+                    <string>Folder name</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Preview</string>
+                   </property>
+                  </column>
+                  <column>
+                   <property name="text">
+                    <string>Status</string>
+                   </property>
+                  </column>
+                 </widget>
                 </item>
                </layout>
               </widget>
@@ -2416,7 +2438,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>481</x>
-     <y>456</y>
+     <y>530</y>
     </hint>
     <hint type="destinationlabel">
      <x>1132</x>
@@ -2447,8 +2469,8 @@
    <slot>autonomous_refresh_table_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1070</x>
-     <y>525</y>
+     <x>1062</x>
+     <y>613</y>
     </hint>
     <hint type="destinationlabel">
      <x>1132</x>
@@ -2575,8 +2597,8 @@
    <slot>autonomous_checking_reconstruction_clicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1029</x>
-     <y>672</y>
+     <x>1021</x>
+     <y>595</y>
     </hint>
     <hint type="destinationlabel">
      <x>1089</x>
@@ -2633,5 +2655,6 @@
   <slot>action_settings_clicked()</slot>
   <slot>refresh_list_of_obs_button_clicked()</slot>
   <slot>autonomous_checking_reconstruction_clicked()</slot>
+  <slot>autonomous_checking_projections_clicked()</slot>
  </slots>
 </ui>

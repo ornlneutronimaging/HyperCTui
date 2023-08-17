@@ -474,11 +474,11 @@ class HyperCTui(QMainWindow):
 
     def autonomous_refresh_table_clicked(self):
         o_event = AutonomousReconstructionHandler(parent=self)
-        o_event.refresh_table_clicked()
+        o_event.refresh_projections_table_clicked()
 
     def autonomous_checking_reconstruction_clicked(self):
         o_event = AutonomousReconstructionHandler(parent=self)
-        o_event.checking_reconstruction_clicked()
+        o_event.refrech_reconstruction_table_clicked()
 
     # leaving ui
     def closeEvent(self, c):

@@ -138,7 +138,7 @@ class EventHandler:
 
         # enable
         self.parent.ui.autonomous_refresh_pushButton.setEnabled(True)
-        self.parent.ui.autonomous_monitor_groupBox.setVisible(True)
+        self.parent.ui.autonomous_reconstruction_tabWidget.setVisible(True)
         self.parent.ui.autonomous_refresh_pushButton.setStyleSheet(interact_me_style)
 
         number_angles = self.parent.ui.evaluation_frequency_spinBox.value()
@@ -217,7 +217,7 @@ class EventHandler:
         logging.info(f"- {list_tof_region_index =}")
         logging.info(f"- {list_tof_region_collected =}")
 
-        o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstruction_tableWidget)
+        o_table = TableHandler(table_ui=self.parent.ui.autonomous_projections_tableWidget)
         o_table.remove_all_rows()
 
         for _row in np.arange(nbr_angles):
@@ -271,7 +271,7 @@ class EventHandler:
                                              file_name=file_name)
         preview_image.show()
 
-    def refresh_table_clicked(self):
+    def refresh_projections_table_clicked(self):
         """refresh button next to the table has been clicked"""
         logging.info("User refreshing the autonomous reconstruction step1 table!")
 
@@ -321,9 +321,9 @@ class EventHandler:
         self.fill_table_with_list_folders(list_folders=list_new_folders,
                                           starting_row_index=starting_row_index)
 
-        self.checking_state_of_widgets_post_reconstruction()
+        self.checking_state_of_projections_table()
 
-    def checking_state_of_widgets_post_reconstruction(self):
+    def checking_state_of_projections_table(self):
         """This is looking for all the projections angles requested. If they are all there, then
         it will change the state of the widgets."""
 
@@ -345,13 +345,8 @@ class EventHandler:
             self.parent.ui.autonomous_reconstruction_tabWidget.setCurrentIndex(1)
 
             # fill table with as many as TOF regions reconstruction requested
-            o_get = AutonomousGet(parent=self.parent)
-            nbr_tof_regions = o_get.get_nbr_tof_regions()
-
             tof_regions_dict = self.parent.session_dict[SessionKeys.tof_regions]
-
             o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstructions_tableWidget)
-            o_table.insert_empty_row(row=nbr_tof_regions)
 
             row_index = 0
             for _key in tof_regions_dict.keys():
@@ -377,14 +372,15 @@ class EventHandler:
                     o_table.set_background_color(row=row_index,
                                                  column=ReconstructionTableColumnIndex.status,
                                                  qcolor=background_color)
+                    row_index += 1
 
-            # checking if any reconstruction showed up
-            if self.is_reconstruction_done():
-                self.parent.ui.autonomous_reconstructed_status_label.setText(DataStatus.ready)
+    def refrech_reconstruction_table_clicked(self):
+        """this is where we will check the json file in {{location TBD}} and look for tag that
+        list the reconstruction done!"""
+        pass
 
-            else:
-                # if not
-                pass
+
+
 
     def fill_table_with_list_folders(self, list_folders=None, starting_row_index=0):
 
@@ -392,7 +388,7 @@ class EventHandler:
             return
 
         o_get = GetMonitor(grand_parent=self.parent)
-        o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstruction_tableWidget)
+        o_table = TableHandler(table_ui=self.parent.ui.autonomous_projections_tableWidget)
 
         for _offset_row_index in np.arange(len(list_folders)):
 
@@ -552,4 +548,4 @@ class EventHandler:
             list_folders_acquired = self.parent.session_dict[SessionKeys.list_projections_folders_acquired_so_far]
             self.fill_table_with_list_folders(list_folders=list_folders_acquired,
                                               starting_row_index=0)
-            self.checking_state_of_widgets_post_reconstruction()
+            self.checking_state_of_projections_table()

@@ -53,8 +53,12 @@ class GuiInitialization:
         column_sizes = [600, 50]
         o_table.set_column_sizes(column_sizes=column_sizes)
 
-        table_columns = [540, 80, 80, 80, 100]
-        o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstruction_tableWidget)
+        table_columns = [540, 80, 80, 80, 80, 100]
+        o_table = TableHandler(table_ui=self.parent.ui.autonomous_projections_tableWidget)
+        o_table.set_column_sizes(column_sizes=table_columns)
+
+        recon_table_columns = [740, 80, 100]
+        o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstructions_tableWidget)
         o_table.set_column_sizes(column_sizes=table_columns)
 
     def full_reset(self):
