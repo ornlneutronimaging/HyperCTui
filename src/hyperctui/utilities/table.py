@@ -167,6 +167,13 @@ class TableHandler:
         else:
             _item.setFlags(QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable)
 
+    def set_item_editable(self, row=0, column=0, editable=True):
+        _item = self.table_ui.item(row, column)
+        if not editable:
+            _item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
+        else:
+            _item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable)
+
     def set_item_enabled(self, row=0, column=0, enabled=True):
         _item = self.table_ui.item(row, column)
         if not enabled:

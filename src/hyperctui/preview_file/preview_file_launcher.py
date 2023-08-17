@@ -37,6 +37,7 @@ class PreviewFileLauncher(QDialog):
 		else:
 			file_content = read_ascii(self.file_name)
 		self.ui.file_textEdit.setText(file_content)
+		self.ui.file_textEdit.setReadOnly(True)
 
 
 class PreviewMetadataFileLauncher(QDialog):
@@ -78,6 +79,12 @@ class PreviewMetadataFileLauncher(QDialog):
 			o_table.insert_item(row=_row_index,
 								column=0,
 								value=_key)
+			o_table.set_item_editable(row=_row_index,
+								   column=0,
+								   editable=False)
 			o_table.insert_item(row=_row_index,
 								column=1,
 								value=file_content[_key])
+			o_table.set_item_editable(row=_row_index,
+								   column=1,
+								   editable=False)
