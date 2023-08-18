@@ -29,3 +29,12 @@ class ConfigHandler:
                             level=logging.INFO)
         logging.info("*** Starting a new session ***")
         logging.info(f" Version: {versioneer.get_version()}")
+
+    def load_reconstruction_config(self, file_name=None):
+        if not os.path.exists(file_name):
+            return
+
+        with open(file_name) as f:
+            config = json.load(f)
+
+        self.parent.reconstruction_config = config

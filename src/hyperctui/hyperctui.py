@@ -40,6 +40,7 @@ else:
 class HyperCTui(QMainWindow):
     log_id = None  # UI id of the logger
     config = None  # config dictionary
+    reconstruction_config = None  # config of the
 
     log_buffer_size = 500  #  500 lines
 
@@ -478,7 +479,7 @@ class HyperCTui(QMainWindow):
 
     def autonomous_checking_reconstruction_clicked(self):
         o_event = AutonomousReconstructionHandler(parent=self)
-        o_event.refrech_reconstruction_table_clicked()
+        o_event.refresh_reconstruction_table_clicked()
 
     # leaving ui
     def closeEvent(self, c):

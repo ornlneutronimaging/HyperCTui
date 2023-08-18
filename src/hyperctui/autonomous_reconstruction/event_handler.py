@@ -9,11 +9,12 @@ from hyperctui import EvaluationRegionKeys
 from hyperctui import interact_me_style, normal_style, error_style, label_in_focus_style
 
 from hyperctui.session import SessionKeys
-from hyperctui.utilities.get import Get
 
+from hyperctui.utilities.get import Get
 from hyperctui.utilities.status_message_config import StatusMessageStatus, show_status_message
 from hyperctui.utilities.table import TableHandler
 from hyperctui.utilities.array import formatting_list_for_print
+from hyperctui.utilities.config_handler import ConfigHandler
 
 from hyperctui.preview_file.preview_file_launcher import PreviewFileLauncher, PreviewMetadataFileLauncher, \
     PreviewImageLauncher
@@ -374,10 +375,22 @@ class EventHandler:
                                                  qcolor=background_color)
                     row_index += 1
 
-    def refrech_reconstruction_table_clicked(self):
+    def refresh_reconstruction_table_clicked(self):
         """this is where we will check the json file in {{location TBD}} and look for tag that
         list the reconstruction done!"""
-        pass
+        logging.info("User is refreshing the autonomous reconstruction table.")
+
+        folder_path = self.parent.folder_path
+        reconstruction_config = folder_path.reconstruction_config
+        if not os.path.exists(reconstruction_config):
+            logging.info(f"- config file {reconstruction_config} not found!")
+            return
+
+        logging.info(f"- config file {reconstruction_config} has been located!")
+        o_config = ConfigHandler(parent=self.parent)
+        o_config.load_reconstruction_config()
+
+        
 
 
 

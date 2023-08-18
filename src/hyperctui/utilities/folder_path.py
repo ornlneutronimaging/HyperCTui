@@ -3,6 +3,8 @@ import os
 from hyperctui.parent import Parent
 from hyperctui.session import SessionKeys
 
+RECONSTRUCTION_CONFIG = "reconstruction_config.json"
+
 
 class FolderPath(Parent):
     """
@@ -19,6 +21,7 @@ class FolderPath(Parent):
     nexus = None
     mcp_raw = None
     recon = None
+    reconstruction_config = None  # json file created/updated by Shimin's code
 
     def update(self):
 
@@ -42,12 +45,18 @@ class FolderPath(Parent):
         self.mcp()
         self.recon(title=title)
         self.create_mcp_raw()
+        self.svmbir_config(title=title)
 
     def __repr__(self):
         return f"folder_path:\n" + \
-            f"- shared:  \t\t{self.shared}\n- autoreduce:  \t{self.autoreduce}" + \
-            f"\n- mcp:  \t\t\t{self.mcp}\n- reduction_log: {self.reduction_log}\n- nexus:  \t\t{self.nexus}" + \
-            f"\n- mcp_raw:  \t\t{self.mcp_raw}\n- recon:  \t\t{self.recon}"
+            f"- shared:  \t\t{self.shared}\n" \
+            f"- autoreduce:  \t{self.autoreduce}\n" + \
+            f"- mcp:  \t\t{self.mcp}\n" \
+            f"- reduction_log:{self.reduction_log}\n" \
+            f"- nexus:  \t\t{self.nexus}\n" + \
+            f"- mcp_raw:  \t{self.mcp_raw}\n" \
+            f"- recon:  \t\t{self.recon}\n" \
+            f"- reconstruction_config: {self.reconstruction_config}\n"
 
     def shared(self):
         self.shared = os.sep.join([self.ipts_full_path, "shared"])
@@ -74,3 +83,6 @@ class FolderPath(Parent):
         self.mcp_raw = os.sep.join([self.ipts_full_path,
                                     'images',
                                     'mcp'])
+
+    def svmbir_config(self, title=None):
+        self.reconstruction_config = os.sep.join([self.shared, "insitu_recon", title, RECONSTRUCTION_CONFIG])
