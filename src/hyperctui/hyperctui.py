@@ -25,6 +25,7 @@ from hyperctui.utilities.exceptions import CropError, CenterOfRotationError
 from hyperctui.utilities.config_handler import ConfigHandler
 from hyperctui.utilities.folder_path import FolderPath
 from hyperctui.utilities.status_message_config import StatusMessageStatus, show_status_message
+from hyperctui.commands_launcher import CommandLauncher
 
 # warnings.filterwarnings('ignore')
 DEBUG = True
@@ -350,8 +351,11 @@ class HyperCTui(QMainWindow):
     def start_acquisition_clicked(self):
         self.session_dict[SessionKeys.process_in_progress] = True
         self.session_dict[SessionKeys.started_acquisition] = True
+
+        o_cmd = CommandLauncher(parent=self)
+        o_cmd.launch_ob_first_projections_acquisition()
+
         o_event = EventHandler(parent=self)
-        o_event.start_acquisition()
         o_event.freeze_number_ob_sample_requested()
         self.launch_pre_processing_monitor_view()
         self.ui.start_acquisition_pushButton.setEnabled(False)

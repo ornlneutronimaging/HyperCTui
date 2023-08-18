@@ -156,12 +156,6 @@ class EventHandler(Parent):
         self.parent.ui.setGeometry(rect)
         self.parent.current_tab_index = new_tab_index
 
-    def start_acquisition(self):
-        """
-        script that will call Shimin's code to take OB and first projections
-        """
-        pass
-
     def freeze_number_ob_sample_requested(self):
         """
         this freeze the number of OB and sample measured and record the initial list of OBs and sample folders

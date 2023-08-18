@@ -7,6 +7,7 @@ import os
 
 from hyperctui import EvaluationRegionKeys
 from hyperctui import interact_me_style, normal_style, error_style, label_in_focus_style
+from hyperctui.commands_launcher import CommandLauncher
 
 from hyperctui.session import SessionKeys
 
@@ -166,6 +167,9 @@ class EventHandler:
         self.parent.ui.autonomous_projection_location_label.setText(folder_path.mcp)
 
         self.init_autonomous_table()
+
+        o_cmd = CommandLauncher(parent=self.parent)
+        o_cmd.launch_preprocessing_autonomous_reconstruction()
 
     def stop_acquisition(self):
         self.parent.ui.autonomous_projections_groupBox.setEnabled(True)
@@ -390,7 +394,7 @@ class EventHandler:
         o_config = ConfigHandler(parent=self.parent)
         o_config.load_reconstruction_config()
 
-        
+
 
 
 
