@@ -19,6 +19,7 @@ dependencies:
   - pyqtgraph
   - tqdm
   - dxchange
+  - pip
   - pip:
       - NeuNorm
       - inflect
