@@ -350,7 +350,8 @@ class EventHandler:
             self.parent.ui.autonomous_reconstruction_tabWidget.setCurrentIndex(1)
 
             # fill table with as many as TOF regions reconstruction requested
-            tof_regions_dict = self.parent.session_dict[SessionKeys.tof_regions]
+            # tof_regions_dict = self.parent.session_dict[SessionKeys.tof_regions]
+            tof_regions_dict = self.parent.tof_regions
             o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstructions_tableWidget)
 
             row_index = 0
@@ -393,6 +394,8 @@ class EventHandler:
         logging.info(f"- config file {reconstruction_config} has been located!")
         o_config = ConfigHandler(parent=self.parent)
         o_config.load_reconstruction_config()
+
+
 
 
 
