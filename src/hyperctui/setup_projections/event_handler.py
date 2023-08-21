@@ -40,8 +40,6 @@ class EventHandler(Parent):
 
         full_file_name = os.path.join(mcp_raw, run_title)
 
-        print(f"{full_file_name =}")
-
         if not os.path.exists(full_file_name):
             return run_title, False
 
