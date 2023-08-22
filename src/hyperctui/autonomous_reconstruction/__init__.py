@@ -21,3 +21,9 @@ class ReconstructionTableColumnIndex:
     folder_name = 0
     preview = 1
     status = 2
+
+
+class KeysTofReconstructionConfig:
+
+    tof_reconstruction_folders = "tof reconstruction folders"
+    process_id = "process id"

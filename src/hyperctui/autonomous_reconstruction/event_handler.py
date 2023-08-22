@@ -24,6 +24,7 @@ from hyperctui.pre_autonomous_monitor import DataStatus
 from hyperctui.pre_processing_monitor import IN_PROGRESS, IN_QUEUE, READY
 from hyperctui.pre_processing_monitor.get import Get as GetMonitor
 
+from hyperctui.autonomous_reconstruction import KeysTofReconstructionConfig
 from hyperctui.autonomous_reconstruction.help_golden_angle import HelpGoldenAngle
 from hyperctui.autonomous_reconstruction.select_evaluation_regions import SelectEvaluationRegions
 from hyperctui.autonomous_reconstruction.select_tof_regions import SelectTofRegions
@@ -349,35 +350,37 @@ class EventHandler:
             self.parent.ui.autonomous_reconstruction_tabWidget.setTabEnabled(1, True)
             self.parent.ui.autonomous_reconstruction_tabWidget.setCurrentIndex(1)
 
-            # fill table with as many as TOF regions reconstruction requested
-            tof_regions_dict = self.parent.session_dict[SessionKeys.tof_regions]
-            o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstructions_tableWidget)
+            self.initialize_reconstruction_table()
 
-            row_index = 0
-            for _key in tof_regions_dict.keys():
-                if tof_regions_dict[_key][EvaluationRegionKeys.state]:
-                    o_table.insert_empty_row(row=row_index)
+    def initialize_reconstruction_table(self):
+        # fill table with as many as TOF regions reconstruction requested
+        tof_regions_dict = self.parent.session_dict[SessionKeys.tof_regions]
+        o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstructions_tableWidget)
+        row_index = 0
+        for _key in tof_regions_dict.keys():
+            if tof_regions_dict[_key][EvaluationRegionKeys.state]:
+                o_table.insert_empty_row(row=row_index)
 
-                    # temporary folder name holder
-                    o_table.insert_item(row=row_index,
-                                        column=ReconstructionTableColumnIndex.folder_name,
-                                        value=tof_regions_dict[_key][EvaluationRegionKeys.str_from_to_value])
+                # temporary folder name holder
+                o_table.insert_item(row=row_index,
+                                    column=ReconstructionTableColumnIndex.folder_name,
+                                    value=tof_regions_dict[_key][EvaluationRegionKeys.str_from_to_value])
 
-                    if row_index == 0:
-                        message = DataStatus.in_progress
-                        background_color = IN_PROGRESS
+                if row_index == 0:
+                    message = DataStatus.in_progress
+                    background_color = IN_PROGRESS
 
-                    else:
-                        message = DataStatus.in_queue
-                        background_color = IN_QUEUE
+                else:
+                    message = DataStatus.in_queue
+                    background_color = IN_QUEUE
 
-                    o_table.insert_item(row=row_index,
-                                        column=ReconstructionTableColumnIndex.status,
-                                        value=message)
-                    o_table.set_background_color(row=row_index,
-                                                 column=ReconstructionTableColumnIndex.status,
-                                                 qcolor=background_color)
-                    row_index += 1
+                o_table.insert_item(row=row_index,
+                                    column=ReconstructionTableColumnIndex.status,
+                                    value=message)
+                o_table.set_background_color(row=row_index,
+                                             column=ReconstructionTableColumnIndex.status,
+                                             qcolor=background_color)
+                row_index += 1
 
     def refresh_reconstruction_table_clicked(self):
         """this is where we will check the json file in {{location TBD}} and look for tag that
@@ -392,12 +395,24 @@ class EventHandler:
 
         logging.info(f"- config file {reconstruction_config} has been located!")
         o_config = ConfigHandler(parent=self.parent)
-        o_config.load_reconstruction_config()
+        o_config.load_reconstruction_config(file_name=reconstruction_config)
+
+        config = self.parent.reconstruction_config
+        list_tof_reconstruction_folders = config.get(KeysTofReconstructionConfig.tof_reconstruction_folders, None)
+        if not list_tof_reconstruction_folders:
+            logging.info("- no TOF reconstruction folders found yet!")
+            return
+
+        logging.info(f"- list of reconstruction folders: {list_tof_reconstruction_folders}")
+        if len(list_tof_reconstruction_folders) > 0:
+            self.refresh_reconstruction_table()
 
 
-
-
-
+    def refresh_reconstruction_table(self):
+        """
+        executed when we want to check the status of all the autonomous projections folders
+        """
+        pass
 
     def fill_table_with_list_folders(self, list_folders=None, starting_row_index=0):
 
