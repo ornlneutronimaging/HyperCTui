@@ -28,7 +28,7 @@ class EventHandler:
         """
         this method check the new OB folders showing up and updates the table
         """
-        logging.info(f"updating the monitor table of {DataType.ob}")
+        logging.info(f"-- checking if new {DataType.ob} showed up and updating the monitor table.")
 
         table_ui = self.parent.ui.obs_tableWidget
 
@@ -37,8 +37,10 @@ class EventHandler:
         name_of_output_ob_folder = self.grand_parent.ui.obs_output_location_label.text()
         list_ob_folders = o_get.list_ob_folders_in_output_directory(output_folder=name_of_output_ob_folder,
                                                                     title=title)
+        logging.info(f"-- list_ob_folders: {list_ob_folders}")
         list_folder_previously_found = self.grand_parent.session_dict[
             SessionKeys.list_ob_folders_initially_there]
+        logging.info(f"-- list_folder_previously_found: {list_folder_previously_found}")
 
         if len(list_ob_folders) == len(list_folder_previously_found):
             logging.info(f"No new OBs have been found! nothing to update.")

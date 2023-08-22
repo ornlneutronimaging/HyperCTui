@@ -351,6 +351,13 @@ class EventHandler:
             self.parent.ui.autonomous_reconstruction_tabWidget.setCurrentIndex(1)
 
             self.initialize_reconstruction_table()
+            # fill table with as many as TOF regions reconstruction requested
+            # tof_regions_dict = self.parent.session_dict[SessionKeys.tof_regions]
+            tof_regions_dict = self.parent.tof_regions
+            o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstructions_tableWidget)
+
+
+
 
     def initialize_reconstruction_table(self):
         # fill table with as many as TOF regions reconstruction requested
@@ -413,6 +420,8 @@ class EventHandler:
         executed when we want to check the status of all the autonomous projections folders
         """
         pass
+
+
 
     def fill_table_with_list_folders(self, list_folders=None, starting_row_index=0):
 
