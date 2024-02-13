@@ -37,6 +37,8 @@ class Initialization:
             # retrieve list of ob selected
             o_get_ob = GetOB(parent=self.grand_parent)
             list_ob = o_get_ob.list_ob_folders_selected()
+            # remove the Run_* part
+            list_ob = [os.path.dirname(_folder) for _folder in list_ob]
             self.populate_table_with_existing_obs(list_ob=list_ob)
             o_event = EventHandler(parent=self.parent,
                                    grand_parent=self.grand_parent)
