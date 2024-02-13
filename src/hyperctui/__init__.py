@@ -20,7 +20,7 @@ tab2_icon = os.path.join(root, "static/tab2.png")
 tab3_icon = os.path.join(root, "static/tab3.png")
 tab4_icon = os.path.join(root, "static/tab4.png")
 
-UI_TITLE = "Ai Svmbir UI"
+UI_TITLE = "hyperCT UI"
 
 interact_me_style = "background-color: lime"
 error_style = "background-color: red"

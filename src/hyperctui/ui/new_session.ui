@@ -78,12 +78,12 @@
        </property>
        <item>
         <property name="text">
-         <string>SNAP</string>
+         <string>VENUS</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>VENUS</string>
+         <string>SNAP</string>
         </property>
        </item>
       </widget>

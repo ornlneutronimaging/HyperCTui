@@ -57,7 +57,7 @@ class SessionKeys:
 
 
 class DefaultValues:
-    instrument = 'SNAP'
+    instrument = 'VENUS'
     ipts_index_selected = 0
 
     # step ob

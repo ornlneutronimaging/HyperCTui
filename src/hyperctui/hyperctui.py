@@ -26,6 +26,7 @@ from hyperctui.utilities.config_handler import ConfigHandler
 from hyperctui.utilities.folder_path import FolderPath
 from hyperctui.utilities.status_message_config import StatusMessageStatus, show_status_message
 from hyperctui.commands_launcher import CommandLauncher
+from hyperctui.session import DefaultValues
 
 # warnings.filterwarnings('ignore')
 DEBUG = True
@@ -58,10 +59,10 @@ class HyperCTui(QMainWindow):
     clicked_create_ob = False
 
     session_dict = {SessionKeys.config_version     : None,
-                    SessionKeys.instrument         : 'SNAP',
+                    SessionKeys.instrument         : DefaultValues.instrument,
                     SessionKeys.ipts_selected      : None,
-                    SessionKeys.ipts_index_selected: 0,
-                    SessionKeys.number_of_obs      : 5,
+                    SessionKeys.ipts_index_selected: DefaultValues.ipts_index_selected,
+                    SessionKeys.number_of_obs      : DefaultValues.number_of_obs,
                     SessionKeys.list_ob_folders_requested: None,   # ob acquired so far in this experiment
                     SessionKeys.list_ob_folders_acquired_so_far: None,
                     SessionKeys.list_ob_folders_initially_there: None,
