@@ -8,7 +8,7 @@ from hyperctui.utilities.table import TableHandler
 
 class Get(MasterGet):
 
-    def list_of_ipts(self, instrument):
+    def list_of_ipts(self, instrument, facility):
         """
         return the list of IPTS for the specified instrument
         ex: ['IPTS-0001', 'IPTS-0002']
@@ -16,11 +16,19 @@ class Get(MasterGet):
         logging.info(f"list of IPTS:")
         home_folder = self.parent.homepath
         logging.info(f"-> home_folder: {home_folder}")
-        full_path_list_ipts = glob.glob(os.path.join(home_folder, instrument + '/IPTS-*'))
+        full_path_list_ipts = glob.glob(os.path.join(home_folder + '/' + facility,
+                                                     instrument + '/IPTS-*'))
         logging.info(f"-> full_path_list_ipts: {full_path_list_ipts}")
         list_ipts = [os.path.basename(_folder) for _folder in full_path_list_ipts]
         list_ipts.sort()
         return list_ipts
+
+    @staticmethod
+    def facility(instrument):
+        if instrument == 'MARS':
+            return 'HFIR'
+        else:
+            return 'SNS'
 
     def number_of_obs(self):
         return self.parent.ui.number_of_ob_spinBox.value()

@@ -34,7 +34,9 @@ class NewSession(QDialog):
 
     def instrument_changed(self, new_instrument):
         o_get = Get(parent=self.parent)
-        list_ipts = o_get.list_of_ipts(instrument=new_instrument)
+        facility = Get.facility(instrument=new_instrument)
+        list_ipts = o_get.list_of_ipts(instrument=new_instrument,
+                                       facility=facility)
         self.new_list_ipts = list_ipts
         self.ui.ipts_comboBox.clear()
         self.ui.ipts_comboBox.blockSignals(True)

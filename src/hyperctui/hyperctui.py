@@ -32,11 +32,11 @@ from hyperctui.session import DefaultValues
 DEBUG = True
 
 if DEBUG:
-    HOME_FOLDER = "/Volumes/JeanHardDrive/SNS/"  # mac at home
+    HOME_FOLDER = "/Volumes/JeanHardDrive/"  # mac at home
     if not os.path.exists(HOME_FOLDER):
-        HOME_FOLDER = "/Users/j35/SNS/"              # mac at work
+        HOME_FOLDER = "/Users/j35/"              # mac at work
 else:
-    HOME_FOLDER = "/SNS"
+    HOME_FOLDER = "/"
 
 
 class HyperCTui(QMainWindow):
