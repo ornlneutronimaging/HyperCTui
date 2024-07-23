@@ -2,6 +2,8 @@ import os
 
 from hyperctui.parent import Parent
 from hyperctui.session import SessionKeys
+from hyperctui.setup_ob.get import Get
+
 
 RECONSTRUCTION_CONFIG = "reconstruction_config.json"
 
@@ -29,14 +31,19 @@ class FolderPath(Parent):
         self.root = homepath
         ipts = self.parent.session_dict[SessionKeys.ipts_selected]
         instrument = self.parent.session_dict[SessionKeys.instrument]
+
+        o_get = Get(parent=self.parent)
+        facility = o_get.facility(instrument=instrument)
+
         title = self.parent.session_dict.get(SessionKeys.run_title, "")
 
         if (instrument is None) | (ipts is None):
             return
 
         self.ipts_full_path = os.path.abspath(os.sep.join([homepath,
-                                              instrument,
-                                              ipts]))
+                                                           facility,
+                                                           instrument,
+                                                           ipts]))
 
         self.shared()
         self.autoreduce()
