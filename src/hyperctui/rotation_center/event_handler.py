@@ -97,4 +97,4 @@ class EventHandler:
             else:
                 return self.parent.ui.rotation_center_user_value.value()
         except ValueError:
-            return np.NaN
+            return np.nan
