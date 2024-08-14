@@ -42,7 +42,7 @@ class SessionHandler:
         session_dict[SessionKeys.window_height] = height
 
         instrument = session_dict[SessionKeys.instrument]
-        instrument = session_dict.get(SessionKeys.facility, 'SNS')
+        facility = session_dict.get(SessionKeys.facility, 'SNS')
         ipts_selected = session_dict[SessionKeys.ipts_selected]
         ipts_index_selected = session_dict[SessionKeys.ipts_index_selected]
 
