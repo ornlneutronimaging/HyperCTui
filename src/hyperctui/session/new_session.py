@@ -47,6 +47,7 @@ class NewSession(QDialog):
         ipts = self.ui.ipts_comboBox.currentText()
         ipts_index = self.ui.ipts_comboBox.currentIndex()
 
+        self.parent.session_dict[SessionKeys.facility] = 'SNS' if instrument in ['SNAP', 'VENUS'] else 'HFIR'
         self.parent.session_dict[SessionKeys.instrument] = instrument
         self.parent.session_dict[SessionKeys.ipts_selected] = ipts
         self.parent.session_dict[SessionKeys.ipts_index_selected] = ipts_index

@@ -42,6 +42,7 @@ class SessionHandler:
         session_dict[SessionKeys.window_height] = height
 
         instrument = session_dict[SessionKeys.instrument]
+        instrument = session_dict.get(SessionKeys.facility, 'SNS')
         ipts_selected = session_dict[SessionKeys.ipts_selected]
         ipts_index_selected = session_dict[SessionKeys.ipts_index_selected]
 
@@ -57,6 +58,7 @@ class SessionHandler:
         output_projection_folder = o_get_step1.projection_folder()
         output_ob_folder = o_get_step1.ob_folder()
 
+        session_dict[SessionKeys.facility] = facility
         session_dict[SessionKeys.instrument] = instrument
         session_dict[SessionKeys.ipts_selected] = ipts_selected
         session_dict[SessionKeys.ipts_index_selected] = ipts_index_selected

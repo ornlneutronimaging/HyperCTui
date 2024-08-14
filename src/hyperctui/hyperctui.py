@@ -29,7 +29,7 @@ from hyperctui.commands_launcher import CommandLauncher
 from hyperctui.session import DefaultValues
 
 # warnings.filterwarnings('ignore')
-DEBUG = True
+DEBUG = False
 
 if DEBUG:
     HOME_FOLDER = "/Volumes/JeanHardDrive/"  # mac at home
@@ -501,6 +501,7 @@ class HyperCTui(QMainWindow):
         self.ui.setWindowTitle(title)
 
     def inform_of_output_location(self):
+        facility = self.session_dict.get(SessionKeys.facility, 'SNS')
         instrument = self.session_dict[SessionKeys.instrument]
         ipts = self.session_dict[SessionKeys.ipts_selected]
         title = self.ui.run_title_formatted_label.text()
@@ -519,21 +520,21 @@ class HyperCTui(QMainWindow):
             if title == "N/A":
                 title = "'title'"
 
-            output_location = os.sep.join([self.homepath,
+            output_location = os.sep.join([facility,
                                            instrument,
                                            ipts,
                                            "shared",
                                            "autoreduce",
                                            "mcp",
                                            ])
-            ob_output_location = os.sep.join([self.homepath,
+            ob_output_location = os.sep.join([facility,
                                               instrument,
                                               ipts,
                                               "shared",
                                               "autoreduce",
                                               "mcp",
                                               ])
-            final_ob_output_location = os.sep.join([self.homepath,
+            final_ob_output_location = os.sep.join([facility,
                                               instrument,
                                               ipts,
                                               "shared",

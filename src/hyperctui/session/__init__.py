@@ -2,6 +2,7 @@ class SessionKeys:
 
     config_version = 'config version'
 
+    facility = 'facility'
     instrument = 'instrument'
     ipts_selected = 'ipts selected'
     ipts_index_selected = 'ipts index selected'
