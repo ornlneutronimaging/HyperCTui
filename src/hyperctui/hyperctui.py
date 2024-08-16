@@ -29,7 +29,7 @@ from hyperctui.commands_launcher import CommandLauncher
 from hyperctui.session import DefaultValues
 
 # warnings.filterwarnings('ignore')
-DEBUG = False
+DEBUG = True
 
 if DEBUG:
     HOME_FOLDER = "/Volumes/JeanHardDrive/"  # mac at home
@@ -527,6 +527,8 @@ class HyperCTui(QMainWindow):
                                            "autoreduce",
                                            "mcp",
                                            ])
+            output_location = os.path.join(HOME_FOLDER, output_location)
+
             ob_output_location = os.sep.join([facility,
                                               instrument,
                                               ipts,
@@ -534,6 +536,8 @@ class HyperCTui(QMainWindow):
                                               "autoreduce",
                                               "mcp",
                                               ])
+            ob_output_location = os.path.join(HOME_FOLDER, output_location)
+
             final_ob_output_location = os.sep.join([facility,
                                               instrument,
                                               ipts,
@@ -541,8 +545,9 @@ class HyperCTui(QMainWindow):
                                               "autoreduce",
                                               "mcp",
                                               f"OBs_{title}" + os.path.sep])
+            final_ob_output_location = os.path.join(HOME_FOLDER, final_ob_output_location)
 
-        self.ui.projections_output_location_label.setText(os.path.abspath(output_location))
+        self.ui.projections_output_location_label.setText(output_location)
         self.ui.obs_output_location_label.setText(os.path.abspath(ob_output_location))
         self.ui.location_of_ob_created.setText(os.path.abspath(ob_output_location))
         self.ui.final_location_of_ob_created.setText(os.path.abspath(final_ob_output_location))
