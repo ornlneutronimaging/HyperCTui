@@ -536,7 +536,7 @@ class HyperCTui(QMainWindow):
                                               "autoreduce",
                                               "mcp",
                                               ])
-            ob_output_location = os.path.join(HOME_FOLDER, output_location)
+            ob_output_location = os.path.join(HOME_FOLDER, ob_output_location)
 
             final_ob_output_location = os.sep.join([facility,
                                               instrument,

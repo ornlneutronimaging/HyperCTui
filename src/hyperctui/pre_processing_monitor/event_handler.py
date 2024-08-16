@@ -338,16 +338,20 @@ class EventHandler:
         same time to make sure we are now pointing to the final location.
         """
         logging.info(f"Moving obs to final folder!")
-        list_ob_folders = self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there]
+        o_table = TableHandler(table_ui=self.parent.ui.obs_tableWidget)
+        list_obs_folders = o_table.get_elements_from_column()
+        # list_ob_folders = self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there]
+
         final_location = self.grand_parent.ui.final_location_of_ob_created.text()
+
         make_folder(final_location)
-        move_list_files_to_folder(list_of_files=list_ob_folders,
+        move_list_files_to_folder(list_of_files=list_obs_folders,
                                   folder=final_location)
 
         logging.info(f"Updating table with new location of obs!")
         o_table = TableHandler(table_ui=self.parent.ui.obs_tableWidget)
         new_list_ob_folders = []
-        for _row, _folder in enumerate(list_ob_folders):
+        for _row, _folder in enumerate(list_obs_folders):
             _new_final_location = os.path.join(final_location, os.path.basename(_folder))
             new_list_ob_folders.append(_new_final_location)
             o_table.set_item_with_str(row=_row,
@@ -355,3 +359,4 @@ class EventHandler:
                                       value=_new_final_location)
         self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there] = new_list_ob_folders
         # self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested]
+        self.parent.all_obs_moved = True

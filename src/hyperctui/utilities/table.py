@@ -51,59 +51,6 @@ class TableHandler:
         self.remove_all_rows()
         self.remove_all_columns()
 
-    def get_rows_of_table_selected(self):
-        if self.table_ui is None:
-            return None
-
-        selected_ranges = self.table_ui.selectedRanges()
-        if selected_ranges == []:
-            return None
-
-        list_row_selected = []
-        for _selection in selected_ranges:
-            top_row = _selection.topRow()
-            bottom_row = _selection.bottomRow()
-            if top_row == bottom_row:
-                list_row_selected.append(top_row)
-            else:
-                _range = np.arange(top_row, bottom_row + 1)
-                for _row in _range:
-                    list_row_selected.append(_row)
-
-        return list_row_selected
-
-    def get_row_selected(self):
-        if self.table_ui is None:
-            return -1
-        list_selection = self.table_ui.selectedRanges()
-        try:
-            first_selection = list_selection[0]
-        except IndexError:
-            return -1
-        return first_selection.topRow()
-
-    def get_cell_selected(self):
-        list_selection = self.table_ui.selectedRanges()
-        first_selection = list_selection[0]
-        row = first_selection.topRow()
-        col = first_selection.leftColumn()
-        return (row, col)
-
-    def get_item_str_from_cell(self, row=-1, column=-1):
-        item_selected = self.table_ui.item(row, column).text()
-        return str(item_selected)
-
-    def get_widget(self, row=-1, column=-1):
-        _widget = self.table_ui.cellWidget(row, column)
-        return _widget
-
-    def get_inner_widget(self, row=-1, column=-1, position_index=0):
-        """
-        when the widget is inside another widget
-        """
-        _widget = self.get_widget(row=row, column=column)
-        return _widget.children()[position_index]
-
     def select_cell(self, row=0, column=0):
         self.select_everything(False)
         range_selected = QtGui.QTableWidgetSelectionRange(row, column, row, column)
@@ -211,3 +158,66 @@ class TableHandler:
 
     def unblock_signals(self):
         self.table_ui.blockSignals(False)
+
+    ## GETTER
+
+    def get_rows_of_table_selected(self):
+        if self.table_ui is None:
+            return None
+
+        selected_ranges = self.table_ui.selectedRanges()
+        if selected_ranges == []:
+            return None
+
+        list_row_selected = []
+        for _selection in selected_ranges:
+            top_row = _selection.topRow()
+            bottom_row = _selection.bottomRow()
+            if top_row == bottom_row:
+                list_row_selected.append(top_row)
+            else:
+                _range = np.arange(top_row, bottom_row + 1)
+                for _row in _range:
+                    list_row_selected.append(_row)
+
+        return list_row_selected
+
+    def get_row_selected(self):
+        if self.table_ui is None:
+            return -1
+        list_selection = self.table_ui.selectedRanges()
+        try:
+            first_selection = list_selection[0]
+        except IndexError:
+            return -1
+        return first_selection.topRow()
+
+    def get_cell_selected(self):
+        list_selection = self.table_ui.selectedRanges()
+        first_selection = list_selection[0]
+        row = first_selection.topRow()
+        col = first_selection.leftColumn()
+        return (row, col)
+
+    def get_item_str_from_cell(self, row=-1, column=-1):
+        item_selected = self.table_ui.item(row, column).text()
+        return str(item_selected)
+
+    def get_widget(self, row=-1, column=-1):
+        _widget = self.table_ui.cellWidget(row, column)
+        return _widget
+
+    def get_inner_widget(self, row=-1, column=-1, position_index=0):
+        """
+        when the widget is inside another widget
+        """
+        _widget = self.get_widget(row=row, column=column)
+        return _widget.children()[position_index]
+
+    def get_elements_from_column(self, column=0):
+        list_element = []
+        row_count = self.row_count()
+        for _row in np.arange(row_count):
+            list_element.append(self.get_item_str_from_cell(row=_row,
+                                                            column=column))
+        return list_element

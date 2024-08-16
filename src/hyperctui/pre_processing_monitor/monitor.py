@@ -35,6 +35,7 @@ class Monitor(QMainWindow):
     dict_projections_log_err_metadata = None
 
     all_obs_found = False
+    all_obs_moved = False
     all_projections_found = False
 
     def __init__(self, parent=None):
@@ -84,23 +85,25 @@ class Monitor(QMainWindow):
 
         if self.all_obs_found:
 
-            logging.info(f"-> all obs found!")
+            if not self.all_obs_moved:
+                logging.info(f"-> all obs found!")
+                o_event.move_obs_to_final_folder()
 
-            #FIXME for now, hide those buttons
-            self.ui.monitor_moving_obs_label.setVisible(False)
-            self.ui.final_ob_folder_label.setVisible(False)
-            self.ui.final_ob_folder_status.setVisible(False)
+                #FIXME for now, hide those buttons
+                self.ui.monitor_moving_obs_label.setVisible(False)
+                self.ui.final_ob_folder_label.setVisible(False)
+                self.ui.final_ob_folder_status.setVisible(False)
 
-            o_event.checking_status_of_expected_projections()
-            if self.all_projections_found:
+                o_event.checking_status_of_expected_projections()
+                if self.all_projections_found:
 
-                logging.info(f"-> all projections found!")
-                if not self.parent.session_dict[SessionKeys.all_tabs_visible]:
-                    self.parent.session_dict[SessionKeys.all_tabs_visible] = True
-                    o_widgets = UtilityWidgets(parent=self.parent)
-                    o_widgets.make_tabs_visible(is_visible=True)
-                    self.parent.initialize_crop()
-                    self.parent.initialize_center_of_rotation()
+                    logging.info(f"-> all projections found!")
+                    if not self.parent.session_dict[SessionKeys.all_tabs_visible]:
+                        self.parent.session_dict[SessionKeys.all_tabs_visible] = True
+                        o_widgets = UtilityWidgets(parent=self.parent)
+                        o_widgets.make_tabs_visible(is_visible=True)
+                        self.parent.initialize_crop()
+                        self.parent.initialize_center_of_rotation()
 
     def closeEvent(self, c):
         self.parent.monitor_ui = None
