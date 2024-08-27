@@ -89,15 +89,18 @@ class SessionHandler:
         session_dict[SessionKeys.main_tab_selected] = main_tab_selected
 
         # crop
-        left = self.parent.ui.crop_left_spinBox.value()
-        right = self.parent.ui.crop_right_spinBox.value()
-        top = self.parent.ui.crop_top_spinBox.value()
-        bottom = self.parent.ui.crop_bottom_spinBox.value()
+        try:
+            left = int(self.parent.ui.crop_left_label_value.text())
+        except ValueError:
+            left = 0
+
+        try:
+            right = int(self.parent.ui.crop_right_label_value.text())
+        except ValueError:
+            right = width-1
 
         session_dict[SessionKeys.crop_left] = left
         session_dict[SessionKeys.crop_right] = right
-        session_dict[SessionKeys.crop_top] = top
-        session_dict[SessionKeys.crop_bottom] = bottom
 
         ## evaluation regions
 
