@@ -20,6 +20,7 @@ class ConfigHandler:
         for _homepath in config['homepath']:
             if os.path.exists(_homepath):
                 self.parent.homepath = _homepath
+                break
 
         o_get = Get(parent=self.parent)
         log_file_name = o_get.get_log_file_name()
@@ -28,7 +29,7 @@ class ConfigHandler:
                             format='[%(levelname)s] - %(asctime)s - %(message)s',
                             level=logging.INFO)
         logging.info("*** Starting a new session ***")
-        logging.info(f" Version: {versioneer.get_version()}")
+        # logging.info(f" Version: {versioneer.get_version()}")
 
     def load_reconstruction_config(self, file_name=None):
         if not os.path.exists(file_name):

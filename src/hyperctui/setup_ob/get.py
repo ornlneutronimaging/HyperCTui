@@ -16,6 +16,7 @@ class Get(MasterGet):
         logging.info(f"list of IPTS:")
         home_folder = self.parent.homepath
         logging.info(f"-> home_folder: {home_folder}")
+        logging.info(f"-> looking ipts in {os.path.join(home_folder + '/' + facility, instrument + '/IPTS-*') =}")
         full_path_list_ipts = glob.glob(os.path.join(home_folder + '/' + facility,
                                                      instrument + '/IPTS-*'))
         logging.info(f"-> full_path_list_ipts: {full_path_list_ipts}")
