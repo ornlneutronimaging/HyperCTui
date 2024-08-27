@@ -78,10 +78,12 @@ class Monitor(QMainWindow):
         preview_file.show()
 
     def refresh_button_clicked(self):
-        logging.info("Updating monitor table!")
+        logging.info("Updating monitor table (OBs, 0degree and 180degrees projections)!")
         o_event = MonitorEventHandler(parent=self,
                                       grand_parent=self.parent)
-        o_event.checking_status_of_expected_obs()
+
+        if not self.all_obs_found:
+            o_event.checking_status_of_expected_obs()
 
         if self.all_obs_found:
 
@@ -94,16 +96,17 @@ class Monitor(QMainWindow):
                 self.ui.final_ob_folder_label.setVisible(False)
                 self.ui.final_ob_folder_status.setVisible(False)
 
-                o_event.checking_status_of_expected_projections()
-                if self.all_projections_found:
+            logging.info("Checking status of 0 and 180 degrees projections")
+            o_event.checking_status_of_expected_projections()
+            if self.all_projections_found:
 
-                    logging.info(f"-> all projections found!")
-                    if not self.parent.session_dict[SessionKeys.all_tabs_visible]:
-                        self.parent.session_dict[SessionKeys.all_tabs_visible] = True
-                        o_widgets = UtilityWidgets(parent=self.parent)
-                        o_widgets.make_tabs_visible(is_visible=True)
-                        self.parent.initialize_crop()
-                        self.parent.initialize_center_of_rotation()
+                logging.info(f"-> all projections found!")
+                if not self.parent.session_dict[SessionKeys.all_tabs_visible]:
+                    self.parent.session_dict[SessionKeys.all_tabs_visible] = True
+                    o_widgets = UtilityWidgets(parent=self.parent)
+                    o_widgets.make_tabs_visible(is_visible=True)
+                    self.parent.initialize_crop()
+                    self.parent.initialize_center_of_rotation()
 
     def closeEvent(self, c):
         self.parent.monitor_ui = None

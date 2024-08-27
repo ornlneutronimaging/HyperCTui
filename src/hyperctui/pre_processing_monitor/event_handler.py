@@ -67,6 +67,7 @@ class EventHandler:
 
         # we go row by row to see if we need to change the status of the row
         range_row_to_update = np.arange(starting_working_row, starting_working_row + len(list_new_ob_folders))
+        list_new_ob_folders.sort()
 
         for _new_file_index, _row in enumerate(range_row_to_update):
 
