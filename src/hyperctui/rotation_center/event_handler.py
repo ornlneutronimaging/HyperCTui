@@ -34,7 +34,7 @@ class EventHandler:
         self.parent.ui.rotation_center_user_defined_radioButton.blockSignals(False)
         self.parent.ui.rotation_center_tomopy_radioButton.blockSignals(False)
 
-        self.display_center_of_rotation()
+        self.display_center_of_rotation(is_tomopy_checked)
 
     def update_widgets(self):
         """
@@ -71,7 +71,7 @@ class EventHandler:
                                 status=StatusMessageStatus.ready,
                                 duration_s=5)
 
-    def display_center_of_rotation(self):
+    def display_center_of_rotation(self, is_tomopy_checked=True):
 
         if self.parent.center_of_rotation_item:
             self.parent.rotation_center_image_view.removeItem(self.parent.center_of_rotation_item)
@@ -85,7 +85,7 @@ class EventHandler:
             self.parent.center_of_rotation_item = pg.InfiniteLine(center_of_rotation_value,
                                                                   pen=_pen,
                                                                   angle=90,
-                                                                  movable=False)
+                                                                  movable=not is_tomopy_checked)
             self.parent.ui.rotation_center_image_view.addItem(self.parent.center_of_rotation_item)
             self.parent.center_of_rotation_item.sigDragged.connect(self.parent.manual_rotation_center_moved)
             self.parent.center_of_rotation_item.sigPositionChangeFinished.connect(self.parent.manual_rotation_center_moved)
