@@ -73,19 +73,20 @@ class Crop:
 
     def init_roi(self, left, right):
 
-        if self.parent.crop_roi_id:
-            self.parent.ui.crop_image_view.removeItem(self.parent.crop_roi_id)
+        # if self.parent.crop_roi_id:
+        #     self.parent.ui.crop_image_view.removeItem(self.parent.crop_roi_id)
 
         _color = QtGui.QColor(62, 13, 244)
         _pen = QtGui.QPen()
         _pen.setColor(_color)
-        _pen.setWidthF(0.01)
+        _pen.setWidthF(1)
 
         crop_left_ui = pg.InfiniteLine(left,
                                        pen=_pen,
                                        angle=90,
                                        movable=True)
         self.parent.ui.crop_image_view.addItem(crop_left_ui)
+
 
         crop_right_ui = pg.InfiniteLine(right,
                                         pen=_pen,
@@ -103,11 +104,11 @@ class Crop:
         # _roi_id.sigRegionChanged.connect(self.parent.crop_roi_manually_moved)
         # self.parent.crop_roi_id = _roi_id
 
-    def update_roi(self):
-        left = self.parent.ui.crop_left_spinBox.value()
-        right = self.parent.ui.crop_right_spinBox.value()
-
-        self.init_roi(left, right)
+    # def update_roi(self):
+    #     left = self.parent.ui.crop_left_spinBox.value()
+    #     right = self.parent.ui.crop_right_spinBox.value()
+    #
+    #     self.init_roi(left, right)
 
     def roi_manually_moved(self):
         pass
