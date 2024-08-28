@@ -427,6 +427,7 @@ class HyperCTui(QMainWindow):
                                 status=StatusMessageStatus.error)
 
     def rotation_center_tomopy_clicked(self, button_state):
+        self.center_of_rotation_item.setMovable(False)
         self.ui.rotation_center_user_defined_radioButton.blockSignals(True)
         self.ui.rotation_center_user_defined_radioButton.setChecked(not button_state)
         o_event = RotationCenterEventHandler(parent=self)
@@ -434,11 +435,15 @@ class HyperCTui(QMainWindow):
         self.ui.rotation_center_user_defined_radioButton.blockSignals(False)
 
     def rotation_center_user_clicked(self, button_state):
+        self.center_of_rotation_item.setMovable(True)
         self.ui.rotation_center_tomopy_radioButton.blockSignals(True)
         self.ui.rotation_center_tomopy_radioButton.setChecked(not button_state)
-        o_event = RotationCenterEventHandler(parent=self)
-        o_event.radio_button_changed(is_tomopy_checked=not button_state)
+        # o_event = RotationCenterEventHandler(parent=self)
+        # o_event.radio_button_changed(is_tomopy_checked=not button_state)
         self.ui.rotation_center_tomopy_radioButton.blockSignals(False)
+
+    def manual_rotation_center_moved(self):
+        print(f"{self.center_of_rotation_item.value()}")
 
     def rotation_center_tomopy_calculate_clicked(self):
         o_event = RotationCenterEventHandler(parent=self)

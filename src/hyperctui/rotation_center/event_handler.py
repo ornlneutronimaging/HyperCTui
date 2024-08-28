@@ -87,6 +87,8 @@ class EventHandler:
                                                                   angle=90,
                                                                   movable=False)
             self.parent.ui.rotation_center_image_view.addItem(self.parent.center_of_rotation_item)
+            self.parent.center_of_rotation_item.sigDragged.connect(self.parent.manual_rotation_center_moved)
+            self.parent.center_of_rotation_item.sigPositionChangeFinished.connect(self.parent.manual_rotation_center_moved)
 
     def get_center_of_rotation(self):
         try:
