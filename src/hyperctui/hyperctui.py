@@ -360,6 +360,10 @@ class HyperCTui(QMainWindow):
         o_event.freeze_number_ob_sample_requested()
         self.launch_pre_processing_monitor_view()
         self.ui.start_acquisition_pushButton.setEnabled(False)
+     
+        print("start acquisition clicked!")
+
+
 
     def checking_status_acquisition_button_clicked(self):
         self.launch_pre_processing_monitor_view()
