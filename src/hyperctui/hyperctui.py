@@ -407,6 +407,14 @@ class HyperCTui(QMainWindow):
         o_crop = Crop(parent=self)
         o_crop.roi_manually_moved()
 
+    def sort_the_crop_values(self):
+        left_crop_value = int(self.crop_left_ui.value())
+        right_crop_value = int(self.crop_right_ui.value())
+        left_right = [left_crop_value, right_crop_value]
+        left_right.sort()
+        self.ui.crop_left_label_value.setText(str(left_right[0]))
+        self.ui.crop_right_label_value.setText(str(left_right[1]))
+
     # center of rotation
     def initialize_center_of_rotation(self):
         try:

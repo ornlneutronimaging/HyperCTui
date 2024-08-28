@@ -40,8 +40,8 @@ class EventHandler:
         """
         1. max value of user center of rotation value is width-1 of cropped image
         """
-        left = self.parent.ui.crop_left_spinBox.value()
-        right = self.parent.ui.crop_right_spinBox.value()
+        left = int(self.parent.ui.crop_left_label_value.text())
+        right = int(self.parent.ui.crop_right_label_value.text())
         width = right - left
         self.parent.ui.rotation_center_user_value.setMaximum(width-1)
 
@@ -53,14 +53,12 @@ class EventHandler:
         image_0_degree = self.parent.image_0_degree
         image_180_degree = self.parent.image_180_degree
 
-        left = self.parent.ui.crop_left_spinBox.value()
-        right = self.parent.ui.crop_right_spinBox.value()
-        top = self.parent.ui.crop_top_spinBox.value()
-        bottom = self.parent.ui.crop_bottom_spinBox.value()
+        left = int(self.parent.ui.crop_left_label_value.text())
+        right = int(self.parent.ui.crop_right_label_value.text())
 
         if (not (image_0_degree is None)) and (not (image_180_degree is None)):
-            cropped_image_0_degree = image_0_degree[top:bottom+1, left:right+1].copy()
-            cropped_image_180_degree = image_180_degree[top:bottom+1, left:right+1].copy()
+            cropped_image_0_degree = image_0_degree[:, left:right+1].copy()
+            cropped_image_180_degree = image_180_degree[:, left:right+1].copy()
 
             value = rotation.find_center_pc(cropped_image_0_degree,
                                             cropped_image_180_degree)

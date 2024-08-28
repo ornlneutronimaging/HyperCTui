@@ -81,28 +81,21 @@ class Crop:
         _pen.setColor(_color)
         _pen.setWidthF(1)
 
-        crop_left_ui = pg.InfiniteLine(left,
-                                       pen=_pen,
-                                       angle=90,
-                                       movable=True)
-        self.parent.ui.crop_image_view.addItem(crop_left_ui)
+        self.parent.crop_left_ui = pg.InfiniteLine(left,
+                                           pen=_pen,
+                                           angle=90,
+                                           movable=True)
+        self.parent.ui.crop_image_view.addItem(self.parent.crop_left_ui)
+        self.parent.crop_left_ui.sigDragged.connect(self.parent.sort_the_crop_values)
+        self.parent.crop_left_ui.sigPositionChangeFinished.connect(self.parent.sort_the_crop_values)
 
-
-        crop_right_ui = pg.InfiniteLine(right,
-                                        pen=_pen,
-                                        angle=90,
-                                        movable=True)
-        self.parent.ui.crop_image_view.addItem(crop_right_ui)
-
-        # _roi_id = pg.ROI([left, top], [width, height], pen=_pen, scaleSnap=True)
-        #
-        # _roi_id.addScaleHandle([1, 1], [0, 0])
-        # _roi_id.addScaleHandle([0, 0], [1, 1])
-        #
-        # self.parent.ui.crop_image_view.addItem(_roi_id)
-        #
-        # _roi_id.sigRegionChanged.connect(self.parent.crop_roi_manually_moved)
-        # self.parent.crop_roi_id = _roi_id
+        self.parent.crop_right_ui = pg.InfiniteLine(right,
+                                                    pen=_pen,
+                                                    angle=90,
+                                                    movable=True)
+        self.parent.ui.crop_image_view.addItem(self.parent.crop_right_ui)
+        self.parent.crop_right_ui.sigDragged.connect(self.parent.sort_the_crop_values)
+        self.parent.crop_right_ui.sigPositionChangeFinished.connect(self.parent.sort_the_crop_values)
 
     # def update_roi(self):
     #     left = self.parent.ui.crop_left_spinBox.value()
