@@ -136,9 +136,12 @@ exclude = ["notebooks/**", "**/*.ipynb"]
 [tool.ruff.lint]
 select = ["A", "ARG","ASYNC","BLE","C90", "E", "F", "I", "UP032", "W"]
 ignore = [
+    # NOTE: The following lint errors are ignored, but we should fix them eventually
     "ARG002",  # Unused method argument
     "ARG005",  # Unused lambda argument
+    "C901",  # Complexity too high
     "E741",  # ambiguous variable name, such as L, E, etc.
+    "F811",  # Redefinition of unused variable (default var from Qt trigger this)
     "F841",  # Local variable is assigned to but never used
 ]
 

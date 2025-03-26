@@ -1,24 +1,22 @@
 import glob
-import os
 import logging
+import os
 
 from hyperctui.utilities.get import Get as MasterGet
 from hyperctui.utilities.table import TableHandler
 
 
 class Get(MasterGet):
-
     def list_of_ipts(self, instrument, facility):
         """
         return the list of IPTS for the specified instrument
         ex: ['IPTS-0001', 'IPTS-0002']
         """
-        logging.info(f"list of IPTS:")
+        logging.info("list of IPTS:")
         home_folder = self.parent.homepath
         logging.info(f"-> home_folder: {home_folder}")
         logging.info(f"-> looking ipts in {os.path.join(home_folder + '/' + facility, instrument + '/IPTS-*') =}")
-        full_path_list_ipts = glob.glob(os.path.join(home_folder + '/' + facility,
-                                                     instrument + '/IPTS-*'))
+        full_path_list_ipts = glob.glob(os.path.join(home_folder + "/" + facility, instrument + "/IPTS-*"))
         logging.info(f"-> full_path_list_ipts: {full_path_list_ipts}")
         list_ipts = [os.path.basename(_folder) for _folder in full_path_list_ipts]
         list_ipts.sort()
@@ -26,10 +24,10 @@ class Get(MasterGet):
 
     @staticmethod
     def facility(instrument):
-        if instrument == 'MARS':
-            return 'HFIR'
+        if instrument == "MARS":
+            return "HFIR"
         else:
-            return 'SNS'
+            return "SNS"
 
     def number_of_obs(self):
         return self.parent.ui.number_of_ob_spinBox.value()
@@ -47,17 +45,16 @@ class Get(MasterGet):
             o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
             nbr_row = o_table.row_count()
             if nbr_row == 0:
-
-                logging.info(f"Unable to retrieve OB proton charge from empty table "
-                             f"(1- Setup the open beams / Select OBs)")
+                logging.info(
+                    "Unable to retrieve OB proton charge from empty table (1- Setup the open beams / Select OBs)"
+                )
                 return "N/A"
 
             selected_rows = o_table.get_rows_of_table_selected()
             if selected_rows is None:
                 return "N/A"
 
-            proton_charge = o_table.get_item_str_from_cell(row=selected_rows[0],
-                                                           column=1)
+            proton_charge = o_table.get_item_str_from_cell(row=selected_rows[0], column=1)
             return proton_charge
 
     def top_ob_folder(self):
@@ -85,7 +82,7 @@ class Get(MasterGet):
         list_sample_folders = []
         for _folder in list_folders:
             base_folder = os.path.basename(_folder)
-            if (not ("ob" in base_folder.lower())) and (title in base_folder):
+            if ("ob" not in base_folder.lower()) and (title in base_folder):
                 list_sample_folders.append(_folder)
         return list_sample_folders
 
@@ -97,8 +94,7 @@ class Get(MasterGet):
 
         list_folders = []
         for _row in list_row_selected:
-            _folder = o_table.get_item_str_from_cell(row=_row,
-                                                     column=0)
+            _folder = o_table.get_item_str_from_cell(row=_row, column=0)
             list_folders.append(_folder)
         return list_folders
 

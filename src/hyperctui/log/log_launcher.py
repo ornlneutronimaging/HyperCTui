@@ -1,17 +1,16 @@
-from qtpy.QtWidgets import QMainWindow
-import os
-from qtpy.QtGui import QIcon
-from qtpy import QtGui
 import logging
+import os
 
-from hyperctui import load_ui
-from hyperctui import refresh_image
-from hyperctui.utilities.get import Get
+from qtpy import QtGui
+from qtpy.QtGui import QIcon
+from qtpy.QtWidgets import QMainWindow
+
+from hyperctui import load_ui, refresh_image
 from hyperctui.utilities.file_utilities import read_ascii, write_ascii
+from hyperctui.utilities.get import Get
 
 
 class LogLauncher:
-
     def __init__(self, parent=None):
         self.parent = parent
 
@@ -25,13 +24,10 @@ class LogLauncher:
 
 
 class Log(QMainWindow):
-
     def __init__(self, parent=None):
         self.parent = parent
         QMainWindow.__init__(self, parent=parent)
-        ui_full_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                                    os.path.join('ui',
-                                                 'log.ui'))
+        ui_full_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), os.path.join("ui", "log.ui"))
         self.ui = load_ui(ui_full_path, baseinstance=self)
         self.setWindowTitle("Log")
         self.ui.log_text.setReadOnly(True)
@@ -65,7 +61,6 @@ class Log(QMainWindow):
 
 
 class LogHandler:
-
     def __init__(self, parent=None, log_file_name=""):
         self.parent = parent
         self.log_file_name = log_file_name

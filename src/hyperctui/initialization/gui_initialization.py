@@ -1,18 +1,18 @@
-from qtpy.QtWidgets import QProgressBar, QVBoxLayout
-import pyqtgraph as pg
-from qtpy.QtGui import QIcon
-from qtpy.QtGui import QPixmap
-import numpy as np
+#!/usr/bin/env python
 import os
-import pandas as pd
 
+import numpy as np
+import pandas as pd
+import pyqtgraph as pg
+from qtpy.QtGui import QIcon, QPixmap
+from qtpy.QtWidgets import QProgressBar, QVBoxLayout
+
+from hyperctui import TabNames, golden_ratio_file, more_infos, tab0_icon, tab1_icon
 from hyperctui.utilities.config_handler import ConfigHandler
 from hyperctui.utilities.table import TableHandler
-from hyperctui import more_infos, TabNames, tab0_icon, tab1_icon, golden_ratio_file
 
 
 class GuiInitialization:
-
     def __init__(self, parent=None):
         self.parent = parent
 
@@ -30,7 +30,7 @@ class GuiInitialization:
 
     def autonomous_reconstruction_data(self):
         table = pd.read_csv(golden_ratio_file)
-        self.parent.golden_ratio_angles = list(table['angles'])
+        self.parent.golden_ratio_angles = list(table["angles"])
 
     def tabs(self):
         self.parent.ui.tabWidget.setTabText(0, TabNames.tab0)
@@ -73,14 +73,13 @@ class GuiInitialization:
         self.parent.ui.top_crop_widget.setEnabled(False)
 
         # 0 and 180 degrees label
-        self.parent.ui.setup_0_180_label.setText(u"0\u00B0 and 180\u00B0 projections will be acquired automatically!")
+        self.parent.ui.setup_0_180_label.setText("0\u00b0 and 180\u00b0 projections will be acquired automatically!")
 
         # add logo to background of tabs
         _file_path = os.path.dirname(__file__)
-        background_file = os.path.abspath(os.path.join(_file_path, '../static/hyperctui_logo.png'))
+        background_file = os.path.abspath(os.path.join(_file_path, "../static/hyperctui_logo.png"))
         logo_icon = QPixmap(background_file)
         self.parent.ui.logo.setPixmap(logo_icon)
-        # self.parent.ui.tab.setStyleSheet("background-image: url('" +  background_file  + "'); background-repeat: no-repeat")
 
         self.parent.ui.autonomous_reconstruction_tabWidget.setVisible(False)
 

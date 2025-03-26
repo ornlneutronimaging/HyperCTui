@@ -1,20 +1,20 @@
-from qtpy.QtWidgets import QDialog
 import os
 
+from qtpy.QtWidgets import QDialog
+
 from hyperctui import load_ui
-from hyperctui.utilities.get import Get
-from hyperctui.utilities.folder_path import FolderPath
 from hyperctui.session.session_handler import SessionHandler
+from hyperctui.utilities.folder_path import FolderPath
+from hyperctui.utilities.get import Get
 
 
 class LoadPreviousSessionLauncher(QDialog):
-
     def __init__(self, parent=None, config=None):
         self.parent = parent
         QDialog.__init__(self, parent=parent)
-        ui_full_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                                    os.path.join('ui',
-                                                 'load_previous_session.ui'))
+        ui_full_path = os.path.join(
+            os.path.dirname(os.path.dirname(__file__)), os.path.join("ui", "load_previous_session.ui")
+        )
         self.ui = load_ui(ui_full_path, baseinstance=self)
         self.setWindowTitle("Load previous session?")
         self.ui.pushButton.setFocus(True)

@@ -1,25 +1,24 @@
-import numpy as np
 import logging
-from qtpy import QtGui
-import pyqtgraph as pg
 
+import numpy as np
+import pyqtgraph as pg
 from NeuNorm.normalization import Normalization
+from qtpy import QtGui
 
 from hyperctui.session import SessionKeys
+from hyperctui.utilities.exceptions import CropError
 from hyperctui.utilities.file_utilities import get_list_img_files_from_top_folders
 from hyperctui.utilities.widgets import Widgets as UtilityWidgets
-from hyperctui.utilities.exceptions import CropError
 
 
 class Crop:
-
     list_files = None
 
     def __init__(self, parent=None):
         self.parent = parent
 
     def load_projections(self):
-        logging.info(f"Loading projections in crop")
+        logging.info("Loading projections in crop")
         list_projections = self.parent.session_dict[SessionKeys.list_projections]
         logging.info(f"-> list_projections: {list_projections}")
 
@@ -33,11 +32,11 @@ class Crop:
         o_loader = Normalization()
         o_loader.load(file=list_summed_img, notebook=False)
 
-        self.mean_image = np.mean(o_loader.data['sample']['data'][:], axis=0)
+        self.mean_image = np.mean(o_loader.data["sample"]["data"][:], axis=0)
         [height, width] = np.shape(self.mean_image)
-        self.parent.image_size = {'height': height, 'width': width}
-        self.parent.image_0_degree = o_loader.data['sample']['data'][0]
-        self.parent.image_180_degree = o_loader.data['sample']['data'][1]
+        self.parent.image_size = {"height": height, "width": width}
+        self.parent.image_0_degree = o_loader.data["sample"]["data"][0]
+        self.parent.image_180_degree = o_loader.data["sample"]["data"][1]
         self.parent.crop_live_image = self.mean_image
 
     def initialize(self):
@@ -54,8 +53,8 @@ class Crop:
 
         [_, width] = np.shape(self.parent.crop_live_image)
 
-        default_left = 0 + width/3
-        default_right = width - width/3
+        default_left = 0 + width / 3
+        default_right = width - width / 3
 
         left = self.parent.session_dict.get(SessionKeys.crop_left, default_left)
         right = self.parent.session_dict.get(SessionKeys.crop_right, default_right)
@@ -72,7 +71,6 @@ class Crop:
         self.init_roi(left, right)
 
     def init_roi(self, left, right):
-
         # if self.parent.crop_roi_id:
         #     self.parent.ui.crop_image_view.removeItem(self.parent.crop_roi_id)
 
@@ -81,18 +79,12 @@ class Crop:
         _pen.setColor(_color)
         _pen.setWidthF(1)
 
-        self.parent.crop_left_ui = pg.InfiniteLine(left,
-                                           pen=_pen,
-                                           angle=90,
-                                           movable=True)
+        self.parent.crop_left_ui = pg.InfiniteLine(left, pen=_pen, angle=90, movable=True)
         self.parent.ui.crop_image_view.addItem(self.parent.crop_left_ui)
         self.parent.crop_left_ui.sigDragged.connect(self.parent.sort_the_crop_values)
         self.parent.crop_left_ui.sigPositionChangeFinished.connect(self.parent.sort_the_crop_values)
 
-        self.parent.crop_right_ui = pg.InfiniteLine(right,
-                                                    pen=_pen,
-                                                    angle=90,
-                                                    movable=True)
+        self.parent.crop_right_ui = pg.InfiniteLine(right, pen=_pen, angle=90, movable=True)
         self.parent.ui.crop_image_view.addItem(self.parent.crop_right_ui)
         self.parent.crop_right_ui.sigDragged.connect(self.parent.sort_the_crop_values)
         self.parent.crop_right_ui.sigPositionChangeFinished.connect(self.parent.sort_the_crop_values)

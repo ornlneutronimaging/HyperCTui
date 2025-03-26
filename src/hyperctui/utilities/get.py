@@ -1,22 +1,21 @@
-from os.path import expanduser
-import os
 import glob
-from qtpy import QtGui
-import numpy as np
 import multiprocessing
+import os
 import subprocess
 from collections import OrderedDict
+from os.path import expanduser
+
+import numpy as np
 from PIL import Image
+from qtpy import QtGui
 
 from hyperctui.utilities.parent import Parent
-
 from hyperctui.utilities.status_message_config import StatusMessageStatus, show_status_message
 
 
 class Get(Parent):
-
     def get_log_file_name(self):
-        log_file_name = self.parent.config['log_file_name']
+        log_file_name = self.parent.config["log_file_name"]
         full_log_file_name = Get.full_home_file_name(log_file_name)
         return full_log_file_name
 
@@ -29,7 +28,7 @@ class Get(Parent):
         return self.parent.ui.pre_processing_fitting_procedure_comboBox.itemData(index_selected)
 
     def get_automatic_config_file_name(self):
-        config_file_name = self.parent.config['session_file_name']
+        config_file_name = self.parent.config["session_file_name"]
         full_config_file_name = Get.full_home_file_name(config_file_name)
         return full_config_file_name
 
@@ -63,29 +62,28 @@ class Get(Parent):
         #
         # return int(index_of_min_value[0][0])
 
-        list_angles = self.parent.input['list angles']
+        list_angles = self.parent.input["list angles"]
         offset_with_180degrees = np.abs(np.array(list_angles) - 180.0)
         min_value = np.min(offset_with_180degrees)
         index_of_min_value = np.where(offset_with_180degrees == min_value)
         return int(index_of_min_value[0][0])
 
     def angles(self, list_files):
-        '''
+        """
         Script to read angles from tiff files at ORNL
-        '''
+        """
         ANGLE_KEY = 65039  # 65048
-        x = self.retrieve_value_of_metadata_key(list_files,
-                                                list_key=[ANGLE_KEY])
+        x = self.retrieve_value_of_metadata_key(list_files, list_key=[ANGLE_KEY])
         angles = np.zeros(len(x))
         for idx, val in enumerate(list(x.items())):
             temp = val[1]
-            angles[idx] = float(next(iter(temp.values())).split(':')[1])
+            angles[idx] = float(next(iter(temp.values())).split(":")[1])
         return angles
 
     def retrieve_value_of_metadata_key(self, list_files=[], list_key=[]):
-        '''
+        """
         From https://github.com/JeanBilheux/python_101/blob/master/working_with_images/images_metadata/using%20code%20from%20python%20notebooks.ipynb
-        '''
+        """
         if list_files == []:
             return {}
 
@@ -96,28 +94,25 @@ class Get(Parent):
         self.parent.eventProgress.setValue(0)
         self.parent.eventProgress.setVisible(True)
 
-        show_status_message(parent=self.parent,
-                            message="Retrieving angle values ...",
-                            status=StatusMessageStatus.working)
+        show_status_message(
+            parent=self.parent, message="Retrieving angle values ...", status=StatusMessageStatus.working
+        )
 
         for _index, _file in enumerate(list_files):
-            _meta = Get.value_of_metadata_key(filename=_file,
-                                              list_key=list_key)
+            _meta = Get.value_of_metadata_key(filename=_file, list_key=list_key)
             _dict[_file] = _meta
-            self.parent.eventProgress.setValue(_index+1)
+            self.parent.eventProgress.setValue(_index + 1)
             QtGui.QGuiApplication.processEvents()
 
         self.parent.eventProgress.setVisible(False)
-        show_status_message(parent=self.parent,
-                            message="",
-                            status=StatusMessageStatus.working)
+        show_status_message(parent=self.parent, message="", status=StatusMessageStatus.working)
         return _dict
 
     @staticmethod
-    def value_of_metadata_key(filename='', list_key=None):
-        '''
+    def value_of_metadata_key(filename="", list_key=None):
+        """
         From https://github.com/JeanBilheux/python_101/blob/master/working_with_images/images_metadata/using%20code%20from%20python%20notebooks.ipynb
-        '''
+        """
 
         if filename == "":
             return {}

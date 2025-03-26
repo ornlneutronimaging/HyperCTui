@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import numpy as np
 
 
@@ -7,11 +8,10 @@ def get_nearest_index(array, value):
 
 
 def formatting_list_for_print(array):
-
     if not array:
         return ""
 
-    if not (type(array) == list):
+    if not isinstance(array, list):
         raise TypeError("input should be a list!")
 
     str_array = [str(_item) for _item in array]

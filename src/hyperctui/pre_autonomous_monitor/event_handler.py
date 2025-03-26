@@ -1,31 +1,30 @@
+import logging
 import os
 
-from qtpy.QtWidgets import QPushButton
 import numpy as np
-import logging
+from qtpy.QtWidgets import QPushButton
 
 from hyperctui import DataType
-from hyperctui.utilities.file_utilities import list_tof_dirs, make_folder, move_list_files_to_folder
-from hyperctui.utilities.table import TableHandler
+from hyperctui.pre_autonomous_monitor import IN_PROGRESS, READY, DataStatus
 from hyperctui.pre_processing_monitor.get import Get as GetMonitor
 from hyperctui.session import SessionKeys
-
-from hyperctui.pre_autonomous_monitor import READY, IN_PROGRESS
-from hyperctui.pre_autonomous_monitor import DataStatus
+from hyperctui.utilities.file_utilities import make_folder, move_list_files_to_folder
+from hyperctui.utilities.table import TableHandler
 
 
 class EventHandler:
-
     def __init__(self, parent=None, grand_parent=None):
         self.parent = parent
         self.grand_parent = grand_parent
 
-    def checking_status_of(self,
-                           data_type=DataType.ob,
-                           output_folder=None,
-                           table_ui=None,
-                           dict_log_err_metadata=None,
-                           list_folder_previously_found=None):
+    def checking_status_of(
+        self,
+        data_type=DataType.ob,
+        output_folder=None,
+        table_ui=None,
+        dict_log_err_metadata=None,
+        list_folder_previously_found=None,
+    ):
         """
         this method should check if the folder requested has been found (already created)
         and will update the table
@@ -40,37 +39,30 @@ class EventHandler:
             # only if we are looking at the projections and
             # all the obs have been found!
             if self.parent.all_obs_found:
-
-                o_table.insert_item(row=0,
-                                    column=4,
-                                    value=DataStatus.in_progress)
-                o_table.set_background_color(row=0,
-                                             column=4,
-                                             qcolor=IN_PROGRESS)
+                o_table.insert_item(row=0, column=4, value=DataStatus.in_progress)
+                o_table.set_background_color(row=0, column=4, qcolor=IN_PROGRESS)
 
         o_table = TableHandler(table_ui=table_ui)
         nbr_row = o_table.row_count()
 
         list_folder_found = []
 
-        o_get = GetMonitor(parent=self.parent,
-                           grand_parent=self.grand_parent)
+        o_get = GetMonitor(parent=self.parent, grand_parent=self.grand_parent)
 
         # we go row by row to see if we need to change the status of the row
         for _row in np.arange(nbr_row):
-
             logging.info(f"- row #{_row}")
             # if the last column says DONE, nothing to do
             row_status = o_table.get_item_str_from_cell(row=_row, column=4)
             file_name = o_table.get_item_str_from_cell(row=_row, column=0)
             logging.info(f"\t {file_name} - {row_status}")
             if row_status == READY:
-                logging.info(f"\tfile already found!")
+                logging.info("\tfile already found!")
                 list_folder_found.append(file_name)
                 continue
 
             if os.path.exists(file_name):
-                logging.info(f"\tfile newly found!")
+                logging.info("\tfile newly found!")
                 list_folder_found.append(file_name)
                 # update table and add widgets + change status of file
 
@@ -84,13 +76,9 @@ class EventHandler:
 
                 log_button = QPushButton("View")
                 log_button.setEnabled(enable_button)
-                o_table.insert_widget(row=_row,
-                                      column=1,
-                                      widget=log_button)
+                o_table.insert_widget(row=_row, column=1, widget=log_button)
 
-                log_button.clicked.connect(lambda state=0, row=_row:
-                                           self.parent.preview_log(row=row,
-                                                                   data_type='ob'))
+                log_button.clicked.connect(lambda state=0, row=_row: self.parent.preview_log(row=row, data_type="ob"))
                 err_file = o_get.err_file()
                 if err_file:
                     enable_button = True
@@ -99,12 +87,8 @@ class EventHandler:
 
                 err_button = QPushButton("View")
                 err_button.setEnabled(enable_button)
-                o_table.insert_widget(row=_row,
-                                      column=2,
-                                      widget=err_button)
-                err_button.clicked.connect(lambda state=0, row=_row:
-                                           self.parent.preview_err(row=row,
-                                                                   data_type='ob'))
+                o_table.insert_widget(row=_row, column=2, widget=err_button)
+                err_button.clicked.connect(lambda state=0, row=_row: self.parent.preview_err(row=row, data_type="ob"))
 
                 metadata_file = o_get.metadata_file()
                 if metadata_file:
@@ -114,34 +98,26 @@ class EventHandler:
 
                 summary_button = QPushButton("View")
                 summary_button.setEnabled(enable_button)
-                o_table.insert_widget(row=_row,
-                                      column=3,
-                                      widget=summary_button)
-                summary_button.clicked.connect(lambda state=0, row=_row:
-                                               self.parent.preview_summary(row=row,
-                                                                           data_type='ob'))
+                o_table.insert_widget(row=_row, column=3, widget=summary_button)
+                summary_button.clicked.connect(
+                    lambda state=0, row=_row: self.parent.preview_summary(row=row, data_type="ob")
+                )
 
-                o_table.insert_item(row=_row,
-                                    column=4,
-                                    value=DataStatus.ready)
-                o_table.set_background_color(row=_row,
-                                             column=4,
-                                             qcolor=READY)
+                o_table.insert_item(row=_row, column=4, value=DataStatus.ready)
+                o_table.set_background_color(row=_row, column=4, qcolor=READY)
 
-                dict_log_err_metadata[_row] = {'file_name': file_name,
-                                               'log_file': log_file,
-                                               'err_file': err_file,
-                                               'metadata_file': metadata_file}
+                dict_log_err_metadata[_row] = {
+                    "file_name": file_name,
+                    "log_file": log_file,
+                    "err_file": err_file,
+                    "metadata_file": metadata_file,
+                }
 
             else:
-                logging.info(f"\tnot found! we can leave now")
+                logging.info("\tnot found! we can leave now")
                 # no need to keep going, except that this one is in progress
-                o_table.insert_item(row=_row,
-                                    column=4,
-                                    value=DataStatus.in_progress)
-                o_table.set_background_color(row=_row,
-                                             column=4,
-                                             qcolor=IN_PROGRESS)
+                o_table.insert_item(row=_row, column=4, value=DataStatus.in_progress)
+                o_table.set_background_color(row=_row, column=4, qcolor=IN_PROGRESS)
                 break
 
         return list_folder_found, len(list_folder_found) == nbr_row
@@ -151,14 +127,15 @@ class EventHandler:
         with the ones already found"""
         output_folder = self.grand_parent.ui.obs_output_location_label.text()
 
-        logging.info(f"Checking status of expected obs:")
+        logging.info("Checking status of expected obs:")
         list_folder_previously_found = self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there]
         list_folders_found, self.parent.all_obs_found = self.checking_status_of(
-                                                         data_type=DataType.ob,
-                                                         output_folder=output_folder,
-                                                         table_ui=self.parent.ui.obs_tableWidget,
-                                                         dict_log_err_metadata=self.parent.dict_ob_log_err_metadata,
-                                                         list_folder_previously_found=list_folder_previously_found)
+            data_type=DataType.ob,
+            output_folder=output_folder,
+            table_ui=self.parent.ui.obs_tableWidget,
+            dict_log_err_metadata=self.parent.dict_ob_log_err_metadata,
+            list_folder_previously_found=list_folder_previously_found,
+        )
         self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there] = list_folders_found
         logging.info(f"-> list folders found: {list_folders_found}")
 
@@ -167,14 +144,17 @@ class EventHandler:
         with the ones already found!"""
         output_folder = self.grand_parent.ui.projections_output_location_label.text()
 
-        logging.info(f"Checking status of expected projections:")
-        list_folder_previously_found = self.grand_parent.session_dict[SessionKeys.list_projections_folders_initially_there]
+        logging.info("Checking status of expected projections:")
+        list_folder_previously_found = self.grand_parent.session_dict[
+            SessionKeys.list_projections_folders_initially_there
+        ]
         list_folders_found, self.parent.all_projections_found = self.checking_status_of(
-                                                                 data_type=DataType.projection,
-                                                                 output_folder=output_folder,
-                                                                 table_ui=self.parent.ui.projections_tableWidget,
-                                                                 dict_log_err_metadata=self.parent.dict_projections_log_err_metadata,
-                                                                 list_folder_previously_found=list_folder_previously_found)
+            data_type=DataType.projection,
+            output_folder=output_folder,
+            table_ui=self.parent.ui.projections_tableWidget,
+            dict_log_err_metadata=self.parent.dict_projections_log_err_metadata,
+            list_folder_previously_found=list_folder_previously_found,
+        )
         self.grand_parent.session_dict[SessionKeys.list_projections_folders_initially_there] = list_folders_found
 
     def first_projection_in_progress(self):
@@ -183,12 +163,8 @@ class EventHandler:
         for the projections for the first time
         """
         o_table = TableHandler(table_ui=self.parent.ui.projections_tableWidget)
-        o_table.insert_item(row=0,
-                            column=4,
-                            value=DataStatus.in_progress)
-        o_table.set_background_color(row=0,
-                                     column=4,
-                                     qcolor=IN_PROGRESS)
+        o_table.insert_item(row=0, column=4, value=DataStatus.in_progress)
+        o_table.set_background_color(row=0, column=4, qcolor=IN_PROGRESS)
 
     def obs_have_been_moved_to_final_folder(self):
         """
@@ -219,21 +195,18 @@ class EventHandler:
         If all the OBs have been found, it will move them to their final location and will update the table at the
         same time to make sure we are now pointing to the final location.
         """
-        logging.info(f"Moving obs to final folder!")
+        logging.info("Moving obs to final folder!")
         list_ob_folders = self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there]
         final_location = self.grand_parent.ui.final_location_of_ob_created.text()
         make_folder(final_location)
-        move_list_files_to_folder(list_of_files=list_ob_folders,
-                                  folder=final_location)
+        move_list_files_to_folder(list_of_files=list_ob_folders, folder=final_location)
 
-        logging.info(f"Updating table with new location of obs!")
+        logging.info("Updating table with new location of obs!")
         o_table = TableHandler(table_ui=self.parent.ui.obs_tableWidget)
         new_list_ob_folders = []
         for _row, _folder in enumerate(list_ob_folders):
             _new_final_location = os.path.join(final_location, os.path.basename(_folder))
             new_list_ob_folders.append(_new_final_location)
-            o_table.set_item_with_str(row=_row,
-                                      column=0,
-                                      value=_new_final_location)
+            o_table.set_item_with_str(row=_row, column=0, value=_new_final_location)
         self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there] = new_list_ob_folders
         self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested]

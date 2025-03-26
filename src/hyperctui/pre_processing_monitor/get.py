@@ -1,5 +1,5 @@
-import os
 import glob
+import os
 
 from hyperctui.session import SessionKeys
 
@@ -37,7 +37,7 @@ class Get:
 
     def set_run_number_full_path(self):
         full_ob_folder_name = self.full_ob_folder_name
-        list_runs = glob.glob(os.path.join(full_ob_folder_name, 'Run*'))
+        list_runs = glob.glob(os.path.join(full_ob_folder_name, "Run*"))
         self.run_number_full_path = list_runs[0]
 
     # def set_run_number_filename(self):
@@ -62,10 +62,10 @@ class Get:
 
     def log_err_prefix(self):
         """
-            if full_ob_folder_name is
-                /SNS/VENUS/IPTS-30023/shared/autoreduce/mcp/scan17/Run_57100
-            it will return
-                /SNS/VENUS/IPTS-30023/shared/autoreduce/reduction_log/VENUS_57100.nxs.h5
+        if full_ob_folder_name is
+            /SNS/VENUS/IPTS-30023/shared/autoreduce/mcp/scan17/Run_57100
+        it will return
+            /SNS/VENUS/IPTS-30023/shared/autoreduce/reduction_log/VENUS_57100.nxs.h5
         """
         folder = self.folder_path.reduction_log
         run_number = self.run_number

@@ -1,24 +1,22 @@
-from qtpy.QtWidgets import QDialog
 import os
+
 import numpy as np
+from qtpy.QtWidgets import QDialog
 
 from hyperctui import load_ui
+from hyperctui.session import SessionKeys
+from hyperctui.setup_ob.event_handler import EventHandler as ObEventHandler
 from hyperctui.setup_ob.get import Get
 from hyperctui.utilities.folder_path import FolderPath
 from hyperctui.utilities.table import TableHandler
-from hyperctui.setup_ob.event_handler import EventHandler as ObEventHandler
-from hyperctui.session import SessionKeys
 
 
 class NewSession(QDialog):
-
     def __init__(self, parent=None):
         session_dict = parent.session_dict
         self.parent = parent
         QDialog.__init__(self, parent=parent)
-        ui_full_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                                    os.path.join('ui',
-                                                 'new_session.ui'))
+        ui_full_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), os.path.join("ui", "new_session.ui"))
         self.ui = load_ui(ui_full_path, baseinstance=self)
 
         instrument = session_dict[SessionKeys.instrument]
@@ -35,8 +33,7 @@ class NewSession(QDialog):
     def instrument_changed(self, new_instrument):
         o_get = Get(parent=self.parent)
         facility = Get.facility(instrument=new_instrument)
-        list_ipts = o_get.list_of_ipts(instrument=new_instrument,
-                                       facility=facility)
+        list_ipts = o_get.list_of_ipts(instrument=new_instrument, facility=facility)
         self.new_list_ipts = list_ipts
         self.ui.ipts_comboBox.clear()
         self.ui.ipts_comboBox.blockSignals(True)
@@ -47,7 +44,7 @@ class NewSession(QDialog):
         ipts = self.ui.ipts_comboBox.currentText()
         ipts_index = self.ui.ipts_comboBox.currentIndex()
 
-        self.parent.session_dict[SessionKeys.facility] = 'SNS' if instrument in ['SNAP', 'VENUS'] else 'HFIR'
+        self.parent.session_dict[SessionKeys.facility] = "SNS" if instrument in ["SNAP", "VENUS"] else "HFIR"
         self.parent.session_dict[SessionKeys.instrument] = instrument
         self.parent.session_dict[SessionKeys.ipts_selected] = ipts
         self.parent.session_dict[SessionKeys.ipts_index_selected] = ipts_index

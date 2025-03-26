@@ -1,9 +1,9 @@
 import glob
-import os
-from pathlib import Path
-import ntpath
-import shutil
 import json
+import ntpath
+import os
+import shutil
+from pathlib import Path
 
 
 def get_list_files(directory="./", file_extension=["*.fits"]):
@@ -24,15 +24,15 @@ def get_short_filename(full_filename=""):
     return str(Path(full_filename).stem)
 
 
-def read_ascii(filename=''):
-    '''return contain of an ascii file'''
-    with open(filename, 'r') as f:
+def read_ascii(filename=""):
+    """return contain of an ascii file"""
+    with open(filename, "r") as f:
         text = f.read()
     return text
 
 
-def write_ascii(text="", filename=''):
-    with open(filename, 'w') as f:
+def write_ascii(text="", filename=""):
+    with open(filename, "w") as f:
         f.write(text)
 
 
@@ -42,7 +42,7 @@ def path_leaf(path):
 
 
 def get_data_type(file_name):
-    '''
+    """
     using the file name extension, will return the type of the data
 
     Arguments:
@@ -50,14 +50,14 @@ def get_data_type(file_name):
 
     Returns:
         file extension    ex:.tif, .fits
-    '''
+    """
     filename, file_extension = os.path.splitext(file_name)
     return file_extension.strip()
 
 
 def get_file_extension(filename):
-    '''retrieve the file extension of the filename and make sure
-    we only keep the extension value and not the "dot" before it'''
+    """retrieve the file extension of the filename and make sure
+    we only keep the extension value and not the "dot" before it"""
     full_extension = get_data_type(filename)
     return full_extension[1:]
 
@@ -108,7 +108,7 @@ def list_tof_dirs(rootdir):
 
 def list_ob_dirs(rootdir):
     """a folder is considered as a OB dir if we can find a _Spectra.txt file in it,
-    and it starts by ob_ """
+    and it starts by ob_"""
     list_tof_folders = list_tof_dirs(rootdir)
     list_ob_dirs = []
     for _folder in list_tof_folders:
@@ -131,9 +131,9 @@ def get_list_img_files_from_top_folders(list_projections):
     """
     list_img_files = []
     for _projection in list_projections:
-        _folder = glob.glob(os.path.join(_projection, 'Run_*'))
+        _folder = glob.glob(os.path.join(_projection, "Run_*"))
         if _folder:
-            img_file = glob.glob(os.path.join(_folder[0], '*_SummedImg.fits'))
+            img_file = glob.glob(os.path.join(_folder[0], "*_SummedImg.fits"))
             try:
                 list_img_files.append(img_file[0])
             except IndexError:

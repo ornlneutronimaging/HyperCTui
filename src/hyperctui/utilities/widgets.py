@@ -6,9 +6,7 @@ from hyperctui.parent import Parent
 
 
 class Widgets(Parent):
-
     def make_tabs_visible(self, is_visible=True):
-
         if not is_visible:
             for _ in np.arange(3):
                 self.parent.ui.tabWidget.removeTab(2)
