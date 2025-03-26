@@ -1,0 +1,194 @@
+[project]
+name = "hyperctui"
+description = "HyperCTui User Interface to run svmbir code with AI"
+readme = "README.md"
+authors = [
+    {name = "Jean Bilheux", email = "bilheuxjm@ornl.gov"},
+    {name = "Venkatrishnan (Venkat) Singanallur", email = "venkatakrisv@ornl.gov"},
+    {name = "Shimin Tang", email = "tangs@ornl.gov"},
+    {name = "Chen Zhang", email = "zhangc@ornl.gov"},
+]
+maintainers = [
+    { name = "Jean Bilheux", email = "bilheuxjm@ornl.gov"},
+    { name = "Chen Zhang", email="zhangc@ornl.gov"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Intended Audience :: Science/Research"
+]
+dynamic = ["version"]
+requires-python = ">=3.10"
+license = { text = "MIT" }
+keywords = ["HyperCTui", "svmbir", "AI", "neutron"]
+dependencies = [
+    # Core
+    "pandas",
+    "pillow",
+    "scikit-image",
+    "inflect",
+    "astropy",
+    "dxchange",
+    "h5py",
+    # "tomopy",  # not available on PyPI, need to install separately
+    # GUI
+    "QtPy",
+    "PyQt5",
+    "pyqtgraph",
+    # Utils
+    "tqdm",
+    # neutron
+    "neunorm",
+    "neutronbraggedge",
+]
+
+[conda-pypi-map]
+"conda-forge" = """
+{
+  "pyqt": "PyQt5",
+}
+"""
+
+[project.urls]
+homepage = "https://github.com/ornlneutronimaging/HyperCTui"
+repository = "https://github.com/ornlneutronimaging/HyperCTui"
+# documentation = "https://ornlneutronimaging.github.io/HyperCTui/"  # Not yet available
+issues = "https://github.com/ornlneutronimaging/HyperCTui/issues"
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0.0", "pytest-cov", "pre-commit", "ruff"]
+docs = ["sphinx>=8.2.1", "sphinx_rtd_theme>=3.0.1"]
+jupyter = ["jupyterlab", "ipympl", "ipywidgets"]
+all = ["hyperctui[dev,docs,jupyter]"]
+
+
+# -------------------------------- #
+# -- Build system configuration -- #
+# -------------------------------- #
+[build-system]
+requires = [
+  "setuptools>= 42",
+  "wheel",
+  "toml",
+  "versioningit"
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["tests*", "scripts*", "docs*", "notebooks*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.yml","*.yaml","*.ini"]
+
+
+# -------------------------------- #
+# -- VersioningIt configuration -- #
+# -------------------------------- #
+[tool.versioningit.vcs]
+method = "git"
+default-tag = "0.1.0"
+
+[tool.versioningit.next-version]
+method = "minor"
+
+[tool.versioningit.format]
+distance = "{next_version}.dev{distance}"
+dirty = "{version}+d{build_date:%Y%m%d}"
+distance-dirty = "{next_version}.dev{distance}+d{build_date:%Y%m%d%H%M}"
+
+[tool.versioningit.write]
+file = "src/hyperctui/_version.py"
+
+
+# -------------------------------- #
+# ----- PyTest configuration ----- #
+# -------------------------------- #
+[tool.pytest.ini_options]
+addopts = "-v --cov=hyperctui --cov-report=term-missing"
+pythonpath = [
+    ".", "src", "scripts"
+]
+testpaths = ["tests"]
+python_files = ["test*.py"]
+norecursedirs = [".git", "tmp*", "_tmp*", "__pycache__", "*dataset*", "*data_set*"]
+markers = [
+    "mymarker: example markers goes here"
+]
+
+
+# -------------------------------- #
+# ------ Ruff configuration ------ #
+# -------------------------------- #
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+exclude = ["notebooks/**", "**/*.ipynb"]
+
+[tool.ruff.lint]
+select = ["A", "ARG","ASYNC","BLE","C90", "E", "F", "I", "UP032", "W"]
+ignore = [
+    "E741"  # ambiguous variable name, such as L, E, etc.
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["hyperctui"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+
+
+# -------------------------------- #
+# ------ Mypy configuration ------ #
+# -------------------------------- #
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+disallow_untyped_defs = false
+
+
+# -------------------------------- #
+# ------ Pixi configuration ------ #
+# -------------------------------- #
+[tool.pixi.workspace]
+channels = ["conda-forge", "neutronimaging"]
+platforms = ["linux-64", "osx-arm64"]
+
+[tool.pixi.pypi-dependencies]
+hyperctui = { path = ".", editable = true }
+
+[tool.pixi.environments]
+default = { solve-group = "default" }
+all = { features = ["all", "dev", "docs", "jupyter"], solve-group = "default" }
+dev = { features = ["dev"], solve-group = "default" }
+docs = { features = ["docs"], solve-group = "default" }
+jupyter = { features = ["jupyter"], solve-group = "default" }
+
+[tool.pixi.tasks]
+
+[tool.pixi.dependencies]
+tomopy = ">=1.14.4,<2"
+astropy = ">=7.0.1,<8"
+dxchange = ">=0.1.8,<0.2"
+tqdm = ">=4.67.1,<5"
+inflect = ">=7.5.0,<8"
+qt = ">=5.15.8,<6"
+qtpy = ">=2.4.3,<3"
+pyqt = ">=5.15.9,<6"
+pyqtgraph = ">=0.13.7,<0.14"
+pandas = ">=2.2.3,<3"
+pillow = ">=11.1.0,<12"
+scikit-image = ">=0.25.2,<0.26"

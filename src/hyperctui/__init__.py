@@ -1,15 +1,17 @@
-from hyperctui._version import get_versions
 from qtpy.uic import loadUi
 import os
 
-__version__ = get_versions()['version']
-del get_versions
+try:
+    from ._version import __version__  # noqa: F401
+except ImportError:
+    __version__ = "unknown"
 
-__all__ = ['load_ui']
+
+__all__ = ["load_ui"]
 
 root = os.path.dirname(os.path.realpath(__file__))
 
-golden_ratio_file = os.path.join(os.path.dirname(__file__), os.path.join('static', 'golden_angle.csv'))
+golden_ratio_file = os.path.join(os.path.dirname(__file__), os.path.join("static", "golden_angle.csv"))
 
 refresh_image = os.path.join(root, "static/refresh.png")
 refresh_large_image = os.path.join(root, "static/refresh_large.png")
@@ -32,19 +34,23 @@ label_out_focus_style = ""
 SOURCE_DETECTOR_DISTANCE = 19.855  # m, at SNAP
 DETECTOR_OFFSET = 0  # micros
 
-DEFAULT_EVALUATION_REGIONS = {0: {'name': 'Region 1',
-                                  'from': 20,
-                                  'to': 30,
-                                  },
-                              1: {'name': 'Region 2',
-                                  'from': 50,
-                                  'to': 60,
-                                  },
-                              2: {'name': 'Region 3',
-                                  'from': 200,
-                                  'to': 230,
-                                  },
-                              }
+DEFAULT_EVALUATION_REGIONS = {
+    0: {
+        "name": "Region 1",
+        "from": 20,
+        "to": 30,
+    },
+    1: {
+        "name": "Region 2",
+        "from": 50,
+        "to": 60,
+    },
+    2: {
+        "name": "Region 3",
+        "from": 200,
+        "to": 230,
+    },
+}
 
 
 # main window dimensions
@@ -65,7 +71,7 @@ class DataType:
 
 class TabNames:
     tab0 = " - Setup the open beams"
-    tab1 = u" - Initialize first projections (0\u00B0 and 180\u00B0)"
+    tab1 = " - Initialize first projections (0\u00b0 and 180\u00b0)"
     tab2 = " - Crop"
     tab3 = " - Rotation center"
     tab4 = " - Autonomous reconstruction"
@@ -82,7 +88,7 @@ class EvaluationRegionKeys:
     from_value = "from value"
     to_value = "to value"
     id = "id of the pg horizontal line"
-    name = 'name of the region'
+    name = "name of the region"
     label_id = "id of the label naming the region"
     from_index = "from file index"
     to_index = "to file index"

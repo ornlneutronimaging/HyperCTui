@@ -1,11 +1,11 @@
-from hyperctui.hyperctui import main
+#!/usr/bin/env python3
 
+from hyperctui.hyperctui import main
 import multiprocessing
 import sys
 
 __file__ = "asui"
 
 # Run the GUI
-#multiprocessing.freeze_support()
-    
+multiprocessing.freeze_support()
 sys.exit(main(sys.argv))
