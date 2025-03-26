@@ -63,6 +63,9 @@ docs = ["sphinx>=8.2.1", "sphinx_rtd_theme>=3.0.1"]
 jupyter = ["jupyterlab", "ipympl", "ipywidgets"]
 all = ["hyperctui[dev,docs,jupyter]"]
 
+[project.scripts]
+hyperctui = "hyperctui.__main__:main"
+
 
 # -------------------------------- #
 # -- Build system configuration -- #
@@ -133,7 +136,10 @@ exclude = ["notebooks/**", "**/*.ipynb"]
 [tool.ruff.lint]
 select = ["A", "ARG","ASYNC","BLE","C90", "E", "F", "I", "UP032", "W"]
 ignore = [
-    "E741"  # ambiguous variable name, such as L, E, etc.
+    "ARG002",  # Unused method argument
+    "ARG005",  # Unused lambda argument
+    "E741",  # ambiguous variable name, such as L, E, etc.
+    "F841",  # Local variable is assigned to but never used
 ]
 
 [tool.ruff.lint.isort]

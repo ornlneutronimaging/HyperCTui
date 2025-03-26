@@ -1,30 +1,29 @@
-from qtpy.QtWidgets import QDialog
-from qtpy import QtGui
 import os
+
 import numpy as np
 import pyqtgraph as pg
+from qtpy import QtGui
+from qtpy.QtWidgets import QDialog
 
-from hyperctui import load_ui, EvaluationRegionKeys
-
-from hyperctui.utilities.table import TableHandler
-from hyperctui.autonomous_reconstruction.initialization import InitializationSelectEvaluationRegions
+from hyperctui import EvaluationRegionKeys, load_ui
 from hyperctui.autonomous_reconstruction import ColumnIndex
+from hyperctui.autonomous_reconstruction.initialization import InitializationSelectEvaluationRegions
 from hyperctui.utilities.check import is_int
+from hyperctui.utilities.table import TableHandler
 
 LABEL_XOFFSET = -50
 
 
 class SelectEvaluationRegions(QDialog):
-
     ok_clicked = False
 
     def __init__(self, parent=None):
         super(SelectEvaluationRegions, self).__init__(parent)
         self.parent = parent
 
-        ui_full_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                                    os.path.join('ui',
-                                                 'select_evaluation_regions.ui'))
+        ui_full_path = os.path.join(
+            os.path.dirname(os.path.dirname(__file__)), os.path.join("ui", "select_evaluation_regions.ui")
+        )
 
         self.ui = load_ui(ui_full_path, baseinstance=self)
         self.setWindowTitle("Select Evaluation Regions")
@@ -44,7 +43,7 @@ class SelectEvaluationRegions(QDialog):
         list_names = [evaluation_regions[key][EvaluationRegionKeys.name] for key in evaluation_regions.keys()]
         while True:
             region_name = self.parent.default_evaluation_region[EvaluationRegionKeys.name] + f" {index}"
-            if not (region_name in list_names):
+            if region_name not in list_names:
                 return region_name
             index += 1
 
@@ -65,23 +64,20 @@ class SelectEvaluationRegions(QDialog):
         row_count = o_table.row_count()
         evaluation_regions = {}
         for _row in np.arange(row_count):
-            _state_widget = o_table.get_inner_widget(row=_row,
-                                                     column=ColumnIndex.enabled_state,
-                                                     position_index=1)
+            _state_widget = o_table.get_inner_widget(row=_row, column=ColumnIndex.enabled_state, position_index=1)
             _state = _state_widget.isChecked()
-            _name = o_table.get_item_str_from_cell(row=_row,
-                                                  column=ColumnIndex.name)
-            _from = int(o_table.get_item_str_from_cell(row=_row,
-                                                  column=ColumnIndex.from_value))
-            _to = int(o_table.get_item_str_from_cell(row=_row,
-                                                 column=ColumnIndex.to_value))
+            _name = o_table.get_item_str_from_cell(row=_row, column=ColumnIndex.name)
+            _from = int(o_table.get_item_str_from_cell(row=_row, column=ColumnIndex.from_value))
+            _to = int(o_table.get_item_str_from_cell(row=_row, column=ColumnIndex.to_value))
             _from, _to = self.sort(_from, _to)
 
-            evaluation_regions[_row] = {EvaluationRegionKeys.state: _state,
-                                        EvaluationRegionKeys.name: _name,
-                                        EvaluationRegionKeys.from_value: int(_from),
-                                        EvaluationRegionKeys.to_value: int(_to),
-                                        EvaluationRegionKeys.id: None}
+            evaluation_regions[_row] = {
+                EvaluationRegionKeys.state: _state,
+                EvaluationRegionKeys.name: _name,
+                EvaluationRegionKeys.from_value: int(_from),
+                EvaluationRegionKeys.to_value: int(_to),
+                EvaluationRegionKeys.id: None,
+            }
         self.parent.evaluation_regions = evaluation_regions
 
     def update_display_regions(self):
@@ -92,19 +88,23 @@ class SelectEvaluationRegions(QDialog):
             if _state:
                 _from = int(_entry[EvaluationRegionKeys.from_value])
                 _to = int(_entry[EvaluationRegionKeys.to_value])
-                _roi_id = pg.LinearRegionItem(values=(_from, _to),
-                                              orientation='horizontal',
-                                              movable=True,
-                                              bounds=[0, self.parent.image_size['width']])
+                _roi_id = pg.LinearRegionItem(
+                    values=(_from, _to),
+                    orientation="horizontal",
+                    movable=True,
+                    bounds=[0, self.parent.image_size["width"]],
+                )
                 self.ui.image_view.addItem(_roi_id)
                 _roi_id.sigRegionChanged.connect(self.regions_manually_moved)
                 _entry[EvaluationRegionKeys.id] = _roi_id
 
                 # label of region
                 _name_of_region = _entry[EvaluationRegionKeys.name]
-                _label_id = pg.TextItem(html='<div style="text-align: center">' + _name_of_region + '</div>',
-                                        fill=QtGui.QColor(255, 255, 255),
-                                        anchor=(0, 1))
+                _label_id = pg.TextItem(
+                    html='<div style="text-align: center">' + _name_of_region + "</div>",
+                    fill=QtGui.QColor(255, 255, 255),
+                    anchor=(0, 1),
+                )
                 _label_id.setPos(LABEL_XOFFSET, _from)
                 self.ui.image_view.addItem(_label_id)
                 _entry[EvaluationRegionKeys.label_id] = _label_id
@@ -114,19 +114,14 @@ class SelectEvaluationRegions(QDialog):
         o_table = TableHandler(table_ui=self.ui.tableWidget)
         o_table.block_signals()
         for _row, _key in enumerate(self.parent.evaluation_regions.keys()):
-
             _entry = self.parent.evaluation_regions[_key]
             _state = _entry[EvaluationRegionKeys.state]
             if _state:
                 _id = _entry[EvaluationRegionKeys.id]
                 (_from, _to) = _id.getRegion()
                 _from, _to = self.sort(_from, _to)
-                o_table.set_item_with_str(row=_row,
-                                          column=ColumnIndex.from_value,
-                                          value=str(int(_from)))
-                o_table.set_item_with_str(row=_row,
-                                          column=ColumnIndex.to_value,
-                                          value=str(int(_to)))
+                o_table.set_item_with_str(row=_row, column=ColumnIndex.from_value, value=str(int(_from)))
+                o_table.set_item_with_str(row=_row, column=ColumnIndex.to_value, value=str(int(_to)))
 
                 # move label as well
                 _label_id = _entry[EvaluationRegionKeys.label_id]
@@ -139,10 +134,8 @@ class SelectEvaluationRegions(QDialog):
         o_table = TableHandler(table_ui=self.ui.tableWidget)
         row_count = o_table.row_count()
         for _row in np.arange(row_count):
-            _from = int(o_table.get_item_str_from_cell(row=_row,
-                                                       column=ColumnIndex.from_value))
-            _to = int(o_table.get_item_str_from_cell(row=_row,
-                                                     column=ColumnIndex.to_value))
+            _from = int(o_table.get_item_str_from_cell(row=_row, column=ColumnIndex.from_value))
+            _to = int(o_table.get_item_str_from_cell(row=_row, column=ColumnIndex.to_value))
             self.parent.evaluation_regions[_row][EvaluationRegionKeys.from_value] = str(_from)
             self.parent.evaluation_regions[_row][EvaluationRegionKeys.to_value] = str(_to)
 
@@ -171,10 +164,8 @@ class SelectEvaluationRegions(QDialog):
         nbr_row = o_table.row_count()
         nbr_row_selected = 0
         for _row in np.arange(nbr_row):
-            from_value = o_table.get_item_str_from_cell(row=_row,
-                                                        column=ColumnIndex.from_value)
-            to_value = o_table.get_item_str_from_cell(row=_row,
-                                                      column=ColumnIndex.to_value)
+            from_value = o_table.get_item_str_from_cell(row=_row, column=ColumnIndex.from_value)
+            to_value = o_table.get_item_str_from_cell(row=_row, column=ColumnIndex.to_value)
             if not is_int(from_value):
                 from_value = 0
             else:
@@ -191,12 +182,8 @@ class SelectEvaluationRegions(QDialog):
             from_value = str(minimum_value)
             to_value = str(maximum_value)
 
-            o_table.set_item_with_str(row=_row,
-                                      column=ColumnIndex.from_value,
-                                      value=from_value)
-            o_table.set_item_with_str(row=_row,
-                                      column=ColumnIndex.to_value,
-                                      value=to_value)
+            o_table.set_item_with_str(row=_row, column=ColumnIndex.from_value, value=from_value)
+            o_table.set_item_with_str(row=_row, column=ColumnIndex.to_value, value=to_value)
 
     def check_table_state(self):
         """
@@ -208,9 +195,7 @@ class SelectEvaluationRegions(QDialog):
         nbr_row = o_table.row_count()
         nbr_row_selected = 0
         for _row in np.arange(nbr_row):
-            _state_widget = o_table.get_inner_widget(row=_row,
-                                                     column=ColumnIndex.enabled_state,
-                                                     position_index=1)
+            _state_widget = o_table.get_inner_widget(row=_row, column=ColumnIndex.enabled_state, position_index=1)
             _state = _state_widget.isChecked()
 
             # disabled or not editing

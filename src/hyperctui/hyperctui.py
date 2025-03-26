@@ -1,32 +1,30 @@
-from qtpy.QtWidgets import QMainWindow, QApplication
-import sys
-import os
 import logging
+import os
+import sys
 from collections import OrderedDict
 
-from hyperctui import load_ui, EvaluationRegionKeys
-from hyperctui import UI_TITLE
+from qtpy.QtWidgets import QApplication, QMainWindow
 
+from hyperctui import UI_TITLE, EvaluationRegionKeys, load_ui
 from hyperctui.autonomous_reconstruction.event_handler import EventHandler as AutonomousReconstructionHandler
+from hyperctui.commands_launcher import CommandLauncher
 from hyperctui.crop.crop import Crop
 from hyperctui.event_handler import EventHandler
 from hyperctui.initialization.gui_initialization import GuiInitialization
-from hyperctui.log.log_launcher import LogLauncher, LogHandler
+from hyperctui.log.log_launcher import LogHandler, LogLauncher
 from hyperctui.pre_processing_monitor.monitor import Monitor as PreProcessingMonitor
-from hyperctui.rotation_center.rotation_center import RotationCenter
 from hyperctui.rotation_center.event_handler import EventHandler as RotationCenterEventHandler
+from hyperctui.rotation_center.rotation_center import RotationCenter
+from hyperctui.session import DefaultValues, SessionKeys
 from hyperctui.session.load_previous_session_launcher import LoadPreviousSessionLauncher
 from hyperctui.session.session_handler import SessionHandler
-from hyperctui.session import SessionKeys
 from hyperctui.setup_ob.event_handler import EventHandler as Step1EventHandler
 from hyperctui.setup_projections.event_handler import EventHandler as Step2EventHandler
-from hyperctui.utilities.get import Get
-from hyperctui.utilities.exceptions import CropError, CenterOfRotationError
 from hyperctui.utilities.config_handler import ConfigHandler
+from hyperctui.utilities.exceptions import CenterOfRotationError, CropError
 from hyperctui.utilities.folder_path import FolderPath
+from hyperctui.utilities.get import Get
 from hyperctui.utilities.status_message_config import StatusMessageStatus, show_status_message
-from hyperctui.commands_launcher import CommandLauncher
-from hyperctui.session import DefaultValues
 
 # warnings.filterwarnings('ignore')
 DEBUG = True
@@ -34,7 +32,7 @@ DEBUG = True
 if DEBUG:
     HOME_FOLDER = "/Volumes/JeanHardDrive/"  # mac at home
     if not os.path.exists(HOME_FOLDER):
-        HOME_FOLDER = "/Users/j35/"              # mac at work
+        HOME_FOLDER = "/Users/j35/"  # mac at work
 else:
     HOME_FOLDER = "/"
 
@@ -58,28 +56,25 @@ class HyperCTui(QMainWindow):
 
     clicked_create_ob = False
 
-    session_dict = {SessionKeys.config_version     : None,
-                    SessionKeys.instrument         : DefaultValues.instrument,
-                    SessionKeys.ipts_selected      : None,
-                    SessionKeys.ipts_index_selected: DefaultValues.ipts_index_selected,
-                    SessionKeys.number_of_obs      : DefaultValues.number_of_obs,
-                    SessionKeys.list_ob_folders_requested: None,   # ob acquired so far in this experiment
-                    SessionKeys.list_ob_folders_acquired_so_far: None,
-                    SessionKeys.list_ob_folders_initially_there: None,
-                    SessionKeys.list_projections: None,
-                    SessionKeys.list_projections_folders_initially_there: None,
-                    SessionKeys.list_projections_folders_acquired_so_far: None,
-                    SessionKeys.list_recon_folders_initially_there: None,
-                    SessionKeys.started_acquisition: False,
-                    SessionKeys.obs_have_been_moved_already: False,
-                    SessionKeys.tof_roi_region: {'x0': 5,
-                                                 'y0': 5,
-                                                 'x1': 200,
-                                                 'y1': 200},
-                    SessionKeys.all_tabs_visible: False,
-                    SessionKeys.full_path_to_projections: {SessionKeys.image_0_degree: None,
-                                                           SessionKeys.image_180_degree: None}
-                    }
+    session_dict = {
+        SessionKeys.config_version: None,
+        SessionKeys.instrument: DefaultValues.instrument,
+        SessionKeys.ipts_selected: None,
+        SessionKeys.ipts_index_selected: DefaultValues.ipts_index_selected,
+        SessionKeys.number_of_obs: DefaultValues.number_of_obs,
+        SessionKeys.list_ob_folders_requested: None,  # ob acquired so far in this experiment
+        SessionKeys.list_ob_folders_acquired_so_far: None,
+        SessionKeys.list_ob_folders_initially_there: None,
+        SessionKeys.list_projections: None,
+        SessionKeys.list_projections_folders_initially_there: None,
+        SessionKeys.list_projections_folders_acquired_so_far: None,
+        SessionKeys.list_recon_folders_initially_there: None,
+        SessionKeys.started_acquisition: False,
+        SessionKeys.obs_have_been_moved_already: False,
+        SessionKeys.tof_roi_region: {"x0": 5, "y0": 5, "x1": 200, "y1": 200},
+        SessionKeys.all_tabs_visible: False,
+        SessionKeys.full_path_to_projections: {SessionKeys.image_0_degree: None, SessionKeys.image_180_degree: None},
+    }
 
     tab2 = None  # handle to tab #2 - cropping
     tab3 = None  # handle to tab #3 - rotation center
@@ -87,8 +82,7 @@ class HyperCTui(QMainWindow):
     all_tabs_visible = True
     current_tab_index = 0
 
-    number_of_files_requested = {'ob': None,
-                                 'sample': None}
+    number_of_files_requested = {"ob": None, "sample": None}
 
     # step1 - setup ob tab
     list_obs_selected = None
@@ -104,8 +98,7 @@ class HyperCTui(QMainWindow):
     rotation_center_image_view = None
     image_0_degree = None
     image_180_degree = None
-    image_size = {'height': None,
-                  'width': None}
+    image_size = {"height": None, "width": None}
 
     # autonomous reconstruction
 
@@ -114,91 +107,95 @@ class HyperCTui(QMainWindow):
 
     # evaluation regions
     evaluation_regions = OrderedDict()
-    evaluation_regions[0] = {EvaluationRegionKeys.state: True,
-                             EvaluationRegionKeys.name: 'Region 1',
-                             EvaluationRegionKeys.from_value: 20,
-                             EvaluationRegionKeys.to_value: 30,
-                             EvaluationRegionKeys.id: None,
-                             EvaluationRegionKeys.label_id: None,
-                             }
-    evaluation_regions[1] = {EvaluationRegionKeys.state: True,
-                             EvaluationRegionKeys.name: 'Region 2',
-                             EvaluationRegionKeys.from_value: 50,
-                             EvaluationRegionKeys.to_value: 60,
-                             EvaluationRegionKeys.id: None,
-                             EvaluationRegionKeys.label_id: None,
-                             }
-    evaluation_regions[2] = {EvaluationRegionKeys.state: True,
-                             EvaluationRegionKeys.name: 'Region 3',
-                             EvaluationRegionKeys.from_value: 200,
-                             EvaluationRegionKeys.to_value: 230,
-                             EvaluationRegionKeys.id: None,
-                             EvaluationRegionKeys.label_id: None,
-                             }
-    evaluation_regions[3] = {EvaluationRegionKeys.state: True,
-                             EvaluationRegionKeys.name: 'Region 4',
-                             EvaluationRegionKeys.from_value: 240,
-                             EvaluationRegionKeys.to_value: 300,
-                             EvaluationRegionKeys.id: None,
-                             EvaluationRegionKeys.label_id: None,
-                             }
-    evaluation_regions[4] = {EvaluationRegionKeys.state: True,
-                             EvaluationRegionKeys.name: 'Region 5',
-                             EvaluationRegionKeys.from_value: 350,
-                             EvaluationRegionKeys.to_value: 400,
-                             EvaluationRegionKeys.id: None,
-                             EvaluationRegionKeys.label_id: None,
-                             }
+    evaluation_regions[0] = {
+        EvaluationRegionKeys.state: True,
+        EvaluationRegionKeys.name: "Region 1",
+        EvaluationRegionKeys.from_value: 20,
+        EvaluationRegionKeys.to_value: 30,
+        EvaluationRegionKeys.id: None,
+        EvaluationRegionKeys.label_id: None,
+    }
+    evaluation_regions[1] = {
+        EvaluationRegionKeys.state: True,
+        EvaluationRegionKeys.name: "Region 2",
+        EvaluationRegionKeys.from_value: 50,
+        EvaluationRegionKeys.to_value: 60,
+        EvaluationRegionKeys.id: None,
+        EvaluationRegionKeys.label_id: None,
+    }
+    evaluation_regions[2] = {
+        EvaluationRegionKeys.state: True,
+        EvaluationRegionKeys.name: "Region 3",
+        EvaluationRegionKeys.from_value: 200,
+        EvaluationRegionKeys.to_value: 230,
+        EvaluationRegionKeys.id: None,
+        EvaluationRegionKeys.label_id: None,
+    }
+    evaluation_regions[3] = {
+        EvaluationRegionKeys.state: True,
+        EvaluationRegionKeys.name: "Region 4",
+        EvaluationRegionKeys.from_value: 240,
+        EvaluationRegionKeys.to_value: 300,
+        EvaluationRegionKeys.id: None,
+        EvaluationRegionKeys.label_id: None,
+    }
+    evaluation_regions[4] = {
+        EvaluationRegionKeys.state: True,
+        EvaluationRegionKeys.name: "Region 5",
+        EvaluationRegionKeys.from_value: 350,
+        EvaluationRegionKeys.to_value: 400,
+        EvaluationRegionKeys.id: None,
+        EvaluationRegionKeys.label_id: None,
+    }
     # this will be a copy of evaluation regions used when user exit the view without using OK button
     backup_evaluation_regions = None
 
     # tof selection regions
     tof_regions = OrderedDict()
-    tof_regions[0] = {EvaluationRegionKeys.state: True,
-                      EvaluationRegionKeys.name: 'TOF 1',
-                      EvaluationRegionKeys.from_value: 0.9,
-                      EvaluationRegionKeys.to_value: 1.1,
-                      EvaluationRegionKeys.id: None,
-                      EvaluationRegionKeys.label_id: None,
-                      EvaluationRegionKeys.from_index: None,
-                      EvaluationRegionKeys.to_index: None,
-                      }
-    tof_regions[1] = {EvaluationRegionKeys.state: True,
-                      EvaluationRegionKeys.name: 'TOF 2',
-                      EvaluationRegionKeys.from_value: 1.9,
-                      EvaluationRegionKeys.to_value: 2.1,
-                      EvaluationRegionKeys.id: None,
-                      EvaluationRegionKeys.label_id: None,
-                      EvaluationRegionKeys.from_index: None,
-                      EvaluationRegionKeys.to_index: None,
-                      }
-    tof_regions[2] = {EvaluationRegionKeys.state: False,
-                      EvaluationRegionKeys.name: 'TOF 3',
-                      EvaluationRegionKeys.from_value: 2.9,
-                      EvaluationRegionKeys.to_value: 3.1,
-                      EvaluationRegionKeys.id: None,
-                      EvaluationRegionKeys.label_id: None,
-                      EvaluationRegionKeys.from_index: None,
-                      EvaluationRegionKeys.to_index: None,
-                      }
+    tof_regions[0] = {
+        EvaluationRegionKeys.state: True,
+        EvaluationRegionKeys.name: "TOF 1",
+        EvaluationRegionKeys.from_value: 0.9,
+        EvaluationRegionKeys.to_value: 1.1,
+        EvaluationRegionKeys.id: None,
+        EvaluationRegionKeys.label_id: None,
+        EvaluationRegionKeys.from_index: None,
+        EvaluationRegionKeys.to_index: None,
+    }
+    tof_regions[1] = {
+        EvaluationRegionKeys.state: True,
+        EvaluationRegionKeys.name: "TOF 2",
+        EvaluationRegionKeys.from_value: 1.9,
+        EvaluationRegionKeys.to_value: 2.1,
+        EvaluationRegionKeys.id: None,
+        EvaluationRegionKeys.label_id: None,
+        EvaluationRegionKeys.from_index: None,
+        EvaluationRegionKeys.to_index: None,
+    }
+    tof_regions[2] = {
+        EvaluationRegionKeys.state: False,
+        EvaluationRegionKeys.name: "TOF 3",
+        EvaluationRegionKeys.from_value: 2.9,
+        EvaluationRegionKeys.to_value: 3.1,
+        EvaluationRegionKeys.id: None,
+        EvaluationRegionKeys.label_id: None,
+        EvaluationRegionKeys.from_index: None,
+        EvaluationRegionKeys.to_index: None,
+    }
 
     # this will be a copy of evaluation regions used when user exit the view without using OK button
     backup_tof_regions = None
 
     # dictionary that will store the 3D images (used in the TOF region selection)
-    image_data = {SessionKeys.image_0_degree: None,
-                  SessionKeys.image_180_degree: None}
+    image_data = {SessionKeys.image_0_degree: None, SessionKeys.image_180_degree: None}
 
     # list of files (err, status, metadata) associated to each row of projections
     dict_projection_log_err_metadata = {}
 
     def __init__(self, parent=None):
-
         super(HyperCTui, self).__init__(parent)
 
-        ui_full_path = os.path.join(os.path.dirname(__file__),
-                                    os.path.join('ui',
-                                                 'main_application.ui'))
+        ui_full_path = os.path.join(os.path.dirname(__file__), os.path.join("ui", "main_application.ui"))
 
         self.ui = load_ui(ui_full_path, baseinstance=self)
 
@@ -220,8 +217,7 @@ class HyperCTui(QMainWindow):
     def check_log_file_size(self):
         o_get = Get(parent=self)
         log_file_name = o_get.get_log_file_name()
-        o_handler = LogHandler(parent=self,
-                               log_file_name=log_file_name)
+        o_handler = LogHandler(parent=self, log_file_name=log_file_name)
         o_handler.cut_log_size_if_bigger_than_buffer()
 
     def _loading_previous_session_automatically(self):
@@ -360,10 +356,8 @@ class HyperCTui(QMainWindow):
         o_event.freeze_number_ob_sample_requested()
         self.launch_pre_processing_monitor_view()
         self.ui.start_acquisition_pushButton.setEnabled(False)
-     
+
         print("start acquisition clicked!")
-
-
 
     def checking_status_acquisition_button_clicked(self):
         self.launch_pre_processing_monitor_view()
@@ -374,10 +368,12 @@ class HyperCTui(QMainWindow):
             o_crop = Crop(parent=self)
             o_crop.initialize()
         except CropError:
-            show_status_message(parent=self,
-                                message="Initialization of crop failed! check log!",
-                                duration_s=10,
-                                status=StatusMessageStatus.error)
+            show_status_message(
+                parent=self,
+                message="Initialization of crop failed! check log!",
+                duration_s=10,
+                status=StatusMessageStatus.error,
+            )
 
     def crop_top_changed(self, value):
         self.crop_changed()
@@ -425,10 +421,12 @@ class HyperCTui(QMainWindow):
             o_rot = RotationCenter(parent=self)
             o_rot.initialize()
         except CenterOfRotationError:
-            show_status_message(parent=self,
-                                message="Initialization of center of rotation failed! check log!",
-                                duration_s=10,
-                                status=StatusMessageStatus.error)
+            show_status_message(
+                parent=self,
+                message="Initialization of center of rotation failed! check log!",
+                duration_s=10,
+                status=StatusMessageStatus.error,
+            )
 
     def rotation_center_tomopy_clicked(self, button_state):
         self.center_of_rotation_item.setMovable(False)
@@ -521,7 +519,7 @@ class HyperCTui(QMainWindow):
         self.ui.setWindowTitle(title)
 
     def inform_of_output_location(self):
-        facility = self.session_dict.get(SessionKeys.facility, 'SNS')
+        facility = self.session_dict.get(SessionKeys.facility, "SNS")
         instrument = self.session_dict[SessionKeys.instrument]
         ipts = self.session_dict[SessionKeys.ipts_selected]
         title = self.ui.run_title_formatted_label.text()
@@ -540,31 +538,33 @@ class HyperCTui(QMainWindow):
             if title == "N/A":
                 title = "'title'"
 
-            output_location = os.sep.join([facility,
-                                           instrument,
-                                           ipts,
-                                           "shared",
-                                           "autoreduce",
-                                           "mcp",
-                                           ])
+            output_location = os.sep.join(
+                [
+                    facility,
+                    instrument,
+                    ipts,
+                    "shared",
+                    "autoreduce",
+                    "mcp",
+                ]
+            )
             output_location = os.path.join(HOME_FOLDER, output_location)
 
-            ob_output_location = os.sep.join([facility,
-                                              instrument,
-                                              ipts,
-                                              "shared",
-                                              "autoreduce",
-                                              "mcp",
-                                              ])
+            ob_output_location = os.sep.join(
+                [
+                    facility,
+                    instrument,
+                    ipts,
+                    "shared",
+                    "autoreduce",
+                    "mcp",
+                ]
+            )
             ob_output_location = os.path.join(HOME_FOLDER, ob_output_location)
 
-            final_ob_output_location = os.sep.join([facility,
-                                              instrument,
-                                              ipts,
-                                              "shared",
-                                              "autoreduce",
-                                              "mcp",
-                                              f"OBs_{title}" + os.path.sep])
+            final_ob_output_location = os.sep.join(
+                [facility, instrument, ipts, "shared", "autoreduce", "mcp", f"OBs_{title}" + os.path.sep]
+            )
             final_ob_output_location = os.path.join(HOME_FOLDER, final_ob_output_location)
 
         self.ui.projections_output_location_label.setText(output_location)
@@ -575,7 +575,7 @@ class HyperCTui(QMainWindow):
 
 def main(args):
     app = QApplication(args)
-    app.setStyle('Fusion')
+    app.setStyle("Fusion")
     app.aboutToQuit.connect(clean_up)
     app.setApplicationDisplayName("Ai Svmbir UI")
     window = HyperCTui()

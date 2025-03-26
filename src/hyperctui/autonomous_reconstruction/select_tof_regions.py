@@ -1,30 +1,28 @@
-from qtpy.QtWidgets import QMainWindow
-from qtpy.QtGui import QGuiApplication
-from qtpy import QtGui
-import os
 import glob
 import logging
+import os
+
 import numpy as np
-import tifffile
 import pyqtgraph as pg
-
-from neutronbraggedge.experiment_handler.tof import TOF
+import tifffile
 from neutronbraggedge.experiment_handler.experiment import Experiment
+from neutronbraggedge.experiment_handler.tof import TOF
+from qtpy import QtGui
+from qtpy.QtGui import QGuiApplication
+from qtpy.QtWidgets import QMainWindow
 
-from hyperctui.utilities.table import TableHandler
-from hyperctui.utilities.array import get_nearest_index
-from hyperctui import load_ui, EvaluationRegionKeys
-from hyperctui.session import SessionKeys
-from hyperctui.utilities.check import is_float, is_int
-
-from hyperctui.autonomous_reconstruction.initialization import InitializationSelectTofRegions
+from hyperctui import EvaluationRegionKeys, load_ui
 from hyperctui.autonomous_reconstruction import ColumnIndex
+from hyperctui.autonomous_reconstruction.initialization import InitializationSelectTofRegions
+from hyperctui.session import SessionKeys
+from hyperctui.utilities.array import get_nearest_index
+from hyperctui.utilities.check import is_float, is_int
+from hyperctui.utilities.table import TableHandler
 
 LABEL_YOFFSET = 0
 
 
 class SelectTofRegions(QMainWindow):
-
     top_roi_id = None
 
     ok_clicked = False
@@ -43,9 +41,9 @@ class SelectTofRegions(QMainWindow):
         super(SelectTofRegions, self).__init__(parent)
         self.parent = parent
 
-        ui_full_path = os.path.join(os.path.dirname(os.path.dirname(__file__)),
-                                    os.path.join('ui',
-                                                 'select_tof_regions.ui'))
+        ui_full_path = os.path.join(
+            os.path.dirname(os.path.dirname(__file__)), os.path.join("ui", "select_tof_regions.ui")
+        )
 
         self.ui = load_ui(ui_full_path, baseinstance=self)
         self.setWindowTitle("Select TOF regions")
@@ -68,7 +66,7 @@ class SelectTofRegions(QMainWindow):
     def load_time_spectra(self):
         session_dict = self.parent.session_dict
         image_0_full_path = session_dict[SessionKeys.full_path_to_projections][SessionKeys.image_0_degree]
-        folder_inside = glob.glob(os.path.join(image_0_full_path, 'Run_*'))
+        folder_inside = glob.glob(os.path.join(image_0_full_path, "Run_*"))
         spectra_filename = glob.glob(os.path.join(folder_inside[0], "*_Spectra.txt"))
         tof_handler = TOF(filename=spectra_filename[0])
         self.tof_array = tof_handler.tof_array
@@ -79,20 +77,22 @@ class SelectTofRegions(QMainWindow):
             if self.parent.image_data[SessionKeys.image_0_degree] is None:
                 logging.info("Loading stack of images at 0degree!")
                 image_0_full_path = session_dict[SessionKeys.full_path_to_projections][SessionKeys.image_0_degree]
-                self.parent.image_data[SessionKeys.image_0_degree] = \
-                    self.load_images_from_this_folder(folder_name=image_0_full_path)
+                self.parent.image_data[SessionKeys.image_0_degree] = self.load_images_from_this_folder(
+                    folder_name=image_0_full_path
+                )
         else:
             if self.parent.image_data[SessionKeys.image_180_degree] is None:
                 logging.info("Loading stack of images at 180degrees!")
                 image_180_full_path = session_dict[SessionKeys.full_path_to_projections][SessionKeys.image_180_degree]
-                self.parent.image_data[SessionKeys.image_180_degree] = \
-                    self.load_images_from_this_folder(folder_name=image_180_full_path)
+                self.parent.image_data[SessionKeys.image_180_degree] = self.load_images_from_this_folder(
+                    folder_name=image_180_full_path
+                )
 
     def load_images_from_this_folder(self, folder_name):
         """
         all the images are in fact inside the folder called "Run_####" within that folder
         """
-        folder_inside = glob.glob(os.path.join(folder_name, 'Run_*'))
+        folder_inside = glob.glob(os.path.join(folder_name, "Run_*"))
         list_tiff = glob.glob(os.path.join(folder_inside[0], "*.tif"))
         list_tiff.sort()
         logging.info(f"-> loading {len(list_tiff)} 'tif' files!")
@@ -108,7 +108,7 @@ class SelectTofRegions(QMainWindow):
         for _index, _file in enumerate(list_tiff):
             # _data = dxchange.read_tiff(_file)
             _data = tifffile.imread(_file)
-            self.eventProgress.setValue(_index+1)
+            self.eventProgress.setValue(_index + 1)
             QGuiApplication.processEvents()
             data.append(_data)
 
@@ -119,10 +119,10 @@ class SelectTofRegions(QMainWindow):
 
     def display_tof_profile(self):
         tof_roi_region = self.parent.session_dict[SessionKeys.tof_roi_region]
-        x0 = tof_roi_region['x0']
-        y0 = tof_roi_region['y0']
-        x1 = tof_roi_region['x1']
-        y1 = tof_roi_region['y1']
+        x0 = tof_roi_region["x0"]
+        y0 = tof_roi_region["y0"]
+        x1 = tof_roi_region["x1"]
+        y1 = tof_roi_region["y1"]
         if self.ui.projections_0degree_radioButton.isChecked():
             full_data = self.parent.image_data[SessionKeys.image_0_degree]
         else:
@@ -130,13 +130,13 @@ class SelectTofRegions(QMainWindow):
 
         tof_profile = []
         for _index, _data in enumerate(full_data):
-            _counts_of_roi = _data[y0:y1+1, x0:x1+1]
+            _counts_of_roi = _data[y0 : y1 + 1, x0 : x1 + 1]
             _mean_counts = np.mean(_counts_of_roi)
             tof_profile.append(_mean_counts)
 
         self.ui.bragg_edge_plot.clear()
         self.ui.bragg_edge_plot.plot(self.lambda_array, tof_profile)
-        self.ui.bragg_edge_plot.setLabel("bottom", u"\u03BB (\u212B)")
+        self.ui.bragg_edge_plot.setLabel("bottom", "\u03bb (\u212b)")
         self.ui.bragg_edge_plot.setLabel("left", "Average Counts")
 
     def table_changed(self):
@@ -161,10 +161,12 @@ class SelectTofRegions(QMainWindow):
             if _state:
                 _from = float(_entry[EvaluationRegionKeys.from_value])
                 _to = float(_entry[EvaluationRegionKeys.to_value])
-                _roi_id = pg.LinearRegionItem(values=(_from, _to),
-                                              orientation='vertical',
-                                              movable=True,
-                                              bounds=[0, self.parent.image_size['height']])
+                _roi_id = pg.LinearRegionItem(
+                    values=(_from, _to),
+                    orientation="vertical",
+                    movable=True,
+                    bounds=[0, self.parent.image_size["height"]],
+                )
                 self.ui.bragg_edge_plot.addItem(_roi_id)
                 _roi_id.sigRegionChanged.connect(self.regions_manually_moved)
                 _roi_id.sigRegionChangeFinished.connect(self.regions_done_manually_moved)
@@ -172,9 +174,11 @@ class SelectTofRegions(QMainWindow):
 
                 # label of region
                 _name_of_region = _entry[EvaluationRegionKeys.name]
-                _label_id = pg.TextItem(html='<div style="text-align: center">' + _name_of_region + '</div>',
-                                        fill=QtGui.QColor(255, 255, 255),
-                                        anchor=(0, 1))
+                _label_id = pg.TextItem(
+                    html='<div style="text-align: center">' + _name_of_region + "</div>",
+                    fill=QtGui.QColor(255, 255, 255),
+                    anchor=(0, 1),
+                )
                 _label_id.setPos(_from, LABEL_YOFFSET)
                 self.ui.bragg_edge_plot.addItem(_label_id)
                 _entry[EvaluationRegionKeys.label_id] = _label_id
@@ -184,39 +188,34 @@ class SelectTofRegions(QMainWindow):
         row_count = o_table.row_count()
         tof_regions = {}
         for _row in np.arange(row_count):
-            _state_widget = o_table.get_inner_widget(row=_row,
-                                                     column=ColumnIndex.enabled_state,
-                                                     position_index=1)
+            _state_widget = o_table.get_inner_widget(row=_row, column=ColumnIndex.enabled_state, position_index=1)
             _state = _state_widget.isChecked()
-            _name = o_table.get_item_str_from_cell(row=_row,
-                                                   column=ColumnIndex.name)
-            _from = float(o_table.get_item_str_from_cell(row=_row,
-                                                         column=ColumnIndex.from_value))
-            _to = float(o_table.get_item_str_from_cell(row=_row,
-                                                       column=ColumnIndex.to_value))
+            _name = o_table.get_item_str_from_cell(row=_row, column=ColumnIndex.name)
+            _from = float(o_table.get_item_str_from_cell(row=_row, column=ColumnIndex.from_value))
+            _to = float(o_table.get_item_str_from_cell(row=_row, column=ColumnIndex.to_value))
             _from, _to = self.sort(_from, _to)
 
             _str_from_value = f"{_from:06.3f}"
             _from_pre, _from_post = _str_from_value.split(".")
-            _str_from = "{:03d}_{:d}".format(int(_from_pre), int(_from_post))
+            _str_from = f"{int(_from_pre):03d}_{int(_from_post):d}"
             _str_to_value = f"{_to:06.3f}"
             _to_pre, _to_post = _str_to_value.split(".")
-            _str_to = "{:03d}_{:d}".format(int(_to_pre), int(_to_post))
+            _str_to = f"{int(_to_pre):03d}_{int(_to_post):d}"
             str_from_to_value = f"from_{_str_from}Ang_to_{_str_to}Ang"
 
-            _from_index = self.get_corresponding_index(lambda_value=_from,
-                                                       lambda_array=self.lambda_array)
-            _to_index = self.get_corresponding_index(lambda_value=_to,
-                                                     lambda_array=self.lambda_array)
+            _from_index = self.get_corresponding_index(lambda_value=_from, lambda_array=self.lambda_array)
+            _to_index = self.get_corresponding_index(lambda_value=_to, lambda_array=self.lambda_array)
 
-            tof_regions[_row] = {EvaluationRegionKeys.state: _state,
-                                 EvaluationRegionKeys.name: _name,
-                                 EvaluationRegionKeys.from_value: float(_from),
-                                 EvaluationRegionKeys.to_value: float(_to),
-                                 EvaluationRegionKeys.id: None,
-                                 EvaluationRegionKeys.from_index: _from_index,
-                                 EvaluationRegionKeys.to_index: _to_index,
-                                 EvaluationRegionKeys.str_from_to_value: str_from_to_value,}
+            tof_regions[_row] = {
+                EvaluationRegionKeys.state: _state,
+                EvaluationRegionKeys.name: _name,
+                EvaluationRegionKeys.from_value: float(_from),
+                EvaluationRegionKeys.to_value: float(_to),
+                EvaluationRegionKeys.id: None,
+                EvaluationRegionKeys.from_index: _from_index,
+                EvaluationRegionKeys.to_index: _to_index,
+                EvaluationRegionKeys.str_from_to_value: str_from_to_value,
+            }
         self.parent.tof_regions = tof_regions
 
     def get_corresponding_index(self, lambda_value=None, lambda_array=None):
@@ -231,10 +230,8 @@ class SelectTofRegions(QMainWindow):
         o_table.block_signals()
         nbr_row = o_table.row_count()
         for _row in np.arange(nbr_row):
-            from_value = o_table.get_item_str_from_cell(row=_row,
-                                                        column=ColumnIndex.from_value)
-            to_value = o_table.get_item_str_from_cell(row=_row,
-                                                      column=ColumnIndex.to_value)
+            from_value = o_table.get_item_str_from_cell(row=_row, column=ColumnIndex.from_value)
+            to_value = o_table.get_item_str_from_cell(row=_row, column=ColumnIndex.to_value)
             if not is_float(from_value):
                 from_value = 0
             else:
@@ -251,12 +248,8 @@ class SelectTofRegions(QMainWindow):
             from_value = str(minimum_value)
             to_value = str(maximum_value)
 
-            o_table.set_item_with_str(row=_row,
-                                      column=ColumnIndex.from_value,
-                                      value=from_value)
-            o_table.set_item_with_str(row=_row,
-                                      column=ColumnIndex.to_value,
-                                      value=to_value)
+            o_table.set_item_with_str(row=_row, column=ColumnIndex.from_value, value=from_value)
+            o_table.set_item_with_str(row=_row, column=ColumnIndex.to_value, value=to_value)
 
     def check_table_state(self):
         """
@@ -267,9 +260,7 @@ class SelectTofRegions(QMainWindow):
         o_table.block_signals()
         nbr_row = o_table.row_count()
         for _row in np.arange(nbr_row):
-            _state_widget = o_table.get_inner_widget(row=_row,
-                                                     column=ColumnIndex.enabled_state,
-                                                     position_index=1)
+            _state_widget = o_table.get_inner_widget(row=_row, column=ColumnIndex.enabled_state, position_index=1)
             _state = _state_widget.isChecked()
 
             # disabled or not editing
@@ -315,9 +306,9 @@ class SelectTofRegions(QMainWindow):
         detector_offset = float(str(self.ui.detector_offset_value.text()))
 
         tof_array = self.tof_array
-        exp = Experiment(tof=tof_array,
-                         distance_source_detector_m=distance_source_detector,
-                         detector_offset_micros=detector_offset)
+        exp = Experiment(
+            tof=tof_array, distance_source_detector_m=distance_source_detector, detector_offset_micros=detector_offset
+        )
         self.lambda_array = exp.lambda_array * 1e10  # to be in Angstroms
 
     def update_top_view(self):
@@ -331,18 +322,14 @@ class SelectTofRegions(QMainWindow):
         self.top_live_image = image
 
     def top_roi_changed(self):
-        region = self.top_roi_id.getArraySlice(self.top_live_image,
-                                               self.ui.top_image_view.imageItem)
+        region = self.top_roi_id.getArraySlice(self.top_live_image, self.ui.top_image_view.imageItem)
 
         left = region[0][0].start
         right = region[0][0].stop
         top = region[0][1].start
         bottom = region[0][1].stop
 
-        self.parent.session_dict[SessionKeys.tof_roi_region] = {'x0': left,
-                                                                'y0': top,
-                                                                'x1': right,
-                                                                'y1': bottom}
+        self.parent.session_dict[SessionKeys.tof_roi_region] = {"x0": left, "y0": top, "x1": right, "y1": bottom}
         self.display_tof_profile()
         self.replot_bragg_regions()
 
@@ -375,19 +362,14 @@ class SelectTofRegions(QMainWindow):
         o_table = TableHandler(table_ui=self.ui.tableWidget)
         o_table.block_signals()
         for _row, _key in enumerate(self.parent.tof_regions.keys()):
-
             _entry = self.parent.tof_regions[_key]
             _state = _entry[EvaluationRegionKeys.state]
             if _state:
                 _id = _entry[EvaluationRegionKeys.id]
                 (_from, _to) = _id.getRegion()
                 _from, _to = SelectTofRegions.sort(_from, _to)
-                o_table.set_item_with_str(row=_row,
-                                          column=ColumnIndex.from_value,
-                                          value=f"{float(_from):.2f}")
-                o_table.set_item_with_str(row=_row,
-                                          column=ColumnIndex.to_value,
-                                          value=f"{float(_to):.2f}")
+                o_table.set_item_with_str(row=_row, column=ColumnIndex.from_value, value=f"{float(_from):.2f}")
+                o_table.set_item_with_str(row=_row, column=ColumnIndex.to_value, value=f"{float(_to):.2f}")
 
                 # move label as well
                 _label_id = _entry[EvaluationRegionKeys.label_id]

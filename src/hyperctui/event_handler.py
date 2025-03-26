@@ -1,21 +1,19 @@
 import logging
+
 from qtpy.QtCore import QRect
 
-from hyperctui.parent import Parent
-from hyperctui.initialization.gui_initialization import GuiInitialization
-from hyperctui.setup_ob.get import Get as Step1Get
-from hyperctui.session.new_session import NewSession
-from hyperctui.session import SessionKeys
-from hyperctui.setup_ob.event_handler import EventHandler as ObEventHandler
 from hyperctui import UiSizeLarge
-from hyperctui import ObTabNames
-from hyperctui.setup_ob.get import Get as ObGet
-from hyperctui.rotation_center.event_handler import EventHandler as RotationCenterEventHandler
 from hyperctui.autonomous_reconstruction.event_handler import EventHandler as AutoEventHandler
+from hyperctui.initialization.gui_initialization import GuiInitialization
+from hyperctui.parent import Parent
+from hyperctui.rotation_center.event_handler import EventHandler as RotationCenterEventHandler
+from hyperctui.session import SessionKeys
+from hyperctui.session.new_session import NewSession
+from hyperctui.setup_ob.get import Get as ObGet
+from hyperctui.setup_ob.get import Get as Step1Get
 
 
 class EventHandler(Parent):
-
     def new_session(self):
         o_new = NewSession(parent=self.parent)
         o_new.show()
@@ -37,9 +35,11 @@ class EventHandler(Parent):
             all_enable = True
         else:
             all_enable = False
-        list_ui = [self.parent.ui.action3_Crop,
-                   self.parent.ui.action4_Rotation_center,
-                   self.parent.ui.action5_autonomous_reconstruction]
+        list_ui = [
+            self.parent.ui.action3_Crop,
+            self.parent.ui.action4_Rotation_center,
+            self.parent.ui.action5_autonomous_reconstruction,
+        ]
         for _ui in list_ui:
             _ui.setEnabled(all_enable)
 
@@ -64,31 +64,31 @@ class EventHandler(Parent):
         self.set_start_acquisition_text()
 
     def _is_start_acquisition_ready_to_be_used(self):
-
         # if selected OB tab and no OB selected -> return False
         if self.parent.ui.ob_tabWidget.currentIndex() == 1:
             o_get = Step1Get(parent=self.parent)
             list_of_selected = o_get.list_ob_folders_selected()
             if len(list_of_selected) == 0:
-                logging.info(f"User selected `select obs` tab but no OBs have been selected!")
-                logging.info(f"-> Possible correction: ")
-                logging.info(f"     * select at least 1 OB folder")
-                logging.info(f"     * select `Acquire new OBs` tab")
+                logging.info("User selected `select obs` tab but no OBs have been selected!")
+                logging.info("-> Possible correction: ")
+                logging.info("     * select at least 1 OB folder")
+                logging.info("     * select `Acquire new OBs` tab")
                 return False
 
         if self.parent.ui.run_title_formatted_label.text() == "N/A":
-            logging.info(f"Please provide a title to be able to start the acquisition!")
+            logging.info("Please provide a title to be able to start the acquisition!")
             return False
 
         if self.parent.ui.projections_output_location_label.text() == "N/A":
-            logging.info(f"Make sure the output folder exists (check instrument and IPTS)!")
+            logging.info("Make sure the output folder exists (check instrument and IPTS)!")
             return False
 
         if str(self.parent.ui.projections_p_charge_label.text()) == "N/A":
-            logging.info(f"ASUI is unable to determine the proton charge you want to use!")
-            logging.info(f"-> Possible correction: ")
-            logging.info(f"     * you want to use previously measured OBs and they don't seem to have the same "
-                         f"proton charge")
+            logging.info("ASUI is unable to determine the proton charge you want to use!")
+            logging.info("-> Possible correction: ")
+            logging.info(
+                "     * you want to use previously measured OBs and they don't seem to have the same proton charge"
+            )
             return False
 
         return True
@@ -98,7 +98,7 @@ class EventHandler(Parent):
         if self.parent.ui.ob_tabWidget.currentIndex() == 0:
             number_of_obs = self.parent.ui.number_of_ob_spinBox.value()
             button_text += f"{number_of_obs} OBs then "
-        button_text += u"0\u00B0 and 180\u00B0 projections"
+        button_text += "0\u00b0 and 180\u00b0 projections"
         self.parent.ui.start_acquisition_pushButton.setText(button_text)
 
     def main_tab_changed(self, new_tab_index=0):
@@ -134,7 +134,7 @@ class EventHandler(Parent):
                 move_to_large_ui = False
 
         else:
-            if not (self.parent.current_tab_index in small_tab_index):
+            if self.parent.current_tab_index not in small_tab_index:
                 self.parent.current_tab_index = new_tab_index
                 return
             else:
@@ -165,7 +165,7 @@ class EventHandler(Parent):
         else:
             number_of_obs = 0
 
-        self.parent.number_of_files_requested['ob'] = number_of_obs
+        self.parent.number_of_files_requested["ob"] = number_of_obs
 
         name_of_output_projection_folder = self.parent.ui.projections_output_location_label.text()
         self.parent.session_dict[SessionKeys.name_of_output_projection_folder] = name_of_output_projection_folder
@@ -175,11 +175,10 @@ class EventHandler(Parent):
 
         o_get = Step1Get(parent=self.parent)
         title = self.parent.ui.run_title_lineEdit.text()
-        list_ob_folders = o_get.list_ob_folders_in_output_directory(output_folder=name_of_output_ob_folder,
-                                                                    title=title)
-        list_sample_folders = o_get.list_sample_folders_in_output_directory(output_folder=
-                                                                            name_of_output_projection_folder,
-                                                                            title=title)
+        list_ob_folders = o_get.list_ob_folders_in_output_directory(output_folder=name_of_output_ob_folder, title=title)
+        list_sample_folders = o_get.list_sample_folders_in_output_directory(
+            output_folder=name_of_output_projection_folder, title=title
+        )
 
         self.parent.session_dict[SessionKeys.list_ob_folders_initially_there] = list_ob_folders
         self.parent.session_dict[SessionKeys.list_projections_folders_initially_there] = list_sample_folders
