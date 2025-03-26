@@ -1,14 +1,13 @@
 class SessionKeys:
+    config_version = "config version"
 
-    config_version = 'config version'
-
-    facility = 'facility'
-    instrument = 'instrument'
-    ipts_selected = 'ipts selected'
-    ipts_index_selected = 'ipts index selected'
+    facility = "facility"
+    instrument = "instrument"
+    ipts_selected = "ipts selected"
+    ipts_index_selected = "ipts index selected"
 
     # step ob
-    number_of_obs = 'number of obs'
+    number_of_obs = "number of obs"
     proton_charge = "proton charge"
     top_obs_folder = "top ob folder"
     list_ob_folders_selected = "list ob folders selected"
@@ -21,7 +20,7 @@ class SessionKeys:
     ob_will_be_moved_to = "OB will be moved to"
 
     # step projections
-    run_title = 'run title'
+    run_title = "run title"
     list_projections = "list projections"
     list_projections_folders_initially_there = "list projections folders initially there"
     list_projections_folders_acquired_so_far = "list of projections folders acquired so far for this experiment"
@@ -58,7 +57,7 @@ class SessionKeys:
 
 
 class DefaultValues:
-    instrument = 'VENUS'
+    instrument = "VENUS"
     ipts_index_selected = 0
 
     # step ob

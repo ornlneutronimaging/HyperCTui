@@ -2,7 +2,6 @@ from hyperctui.utilities.parent import Parent
 
 
 class CommandLauncher(Parent):
-
     def launch_ob_first_projections_acquisition(self):
         # get the number of OBs requested (if any)
 

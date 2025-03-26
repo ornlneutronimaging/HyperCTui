@@ -1,5 +1,4 @@
 class ColumnIndex:
-
     enabled_state = 0
     name = 1
     from_value = 2
@@ -7,7 +6,6 @@ class ColumnIndex:
 
 
 class ProjectionsTableColumnIndex:
-
     folder_name = 0
     log = 1
     err = 2
@@ -17,13 +15,11 @@ class ProjectionsTableColumnIndex:
 
 
 class ReconstructionTableColumnIndex:
-
     folder_name = 0
     preview = 1
     status = 2
 
 
 class KeysTofReconstructionConfig:
-
     tof_reconstruction_folders = "tof reconstruction folders"
     process_id = "process id"

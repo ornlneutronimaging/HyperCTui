@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
-from hyperctui.hyperctui import main
 import multiprocessing
 import sys
+
+from hyperctui.hyperctui import main
 
 __file__ = "asui"
 

@@ -1,5 +1,6 @@
-from qtpy.uic import loadUi
 import os
+
+from qtpy.uic import loadUi
 
 try:
     from ._version import __version__  # noqa: F401
