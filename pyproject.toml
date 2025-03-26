@@ -170,15 +170,6 @@ platforms = ["linux-64", "osx-arm64"]
 [tool.pixi.pypi-dependencies]
 hyperctui = { path = ".", editable = true }
 
-[tool.pixi.environments]
-default = { solve-group = "default" }
-all = { features = ["all", "dev", "docs", "jupyter"], solve-group = "default" }
-dev = { features = ["dev"], solve-group = "default" }
-docs = { features = ["docs"], solve-group = "default" }
-jupyter = { features = ["jupyter"], solve-group = "default" }
-
-[tool.pixi.tasks]
-
 [tool.pixi.dependencies]
 tomopy = ">=1.14.4,<2"
 astropy = ">=7.0.1,<8"
@@ -192,3 +183,57 @@ pyqtgraph = ">=0.13.7,<0.14"
 pandas = ">=2.2.3,<3"
 pillow = ">=11.1.0,<12"
 scikit-image = ">=0.25.2,<0.26"
+
+[tool.pixi.tasks]
+# PyPi packaging tasks
+build-pypi = { cmd = "python -m build", description = "Build the package for PyPI" }
+publish-pypi = { cmd = "twine upload dist/*", description = "Publish the package to PyPI", depends-on = ["build-pypi"] }
+clean-pypi = { cmd = "rm -rf dist", description = "Clean the PyPI build artifacts" }
+# Conda packaging tasks
+# NOTE: for build-conda to work locally, you need to set pixi to use detached-environments, i.e. pixi config set detached-environments true
+#       this is because the conda build will complain about build environment in source and refuse to build.
+build-conda = { cmd = "cd conda.recipe && VERSION=$(versioningit ../) conda mambabuild --channel conda-forge --output-folder . .", description = "Build the package for conda" }
+verify-conda = { cmd = "conda verify conda.recipe/noarch/*.tar.bz2", description = "Verify the conda package", depends-on = ["build-conda"] }
+publish-conda = { cmd = "anaconda upload --user neutronimaging conda.recipe/noarch/*/*.tar.bz2", description = "Publish to neutronimaging channel", depends-on = ["verify-conda"] }
+clean-conda = { cmd = "sh -c \"find conda.recipe/* ! -name 'meta.yaml' -exec rm -rf {} +\"", description = "Clean the conda build artifacts" }
+# Documentation tasks
+build-docs = { cmd = "sphinx-build -b html docs docs/_build", description = "Build the documentation" }
+clean-docs = { cmd = "rm -rf docs/_build", description = "Clean the documentation build artifacts" }
+# Testing tasks
+test = { cmd = "pytest", description = "Run the tests" }  # pytest config above takes care of the arguments
+# Clean all
+clean-all = { description = "Clean all build artifacts", depends-on = ["clean-pypi", "clean-conda", "clean-docs"] }
+
+[tool.pixi.feature.test.dependencies]
+pytest = "*"
+pytest-cov = "*"
+pytest-xdist = "*"
+pytest-repeat = "*"
+
+[tool.pixi.feature.package.dependencies]
+boa = "*"
+anaconda-client = ">=1.12.3,<2"  # For manual upload to anaconda
+conda-build = "*"
+conda-verify = "*"
+python-build = "*"
+twine = ">=6.1.0,<7"
+
+[tool.pixi.feature.developer.dependencies]
+pip = "*"
+versioningit = "*"
+pre-commit = "*"
+conda-tree = "*"
+ruff = "*"
+
+[tool.pixi.feature.docs.dependencies]
+sphinx = ">=8.2.1,<9"
+sphinx_rtd_theme = ">=3.0.1,<4"
+
+[tool.pixi.feature.jupyter.dependencies]
+jupyterlab = "*"
+ipympl = "*"
+ipywidgets = "*"
+
+[tool.pixi.environments]
+default = {features = ["test", "package", "docs", "developer"], solve-group = "default"}
+jupyter = {features = ["developer", "jupyter"], solve-group = "jupyter"}
