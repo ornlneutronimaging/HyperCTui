@@ -1,4 +1,14 @@
+#!/usr/bin/env python
+"""
+Initialization module for pre-processing monitor.
+
+This module handles the setup and initialization of the monitoring interface
+for open beam (OB) acquisition and projection data preprocessing.
+It populates tables with status information and configures the UI components.
+"""
+
 import os
+from typing import List, Optional
 
 import numpy as np
 from qtpy.QtWidgets import QProgressBar, QPushButton
@@ -13,16 +23,45 @@ from hyperctui.utilities.table import TableHandler
 
 
 class Initialization:
+    """
+    Class for initializing the pre-processing monitoring interface.
+
+    Handles the setup of UI components and data for monitoring the
+    pre-processing of open beam images and projections.
+
+    Attributes
+    ----------
+    first_in_queue_is_projections : bool
+        Flag indicating if projections are first in the processing queue
+    parent : object
+        The parent widget that contains this initialization
+    grand_parent : object
+        The top-level parent widget
+    """
+
     first_in_queue_is_projections = True
 
-    def __init__(self, parent=None, grand_parent=None):
+    def __init__(self, parent: Optional[object] = None, grand_parent: Optional[object] = None) -> None:
+        """
+        Initialize the class with parent references.
+
+        Parameters
+        ----------
+        parent : object, optional
+            The parent widget
+        grand_parent : object, optional
+            The top-level parent widget
+        """
         self.parent = parent
         self.grand_parent = grand_parent
 
-    def data(self):
+    def data(self) -> None:
         """
-        this is where we need to figure out the list of NeXus files already listed
-        and how many we are expecting
+        Initialize the data for monitoring pre-processing.
+
+        This method determines the list of NeXus files already available
+        and how many are expected. It populates the tables with open beam
+        and projection data based on the current application state.
         """
         if self.grand_parent.ui.ob_tabWidget.currentIndex() == 0:
             # we want to take new obs
@@ -50,7 +89,12 @@ class Initialization:
         self.parent.ui.final_ob_folder_status.setText(DataStatus.in_queue)
         self.parent.ui.final_ob_folder_status.setStyleSheet(f"background-color: {ColorDataStatus.in_queue}")
 
-    def ui(self):
+    def ui(self) -> None:
+        """
+        Configure the user interface components.
+
+        Sets up table columns and progress bar for monitoring status.
+        """
         table_columns = [540, 80, 80, 80, 100]
         o_ob_table = TableHandler(table_ui=self.parent.ui.obs_tableWidget)
         o_ob_table.set_column_sizes(column_sizes=table_columns)
@@ -63,9 +107,17 @@ class Initialization:
         self.parent.eventProgress.setVisible(False)
         self.parent.ui.statusbar.addPermanentWidget(self.parent.eventProgress)
 
-    def populate_table_with_expected_obs(self, nbr_obs_expected=2):
+    def populate_table_with_expected_obs(self, nbr_obs_expected: int = 2) -> None:
         """
-        we initialize the table with fake OB file name, while waiting for the first one to show up
+        Populate the table with expected open beam files.
+
+        Initializes the table with placeholder OB file names while waiting
+        for actual files to appear.
+
+        Parameters
+        ----------
+        nbr_obs_expected : int, optional
+            Number of expected open beam files, default is 2
         """
         o_table = TableHandler(table_ui=self.parent.ui.obs_tableWidget)
         dict_ob_log_err_metadata = {}
@@ -120,7 +172,18 @@ class Initialization:
             }
         self.parent.dict_ob_log_err_metadata = dict_ob_log_err_metadata
 
-    def populate_table_with_existing_obs(self, list_ob=None):
+    def populate_table_with_existing_obs(self, list_ob: Optional[List[str]] = None) -> None:
+        """
+        Populate the table with existing open beam folders.
+
+        Sets up the table with information about existing OB files
+        including references to log files, error files, and metadata.
+
+        Parameters
+        ----------
+        list_ob : list of str, optional
+            List of paths to existing open beam folders
+        """
         if list_ob is None:
             return
 
@@ -186,7 +249,14 @@ class Initialization:
 
         self.parent.dict_ob_log_err_metadata = dict_ob_log_err_metadata
 
-    def populate_table_with_expected_projections(self):
+    def populate_table_with_expected_projections(self) -> None:
+        """
+        Populate the table with expected projection files.
+
+        Creates placeholder entries for projections and sets their
+        initial status in the monitoring UI. Typically includes
+        projections at 0 and 180 degrees.
+        """
         o_table = TableHandler(table_ui=self.parent.ui.projections_tableWidget)
 
         dict_projections_log_err_metadata = {}
@@ -211,33 +281,6 @@ class Initialization:
 
             o_table.insert_empty_row(row=_row_index)
             o_table.insert_item(row=_row_index, column=0, value=file_name)
-
-            # log_button = QPushButton("View")
-            # log_button.setEnabled(False)
-            # o_table.insert_widget(row=_row_index,
-            #                       column=1,
-            #                       widget=log_button)
-            # log_button.clicked.connect(lambda state=0, row=_row_index:
-            #                            self.parent.preview_log(row=row,
-            #                                                    data_type='projections'))
-            #
-            # err_button = QPushButton("View")
-            # err_button.setEnabled(False)
-            # o_table.insert_widget(row=_row_index,
-            #                       column=2,
-            #                       widget=err_button)
-            # err_button.clicked.connect(lambda state=0, row=_row_index:
-            #                            self.parent.preview_err(row=row,
-            #                                                    data_type='projections'))
-            #
-            # summary_button = QPushButton("View")
-            # summary_button.setEnabled(False)
-            # o_table.insert_widget(row=_row_index,
-            #                       column=3,
-            #                       widget=summary_button)
-            # summary_button.clicked.connect(lambda state=0, row=_row_index:
-            #                                self.parent.preview_summary(row=row,
-            #                                                            data_type='projections'))
 
             o_table.insert_item(row=_row_index, column=4, value=message)
             o_table.set_background_color(row=_row_index, column=4, qcolor=color)
