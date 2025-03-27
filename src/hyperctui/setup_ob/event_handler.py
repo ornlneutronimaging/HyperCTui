@@ -1,8 +1,18 @@
+#!/usr/bin/env python
+"""
+Event handler module for the Open Beam setup interface.
+
+This module contains event handling logic for the Open Beam (OB) setup interface
+in the HyperCTui application. It manages user interactions such as IPTS selection,
+OB folder browsing, acquisition start, and selecting OB files for processing.
+"""
+
 import glob
 import json
 import logging
 import os
 from pathlib import Path
+from typing import List, Optional, Union
 
 import numpy as np
 from qtpy.QtWidgets import QFileDialog
@@ -16,6 +26,18 @@ from hyperctui.utilities.table import TableHandler
 
 
 class EventHandler(Parent):
+    """
+    Handle events for the Open Beam setup interface.
+
+    This class manages event handling for the Open Beam setup interface, including
+    IPTS changes, OB selection, acquisition start, and OB browsing.
+
+    Parameters
+    ----------
+    parent : Parent
+        The parent object containing UI and session information.
+    """
+
     # def run_title_changed(self, run_title=None):
     #     run_title_listed = run_title.split(" ")
     #     formatted_run_title = "_".join(run_title_listed)
@@ -24,7 +46,14 @@ class EventHandler(Parent):
     #     print(f"unused formatted run title: {unused_formatted_run_title}")
     #     self.parent.ui.run_title_formatted_label.setText(unused_formatted_run_title)
 
-    def start_acquisition(self):
+    def start_acquisition(self) -> None:
+        """
+        Start the acquisition process for open beam measurements.
+
+        This method is called when the start acquisition button is clicked.
+        It retrieves the instrument and IPTS information, sets up the output folder,
+        and checks the current number of OB folders for later comparison.
+        """
         logging.info("Step1: start acquisition button clicked:")
 
         o_get = Get(parent=self.parent)
@@ -39,12 +68,26 @@ class EventHandler(Parent):
         list_folder = glob.glob("output_folder/*")
         self.parent.nbr_of_ob_folder_before_staring_acquisition = len(list_folder)
 
-    def step1_ipts_changed(self, ipts=None):
+    def step1_ipts_changed(self, ipts: Optional[str] = None) -> None:
+        """
+        Handle change in IPTS selection.
+
+        Parameters
+        ----------
+        ipts : str, optional
+            The selected IPTS number.
+        """
         logging.info(f"New IPTS selected: {ipts}")
         self.reset_ob_search_path()
         self.update_list_of_obs()
 
-    def update_state_of_rows(self):
+    def update_state_of_rows(self) -> None:
+        """
+        Update the state of rows in the open beam table based on selection.
+
+        This method handles the logic for enabling/disabling rows based on
+        consistent proton charge values across selected rows.
+        """
         o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
         o_table.block_signals()
 
@@ -85,7 +128,13 @@ class EventHandler(Parent):
         self.parent.list_obs_selected = list_obs_selected
         o_table.unblock_signals()
 
-    def reset_ob_search_path(self):
+    def reset_ob_search_path(self) -> None:
+        """
+        Reset the search path for OB files based on the selected IPTS.
+
+        This method clears the OB table and sets the search path for OB files
+        based on the selected IPTS and instrument.
+        """
         logging.info("-> clearing the list of OBs table!")
         o_table = TableHandler(table_ui=self.parent.ui.step1_open_beam_tableWidget)
         o_table.remove_all_rows()
@@ -103,10 +152,21 @@ class EventHandler(Parent):
         self.parent.ui.existing_ob_top_path.setText(full_path_where_to_look_for_obs)
         self.parent.ui.location_of_ob_created.setText(full_path_where_to_look_for_obs)
 
-    def check_state_of_ob_measured(self):
+    def check_state_of_ob_measured(self) -> None:
+        """
+        Check the state of the measured OB files.
+
+        This method performs checks on the state of the OB files measured.
+        """
         logging.info("Checking the state of the OBs measured.")
 
-    def browse_obs(self):
+    def browse_obs(self) -> None:
+        """
+        Browse for OB folders/files.
+
+        This method opens a file dialog for the user to select the top folder
+        containing OB files and updates the list of OBs based on the selected folder.
+        """
         full_path_where_to_look_for_obs = str(self.parent.ui.existing_ob_top_path.text())
         logging.info(f"Looking for OBs folders/files in {full_path_where_to_look_for_obs}")
 
@@ -127,19 +187,37 @@ class EventHandler(Parent):
             self.parent.ui.existing_ob_top_path.setText(top_folder)
             self.update_list_of_obs()
 
-    def update_list_of_obs(self):
+    def update_list_of_obs(self) -> None:
+        """
+        Update the list of OB folders/files.
+
+        This method clears the OB table and loads the list of OB folders/files
+        based on the current top folder path.
+        """
         self.clear_ob_table()
         top_folder = self.parent.ui.existing_ob_top_path.text()
         list_folders = list_ob_dirs(top_folder)
         self.load_list_of_folders(list_folders=list_folders)
 
-    def save_list_of_obs_selected(self):
+    def save_list_of_obs_selected(self) -> None:
+        """
+        Save the list of selected OB files.
+
+        This method retrieves the list of selected OB files from the table
+        and saves it to the parent object.
+        """
         o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
         list_row_selected = o_table.get_rows_of_table_selected()
         list_obs_selected = [o_table.get_item_str_from_cell(row=_row, column=0) for _row in list_row_selected]
         self.parent.list_obs_selected = list_obs_selected
 
-    def reselect_the_obs_previously_selected(self):
+    def reselect_the_obs_previously_selected(self) -> None:
+        """
+        Reselect the previously selected OB files.
+
+        This method reselects the OB files in the table based on the previously
+        saved list of selected OB files.
+        """
         o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
         list_obs_selected = self.parent.list_obs_selected
         nbr_row = o_table.row_count()
@@ -152,13 +230,26 @@ class EventHandler(Parent):
         if list_row_to_select:
             o_table.select_rows(list_of_rows=list_row_to_select)
 
-    def clear_ob_table(self):
+    def clear_ob_table(self) -> None:
+        """
+        Clear the OB table.
+
+        This method clears all rows in the OB table.
+        """
         o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
         o_table.block_signals()
         o_table.remove_all_rows()
         o_table.unblock_signals()
 
-    def load_list_of_folders(self, list_folders):
+    def load_list_of_folders(self, list_folders: Optional[List[str]]) -> None:
+        """
+        Load the list of OB folders into the table.
+
+        Parameters
+        ----------
+        list_folders : list of str, optional
+            The list of OB folder paths to load into the table.
+        """
         if list_folders is None:
             return
 
@@ -189,12 +280,22 @@ class EventHandler(Parent):
                 o_table.set_item_enabled(row=_offset_row, column=0, enabled=False)
 
     @staticmethod
-    def retrieve_proton_charge_for_that_folder(folder):
-        """look for the json file called summary.json
-        if not there return "N/A"
-        if found, look for tag proton_charge
-            if found, return the value * 1e-9 (to go to C)
-            if not found, return "N/A"
+    def retrieve_proton_charge_for_that_folder(folder: str) -> Union[str, float]:
+        """
+        Retrieve the proton charge for a given folder.
+
+        This method looks for a summary.json file in the given folder and retrieves
+        the proton charge value if available. If not found, it returns "N/A".
+
+        Parameters
+        ----------
+        folder : str
+            The folder path to look for the summary.json file.
+
+        Returns
+        -------
+        str or float
+            The proton charge value in Coulombs, or "N/A" if not found.
         """
         json_file = glob.glob(folder + os.sep + "summary.json")
         if len(json_file) == 0:
