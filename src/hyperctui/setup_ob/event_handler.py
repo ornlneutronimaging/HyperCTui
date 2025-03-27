@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import List, Optional, Union
 
 import numpy as np
+from loguru import logger
 from qtpy.QtWidgets import QFileDialog
 
 from hyperctui.parent import Parent
@@ -208,8 +209,13 @@ class EventHandler(Parent):
         """
         o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
         list_row_selected = o_table.get_rows_of_table_selected()
-        list_obs_selected = [o_table.get_item_str_from_cell(row=_row, column=0) for _row in list_row_selected]
-        self.parent.list_obs_selected = list_obs_selected
+        _cache_list_obs_selected = self.parent.list_obs_selected
+        if list_row_selected:
+            list_obs_selected = [o_table.get_item_str_from_cell(row=_row, column=0) for _row in list_row_selected]
+            self.parent.list_obs_selected = list_obs_selected
+        else:
+            logger.warning("Empty list_obs_selected, reverting to previous selection.")
+            self.parent.list_obs_selected = _cache_list_obs_selected
 
     def reselect_the_obs_previously_selected(self) -> None:
         """

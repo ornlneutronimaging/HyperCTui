@@ -220,14 +220,15 @@ class SessionHandler:
 
         proton_charge = session_dict.get(SessionKeys.proton_charge, DefaultValues.proton_charge)
         # check if proton_charge is a digital value
-        if isinstance(proton_charge, str):
-            try:
-                proton_charge = float(proton_charge)
-            except ValueError:
-                proton_charge = DefaultValues.proton_charge
-                logger.warning(
-                    f"Proton charge value '{proton_charge}' is not a number. Using default value {proton_charge}"
-                )
+        try:
+            proton_charge = int(proton_charge.strip())
+        except ValueError:
+            logger.warning(
+                f"Proton charge value '{proton_charge}' is not a number."
+                f"Using default value {DefaultValues.proton_charge}"
+            )
+            proton_charge = DefaultValues.proton_charge
+
         self.parent.ui.open_beam_proton_charge_doubleSpinBox.setValue(proton_charge)
 
         ob_will_be_saved_as = session_dict.get(SessionKeys.ob_will_be_saved_as, None)
