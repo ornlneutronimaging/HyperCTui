@@ -1,5 +1,14 @@
+#!/usr/bin/env python
+"""
+Log management module for HyperCTui application.
+
+This module provides log viewing, management, and handling capabilities
+through the LogLauncher, Log and LogHandler classes.
+"""
+
 import logging
 import os
+from typing import Any, Optional
 
 from qtpy import QtGui
 from qtpy.QtGui import QIcon
@@ -11,7 +20,26 @@ from hyperctui.utilities.get import Get
 
 
 class LogLauncher:
-    def __init__(self, parent=None):
+    """
+    Launcher for the Log window.
+
+    This class manages the creation or activation of the log window.
+
+    Parameters
+    ----------
+    parent : Any, optional
+        Parent object that owns the log launcher.
+    """
+
+    def __init__(self, parent: Optional[Any] = None) -> None:
+        """
+        Initialize the LogLauncher.
+
+        Parameters
+        ----------
+        parent : Any, optional
+            Parent object that owns the log launcher.
+        """
         self.parent = parent
 
         if self.parent.log_id is None:
@@ -24,7 +52,26 @@ class LogLauncher:
 
 
 class Log(QMainWindow):
-    def __init__(self, parent=None):
+    """
+    Log window that displays log file contents.
+
+    This class provides a UI window for viewing and managing log files.
+
+    Parameters
+    ----------
+    parent : Any, optional
+        Parent object that owns the log window.
+    """
+
+    def __init__(self, parent: Optional[Any] = None) -> None:
+        """
+        Initialize the Log window.
+
+        Parameters
+        ----------
+        parent : Any, optional
+            Parent object that owns the log window.
+        """
         self.parent = parent
         QMainWindow.__init__(self, parent=parent)
         ui_full_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), os.path.join("ui", "log.ui"))
@@ -42,10 +89,24 @@ class Log(QMainWindow):
         # jump to end of file
         self.ui.log_text.moveCursor(QtGui.QTextCursor.End)
 
-    def closeEvent(self, c):
+    def closeEvent(self, c: QtGui.QCloseEvent) -> None:
+        """
+        Handle the window close event.
+
+        Parameters
+        ----------
+        c : QtGui.QCloseEvent
+            Close event object.
+        """
         self.parent.log_id = None
 
-    def loading_logging_file(self):
+    def loading_logging_file(self) -> None:
+        """
+        Load and display the content of the log file.
+
+        Reads the log file content and displays it in the text area.
+        If the file is not found, displays an empty text area.
+        """
         try:
             log_text = read_ascii(self.log_file_name)
             self.ui.log_text.setPlainText(log_text)
@@ -53,7 +114,13 @@ class Log(QMainWindow):
         except FileNotFoundError:
             self.ui.log_text.setPlainText("")
 
-    def clear_clicked(self):
+    def clear_clicked(self) -> None:
+        """
+        Clear the log file content.
+
+        Clears the content of the log file and updates the display.
+        Logs an information message about the clearing action.
+        """
         if os.path.exists(self.log_file_name):
             write_ascii(text="", filename=self.log_file_name)
             logging.info("log file has been cleared by user")
@@ -61,11 +128,41 @@ class Log(QMainWindow):
 
 
 class LogHandler:
-    def __init__(self, parent=None, log_file_name=""):
+    """
+    Handler for log file operations.
+
+    This class provides methods to manage log file size and content.
+
+    Parameters
+    ----------
+    parent : Any, optional
+        Parent object that owns the log handler.
+    log_file_name : str, optional
+        Path to the log file to be handled.
+    """
+
+    def __init__(self, parent: Optional[Any] = None, log_file_name: str = "") -> None:
+        """
+        Initialize the LogHandler.
+
+        Parameters
+        ----------
+        parent : Any, optional
+            Parent object that owns the log handler.
+        log_file_name : str, optional
+            Path to the log file to be handled.
+        """
         self.parent = parent
         self.log_file_name = log_file_name
 
-    def cut_log_size_if_bigger_than_buffer(self):
+    def cut_log_size_if_bigger_than_buffer(self) -> None:
+        """
+        Truncate the log file if it exceeds the buffer size.
+
+        Checks the current size of the log file and truncates it to match
+        the buffer size limit if it exceeds that limit. Keeps the most
+        recent log entries.
+        """
         log_buffer_size = self.parent.log_buffer_size
         # check current size of log file
         log_text = read_ascii(self.log_file_name)
