@@ -10,8 +10,12 @@ configurations, and sets up the logging system.
 import json
 import logging
 import os
+import sys
 from typing import Any, Optional
 
+from loguru import logger
+
+import hyperctui
 from hyperctui.utilities.get import Get
 
 
@@ -52,16 +56,52 @@ class ConfigHandler:
                 self.parent.homepath = _homepath
                 break
 
+        # Set up loguru logging
         o_get = Get(parent=self.parent)
         log_file_name = o_get.get_log_file_name()
-        logging.basicConfig(
-            filename=log_file_name,
-            filemode="a",
-            format="[%(levelname)s] - %(asctime)s - %(message)s",
-            level=logging.INFO,
+
+        # Remove default handler and configure loguru
+        logger.remove()
+        logger.add(
+            log_file_name,
+            rotation="10 MB",
+            format="[{level}] - {time:YYYY-MM-DD HH:mm:ss} - {name}:{function}:{line} - {message}",
+            level="INFO",
+            enqueue=True,
+            backtrace=True,
+            diagnose=True,
         )
-        logging.info("*** Starting a new session ***")
-        # logging.info(f" Version: {versioneer.get_version()}")
+
+        # Add stderr handler for console output with colored formatting
+        logger.add(
+            sys.stderr,
+            level="INFO",
+            format="<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> - <level>{message}</level>",  # noqa: E501
+            colorize=True,
+        )
+
+        # Intercept standard logging to loguru
+        class InterceptHandler(logging.Handler):
+            def emit(self, record):
+                # Get corresponding Loguru level if it exists
+                try:
+                    level = logger.level(record.levelname).name
+                except ValueError:
+                    level = record.levelno
+
+                # Find caller from where the logged message originated
+                frame, depth = logging.currentframe(), 2
+                while frame.f_code.co_filename == logging.__file__:
+                    frame = frame.f_back
+                    depth += 1
+
+                logger.opt(depth=depth, exception=record.exc_info).log(level, record.getMessage())
+
+        # Configure standard logging to use loguru
+        logging.basicConfig(handlers=[InterceptHandler()], level=0, force=True)
+
+        logger.info("*** Starting a new session ***")
+        logger.info(f" Version: {hyperctui.__version__}")
 
     def load_reconstruction_config(self, file_name: Optional[str] = None) -> None:
         """

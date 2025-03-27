@@ -6,8 +6,7 @@ This module provides event handling for UI interactions, including tab changes,
 button clicks, and UI state management for the HyperCTui application.
 """
 
-import logging
-
+from loguru import logger
 from qtpy.QtCore import QRect
 
 from hyperctui import UiSizeLarge
@@ -47,7 +46,7 @@ class EventHandler(Parent):
         """
         o_init = GuiInitialization(parent=self.parent)
         o_init.full_reset()
-        logging.info("Full reset of application!")
+        logger.info("Full reset of application!")
 
     def ob_tab_changed(self) -> None:
         """
@@ -121,24 +120,24 @@ class EventHandler(Parent):
             o_get = Step1Get(parent=self.parent)
             list_of_selected = o_get.list_ob_folders_selected()
             if len(list_of_selected) == 0:
-                logging.info("User selected `select obs` tab but no OBs have been selected!")
-                logging.info("-> Possible correction: ")
-                logging.info("     * select at least 1 OB folder")
-                logging.info("     * select `Acquire new OBs` tab")
+                logger.info("User selected `select obs` tab but no OBs have been selected!")
+                logger.info("-> Possible correction: ")
+                logger.info("     * select at least 1 OB folder")
+                logger.info("     * select `Acquire new OBs` tab")
                 return False
 
         if self.parent.ui.run_title_formatted_label.text() == "N/A":
-            logging.info("Please provide a title to be able to start the acquisition!")
+            logger.info("Please provide a title to be able to start the acquisition!")
             return False
 
         if self.parent.ui.projections_output_location_label.text() == "N/A":
-            logging.info("Make sure the output folder exists (check instrument and IPTS)!")
+            logger.info("Make sure the output folder exists (check instrument and IPTS)!")
             return False
 
         if str(self.parent.ui.projections_p_charge_label.text()) == "N/A":
-            logging.info("ASUI is unable to determine the proton charge you want to use!")
-            logging.info("-> Possible correction: ")
-            logging.info(
+            logger.info("ASUI is unable to determine the proton charge you want to use!")
+            logger.info("-> Possible correction: ")
+            logger.info(
                 "     * you want to use previously measured OBs and they don't seem to have the same proton charge"
             )
             return False

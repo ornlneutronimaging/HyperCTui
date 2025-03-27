@@ -8,7 +8,6 @@ configuration settings, and experiment parameters.
 """
 
 import json
-import logging
 import os
 from collections import OrderedDict
 from typing import Any, Dict, Optional, Union
@@ -421,7 +420,7 @@ class SessionHandler:
                 status=StatusMessageStatus.ready,
                 duration_s=10,
             )
-            logging.info(f"Saving configuration into {config_file_name}")
+            logger.info(f"Saving configuration into {config_file_name}")
 
     def load_from_file(self, config_file_name: Optional[str] = None) -> None:
         """
@@ -462,17 +461,17 @@ class SessionHandler:
             with open(config_file_name, "r") as read_file:
                 session_to_save = json.load(read_file)
                 if session_to_save.get("config version", None) is None:
-                    logging.info("Session file is out of date!")
-                    logging.info(f"-> expected version: {self.parent.config['config version']}")
-                    logging.info("-> session version: Unknown!")
+                    logger.info("Session file is out of date!")
+                    logger.info(f"-> expected version: {self.parent.config['config version']}")
+                    logger.info("-> session version: Unknown!")
                     self.load_successful = False
                 elif session_to_save["config version"] == self.parent.config["config version"]:
                     self.parent.session_dict = session_to_save
-                    logging.info(f"Loaded from {config_file_name}")
+                    logger.info(f"Loaded from {config_file_name}")
                 else:
-                    logging.info("Session file is out of date!")
-                    logging.info(f"-> expected version: {self.parent.config['config version']}")
-                    logging.info(f"-> session version: {session_to_save['config version']}")
+                    logger.info("Session file is out of date!")
+                    logger.info(f"-> expected version: {self.parent.config['config version']}")
+                    logger.info(f"-> session version: {session_to_save['config version']}")
                     self.load_successful = False
 
                 if not self.load_successful:

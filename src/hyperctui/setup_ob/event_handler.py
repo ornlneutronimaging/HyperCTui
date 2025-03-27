@@ -9,7 +9,6 @@ OB folder browsing, acquisition start, and selecting OB files for processing.
 
 import glob
 import json
-import logging
 import os
 from pathlib import Path
 from typing import List, Optional, Union
@@ -55,14 +54,14 @@ class EventHandler(Parent):
         It retrieves the instrument and IPTS information, sets up the output folder,
         and checks the current number of OB folders for later comparison.
         """
-        logging.info("Step1: start acquisition button clicked:")
+        logger.info("Step1: start acquisition button clicked:")
 
         o_get = Get(parent=self.parent)
         instrument = o_get.instrument()
         ipts = o_get.ipts_selected()
 
         output_folder = Path(self.parent.homepath) / instrument / f"{ipts}" / "raw/ob/"
-        logging.info(f"-> output_folder: {output_folder}")
+        logger.info(f"-> output_folder: {output_folder}")
 
         # look at the OBs folder of the IPTS and retrieve list of OBs (we will use this to see if any new
         # ones show up)
@@ -78,7 +77,7 @@ class EventHandler(Parent):
         ipts : str, optional
             The selected IPTS number.
         """
-        logging.info(f"New IPTS selected: {ipts}")
+        logger.info(f"New IPTS selected: {ipts}")
         self.reset_ob_search_path()
         self.update_list_of_obs()
 
@@ -136,7 +135,7 @@ class EventHandler(Parent):
         This method clears the OB table and sets the search path for OB files
         based on the selected IPTS and instrument.
         """
-        logging.info("-> clearing the list of OBs table!")
+        logger.info("-> clearing the list of OBs table!")
         o_table = TableHandler(table_ui=self.parent.ui.step1_open_beam_tableWidget)
         o_table.remove_all_rows()
         ipts = self.parent.session_dict[SessionKeys.ipts_selected]
@@ -159,7 +158,7 @@ class EventHandler(Parent):
 
         This method performs checks on the state of the OB files measured.
         """
-        logging.info("Checking the state of the OBs measured.")
+        logger.info("Checking the state of the OBs measured.")
 
     def browse_obs(self) -> None:
         """
@@ -169,7 +168,7 @@ class EventHandler(Parent):
         containing OB files and updates the list of OBs based on the selected folder.
         """
         full_path_where_to_look_for_obs = str(self.parent.ui.existing_ob_top_path.text())
-        logging.info(f"Looking for OBs folders/files in {full_path_where_to_look_for_obs}")
+        logger.info(f"Looking for OBs folders/files in {full_path_where_to_look_for_obs}")
 
         top_folder = str(
             QFileDialog.getExistingDirectory(self.parent, "Select OB folder", full_path_where_to_look_for_obs)
@@ -179,12 +178,12 @@ class EventHandler(Parent):
             return
 
         if not os.path.exists(top_folder):
-            logging.info("-> folder does not exists!")
+            logger.info("-> folder does not exists!")
             top_folder = os.sep.join([self.parent.homepath, self.parent.session_dict[SessionKeys.instrument]])
-            logging.info(f"-> using {top_folder} instead!")
+            logger.info(f"-> using {top_folder} instead!")
 
         if top_folder:
-            logging.info(f"User changed top OB folder in step 1: {top_folder}")
+            logger.info(f"User changed top OB folder in step 1: {top_folder}")
             self.parent.ui.existing_ob_top_path.setText(top_folder)
             self.update_list_of_obs()
 

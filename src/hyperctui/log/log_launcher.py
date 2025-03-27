@@ -6,10 +6,10 @@ This module provides log viewing, management, and handling capabilities
 through the LogLauncher, Log and LogHandler classes.
 """
 
-import logging
 import os
 from typing import Any, Optional
 
+from loguru import logger
 from qtpy import QtGui
 from qtpy.QtGui import QIcon
 from qtpy.QtWidgets import QMainWindow
@@ -123,7 +123,7 @@ class Log(QMainWindow):
         """
         if os.path.exists(self.log_file_name):
             write_ascii(text="", filename=self.log_file_name)
-            logging.info("log file has been cleared by user")
+            logger.info("log file has been cleared by user")
         self.loading_logging_file()
 
 
@@ -162,7 +162,14 @@ class LogHandler:
         Checks the current size of the log file and truncates it to match
         the buffer size limit if it exceeds that limit. Keeps the most
         recent log entries.
+
+        Note: This method is deprecated with loguru as it handles rotation automatically.
         """
+        # This functionality is now handled by loguru's rotation capabilities
+        # The method is kept for backward compatibility
+        logger.debug("Log rotation is now handled automatically by loguru")
+
+        # Legacy fallback in case the method is still called:
         log_buffer_size = self.parent.log_buffer_size
         # check current size of log file
         log_text = read_ascii(self.log_file_name)
@@ -174,4 +181,4 @@ class LogHandler:
             new_log_text = log_text_split_by_cr[-log_buffer_size:]
             new_log_text = "\n".join(new_log_text)
             write_ascii(text=new_log_text, filename=self.log_file_name)
-            logging.info("log file has been truncated to fit buffer size limit")
+            logger.info("log file has been truncated to fit buffer size limit")

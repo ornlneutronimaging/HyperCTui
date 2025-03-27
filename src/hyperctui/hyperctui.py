@@ -4,12 +4,12 @@ and handles all the user interactions with the GUI. It integrates various compon
 image processing, rotation center detection, and autonomous reconstruction.
 """
 
-import logging
 import os
 import sys
 from collections import OrderedDict
 from typing import List, Optional, Union
 
+from loguru import logger
 from qtpy.QtGui import QCloseEvent
 from qtpy.QtWidgets import QApplication, QMainWindow
 
@@ -829,7 +829,7 @@ class HyperCTui(QMainWindow):
         o_session = SessionHandler(parent=self)
         o_session.save_from_ui()
         o_session.automatic_save()
-        logging.info(" #### Leaving ASUI ####")
+        logger.info(" #### Leaving ASUI ####")
         self.close()
 
     def set_window_title(self) -> None:
