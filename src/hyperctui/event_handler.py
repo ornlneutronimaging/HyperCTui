@@ -1,3 +1,11 @@
+#!/usr/bin/env python
+"""
+Event handler module for HyperCTui application.
+
+This module provides event handling for UI interactions, including tab changes,
+button clicks, and UI state management for the HyperCTui application.
+"""
+
 import logging
 
 from qtpy.QtCore import QRect
@@ -14,23 +22,52 @@ from hyperctui.setup_ob.get import Get as Step1Get
 
 
 class EventHandler(Parent):
-    def new_session(self):
+    """
+    Event handler for the main UI components of the HyperCTui application.
+
+    This class manages UI interactions, updates UI state based on application logic,
+    and coordinates between different components of the application.
+    """
+
+    def new_session(self) -> None:
+        """
+        Display the new session dialog.
+
+        Creates and shows a new session window to allow users to start a new session.
+        """
         o_new = NewSession(parent=self.parent)
         o_new.show()
 
-    def full_reset_clicked(self):
+    def full_reset_clicked(self) -> None:
+        """
+        Reset the application to its initial state.
+
+        Performs a complete reset of the application, clearing all settings
+        and returning to the initial state.
+        """
         o_init = GuiInitialization(parent=self.parent)
         o_init.full_reset()
         logging.info("Full reset of application!")
 
-    def ob_tab_changed(self):
+    def ob_tab_changed(self) -> None:
+        """
+        Handle events when the open beam tab is changed.
+
+        Currently not implemented, will handle updates when tabs change
+        in the open beam section.
+        """
         pass
         # current_tab = self.parent.ui.ob_tabWidget.currentIndex()
         # if current_tab == ObTabNames.selected_obs:
         #     o_event = ObEventHandler(parent=self.parent)
         #     o_event.update_list_of_obs()
 
-    def check_state_of_steps_menu_button(self):
+    def check_state_of_steps_menu_button(self) -> None:
+        """
+        Update the enabled state of step menu actions based on current UI state.
+
+        Enables or disables menu items based on whether all tabs are visible.
+        """
         if self.parent.all_tabs_visible:
             all_enable = True
         else:
@@ -43,7 +80,13 @@ class EventHandler(Parent):
         for _ui in list_ui:
             _ui.setEnabled(all_enable)
 
-    def check_start_acquisition_button(self):
+    def check_start_acquisition_button(self) -> None:
+        """
+        Check if the acquisition button should be enabled based on UI state.
+
+        Evaluates current conditions and determines if the start acquisition button
+        should be enabled or disabled. Also updates the visibility of error messages.
+        """
         if not self.parent.ui.run_title_groupBox.isEnabled():
             button_ready_to_be_used = False
         else:
@@ -63,7 +106,16 @@ class EventHandler(Parent):
         self.parent.ui.help_pushButton.setVisible(not button_ready_to_be_used)
         self.set_start_acquisition_text()
 
-    def _is_start_acquisition_ready_to_be_used(self):
+    def _is_start_acquisition_ready_to_be_used(self) -> bool:
+        """
+        Check if all conditions are met to start acquisition.
+
+        Returns
+        -------
+        bool
+            True if all required conditions are met to enable the start
+            acquisition button, False otherwise.
+        """
         # if selected OB tab and no OB selected -> return False
         if self.parent.ui.ob_tabWidget.currentIndex() == 1:
             o_get = Step1Get(parent=self.parent)
@@ -93,7 +145,13 @@ class EventHandler(Parent):
 
         return True
 
-    def set_start_acquisition_text(self):
+    def set_start_acquisition_text(self) -> None:
+        """
+        Update the text displayed on the start acquisition button.
+
+        Sets the appropriate text for the start acquisition button based on
+        the current tab and acquisition settings.
+        """
         button_text = "Start acquisition of "
         if self.parent.ui.ob_tabWidget.currentIndex() == 0:
             number_of_obs = self.parent.ui.number_of_ob_spinBox.value()
@@ -101,11 +159,18 @@ class EventHandler(Parent):
         button_text += "0\u00b0 and 180\u00b0 projections"
         self.parent.ui.start_acquisition_pushButton.setText(button_text)
 
-    def main_tab_changed(self, new_tab_index=0):
+    def main_tab_changed(self, new_tab_index: int = 0) -> None:
         """
-        resize the main ui according to the tab selected
-        small version for the first 2 main tabs
-        large version for the next 3 tabs
+        Handle main tab changes and resize the UI accordingly.
+
+        Resizes the main UI based on the selected tab. Small version for the first
+        2 main tabs, large version for the next 3 tabs. Also triggers specific
+        actions based on the tab selected.
+
+        Parameters
+        ----------
+        new_tab_index : int, optional
+            Index of the newly selected tab, by default 0
         """
         if new_tab_index == 1:  # initialize first projections 0 and 180 degrees
             self.parent.run_title_changed(self.parent.ui.run_title_lineEdit.text())
@@ -156,9 +221,12 @@ class EventHandler(Parent):
         self.parent.ui.setGeometry(rect)
         self.parent.current_tab_index = new_tab_index
 
-    def freeze_number_ob_sample_requested(self):
+    def freeze_number_ob_sample_requested(self) -> None:
         """
-        this freeze the number of OB and sample measured and record the initial list of OBs and sample folders
+        Freeze the number of OB and sample measurements.
+
+        Records the initial list of OBs and sample folders and stores
+        the number of files requested in the session dictionary.
         """
         if self.parent.ui.ob_tabWidget.currentIndex() == 0:
             number_of_obs = self.parent.ui.number_of_ob_spinBox.value()
@@ -183,5 +251,10 @@ class EventHandler(Parent):
         self.parent.session_dict[SessionKeys.list_ob_folders_initially_there] = list_ob_folders
         self.parent.session_dict[SessionKeys.list_projections_folders_initially_there] = list_sample_folders
 
-    def save_path(self):
+    def save_path(self) -> None:
+        """
+        Save path information.
+
+        Placeholder for future implementation of path saving functionality.
+        """
         pass
