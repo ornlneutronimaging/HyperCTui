@@ -1,4 +1,11 @@
 #!/usr/bin/env python
+"""
+Module for initializing the HyperCTui graphical user interface.
+
+This module provides functionality for setting up the GUI components including
+status bars, widgets, tables, tabs, and PyQtGraph visualization elements.
+"""
+
 import os
 
 import numpy as np
@@ -13,14 +20,31 @@ from hyperctui.utilities.table import TableHandler
 
 
 class GuiInitialization:
-    def __init__(self, parent=None):
+    """
+    Class responsible for initializing all GUI components of HyperCTui application.
+
+    This class sets up the status bar, widgets, tables, tabs, PyQtGraph elements,
+    and loads necessary data for autonomous reconstruction.
+
+    Parameters
+    ----------
+    parent : object, optional
+        The parent object to which this initialization is attached
+    """
+
+    def __init__(self, parent=None) -> None:
         self.parent = parent
 
         # load config
         o_config = ConfigHandler(parent=self.parent)
         o_config.load()
 
-    def all(self):
+    def all(self) -> None:
+        """
+        Initialize all GUI components.
+
+        This method calls all individual initialization methods in sequence.
+        """
         self.statusbar()
         self.widgets()
         self.tables()
@@ -28,11 +52,22 @@ class GuiInitialization:
         self.pyqtgraph()
         self.autonomous_reconstruction_data()
 
-    def autonomous_reconstruction_data(self):
+    def autonomous_reconstruction_data(self) -> None:
+        """
+        Load golden ratio angles for autonomous reconstruction.
+
+        Reads angle data from CSV file and stores it in the parent object.
+        """
         table = pd.read_csv(golden_ratio_file)
         self.parent.golden_ratio_angles = list(table["angles"])
 
-    def tabs(self):
+    def tabs(self) -> None:
+        """
+        Initialize tab settings and visibility.
+
+        Sets tab text, icons, and manages tab visibility. Removes tabs that should
+        not be shown initially and disables certain UI components.
+        """
         self.parent.ui.tabWidget.setTabText(0, TabNames.tab0)
         self.parent.ui.tabWidget.setTabIcon(0, QIcon(tab0_icon))
         self.parent.ui.tabWidget.setTabText(1, TabNames.tab1)
@@ -48,7 +83,12 @@ class GuiInitialization:
         # disable the second part of the Autonomous reconstruction
         self.parent.ui.autonomous_reconstruction_toolBox.setItemEnabled(1, False)
 
-    def tables(self):
+    def tables(self) -> None:
+        """
+        Configure table layouts and column sizes.
+
+        Sets the column sizes for various tables in the UI.
+        """
         o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
         column_sizes = [600, 50]
         o_table.set_column_sizes(column_sizes=column_sizes)
@@ -61,10 +101,20 @@ class GuiInitialization:
         o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstructions_tableWidget)
         o_table.set_column_sizes(column_sizes=table_columns)
 
-    def full_reset(self):
+    def full_reset(self) -> None:
+        """
+        Reset the GUI to its initial state.
+
+        Currently a placeholder method for future implementation.
+        """
         pass
 
-    def widgets(self):
+    def widgets(self) -> None:
+        """
+        Initialize and configure various widgets in the UI.
+
+        Sets up icons, visibility states, and text for UI elements.
+        """
         more_infos_icon = QIcon(more_infos)
         self.parent.ui.help_pushButton.setIcon(more_infos_icon)
 
@@ -83,14 +133,24 @@ class GuiInitialization:
 
         self.parent.ui.autonomous_reconstruction_tabWidget.setVisible(False)
 
-    def statusbar(self):
+    def statusbar(self) -> None:
+        """
+        Initialize and configure the status bar.
+
+        Sets up the progress bar in the status bar with appropriate sizing.
+        """
         self.parent.eventProgress = QProgressBar(self.parent.ui.statusbar)
         self.parent.eventProgress.setMinimumSize(20, 14)
         self.parent.eventProgress.setMaximumSize(540, 100)
         self.parent.eventProgress.setVisible(False)
         self.parent.ui.statusbar.addPermanentWidget(self.parent.eventProgress)
 
-    def pyqtgraph(self):
+    def pyqtgraph(self) -> None:
+        """
+        Initialize PyQtGraph visualization components.
+
+        Sets up image viewers for crop tab and rotation center tab.
+        """
         # crop tab
         self.parent.ui.crop_image_view = pg.ImageView(view=pg.PlotItem())
         self.parent.ui.crop_image_view.ui.roiBtn.hide()
