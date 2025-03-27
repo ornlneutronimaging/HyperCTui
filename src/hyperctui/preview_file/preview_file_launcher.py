@@ -1,10 +1,21 @@
+#!/usr/bin/env python
+"""
+Module for previewing different file types within the HyperCTui application.
+
+This module provides dialog classes for previewing various file types:
+- PreviewImageLauncher: For displaying FITS image files
+- PreviewFileLauncher: For displaying text files
+- PreviewMetadataFileLauncher: For displaying JSON metadata files
+"""
+
 import logging
 import os
 from pathlib import Path
+from typing import Optional, Union
 
 import pyqtgraph as pg
 from astropy.io import fits
-from qtpy.QtWidgets import QDialog, QVBoxLayout
+from qtpy.QtWidgets import QDialog, QVBoxLayout, QWidget
 
 from hyperctui import load_ui
 from hyperctui.utilities.file_utilities import read_ascii, read_json
@@ -12,7 +23,24 @@ from hyperctui.utilities.table import TableHandler
 
 
 class PreviewImageLauncher(QDialog):
-    def __init__(self, parent=None, file_name=None):
+    """
+    Dialog for displaying FITS image files.
+
+    This class creates a dialog window that shows a FITS image using pyqtgraph.
+    It handles both 2D and 3D FITS data.
+    """
+
+    def __init__(self, parent: Optional[QWidget] = None, file_name: Optional[Union[str, Path]] = None):
+        """
+        Initialize the PreviewImageLauncher dialog.
+
+        Parameters
+        ----------
+        parent : QWidget, optional
+            Parent widget, by default None
+        file_name : str or Path, optional
+            Path to the FITS file to display, by default None
+        """
         QDialog.__init__(self, parent=parent)
 
         self.parent = parent
@@ -31,7 +59,13 @@ class PreviewImageLauncher(QDialog):
             self.ui.file_name_label.setText(os.path.basename(file_name))
             self.display_image()
 
-    def display_image(self):
+    def display_image(self) -> None:
+        """
+        Display the FITS image in the dialog.
+
+        Reads the FITS file data and displays it using pyqtgraph ImageView.
+        Handles 3D data by reshaping it to 2D.
+        """
         image_view = pg.ImageView(view=pg.PlotItem())
         image_view.ui.roiBtn.hide()
         image_view.ui.menuBtn.hide()
