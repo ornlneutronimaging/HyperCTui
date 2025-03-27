@@ -1,4 +1,13 @@
+#!/usr/bin/env python
+"""
+Module for handling the cropping functionality in the HyperCTui application.
+
+This module provides tools to load projection images, display them in the UI,
+and add movable lines for cropping the images.
+"""
+
 import logging
+from typing import Any, Optional
 
 import numpy as np
 import pyqtgraph as pg
@@ -12,12 +21,47 @@ from hyperctui.utilities.widgets import Widgets as UtilityWidgets
 
 
 class Crop:
+    """
+    Class for handling the image cropping operations.
+
+    This class is responsible for loading projection images,
+    displaying them in the UI, and providing cropping functionality.
+
+    Attributes
+    ----------
+    list_files : Optional[List[str]]
+        List of image files, initialized to None
+    parent : Any
+        Parent object that holds the UI and session data
+    mean_image : np.ndarray
+        The mean image created from all projections
+    """
+
     list_files = None
 
-    def __init__(self, parent=None):
+    def __init__(self, parent: Optional[Any] = None):
+        """
+        Initialize the Crop object.
+
+        Parameters
+        ----------
+        parent : Any, optional
+            Parent object that holds the UI and session data
+        """
         self.parent = parent
 
-    def load_projections(self):
+    def load_projections(self) -> None:
+        """
+        Load the projection images.
+
+        This method loads the projection images from the session,
+        calculates the mean image, and stores the dimensions.
+
+        Raises
+        ------
+        CropError
+            If unable to load the projection images
+        """
         logging.info("Loading projections in crop")
         list_projections = self.parent.session_dict[SessionKeys.list_projections]
         logging.info(f"-> list_projections: {list_projections}")
@@ -39,7 +83,18 @@ class Crop:
         self.parent.image_180_degree = o_loader.data["sample"]["data"][1]
         self.parent.crop_live_image = self.mean_image
 
-    def initialize(self):
+    def initialize(self) -> None:
+        """
+        Initialize the crop UI.
+
+        Loads the projection images, sets up the UI components,
+        and initializes the crop region.
+
+        Raises
+        ------
+        CropError
+            If unable to load projection images
+        """
         try:
             self.load_projections()
         except CropError:
@@ -70,7 +125,19 @@ class Crop:
 
         self.init_roi(left, right)
 
-    def init_roi(self, left, right):
+    def init_roi(self, left: int, right: int) -> None:
+        """
+        Initialize the Region Of Interest (ROI) with movable lines.
+
+        Sets up the vertical lines for cropping at the specified left and right positions.
+
+        Parameters
+        ----------
+        left : int
+            X-coordinate of the left crop line
+        right : int
+            X-coordinate of the right crop line
+        """
         # if self.parent.crop_roi_id:
         #     self.parent.ui.crop_image_view.removeItem(self.parent.crop_roi_id)
 
@@ -95,7 +162,13 @@ class Crop:
     #
     #     self.init_roi(left, right)
 
-    def roi_manually_moved(self):
+    def roi_manually_moved(self) -> None:
+        """
+        Handle the manual movement of the ROI.
+
+        This method is a placeholder for future implementation to handle
+        when a user manually moves the crop region.
+        """
         pass
         # region = self.parent.crop_roi_id.getArraySlice(self.parent.crop_live_image,
         #                                                self.parent.ui.crop_image_view.imageItem)
