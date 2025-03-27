@@ -1,9 +1,20 @@
+#!/usr/bin/env python
+"""
+Module for handling the application session state.
+
+This module contains the SessionHandler class that manages saving and loading
+application session state to/from JSON files. It handles persistence of UI state,
+configuration settings, and experiment parameters.
+"""
+
 import json
 import logging
 import os
 from collections import OrderedDict
+from typing import Any, Dict, Optional, Union
 
 import numpy as np
+from loguru import logger
 from qtpy.QtCore import QRect
 from qtpy.QtWidgets import QApplication, QFileDialog
 
@@ -25,13 +36,47 @@ from hyperctui.utilities.widgets import Widgets as UtilityWidgets
 
 
 class SessionHandler:
+    """
+    Handles saving and loading of application session state.
+
+    This class provides methods to save the current state of the UI to a session dictionary
+    and to load a previously saved state back into the UI.
+
+    Attributes
+    ----------
+    config_file_name : str
+        The file name of the currently loaded configuration.
+    load_successful : bool
+        Flag indicating if the last load operation was successful.
+    parent : Any
+        The parent widget that contains the UI elements.
+    """
+
     config_file_name = ""
     load_successful = True
 
-    def __init__(self, parent=None):
+    def __init__(self, parent: Optional[Any] = None) -> None:
+        """
+        Initialize the SessionHandler.
+
+        Parameters
+        ----------
+        parent : Any, optional
+            The parent widget that contains the UI elements, by default None
+        """
         self.parent = parent
 
-    def save_from_ui(self):
+    def save_from_ui(self) -> None:
+        """
+        Save the current state of the UI to the session dictionary.
+
+        This method extracts values from various UI elements and stores them
+        in the session dictionary for later retrieval.
+
+        Returns
+        -------
+        None
+        """
         session_dict = self.parent.session_dict
         session_dict[SessionKeys.config_version] = self.parent.config[SessionKeys.config_version]
 
@@ -136,7 +181,18 @@ class SessionHandler:
 
         self.parent.session_dict = session_dict
 
-    def load_to_ui(self):
+    def load_to_ui(self) -> None:
+        """
+        Load the saved session state into the UI.
+
+        This method applies the values stored in the session dictionary to
+        the appropriate UI elements. If loading was not successful, it returns
+        without making any changes.
+
+        Returns
+        -------
+        None
+        """
         if not self.load_successful:
             return
 
@@ -163,6 +219,15 @@ class SessionHandler:
         self.parent.ui.number_of_ob_spinBox.setValue(number_of_obs)
 
         proton_charge = session_dict.get(SessionKeys.proton_charge, DefaultValues.proton_charge)
+        # check if proton_charge is a digital value
+        if isinstance(proton_charge, str):
+            try:
+                proton_charge = float(proton_charge)
+            except ValueError:
+                proton_charge = DefaultValues.proton_charge
+                logger.warning(
+                    f"Proton charge value '{proton_charge}' is not a number. Using default value {proton_charge}"
+                )
         self.parent.ui.open_beam_proton_charge_doubleSpinBox.setValue(proton_charge)
 
         ob_will_be_saved_as = session_dict.get(SessionKeys.ob_will_be_saved_as, None)
@@ -275,7 +340,18 @@ class SessionHandler:
             o_event = AutonomousReconstructionEventHandler(parent=self.parent)
             o_event.update_autonomous_reconstruction_widgets()
 
-    def _retrieve_general_settings(self):
+    def _retrieve_general_settings(self) -> Dict[str, Union[int, float, bool]]:
+        """
+        Retrieve general settings from the UI.
+
+        This internal method collects general configuration settings
+        from various UI controls.
+
+        Returns
+        -------
+        Dict[str, Union[int, float, bool]]
+            Dictionary containing general configuration settings
+        """
         number_of_scanned_periods = self.parent.ui.number_of_scanned_periods_spinBox.value()
         full_period_true = self.parent.ui.full_period_true_radioButton.isChecked()
         rotation_of_g0rz = self.parent.ui.rotation_of_g0rz_doubleSpinBox.value()
@@ -288,12 +364,37 @@ class SessionHandler:
         }
         return general_settings
 
-    def automatic_save(self):
+    def automatic_save(self) -> None:
+        """
+        Automatically save the session to a predetermined file.
+
+        This method saves the current session to a file name that is
+        automatically generated based on the current configuration.
+
+        Returns
+        -------
+        None
+        """
         o_get = Get(parent=self.parent)
         full_config_file_name = o_get.get_automatic_config_file_name()
         self.save_to_file(config_file_name=full_config_file_name)
 
-    def save_to_file(self, config_file_name=None):
+    def save_to_file(self, config_file_name: Optional[str] = None) -> None:
+        """
+        Save the session to a file.
+
+        If no file name is provided, a file dialog will be shown for the user
+        to select a file location.
+
+        Parameters
+        ----------
+        config_file_name : str, optional
+            The file name to save the session to, by default None
+
+        Returns
+        -------
+        None
+        """
         if config_file_name is None:
             config_file_name = QFileDialog.getSaveFileName(
                 self.parent,
@@ -321,7 +422,22 @@ class SessionHandler:
             )
             logging.info(f"Saving configuration into {config_file_name}")
 
-    def load_from_file(self, config_file_name=None):
+    def load_from_file(self, config_file_name: Optional[str] = None) -> None:
+        """
+        Load a session from a file.
+
+        If no file name is provided, a file dialog will be shown for the user
+        to select a file to load.
+
+        Parameters
+        ----------
+        config_file_name : str, optional
+            The file name to load the session from, by default None
+
+        Returns
+        -------
+        None
+        """
         self.parent.loading_from_config = True
 
         if config_file_name is None:

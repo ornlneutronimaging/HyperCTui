@@ -1,4 +1,13 @@
+#!/usr/bin/env python
+"""
+Module for handling the creation of new HyperCT sessions.
+
+This module provides a dialog interface for users to create a new session
+by selecting instrument and IPTS information.
+"""
+
 import os
+from typing import Optional
 
 import numpy as np
 from qtpy.QtWidgets import QDialog
@@ -12,7 +21,31 @@ from hyperctui.utilities.table import TableHandler
 
 
 class NewSession(QDialog):
-    def __init__(self, parent=None):
+    """
+    Dialog for creating a new HyperCT session.
+
+    This class provides a user interface for selecting instrument and experiment
+    details when starting a new session.
+
+    Attributes
+    ----------
+    parent : object
+        The parent widget/window that owns this dialog
+    new_list_ipts : List[str]
+        List of available IPTS options for the selected instrument
+    ui : object
+        The UI components loaded from the UI file
+    """
+
+    def __init__(self, parent: Optional[object] = None) -> None:
+        """
+        Initialize the NewSession dialog.
+
+        Parameters
+        ----------
+        parent : object, optional
+            The parent widget/window that owns this dialog
+        """
         session_dict = parent.session_dict
         self.parent = parent
         QDialog.__init__(self, parent=parent)
@@ -30,7 +63,17 @@ class NewSession(QDialog):
         self.ui.ok_pushButton.setFocus(True)
         self.setWindowTitle("New session")
 
-    def instrument_changed(self, new_instrument):
+    def instrument_changed(self, new_instrument: str) -> None:
+        """
+        Handle instrument selection change.
+
+        Updates the available IPTS options based on the newly selected instrument.
+
+        Parameters
+        ----------
+        new_instrument : str
+            The name of the newly selected instrument
+        """
         o_get = Get(parent=self.parent)
         facility = Get.facility(instrument=new_instrument)
         list_ipts = o_get.list_of_ipts(instrument=new_instrument, facility=facility)
@@ -39,7 +82,13 @@ class NewSession(QDialog):
         self.ui.ipts_comboBox.blockSignals(True)
         self.ui.ipts_comboBox.addItems(list_ipts)
 
-    def accept(self):
+    def accept(self) -> None:
+        """
+        Handle the acceptance of the dialog.
+
+        Updates the session dictionary with the selected instrument and IPTS
+        information and performs necessary UI updates in the parent window.
+        """
         instrument = self.ui.instrument_comboBox.currentText()
         ipts = self.ui.ipts_comboBox.currentText()
         ipts_index = self.ui.ipts_comboBox.currentIndex()

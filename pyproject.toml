@@ -39,6 +39,7 @@ dependencies = [
     "pyqtgraph",
     # Utils
     "tqdm",
+    "loguru",
     # neutron
     "neunorm",
     "neutronbraggedge",
@@ -194,6 +195,7 @@ pyqtgraph = ">=0.13.7,<0.14"
 pandas = ">=2.2.3,<3"
 pillow = ">=11.1.0,<12"
 scikit-image = ">=0.25.2,<0.26"
+loguru = ">=0.7.2,<0.8"
 
 [tool.pixi.tasks]
 # PyPi packaging tasks
