@@ -88,6 +88,8 @@ exclude = ["tests*", "scripts*", "docs*", "notebooks*"]
 
 [tool.setuptools.package-data]
 "*" = ["*.yml","*.yaml","*.ini"]
+"hyperctui.ui" = ["*.ui"]
+"hyperctui.static" = ["*.png", "*.csv"]
 
 
 # -------------------------------- #
