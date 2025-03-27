@@ -1,5 +1,16 @@
+#!/usr/bin/env python
+"""
+Event handling module for pre-autonomous monitoring.
+
+This module provides functionality to monitor and handle events related to
+observation (OB) and projection data processing, including checking the status
+of expected data folders, updating UI tables, and managing file movement to
+final locations.
+"""
+
 import logging
 import os
+from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 from qtpy.QtWidgets import QPushButton
@@ -13,23 +24,52 @@ from hyperctui.utilities.table import TableHandler
 
 
 class EventHandler:
-    def __init__(self, parent=None, grand_parent=None):
+    """
+    Handles events for the pre-autonomous monitoring process.
+
+    This class provides methods to check the status of data processing,
+    update UI tables, and manage data files.
+
+    Parameters
+    ----------
+    parent : Any, optional
+        Parent object that contains this handler
+    grand_parent : Any, optional
+        Grand parent object that may contain session information
+    """
+
+    def __init__(self, parent: Optional[Any] = None, grand_parent: Optional[Any] = None):
         self.parent = parent
         self.grand_parent = grand_parent
 
     def checking_status_of(
         self,
-        data_type=DataType.ob,
-        output_folder=None,
-        table_ui=None,
-        dict_log_err_metadata=None,
-        list_folder_previously_found=None,
-    ):
+        data_type: DataType = DataType.ob,
+        output_folder: Optional[str] = None,
+        table_ui: Optional[Any] = None,
+        dict_log_err_metadata: Optional[Dict] = None,
+        list_folder_previously_found: Optional[List[str]] = None,
+    ) -> Tuple[List[str], bool]:
         """
-        this method should check if the folder requested has been found (already created)
-        and will update the table
+        Check if requested folders have been created and update the table.
 
-        Return: list of folders found, are all files found
+        Parameters
+        ----------
+        data_type : DataType
+            Type of data being checked (ob or projection)
+        output_folder : str, optional
+            Output folder to check
+        table_ui : Any, optional
+            Table UI widget to update
+        dict_log_err_metadata : Dict, optional
+            Dictionary to store log, error, and metadata information
+        list_folder_previously_found : List[str], optional
+            List of folders previously found
+
+        Returns
+        -------
+        Tuple[List[str], bool]
+            List of folders found, and whether all files were found
         """
 
         logging.info(f"Checking the monitor status of {data_type}")
@@ -122,9 +162,13 @@ class EventHandler:
 
         return list_folder_found, len(list_folder_found) == nbr_row
 
-    def checking_status_of_expected_obs(self):
-        """look at the list of obs expected and updates the OB table
-        with the ones already found"""
+    def checking_status_of_expected_obs(self) -> None:
+        """
+        Look at the list of expected observations and update the OB table.
+
+        This method checks the status of expected observation folders and
+        updates the observation table with those already found.
+        """
         output_folder = self.grand_parent.ui.obs_output_location_label.text()
 
         logging.info("Checking status of expected obs:")
@@ -139,9 +183,13 @@ class EventHandler:
         self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there] = list_folders_found
         logging.info(f"-> list folders found: {list_folders_found}")
 
-    def checking_status_of_expected_projections(self):
-        """look at the list of projections and updates the projection table
-        with the ones already found!"""
+    def checking_status_of_expected_projections(self) -> None:
+        """
+        Look at the list of projections and update the projection table.
+
+        This method checks the status of expected projection folders and
+        updates the projection table with those already found.
+        """
         output_folder = self.grand_parent.ui.projections_output_location_label.text()
 
         logging.info("Checking status of expected projections:")
@@ -157,19 +205,28 @@ class EventHandler:
         )
         self.grand_parent.session_dict[SessionKeys.list_projections_folders_initially_there] = list_folders_found
 
-    def first_projection_in_progress(self):
+    def first_projection_in_progress(self) -> None:
         """
-        the first row of projections should change its status from queue to in_progress as we are checking
-        for the projections for the first time
+        Mark the first projection as in-progress.
+
+        This method changes the status of the first row of projections from
+        queue to in-progress when checking for projections for the first time.
         """
         o_table = TableHandler(table_ui=self.parent.ui.projections_tableWidget)
         o_table.insert_item(row=0, column=4, value=DataStatus.in_progress)
         o_table.set_background_color(row=0, column=4, qcolor=IN_PROGRESS)
 
-    def obs_have_been_moved_to_final_folder(self):
+    def obs_have_been_moved_to_final_folder(self) -> bool:
         """
-        if the path of the first OB folder is the same as the final location, then yes,
-        the OBs have already been moved to their final location
+        Check if observations have been moved to their final location.
+
+        This method determines if the path of the first OB folder is the same
+        as the final location.
+
+        Returns
+        -------
+        bool
+            True if OBs are in their final location, False otherwise
         """
         final_location = os.path.normpath(self.grand_parent.ui.final_location_of_ob_created.text())
         o_table = TableHandler(table_ui=self.parent.ui.obs_tableWidget)
@@ -181,19 +238,12 @@ class EventHandler:
         else:
             return False
 
-        # list_ob_folders = self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there]
-        # final_location = self.grand_parent.ui.final_location_of_ob_created.text()
-        # for _folder in list_ob_folders:
-        #     base_name = os.path.basename(_folder)
-        #     full_name_in_final_location = os.path.join(final_location, base_name)
-        #     if not os.path.exists(full_name_in_final_location):
-        #         return False
-        # return True
-
-    def move_obs_to_final_folder(self):
+    def move_obs_to_final_folder(self) -> None:
         """
-        If all the OBs have been found, it will move them to their final location and will update the table at the
-        same time to make sure we are now pointing to the final location.
+        Move observations to their final location.
+
+        If all OBs have been found, this method moves them to their final
+        location and updates the table to point to the final locations.
         """
         logging.info("Moving obs to final folder!")
         list_ob_folders = self.grand_parent.session_dict[SessionKeys.list_ob_folders_initially_there]

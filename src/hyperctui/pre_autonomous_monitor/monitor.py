@@ -1,5 +1,16 @@
+#!/usr/bin/env python
+"""
+Monitor module for pre-autonomous processing.
+
+This module provides functionality to monitor the pre-processing steps
+of the autonomous data reduction pipeline, including tracking OBs (open beam)
+and projection data, displaying their status, and providing preview capabilities
+for log files and metadata.
+"""
+
 import logging
 import os
+from typing import Dict, List, Optional
 
 from qtpy.QtGui import QIcon
 from qtpy.QtWidgets import QMainWindow
@@ -14,9 +25,31 @@ from hyperctui.utilities.widgets import Widgets as UtilityWidgets
 
 
 class Monitor(QMainWindow):
+    """
+    Monitor window to track and display status of pre-processing steps.
+
+    This class provides a UI to monitor the status of open beam (OB) and projection
+    files being processed by the autonomous data reduction pipeline. It shows
+    their processing status and provides functionality to preview log files,
+    error files, and metadata files.
+
+    Attributes
+    ----------
+    initial_list_of_reduction_log_files : list
+        List of files in the reduction log folder to use as a reference
+    dict_ob_log_err_metadata : dict
+        Dictionary containing information about OB files and their associated logs
+    dict_projections_log_err_metadata : dict
+        Dictionary containing information about projection files and their logs
+    all_obs_found : bool
+        Flag indicating if all expected OBs have been found
+    all_projections_found : bool
+        Flag indicating if all expected projections have been found
+    """
+
     # list of files in the reduction log folder to use as a reference
     # any new files will be used
-    initial_list_of_reduction_log_files = []
+    initial_list_of_reduction_log_files: List[str] = []
 
     # dictionary that looks like
     # {0: { 'file_name': '<full path to ob>',
@@ -27,13 +60,26 @@ class Monitor(QMainWindow):
     #  1: { ... },
     #  ...
     # }
-    dict_ob_log_err_metadata = None
-    dict_projections_log_err_metadata = None
+    dict_ob_log_err_metadata: Optional[Dict[int, Dict[str, str]]] = None
+    dict_projections_log_err_metadata: Optional[Dict[int, Dict[str, str]]] = None
 
-    all_obs_found = False
-    all_projections_found = False
+    all_obs_found: bool = False
+    all_projections_found: bool = False
 
-    def __init__(self, parent=None):
+    def __init__(self, parent: Optional[QMainWindow] = None):
+        """
+        Initialize the Monitor window.
+
+        Parameters
+        ----------
+        parent : QMainWindow, optional
+            Parent window that spawned this monitor, by default None
+
+        Notes
+        -----
+        This constructor loads the UI, sets up the window title and icon,
+        and initializes the monitor with data from the parent.
+        """
         super(Monitor, self).__init__(parent)
         self.parent = parent
 

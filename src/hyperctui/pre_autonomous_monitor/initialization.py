@@ -1,4 +1,14 @@
+#!/usr/bin/env python
+"""
+Module for handling the initialization of pre-autonomous monitoring.
+
+This module provides functionality to set up the UI and data structures
+for monitoring open beam (OB) and projection data acquisition during
+pre-autonomous data collection.
+"""
+
 import os
+from typing import Any, List, Optional
 
 import numpy as np
 from qtpy.QtWidgets import QProgressBar, QPushButton
@@ -13,18 +23,47 @@ from hyperctui.utilities.table import TableHandler
 
 
 class Initialization:
+    """
+    Handle initialization of pre-autonomous monitoring UI and data.
+
+    This class is responsible for populating tables with expected and existing
+    open beam data and projections, and setting up the monitoring environment.
+
+    Attributes
+    ----------
+    first_in_queue_is_projections : bool
+        Flag indicating if projections should be the first items in the queue.
+    """
+
     first_in_queue_is_projections = True
 
-    def __init__(self, parent=None, grand_parent=None):
+    def __init__(self, parent: Optional[Any] = None, grand_parent: Optional[Any] = None) -> None:
+        """
+        Initialize the Initialization class.
+
+        Parameters
+        ----------
+        parent : object, optional
+            Parent object containing UI elements.
+        grand_parent : object, optional
+            Grand parent object containing additional UI elements and settings.
+        """
         self.parent = parent
         self.grand_parent = grand_parent
 
-    def data(self):
+    def data(self) -> None:
         """
-        this is where we need to figure out the list of NeXus files already listed
-        and how many we are expecting
-        """
+        Initialize and populate data tables with OB and projection information.
 
+        This method determines which OB files to use (new or existing),
+        populates the appropriate tables, and sets up the monitoring environment.
+        It also initializes the list of reduction log files and sets the final
+        OB folder status.
+
+        Returns
+        -------
+        None
+        """
         if self.grand_parent.ui.ob_tabWidget.currentIndex() == 0:
             # we want to take new obs
             nbr_obs_expected = self.grand_parent.ui.number_of_ob_spinBox.value()
@@ -49,7 +88,16 @@ class Initialization:
         self.parent.ui.final_ob_folder_status.setText(DataStatus.in_queue)
         self.parent.ui.final_ob_folder_status.setStyleSheet(f"background-color: {ColorDataStatus.in_queue}")
 
-    def ui(self):
+    def ui(self) -> None:
+        """
+        Initialize the user interface components.
+
+        Sets up table column sizes and creates a progress bar in the status bar.
+
+        Returns
+        -------
+        None
+        """
         table_columns = [540, 80, 80, 80, 100]
         o_ob_table = TableHandler(table_ui=self.parent.ui.obs_tableWidget)
         o_ob_table.set_column_sizes(column_sizes=table_columns)
@@ -62,7 +110,23 @@ class Initialization:
         self.parent.eventProgress.setVisible(False)
         self.parent.ui.statusbar.addPermanentWidget(self.parent.eventProgress)
 
-    def populate_table_with_expected_obs(self, nbr_obs_expected=2):
+    def populate_table_with_expected_obs(self, nbr_obs_expected: int = 2) -> None:
+        """
+        Populate the OB table with expected open beam entries.
+
+        Creates table rows for the expected number of open beam files and
+        initializes their status. The first OB is set to "in progress" and
+        the rest are set to "in queue".
+
+        Parameters
+        ----------
+        nbr_obs_expected : int, optional
+            Number of expected open beam files, default is 2.
+
+        Returns
+        -------
+        None
+        """
         o_table = TableHandler(table_ui=self.parent.ui.obs_tableWidget)
         dict_ob_log_err_metadata = {}
 
@@ -100,7 +164,22 @@ class Initialization:
         self.parent.dict_ob_log_err_metadata = dict_ob_log_err_metadata
         self.grand_parent.session_dict[SessionKeys.list_ob_folders_requested] = list_ob_expected
 
-    def populate_table_with_existing_obs(self, list_ob=None):
+    def populate_table_with_existing_obs(self, list_ob: Optional[List[str]] = None) -> None:
+        """
+        Populate the OB table with existing open beam entries.
+
+        Creates table rows for each existing open beam folder and initializes
+        buttons to view log, error, and metadata files.
+
+        Parameters
+        ----------
+        list_ob : list of str, optional
+            List of open beam folder names to populate the table with.
+
+        Returns
+        -------
+        None
+        """
         if list_ob is None:
             return
 
@@ -160,7 +239,17 @@ class Initialization:
 
         self.parent.dict_ob_log_err_metadata = dict_ob_log_err_metadata
 
-    def populate_table_with_expected_projections(self):
+    def populate_table_with_expected_projections(self) -> None:
+        """
+        Populate the projections table with expected projection entries.
+
+        Creates table rows for the first and last projection angles (0 and 180 degrees)
+        and initializes their status based on the queue order.
+
+        Returns
+        -------
+        None
+        """
         o_table = TableHandler(table_ui=self.parent.ui.projections_tableWidget)
 
         dict_projections_log_err_metadata = {}
