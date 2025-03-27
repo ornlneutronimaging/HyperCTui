@@ -1,3 +1,18 @@
+#!/usr/bin/env python
+"""
+Utility module for retrieving various types of information required by the HyperCTui application.
+
+This module provides the Get class with methods to:
+- Access configuration files and settings
+- Retrieve UI state information
+- Read and extract metadata from image files
+- Get system information (CPU/GPU counts)
+- Handle file operations like listing folders and files
+- Process angle information from image metadata
+
+The Get class inherits from Parent to access the main application instance.
+"""
+
 import glob
 import multiprocessing
 import os
@@ -14,25 +29,54 @@ from hyperctui.utilities.status_message_config import StatusMessageStatus, show_
 
 
 class Get(Parent):
-    def get_log_file_name(self):
+    def get_log_file_name(self) -> str:
         log_file_name = self.parent.config["log_file_name"]
         full_log_file_name = Get.full_home_file_name(log_file_name)
         return full_log_file_name
 
-    def get_main_tab_selected(self):
+    def get_main_tab_selected(self) -> int:
         current_tab = self.parent.ui.top_tabWidget.currentIndex()
         return current_tab
 
-    def algorithm_selected(self):
+    def algorithm_selected(self) -> str:
+        """
+        Get the currently selected algorithm from the pre-processing fitting procedure combobox.
+
+        Returns
+        -------
+        str
+            The selected algorithm identifier.
+        """
         index_selected = self.parent.ui.pre_processing_fitting_procedure_comboBox.currentIndex()
         return self.parent.ui.pre_processing_fitting_procedure_comboBox.itemData(index_selected)
 
-    def get_automatic_config_file_name(self):
+    def get_automatic_config_file_name(self) -> str:
+        """
+        Get the full path to the automatic configuration file.
+
+        Returns
+        -------
+        str
+            Full path to the configuration file.
+        """
         config_file_name = self.parent.config["session_file_name"]
         full_config_file_name = Get.full_home_file_name(config_file_name)
         return full_config_file_name
 
-    def list_folders_in_output_directory(self, output_folder=None):
+    def list_folders_in_output_directory(self, output_folder: str = None) -> list[str]:
+        """
+        List all folders in the specified output directory.
+
+        Parameters
+        ----------
+        output_folder : str, optional
+            Path to the output directory to list folders from.
+
+        Returns
+        -------
+        list[str]
+            List of folder paths found in the output directory.
+        """
         list_raw = glob.glob(output_folder + os.sep + "*")
         list_folders = []
         for _entry in list_raw:
@@ -40,37 +84,34 @@ class Get(Parent):
                 list_folders.append(_entry)
         return list_folders
 
-    def get_file_index_of_180_degree_image(self):
-        # """
-        # using the fact that the file name is based on the following structure, this method will return
-        # the file that is as close as possible to the angle 180
-        # structure_of_file:  ####_angleBeforeComma_angleAfterComma_fileIndex.ext
-        # """
-        # list_of_files = self.parent.input['list files'][DataType.projections]
-        # list_angles = []
-        # for _file in list_of_files:
-        #     basename = str(PurePath(PurePath(_file).name).stem)
-        #     split_basename = basename.split("_")
-        #     deg_before_comma = split_basename[-3]
-        #     deg_after_comma = split_basename[-2]
-        #     full_deg_value = f"{deg_before_comma}.{deg_after_comma}"
-        #     list_angles.append(np.float(full_deg_value))
-        #
-        # offset_with_180degrees = np.abs(np.array(list_angles) - 180.0)
-        # min_value = np.min(offset_with_180degrees)
-        # index_of_min_value = np.where(offset_with_180degrees == min_value)
-        #
-        # return int(index_of_min_value[0][0])
+    def get_file_index_of_180_degree_image(self) -> int:
+        """
+        Find the image index with angle closest to 180 degrees.
 
+        Returns
+        -------
+        int
+            Index of the image with angle closest to 180 degrees.
+        """
         list_angles = self.parent.input["list angles"]
         offset_with_180degrees = np.abs(np.array(list_angles) - 180.0)
         min_value = np.min(offset_with_180degrees)
         index_of_min_value = np.where(offset_with_180degrees == min_value)
         return int(index_of_min_value[0][0])
 
-    def angles(self, list_files):
+    def angles(self, list_files: list[str]) -> np.ndarray:
         """
-        Script to read angles from tiff files at ORNL
+        Read angles from TIFF files at ORNL.
+
+        Parameters
+        ----------
+        list_files : list[str]
+            List of file paths to read angles from.
+
+        Returns
+        -------
+        np.ndarray
+            Array of angle values extracted from the files.
         """
         ANGLE_KEY = 65039  # 65048
         x = self.retrieve_value_of_metadata_key(list_files, list_key=[ANGLE_KEY])
@@ -80,9 +121,21 @@ class Get(Parent):
             angles[idx] = float(next(iter(temp.values())).split(":")[1])
         return angles
 
-    def retrieve_value_of_metadata_key(self, list_files=[], list_key=[]):
+    def retrieve_value_of_metadata_key(self, list_files: list[str] = [], list_key: list[int] = []) -> OrderedDict:
         """
-        From https://github.com/JeanBilheux/python_101/blob/master/working_with_images/images_metadata/using%20code%20from%20python%20notebooks.ipynb
+        Retrieve metadata values for specified keys from a list of image files.
+
+        Parameters
+        ----------
+        list_files : list[str], optional
+            List of file paths to extract metadata from.
+        list_key : list[int], optional
+            List of metadata keys to extract.
+
+        Returns
+        -------
+        OrderedDict
+            Dictionary mapping file paths to their metadata values.
         """
         if list_files == []:
             return {}
@@ -109,11 +162,22 @@ class Get(Parent):
         return _dict
 
     @staticmethod
-    def value_of_metadata_key(filename="", list_key=None):
+    def value_of_metadata_key(filename: str = "", list_key: list[int] = None) -> dict:
         """
-        From https://github.com/JeanBilheux/python_101/blob/master/working_with_images/images_metadata/using%20code%20from%20python%20notebooks.ipynb
-        """
+        Extract metadata values for specified keys from an image file.
 
+        Parameters
+        ----------
+        filename : str, optional
+            Path to the image file to extract metadata from.
+        list_key : list[int], optional
+            List of metadata keys to extract. If empty, all metadata is returned.
+
+        Returns
+        -------
+        dict
+            Dictionary mapping metadata keys to their values.
+        """
         if filename == "":
             return {}
 
@@ -132,11 +196,27 @@ class Get(Parent):
         return result
 
     @staticmethod
-    def get_number_of_cpu():
+    def get_number_of_cpu() -> int:
+        """
+        Get the number of CPU cores available on the system.
+
+        Returns
+        -------
+        int
+            Number of CPU cores.
+        """
         return multiprocessing.cpu_count()
 
     @staticmethod
-    def get_number_of_gpu():
+    def get_number_of_gpu() -> int:
+        """
+        Get the number of NVIDIA GPU devices available on the system.
+
+        Returns
+        -------
+        int
+            Number of GPU devices, or 1 if NVIDIA tools are not available.
+        """
         try:
             str_list_gpu = subprocess.run(["nvidia-smi", "-L"], stdout=subprocess.PIPE)
             list_gpu = str_list_gpu.stdout.decode("utf-8").split("\n")
@@ -150,12 +230,12 @@ class Get(Parent):
             return 1
 
     @staticmethod
-    def full_home_file_name(base_file_name):
+    def full_home_file_name(base_file_name: str) -> str:
         home_folder = expanduser("~")
         full_log_file_name = os.path.join(home_folder, base_file_name)
         return full_log_file_name
 
     @staticmethod
-    def list_of_files(folder=None, ext="*"):
+    def list_of_files(folder: str = None, ext: str = "*") -> list[str]:
         list_of_files = glob.glob(os.path.join(folder, ext))
         return list_of_files
