@@ -221,7 +221,7 @@ class SessionHandler:
         proton_charge = session_dict.get(SessionKeys.proton_charge, DefaultValues.proton_charge)
         # check if proton_charge is a digital value
         try:
-            proton_charge = int(proton_charge.strip())
+            proton_charge = int(proton_charge)
         except ValueError:
             logger.warning(
                 f"Proton charge value '{proton_charge}' is not a number."
