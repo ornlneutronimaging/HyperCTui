@@ -1,5 +1,14 @@
+#!/usr/bin/env python
+"""
+Event handler for autonomous reconstruction functionality.
+
+This module provides event handling for UI interactions related to autonomous reconstruction,
+including TOF region selection, projection angle handling, and reconstruction monitoring.
+"""
+
 import logging
 import os
+from typing import Any, List, Optional
 
 import inflect
 import numpy as np
@@ -33,34 +42,72 @@ from hyperctui.utilities.table import TableHandler
 
 
 class EventHandler:
-    def __init__(self, parent=None):
+    """
+    Handles UI events for autonomous reconstruction.
+
+    This class manages all event handling for the autonomous reconstruction GUI,
+    including user interactions with buttons, tables, and other UI elements.
+
+    Parameters
+    ----------
+    parent : Any, optional
+        Parent widget that owns this handler.
+    """
+
+    def __init__(self, parent: Optional[Any] = None):
         self.parent = parent
 
-    def projections_angles_radioButton_changed(self):
+    def projections_angles_radioButton_changed(self) -> None:
+        """
+        Handle state changes in projections angles radio buttons.
+
+        Updates the UI when the user toggles between fixed and automatic
+        projection angle selection.
+        """
         fixed_state = self.parent.ui.fixed_projections_angles_radioButton.isChecked()
         self.parent.ui.automatic_projections_angles_pushButton.setEnabled(not fixed_state)
         self.update_widgets()
 
-    def projections_angles_automatic_button_clicked(self):
+    def projections_angles_automatic_button_clicked(self) -> None:
+        """
+        Handle click on automatic projections angles button.
+
+        Opens the evaluation regions selection dialog.
+        """
         o_ui = SelectEvaluationRegions(parent=self.parent)
         o_ui.show()
 
-    def projections_fixed_help_clicked(self):
+    def projections_fixed_help_clicked(self) -> None:
+        """
+        Handle click on fixed projections help button.
+
+        Opens the golden angle help dialog.
+        """
         o_ui = HelpGoldenAngle(parent=self.parent)
         o_ui.show()
 
-    def evaluation_frequency_help_clicked(self):
+    def evaluation_frequency_help_clicked(self) -> None:
+        """
+        Handle click on evaluation frequency help button.
+        """
         pass
 
-    def tof_region_selection_button_clicked(self):
+    def tof_region_selection_button_clicked(self) -> None:
+        """
+        Handle click on TOF region selection button.
+
+        Opens the TOF region selection dialog and updates projections.
+        """
         o_ui = SelectTofRegions(parent=self.parent)
         o_ui.show()
         QGuiApplication.processEvents()
         o_ui.projections_changed()
         QGuiApplication.processEvents()
 
-    def update_widgets(self):
-        """update the widgets such as the number of TOF regions selected"""
+    def update_widgets(self) -> None:
+        """
+        Update the widgets such as the number of TOF regions selected.
+        """
         tof_regions = self.parent.tof_regions
         nbr_regions_selected = 0
         for _key in tof_regions.keys():
@@ -81,9 +128,14 @@ class EventHandler:
 
         self.check_state_of_start_pre_acquisition_button()
 
-    def is_start_pre_acquisition_button_ready(self):
+    def is_start_pre_acquisition_button_ready(self) -> bool:
         """
-        return True if all the conditions are met to enable the pre-acquisition button
+        Check if all the conditions are met to enable the pre-acquisition button.
+
+        Returns
+        -------
+        bool
+            True if the button is ready, False otherwise.
         """
         tof_regions = self.parent.tof_regions
         nbr_regions_selected = 0
@@ -112,7 +164,10 @@ class EventHandler:
 
         return True
 
-    def check_state_of_start_pre_acquisition_button(self):
+    def check_state_of_start_pre_acquisition_button(self) -> None:
+        """
+        Check and update the state of the start pre-acquisition button.
+        """
         is_button_ready = self.is_start_pre_acquisition_button_ready()
 
         # no TOF selected yet
@@ -128,10 +183,18 @@ class EventHandler:
         else:
             self.parent.ui.start_first_reconstruction_pushButton.setStyleSheet(normal_style)
 
-    def evaluation_frequency_changed(self):
+    def evaluation_frequency_changed(self) -> None:
+        """
+        Handle changes in evaluation frequency.
+        """
         pass
 
-    def start_acquisition(self):
+    def start_acquisition(self) -> None:
+        """
+        Start the acquisition process.
+
+        Disables previous widgets and enables the refresh button.
+        """
         # disable all previous widgets
         self.parent.ui.autonomous_projections_groupBox.setEnabled(False)
         self.parent.ui.autonomous_evaluation_groupBox.setEnabled(False)
@@ -173,7 +236,12 @@ class EventHandler:
         o_cmd = CommandLauncher(parent=self.parent)
         o_cmd.launch_preprocessing_autonomous_reconstruction()
 
-    def stop_acquisition(self):
+    def stop_acquisition(self) -> None:
+        """
+        Stop the acquisition process.
+
+        Enables previous widgets and shows a status message.
+        """
         self.parent.ui.autonomous_projections_groupBox.setEnabled(True)
         self.parent.ui.autonomous_evaluation_groupBox.setEnabled(True)
         self.parent.ui.autonomous_tof_regions_groupBox.setEnabled(True)
@@ -185,7 +253,10 @@ class EventHandler:
             parent=self.parent, message="Stopped acquisition!", duration_s=5, status=StatusMessageStatus.warning
         )
 
-    def init_autonomous_table(self):
+    def init_autonomous_table(self) -> None:
+        """
+        Initialize the autonomous table with projection angles and TOF regions.
+        """
         logging.info("Initialization of the autonomous table:")
 
         nbr_angles = self.parent.ui.evaluation_frequency_spinBox.value()
@@ -251,29 +322,74 @@ class EventHandler:
         # self.parent.ui.autonomous_reconstructed_status_label.setStyleSheet(label_in_focus_style)
         self.parent.ui.autonomous_reconstruction_tabWidget.setTabEnabled(1, False)
 
-    def preview_log(self, state=0, row=-1, data_type="ob"):
+    def preview_log(self, state: int = 0, row: int = -1, data_type: str = "ob") -> None:
+        """
+        Preview the log file for a given projection.
+
+        Parameters
+        ----------
+        state : int, optional
+            State of the button click, by default 0
+        row : int, optional
+            Row index in the table, by default -1
+        data_type : str, optional
+            Type of data, by default "ob"
+        """
         log_file = self.parent.dict_projection_log_err_metadata[row]["log_file"]
         preview_file = PreviewFileLauncher(parent=self.parent, file_name=log_file)
         preview_file.show()
 
-    def preview_err(self, state=0, row=-1, data_type="ob"):
+    def preview_err(self, state: int = 0, row: int = -1, data_type: str = "ob") -> None:
+        """
+        Preview the error file for a given projection.
+
+        Parameters
+        ----------
+        state : int, optional
+            State of the button click, by default 0
+        row : int, optional
+            Row index in the table, by default -1
+        data_type : str, optional
+            Type of data, by default "ob"
+        """
         err_file = self.parent.dict_projection_log_err_metadata[row]["err_file"]
         preview_file = PreviewFileLauncher(parent=self.parent, file_name=err_file)
         preview_file.show()
 
-    def preview_summary(self, state=0, row=-1, data_type="ob"):
+    def preview_summary(self, state: int = 0, row: int = -1, data_type: str = "ob") -> None:
+        """
+        Preview the summary file for a given projection.
+
+        Parameters
+        ----------
+        state : int, optional
+            State of the button click, by default 0
+        row : int, optional
+            Row index in the table, by default -1
+        data_type : str, optional
+            Type of data, by default "ob"
+        """
         file_name = self.parent.dict_projection_log_err_metadata[row]["metadata_file"]
         preview_file = PreviewMetadataFileLauncher(parent=self.parent, file_name=file_name)
         preview_file.show()
 
-    def preview_data(self, row=-1):
-        """display the summedImg image with pyqtgraph"""
+    def preview_data(self, row: int = -1) -> None:
+        """
+        Display the summed image with pyqtgraph.
+
+        Parameters
+        ----------
+        row : int, optional
+            Row index in the table, by default -1
+        """
         file_name = self.parent.dict_projection_log_err_metadata[row]["preview_file"]
         preview_image = PreviewImageLauncher(parent=self.parent, file_name=file_name)
         preview_image.show()
 
-    def refresh_projections_table_clicked(self):
-        """refresh button next to the table has been clicked"""
+    def refresh_projections_table_clicked(self) -> None:
+        """
+        Refresh the projections table when the refresh button is clicked.
+        """
         logging.info("User refreshing the autonomous reconstruction step1 table!")
 
         list_projections_folders_initially_there = self.parent.session_dict[
@@ -332,10 +448,10 @@ class EventHandler:
 
         self.checking_state_of_projections_table()
 
-    def checking_state_of_projections_table(self):
-        """This is looking for all the projections angles requested. If they are all there, then
-        it will change the state of the widgets."""
-
+    def checking_state_of_projections_table(self) -> None:
+        """
+        Check the state of the projections table and update the UI accordingly.
+        """
         list_projections_folders_acquired_so_far = self.parent.session_dict[
             SessionKeys.list_projections_folders_acquired_so_far
         ]
@@ -359,7 +475,10 @@ class EventHandler:
             tof_regions_dict = self.parent.tof_regions
             o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstructions_tableWidget)
 
-    def initialize_reconstruction_table(self):
+    def initialize_reconstruction_table(self) -> None:
+        """
+        Initialize the reconstruction table with TOF regions.
+        """
         # fill table with as many as TOF regions reconstruction requested
         tof_regions_dict = self.parent.session_dict[SessionKeys.tof_regions]
         o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstructions_tableWidget)
@@ -389,9 +508,10 @@ class EventHandler:
                 )
                 row_index += 1
 
-    def refresh_reconstruction_table_clicked(self):
-        """this is where we will check the json file in {{location TBD}} and look for tag that
-        list the reconstruction done!"""
+    def refresh_reconstruction_table_clicked(self) -> None:
+        """
+        Refresh the reconstruction table when the refresh button is clicked.
+        """
         logging.info("User is refreshing the autonomous reconstruction table.")
 
         folder_path = self.parent.folder_path
@@ -414,13 +534,25 @@ class EventHandler:
         if len(list_tof_reconstruction_folders) > 0:
             self.refresh_reconstruction_table()
 
-    def refresh_reconstruction_table(self):
+    def refresh_reconstruction_table(self) -> None:
         """
-        executed when we want to check the status of all the autonomous projections folders
+        Refresh the reconstruction table with updated data.
         """
         pass
 
-    def fill_table_with_list_folders(self, list_folders=None, starting_row_index=0):
+    def fill_table_with_list_folders(
+        self, list_folders: Optional[List[str]] = None, starting_row_index: int = 0
+    ) -> None:
+        """
+        Fill the table with a list of folders.
+
+        Parameters
+        ----------
+        list_folders : list of str, optional
+            List of folder names to add to the table, by default None
+        starting_row_index : int, optional
+            Starting row index in the table, by default 0
+        """
         if list_folders is None:
             return
 
@@ -499,10 +631,21 @@ class EventHandler:
                     row=_row + 1, column=ProjectionsTableColumnIndex.status, qcolor=IN_PROGRESS
                 )
 
-    def checking_reconstruction_clicked(self):
+    def checking_reconstruction_clicked(self) -> None:
+        """
+        Handle click on the checking reconstruction button.
+        """
         logging.info("User is checking the state of the reconstruction.")
 
-    def is_reconstruction_done(self):
+    def is_reconstruction_done(self) -> bool:
+        """
+        Check if the reconstruction is done.
+
+        Returns
+        -------
+        bool
+            True if the reconstruction is done, False otherwise.
+        """
         # if folder does not even exist, it's not done
         if not os.path.exists(self.parent.folder_path.recon):
             return False
@@ -515,26 +658,49 @@ class EventHandler:
         else:
             return False
 
-    def update_list_recon_folders_initially_there(self, folder_path=None):
+    def update_list_recon_folders_initially_there(self, folder_path: Optional[Any] = None) -> None:
         """
-        list the folders in the recon folder.
+        Update the list of reconstruction folders initially there.
+
+        Parameters
+        ----------
+        folder_path : Any, optional
+            Path to the folder, by default None
         """
         o_get = Get(parent=self.parent)
         list_folders = o_get.list_folders_in_output_directory(output_folder=folder_path.recon)
         self.parent.session_dict[SessionKeys.list_recon_folders_initially_there] = list(set(list_folders))
 
-    def update_list_projections_folders_initially_there(self, folder_path=None):
+    def update_list_projections_folders_initially_there(self, folder_path: Optional[Any] = None) -> None:
         """
-        List the folders in the output folder. This will be used as a base to any new folder showing up.
+        Update the list of projections folders initially there.
+
+        Parameters
+        ----------
+        folder_path : Any, optional
+            Path to the folder, by default None
         """
         o_get = Get(parent=self.parent)
         list_folders = o_get.list_folders_in_output_directory(output_folder=folder_path.mcp)
         self.parent.session_dict[SessionKeys.list_projections_folders_initially_there] = list(set(list_folders))
 
-    def list_new_folders(self, folder_path=None, previous_list_of_folders=None):
+    def list_new_folders(
+        self, folder_path: Optional[Any] = None, previous_list_of_folders: Optional[List[str]] = None
+    ) -> List[str]:
         """
-        retrieve the list of folders in the folder_path location and compare it to the previous_list_of_folders.
-        All the new folders will be returned as a list
+        Retrieve the list of new folders in the folder_path location.
+
+        Parameters
+        ----------
+        folder_path : Any, optional
+            Path to the folder, by default None
+        previous_list_of_folders : list of str, optional
+            List of previous folders, by default None
+
+        Returns
+        -------
+        list of str
+            List of new folders.
         """
         o_get = Get(parent=self.parent)
         list_folders = o_get.list_folders_in_output_directory(output_folder=folder_path.mcp)
@@ -548,7 +714,10 @@ class EventHandler:
             list_new_folders.append(_folder)
         return list_new_folders
 
-    def update_autonomous_reconstruction_widgets(self):
+    def update_autonomous_reconstruction_widgets(self) -> None:
+        """
+        Update the autonomous reconstruction widgets based on the session state.
+        """
         if self.parent.session_dict[SessionKeys.list_projections_folders_acquired_so_far]:
             self.parent.ui.start_first_reconstruction_pushButton.setEnabled(False)
             self.parent.ui.start_first_reconstruction_pushButton.setStyleSheet(normal_style)
