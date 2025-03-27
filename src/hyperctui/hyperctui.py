@@ -10,7 +10,8 @@ import sys
 from collections import OrderedDict
 from typing import List, Optional, Union
 
-from qtpy.QtWidgets import QApplication, QCloseEvent, QMainWindow
+from qtpy.QtGui import QCloseEvent
+from qtpy.QtWidgets import QApplication, QMainWindow
 
 from hyperctui import UI_TITLE, EvaluationRegionKeys, load_ui
 from hyperctui.autonomous_reconstruction.event_handler import EventHandler as AutonomousReconstructionHandler
