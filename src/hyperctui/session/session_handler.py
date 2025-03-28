@@ -1,36 +1,81 @@
-from qtpy.QtWidgets import QFileDialog, QApplication
+#!/usr/bin/env python
+"""
+Module for handling the application session state.
+
+This module contains the SessionHandler class that manages saving and loading
+application session state to/from JSON files. It handles persistence of UI state,
+configuration settings, and experiment parameters.
+"""
+
 import json
-import logging
 import os
-import numpy as np
-from qtpy.QtCore import QRect
 from collections import OrderedDict
+from typing import Any, Dict, Optional, Union
+
+import numpy as np
+from loguru import logger
+from qtpy.QtCore import QRect
+from qtpy.QtWidgets import QApplication, QFileDialog
 
 from hyperctui import EvaluationRegionKeys
-from hyperctui.utilities.status_message_config import StatusMessageStatus, show_status_message
-from hyperctui.utilities.get import Get
-from hyperctui.utilities.exceptions import CropError
-from hyperctui.utilities.table import TableHandler
-from hyperctui.utilities.folder_path import FolderPath
-from hyperctui.setup_ob.get import Get as Step1Get
-from hyperctui.setup_ob.event_handler import EventHandler as Step1EventHandler
-from hyperctui.event_handler import EventHandler as MainEventHandler
-from hyperctui.setup_projections.get import Get as Step2Get
-from hyperctui.utilities.widgets import Widgets as UtilityWidgets
-from hyperctui.crop.crop import Crop
-from hyperctui.rotation_center.rotation_center import RotationCenter
-from hyperctui.session import SessionKeys, DefaultValues
 from hyperctui.autonomous_reconstruction.event_handler import EventHandler as AutonomousReconstructionEventHandler
+from hyperctui.crop.crop import Crop
+from hyperctui.event_handler import EventHandler as MainEventHandler
+from hyperctui.rotation_center.rotation_center import RotationCenter
+from hyperctui.session import DefaultValues, SessionKeys
+from hyperctui.setup_ob.event_handler import EventHandler as Step1EventHandler
+from hyperctui.setup_ob.get import Get as Step1Get
+from hyperctui.setup_projections.get import Get as Step2Get
+from hyperctui.utilities.exceptions import CropError
+from hyperctui.utilities.folder_path import FolderPath
+from hyperctui.utilities.get import Get
+from hyperctui.utilities.status_message_config import StatusMessageStatus, show_status_message
+from hyperctui.utilities.table import TableHandler
+from hyperctui.utilities.widgets import Widgets as UtilityWidgets
 
 
 class SessionHandler:
+    """
+    Handles saving and loading of application session state.
+
+    This class provides methods to save the current state of the UI to a session dictionary
+    and to load a previously saved state back into the UI.
+
+    Attributes
+    ----------
+    config_file_name : str
+        The file name of the currently loaded configuration.
+    load_successful : bool
+        Flag indicating if the last load operation was successful.
+    parent : Any
+        The parent widget that contains the UI elements.
+    """
+
     config_file_name = ""
     load_successful = True
 
-    def __init__(self, parent=None):
+    def __init__(self, parent: Optional[Any] = None) -> None:
+        """
+        Initialize the SessionHandler.
+
+        Parameters
+        ----------
+        parent : Any, optional
+            The parent widget that contains the UI elements, by default None
+        """
         self.parent = parent
 
-    def save_from_ui(self):
+    def save_from_ui(self) -> None:
+        """
+        Save the current state of the UI to the session dictionary.
+
+        This method extracts values from various UI elements and stores them
+        in the session dictionary for later retrieval.
+
+        Returns
+        -------
+        None
+        """
         session_dict = self.parent.session_dict
         session_dict[SessionKeys.config_version] = self.parent.config[SessionKeys.config_version]
 
@@ -42,7 +87,7 @@ class SessionHandler:
         session_dict[SessionKeys.window_height] = height
 
         instrument = session_dict[SessionKeys.instrument]
-        facility = session_dict.get(SessionKeys.facility, 'SNS')
+        facility = session_dict.get(SessionKeys.facility, "SNS")
         ipts_selected = session_dict[SessionKeys.ipts_selected]
         ipts_index_selected = session_dict[SessionKeys.ipts_index_selected]
 
@@ -97,7 +142,7 @@ class SessionHandler:
         try:
             right = int(self.parent.ui.crop_right_label_value.text())
         except ValueError:
-            right = width-1
+            right = width - 1
 
         session_dict[SessionKeys.crop_left] = left
         session_dict[SessionKeys.crop_right] = right
@@ -135,8 +180,18 @@ class SessionHandler:
 
         self.parent.session_dict = session_dict
 
-    def load_to_ui(self):
+    def load_to_ui(self) -> None:
+        """
+        Load the saved session state into the UI.
 
+        This method applies the values stored in the session dictionary to
+        the appropriate UI elements. If loading was not successful, it returns
+        without making any changes.
+
+        Returns
+        -------
+        None
+        """
         if not self.load_successful:
             return
 
@@ -163,6 +218,16 @@ class SessionHandler:
         self.parent.ui.number_of_ob_spinBox.setValue(number_of_obs)
 
         proton_charge = session_dict.get(SessionKeys.proton_charge, DefaultValues.proton_charge)
+        # check if proton_charge is a digital value
+        try:
+            proton_charge = int(proton_charge)
+        except ValueError:
+            logger.warning(
+                f"Proton charge value '{proton_charge}' is not a number."
+                f"Using default value {DefaultValues.proton_charge}"
+            )
+            proton_charge = DefaultValues.proton_charge
+
         self.parent.ui.open_beam_proton_charge_doubleSpinBox.setValue(proton_charge)
 
         ob_will_be_saved_as = session_dict.get(SessionKeys.ob_will_be_saved_as, None)
@@ -175,12 +240,7 @@ class SessionHandler:
 
         top_obs_folder = session_dict.get(SessionKeys.top_obs_folder, None)
         if top_obs_folder is None:
-            list_top_obs_folder = ["",
-                                   "SNS",
-                                   instrument,
-                                   ipts,
-                                   "shared",
-                                   "autoreduce"]
+            list_top_obs_folder = ["", "SNS", instrument, ipts, "shared", "autoreduce"]
             top_obs_folder = os.sep.join(list_top_obs_folder)
         self.parent.ui.existing_ob_top_path.setText(top_obs_folder)
         o_ob_event = Step1EventHandler(parent=self.parent)
@@ -190,8 +250,7 @@ class SessionHandler:
         o_table = TableHandler(table_ui=self.parent.ui.open_beam_tableWidget)
         nbr_row = o_table.row_count()
         for _row in np.arange(nbr_row):
-            _folder = o_table.get_item_str_from_cell(row=_row,
-                                                     column=0)
+            _folder = o_table.get_item_str_from_cell(row=_row, column=0)
             if _folder in list_ob_folders_selected:
                 o_table.select_row(row=_row)
 
@@ -205,7 +264,6 @@ class SessionHandler:
         self.parent.ui.run_title_lineEdit.blockSignals(False)
         name_of_output_projection_folder = session_dict[SessionKeys.name_of_output_projection_folder]
         self.parent.ui.run_title_formatted_label.setText(run_title)
-        # name_of_output_projection_folder_with_ext = os.path.join(session_dict[SessionKeys.name_of_output_projection_folder], run_title + "_*")
         self.parent.ui.projections_output_location_label.setText(name_of_output_projection_folder)
 
         name_of_output_ob_folder = session_dict[SessionKeys.name_of_output_ob_folder]
@@ -213,10 +271,12 @@ class SessionHandler:
 
         self.parent.ui.projections_p_charge_label.setText(str(proton_charge))
 
-        show_status_message(parent=self.parent,
-                            message=f"Loaded {self.config_file_name}",
-                            status=StatusMessageStatus.ready,
-                            duration_s=10)
+        show_status_message(
+            parent=self.parent,
+            message=f"Loaded {self.config_file_name}",
+            status=StatusMessageStatus.ready,
+            duration_s=10,
+        )
 
         self.parent.blockSignals(False)
         self.parent.set_window_title()
@@ -230,7 +290,6 @@ class SessionHandler:
             self.parent.ui.checking_status_acquisition_pushButton.setEnabled(True)
 
         if session_dict.get(SessionKeys.all_tabs_visible, False):
-
             try:
                 # crop
                 o_crop = Crop(parent=self.parent)
@@ -258,10 +317,7 @@ class SessionHandler:
 
             ## tof top ROI regions
             if not session_dict.get(SessionKeys.tof_roi_region, None):
-                session_dict[SessionKeys.tof_roi_region] = {'x0': 5,
-                                                            'y0': 5,
-                                                            'x1': 200,
-                                                            'y1': 200}
+                session_dict[SessionKeys.tof_roi_region] = {"x0": 5, "y0": 5, "x1": 200, "y1": 200}
 
             ## tof_regions
             if session_dict.get(SessionKeys.tof_regions, None):
@@ -284,29 +340,69 @@ class SessionHandler:
             o_event = AutonomousReconstructionEventHandler(parent=self.parent)
             o_event.update_autonomous_reconstruction_widgets()
 
-    def _retrieve_general_settings(self):
+    def _retrieve_general_settings(self) -> Dict[str, Union[int, float, bool]]:
+        """
+        Retrieve general settings from the UI.
+
+        This internal method collects general configuration settings
+        from various UI controls.
+
+        Returns
+        -------
+        Dict[str, Union[int, float, bool]]
+            Dictionary containing general configuration settings
+        """
         number_of_scanned_periods = self.parent.ui.number_of_scanned_periods_spinBox.value()
         full_period_true = self.parent.ui.full_period_true_radioButton.isChecked()
         rotation_of_g0rz = self.parent.ui.rotation_of_g0rz_doubleSpinBox.value()
         images_per_step = self.parent.ui.images_per_step_spinBox.value()
-        general_settings = {'number of scanned periods': number_of_scanned_periods,
-                            'full period'              : full_period_true,
-                            'rotation of g0rz'         : rotation_of_g0rz,
-                            'number of images per step': images_per_step}
+        general_settings = {
+            "number of scanned periods": number_of_scanned_periods,
+            "full period": full_period_true,
+            "rotation of g0rz": rotation_of_g0rz,
+            "number of images per step": images_per_step,
+        }
         return general_settings
 
-    def automatic_save(self):
+    def automatic_save(self) -> None:
+        """
+        Automatically save the session to a predetermined file.
+
+        This method saves the current session to a file name that is
+        automatically generated based on the current configuration.
+
+        Returns
+        -------
+        None
+        """
         o_get = Get(parent=self.parent)
         full_config_file_name = o_get.get_automatic_config_file_name()
         self.save_to_file(config_file_name=full_config_file_name)
 
-    def save_to_file(self, config_file_name=None):
+    def save_to_file(self, config_file_name: Optional[str] = None) -> None:
+        """
+        Save the session to a file.
+
+        If no file name is provided, a file dialog will be shown for the user
+        to select a file location.
+
+        Parameters
+        ----------
+        config_file_name : str, optional
+            The file name to save the session to, by default None
+
+        Returns
+        -------
+        None
+        """
         if config_file_name is None:
-            config_file_name = QFileDialog.getSaveFileName(self.parent,
-                                                           caption="Select session file name ...",
-                                                           directory=self.parent.homepath,
-                                                           filter="session (*.json)",
-                                                           initialFilter="session")
+            config_file_name = QFileDialog.getSaveFileName(
+                self.parent,
+                caption="Select session file name ...",
+                directory=self.parent.homepath,
+                filter="session (*.json)",
+                initialFilter="session",
+            )
 
             QApplication.processEvents()
             config_file_name = config_file_name[0]
@@ -315,59 +411,82 @@ class SessionHandler:
             output_file_name = config_file_name
             session_dict = self.parent.session_dict
 
-            with open(output_file_name, 'w') as json_file:
+            with open(output_file_name, "w") as json_file:
                 json.dump(session_dict, json_file)
 
-            show_status_message(parent=self.parent,
-                                message=f"Session saved in {config_file_name}",
-                                status=StatusMessageStatus.ready,
-                                duration_s=10)
-            logging.info(f"Saving configuration into {config_file_name}")
+            show_status_message(
+                parent=self.parent,
+                message=f"Session saved in {config_file_name}",
+                status=StatusMessageStatus.ready,
+                duration_s=10,
+            )
+            logger.info(f"Saving configuration into {config_file_name}")
 
-    def load_from_file(self, config_file_name=None):
+    def load_from_file(self, config_file_name: Optional[str] = None) -> None:
+        """
+        Load a session from a file.
+
+        If no file name is provided, a file dialog will be shown for the user
+        to select a file to load.
+
+        Parameters
+        ----------
+        config_file_name : str, optional
+            The file name to load the session from, by default None
+
+        Returns
+        -------
+        None
+        """
         self.parent.loading_from_config = True
 
         if config_file_name is None:
-            config_file_name = QFileDialog.getOpenFileName(self.parent,
-                                                           directory=self.parent.homepath,
-                                                           caption="Select session file ...",
-                                                           filter="session (*.json)",
-                                                           initialFilter="session")
+            config_file_name = QFileDialog.getOpenFileName(
+                self.parent,
+                directory=self.parent.homepath,
+                caption="Select session file ...",
+                filter="session (*.json)",
+                initialFilter="session",
+            )
             QApplication.processEvents()
             config_file_name = config_file_name[0]
 
         if config_file_name:
             config_file_name = config_file_name
             self.config_file_name = config_file_name
-            show_status_message(parent=self.parent,
-                                message=f"Loading {config_file_name} ...",
-                                status=StatusMessageStatus.ready)
+            show_status_message(
+                parent=self.parent, message=f"Loading {config_file_name} ...", status=StatusMessageStatus.ready
+            )
 
             with open(config_file_name, "r") as read_file:
                 session_to_save = json.load(read_file)
                 if session_to_save.get("config version", None) is None:
-                    logging.info(f"Session file is out of date!")
-                    logging.info(f"-> expected version: {self.parent.config['config version']}")
-                    logging.info(f"-> session version: Unknown!")
+                    logger.info("Session file is out of date!")
+                    logger.info(f"-> expected version: {self.parent.config['config version']}")
+                    logger.info("-> session version: Unknown!")
                     self.load_successful = False
                 elif session_to_save["config version"] == self.parent.config["config version"]:
                     self.parent.session_dict = session_to_save
-                    logging.info(f"Loaded from {config_file_name}")
+                    logger.info(f"Loaded from {config_file_name}")
                 else:
-                    logging.info(f"Session file is out of date!")
-                    logging.info(f"-> expected version: {self.parent.config['config version']}")
-                    logging.info(f"-> session version: {session_to_save['config version']}")
+                    logger.info("Session file is out of date!")
+                    logger.info(f"-> expected version: {self.parent.config['config version']}")
+                    logger.info(f"-> session version: {session_to_save['config version']}")
                     self.load_successful = False
 
                 if not self.load_successful:
-                    show_status_message(parent=self.parent,
-                                        message=f"{config_file_name} not loaded! (check log for more information)",
-                                        status=StatusMessageStatus.ready,
-                                        duration_s=10)
+                    show_status_message(
+                        parent=self.parent,
+                        message=f"{config_file_name} not loaded! (check log for more information)",
+                        status=StatusMessageStatus.ready,
+                        duration_s=10,
+                    )
 
         else:
             self.load_successful = False
-            show_status_message(parent=self.parent,
-                                message=f"{config_file_name} not loaded! (check log for more information)",
-                                status=StatusMessageStatus.ready,
-                                duration_s=10)
+            show_status_message(
+                parent=self.parent,
+                message=f"{config_file_name} not loaded! (check log for more information)",
+                status=StatusMessageStatus.ready,
+                duration_s=10,
+            )

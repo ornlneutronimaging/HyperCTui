@@ -1,0 +1,253 @@
+[project]
+name = "hyperctui"
+description = "HyperCTui User Interface to run svmbir code with AI"
+readme = "README.md"
+authors = [
+    {name = "Jean Bilheux", email = "bilheuxjm@ornl.gov"},
+    {name = "Venkatrishnan (Venkat) Singanallur", email = "venkatakrisv@ornl.gov"},
+    {name = "Shimin Tang", email = "tangs@ornl.gov"},
+    {name = "Chen Zhang", email = "zhangc@ornl.gov"},
+]
+maintainers = [
+    { name = "Jean Bilheux", email = "bilheuxjm@ornl.gov"},
+    { name = "Chen Zhang", email="zhangc@ornl.gov"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Scientific/Engineering :: Physics",
+    "Intended Audience :: Science/Research"
+]
+dynamic = ["version"]
+requires-python = ">=3.10"
+license = { text = "MIT" }
+keywords = ["HyperCTui", "svmbir", "AI", "neutron"]
+dependencies = [
+    # Core
+    "pandas",
+    "pillow",
+    "scikit-image",
+    "inflect",
+    "astropy",
+    "dxchange",
+    "h5py",
+    # "tomopy",  # not available on PyPI, need to install separately
+    # GUI
+    "QtPy",
+    "PyQt5",
+    "pyqtgraph",
+    # Utils
+    "tqdm",
+    "loguru",
+    # neutron
+    "neunorm",
+    "neutronbraggedge",
+]
+
+[conda-pypi-map]
+"conda-forge" = """
+{
+  "pyqt": "PyQt5",
+}
+"""
+
+[project.urls]
+homepage = "https://github.com/ornlneutronimaging/HyperCTui"
+repository = "https://github.com/ornlneutronimaging/HyperCTui"
+# documentation = "https://ornlneutronimaging.github.io/HyperCTui/"  # Not yet available
+issues = "https://github.com/ornlneutronimaging/HyperCTui/issues"
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0.0", "pytest-cov", "pre-commit", "ruff"]
+docs = ["sphinx>=8.2.1", "sphinx_rtd_theme>=3.0.1"]
+jupyter = ["jupyterlab", "ipympl", "ipywidgets"]
+all = ["hyperctui[dev,docs,jupyter]"]
+
+[project.scripts]
+hyperctui = "hyperctui.__main__:main"
+
+
+# -------------------------------- #
+# -- Build system configuration -- #
+# -------------------------------- #
+[build-system]
+requires = [
+  "setuptools>= 42",
+  "wheel",
+  "toml",
+  "versioningit"
+]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["tests*", "scripts*", "docs*", "notebooks*"]
+
+[tool.setuptools.package-data]
+"*" = ["*.yml","*.yaml","*.ini"]
+"hyperctui.ui" = ["*.ui"]
+"hyperctui.static" = ["*.png", "*.csv"]
+
+
+# -------------------------------- #
+# -- VersioningIt configuration -- #
+# -------------------------------- #
+[tool.versioningit.vcs]
+method = "git"
+default-tag = "0.1.0"
+
+[tool.versioningit.next-version]
+method = "minor"
+
+[tool.versioningit.format]
+distance = "{next_version}.dev{distance}"
+dirty = "{version}+d{build_date:%Y%m%d}"
+distance-dirty = "{next_version}.dev{distance}+d{build_date:%Y%m%d%H%M}"
+
+[tool.versioningit.write]
+file = "src/hyperctui/_version.py"
+
+
+# -------------------------------- #
+# ----- PyTest configuration ----- #
+# -------------------------------- #
+[tool.pytest.ini_options]
+addopts = "-v --cov=hyperctui --cov-report=term-missing --cov-branch --cov-report=xml"
+pythonpath = [
+    ".", "src", "scripts"
+]
+testpaths = ["tests"]
+python_files = ["test*.py"]
+norecursedirs = [".git", "tmp*", "_tmp*", "__pycache__", "*dataset*", "*data_set*"]
+markers = [
+    "mymarker: example markers goes here"
+]
+
+
+# -------------------------------- #
+# ------ Ruff configuration ------ #
+# -------------------------------- #
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+exclude = ["notebooks/**", "**/*.ipynb"]
+
+[tool.ruff.lint]
+select = ["A", "ARG","ASYNC","BLE","C90", "E", "F", "I", "UP032", "W"]
+ignore = [
+    # NOTE: The following lint errors are ignored, but we should fix them eventually
+    "ARG002",  # Unused method argument
+    "ARG005",  # Unused lambda argument
+    "C901",  # Complexity too high
+    "E741",  # ambiguous variable name, such as L, E, etc.
+    "F811",  # Redefinition of unused variable (default var from Qt trigger this)
+    "F841",  # Local variable is assigned to but never used
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["hyperctui"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+
+
+# -------------------------------- #
+# ------ Mypy configuration ------ #
+# -------------------------------- #
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+disallow_untyped_defs = false
+
+
+# -------------------------------- #
+# ------ Pixi configuration ------ #
+# -------------------------------- #
+[tool.pixi.workspace]
+channels = ["conda-forge", "neutronimaging"]
+platforms = ["linux-64", "osx-arm64"]
+
+[tool.pixi.pypi-dependencies]
+hyperctui = { path = ".", editable = true }
+
+[tool.pixi.dependencies]
+tomopy = ">=1.14.4,<2"
+astropy = ">=7.0.1,<8"
+dxchange = ">=0.1.8,<0.2"
+tqdm = ">=4.67.1,<5"
+inflect = ">=7.5.0,<8"
+qt = ">=5.15.8,<6"
+qtpy = ">=2.4.3,<3"
+pyqt = ">=5.15.9,<6"
+pyqtgraph = ">=0.13.7,<0.14"
+pandas = ">=2.2.3,<3"
+pillow = ">=11.1.0,<12"
+scikit-image = ">=0.25.2,<0.26"
+loguru = ">=0.7.2,<0.8"
+
+[tool.pixi.tasks]
+# PyPi packaging tasks
+build-pypi = { cmd = "python -m build", description = "Build the package for PyPI" }
+publish-pypi = { cmd = "twine upload dist/*", description = "Publish the package to PyPI", depends-on = ["build-pypi"] }
+clean-pypi = { cmd = "rm -rf dist", description = "Clean the PyPI build artifacts" }
+# Conda packaging tasks
+# NOTE: for build-conda to work locally, you need to set pixi to use detached-environments, i.e. pixi config set detached-environments true
+#       this is because the conda build will complain about build environment in source and refuse to build.
+build-conda = { cmd = "cd conda.recipe && VERSION=$(versioningit ../) conda mambabuild --channel conda-forge --output-folder . .", description = "Build the package for conda" }
+verify-conda = { cmd = "conda verify conda.recipe/noarch/*.tar.bz2", description = "Verify the conda package", depends-on = ["build-conda"] }
+publish-conda = { cmd = "anaconda upload --user neutronimaging conda.recipe/noarch/*.tar.bz2", description = "Publish to neutronimaging channel", depends-on = ["verify-conda"] }
+clean-conda = { cmd = "sh -c \"find conda.recipe/* ! -name 'meta.yaml' -exec rm -rf {} +\"", description = "Clean the conda build artifacts" }
+# Documentation tasks
+build-docs = { cmd = "sphinx-build -b html docs docs/_build", description = "Build the documentation" }
+clean-docs = { cmd = "rm -rf docs/_build", description = "Clean the documentation build artifacts" }
+# Testing tasks
+test = { cmd = "pytest", description = "Run the tests" }  # pytest config above takes care of the arguments
+# Clean all
+clean-all = { description = "Clean all build artifacts", depends-on = ["clean-pypi", "clean-conda", "clean-docs"] }
+
+[tool.pixi.feature.test.dependencies]
+pytest = "*"
+pytest-cov = "*"
+pytest-xdist = "*"
+pytest-repeat = "*"
+pytest-qt = ">=4.4.0,<5"
+
+[tool.pixi.feature.package.dependencies]
+boa = "*"
+anaconda-client = ">=1.12.3,<2"  # For manual upload to anaconda
+conda-build = "*"
+conda-verify = "*"
+python-build = "*"
+twine = ">=6.1.0,<7"
+
+[tool.pixi.feature.developer.dependencies]
+pip = "*"
+versioningit = "*"
+pre-commit = "*"
+conda-tree = "*"
+ruff = "*"
+
+[tool.pixi.feature.docs.dependencies]
+sphinx = ">=8.2.1,<9"
+sphinx_rtd_theme = ">=3.0.1,<4"
+
+[tool.pixi.feature.jupyter.dependencies]
+jupyterlab = "*"
+ipympl = "*"
+ipywidgets = "*"
+
+[tool.pixi.environments]
+default = {features = ["test", "package", "docs", "developer"], solve-group = "default"}
+jupyter = {features = ["developer", "jupyter"], solve-group = "jupyter"}

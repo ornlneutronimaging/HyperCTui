@@ -133,3 +133,20 @@ dmypy.json
 
 # pycharm
 .idea/
+# pixi environments
+.pixi
+*.egg-info
+
+
+# versioningit
+_version.py
+
+# local developer history
+.history
+
+# conda build
+conda.recipe/noarch
+conda.recipe/osx-arm64
+conda.recipe/linux-64
+conda.recipe/channeldata.json
+conda.recipe/index.html
