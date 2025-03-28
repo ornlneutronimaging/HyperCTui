@@ -5230,8 +5230,8 @@ packages:
   timestamp: 1733663449209
 - pypi: .
   name: hyperctui
-  version: 0.2.0.dev302+d202503281555
-  sha256: 7bd96974a0585c09b655dafa5297fa62187896339482ad573b0252fd2e260157
+  version: 0.2.0.dev316+d202503281850
+  sha256: 996b51c11d0883f6cbaa163e97f44672f8360b62676cbbdf94e13336d2cd6e14
   requires_dist:
   - pandas
   - pillow
