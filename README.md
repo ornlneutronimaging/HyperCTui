@@ -15,6 +15,9 @@ A user interface to run supervised machine learning-based iterative reconstructi
 pip install hyperctui
 ```
 
+The package requires `tomopy` to function, which can be installed either with `conda` or directly from source [Github](https://github.com/tomopy/tomopy).
+Make sure you install `tomopy` before running the application if installed with `pip`.
+
 #### Using Pixi (Recommended)
 
 ```bash
