@@ -93,6 +93,58 @@ To add new dependencies:
 
 3. Run `pixi install` to update your environment.
 
+## Contribution Guidelines
+
+### For Neutron Data Project Developers at ORNL
+
+- Contact the project maintainer for developer access to the repository
+- Always create feature branches based off the `next` branch
+- All tests must pass before merging your changes
+- Submit a pull request for review, linking any related issues
+
+### For External Developers
+
+- Please fork the repository and make your suggested edits there
+- Submit a pull request from your fork to our `next` branch
+- Ensure all tests pass before submitting your PR
+
+### Coding Style
+
+- Run `pixi run pre-commit install` at least once in your checkout repository to ensure pre-commit hooks are installed locally
+- These hooks will automatically check and fix many common style issues
+- We follow PEP 8 guidelines with certain exceptions defined in our configuration files
+
+### Type Hinting and Documentation
+
+- We prefer using type hinting for all function parameters and return values:
+
+  ```python
+  def process_image(image_data: np.ndarray, factor: float = 1.0) -> np.ndarray:
+      """Process the given image data.
+
+      Parameters
+      ----------
+      image_data : np.ndarray
+          The input image as a numpy array
+      factor : float, optional
+          Scaling factor to apply, by default 1.0
+
+      Returns
+      -------
+      np.ndarray
+          The processed image
+      """
+  ```
+
+- Use NumPy style docstrings for all public methods and functions
+
+### Testing
+
+- New features should have corresponding unit tests
+- We do not force Test-Driven Development (TDD), but we highly recommend it
+- Aim for high test coverage, especially for critical functionality
+- Tests are automatically run on PR submission
+
 ## How to Use
 
 The application can be started with `hyperctui` in the Python environment it is installed, for development environment managed by `pixi`, use:
