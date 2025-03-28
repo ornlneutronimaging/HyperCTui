@@ -3,7 +3,7 @@
 import pytest
 
 
-class TestEventHandler:
+class TestRotationCenterEventHandler:
     """Tests for the rotation_center EventHandler class."""
 
     @pytest.mark.skip(reason="Placeholder test - to be implemented by developers")
