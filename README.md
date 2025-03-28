@@ -1,5 +1,6 @@
+[![Anaconda-Server Badge](https://anaconda.org/neutronimaging/hyperctui/badges/version.svg)](https://anaconda.org/neutronimaging/hyperctui)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/ornlneutronimaging/HyperCTui/next.svg)](https://results.pre-commit.ci/latest/github/ornlneutronimaging/HyperCTui/next)
-[![codecov](https://codecov.io/gh/ornlneutronimaging/HyperCTui/graph/badge.svg?token=OcQABZITUc)]
+![codecov](https://codecov.io/gh/ornlneutronimaging/HyperCTui/graph/badge.svg?token=OcQABZITUc)
 
 # HyperCTui
 

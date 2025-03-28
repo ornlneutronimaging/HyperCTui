@@ -143,3 +143,10 @@ _version.py
 
 # local developer history
 .history
+
+# conda build
+conda.recipe/noarch
+conda.recipe/osx-arm64
+conda.recipe/linux-64
+conda.recipe/channeldata.json
+conda.recipe/index.html
