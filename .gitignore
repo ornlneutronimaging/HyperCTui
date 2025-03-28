@@ -140,3 +140,6 @@ dmypy.json
 
 # versioningit
 _version.py
+
+# local developer history
+.history
