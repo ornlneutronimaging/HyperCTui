@@ -222,6 +222,7 @@ pytest = "*"
 pytest-cov = "*"
 pytest-xdist = "*"
 pytest-repeat = "*"
+pytest-qt = ">=4.4.0,<5"
 
 [tool.pixi.feature.package.dependencies]
 boa = "*"
