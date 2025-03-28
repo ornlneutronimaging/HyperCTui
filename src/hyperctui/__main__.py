@@ -26,4 +26,4 @@ __file__ = "asui"
 
 # Run the GUI
 multiprocessing.freeze_support()
-sys.exit(main(sys.argv))  # type: List[str]
+sys.exit(main(sys.argv))  # type: int
