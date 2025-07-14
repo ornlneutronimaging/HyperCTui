@@ -2,6 +2,8 @@ from qtpy.QtWidgets import QMainWindow
 import os
 import logging
 from qtpy.QtGui import QIcon
+import pyinotify
+import asyncore
 
 from hyperctui import load_ui
 from hyperctui import refresh_large_image
@@ -14,6 +16,14 @@ from hyperctui.pre_processing_monitor.initialization import Initialization
 from hyperctui.pre_processing_monitor.event_handler import EventHandler as MonitorEventHandler
 from hyperctui.pre_processing_monitor import DataStatus
 from hyperctui.pre_processing_monitor import ColorDataStatus
+
+
+class EventHandler(pyinotify.ProcessEvent):
+    def process_IN_CREATE(self, event):
+        print("Creating:", event.pathname)
+
+    def process_IN_DELETE(self, event):
+        print("Removing:", event.pathname)
 
 
 class Monitor(QMainWindow):
@@ -57,6 +67,15 @@ class Monitor(QMainWindow):
         o_init.ui()
 
         self.refresh_button_clicked()
+
+        # # monitor here if files are created
+        # wm = pyinotify.WatchManager()
+        # mask = pyinotify.IN_CREATE
+     
+        # notifier = pyinotify.AsyncNotifier(wm, EventHandler())
+        # wdd = wm.add_watch('/SNS/users/j35/test/', mask, rec=True)
+
+        # asyncore.loop()
 
     def preview_log(self, state=0, row=-1, data_type='ob'):
         log_file = self.dict_ob_log_err_metadata[row]['log_file']
