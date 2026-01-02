@@ -21,7 +21,16 @@ jobs:
       - name: Update lockfiles
         run: |
           set -o pipefail
-          pixi update --json | pixi exec pixi-diff-to-markdown >> diff.md
+          pixi update --json > update_output.json
+          if pixi exec pixi-diff-to-markdown < update_output.json > diff.md 2>&1; then
+            echo "Lockfile diff generated successfully"
+          else
+            echo "## Pixi Lockfile Update" > diff.md
+            echo "" >> diff.md
+            echo "The pixi lockfiles have been updated. The diff could not be automatically generated." >> diff.md
+            echo "" >> diff.md
+            echo "Please review the changes to \`pixi.lock\` for details." >> diff.md
+          fi
       - name: Create pull request
         uses: peter-evans/create-pull-request@v8
         with:
