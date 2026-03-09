@@ -14,7 +14,7 @@ repos:
       exclude: "tests/cis_tests/.*"
 
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.15.4
+  rev: v0.15.5
   hooks:
     - id: ruff
       args: [--fix, --exit-non-zero-on-fix]
@@ -23,7 +23,7 @@ repos:
       exclude: "tests/cis_tests/.*"
 
 - repo: https://github.com/codespell-project/codespell
-  rev: v2.4.1
+  rev: v2.4.2
   hooks:
     - id: codespell
       exclude: ".*\\.lock$|tests/cis_tests/.*"
