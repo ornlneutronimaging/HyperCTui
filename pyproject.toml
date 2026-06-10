@@ -41,7 +41,9 @@ dependencies = [
     "tqdm",
     "loguru",
     # neutron
-    "neunorm",
+    # NeuNorm 2.0 is a breaking rewrite (no NeuNorm.normalization.Normalization);
+    # pin to 1.x until crop.py is ported — see issue #175
+    "neunorm>=1.6.12,<2",
     "neutronbraggedge",
 ]
 
