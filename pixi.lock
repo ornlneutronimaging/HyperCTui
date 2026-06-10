@@ -6075,8 +6075,8 @@ packages:
   timestamp: 1733663449209
 - pypi: ./
   name: hyperctui
-  version: 0.1.0
-  sha256: f6859f9566c2f08fde42de6415d257e68a689e22b8798da6b80ff3c92b090296
+  version: 1.1.0.dev93+d202606100052
+  sha256: c6bc6e75108fe324a8745539e8cd2a56638c6c38615aed95f80f862726960673
   requires_dist:
   - pandas
   - pillow
@@ -6090,7 +6090,7 @@ packages:
   - pyqtgraph
   - tqdm
   - loguru
-  - neunorm
+  - neunorm>=1.6.12,<2
   - neutronbraggedge
   - pytest>=7.0.0 ; extra == 'dev'
   - pytest-cov ; extra == 'dev'
