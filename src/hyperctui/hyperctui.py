@@ -35,7 +35,9 @@ from hyperctui.utilities.get import Get
 from hyperctui.utilities.status_message_config import StatusMessageStatus, show_status_message
 
 # warnings.filterwarnings('ignore')
-DEBUG = True
+# developer mode is an environment-variable opt-in; hardcoding True shipped
+# the developer's personal paths to every production install (audit H5)
+DEBUG = os.environ.get("HYPERCTUI_DEBUG", "") == "1"
 
 if DEBUG:
     HOME_FOLDER = "/Volumes/JeanHardDrive/"  # mac at home
