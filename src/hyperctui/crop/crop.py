@@ -11,13 +11,49 @@ from typing import Any, Optional
 
 import numpy as np
 import pyqtgraph as pg
-from NeuNorm.normalization import Normalization
+from astropy.io import fits
 from qtpy import QtGui
 
 from hyperctui.session import SessionKeys
 from hyperctui.utilities.exceptions import CropError
 from hyperctui.utilities.file_utilities import get_list_img_files_from_top_folders
 from hyperctui.utilities.widgets import Widgets as UtilityWidgets
+
+
+def _auto_gamma_filter(image: np.ndarray, raw_dtype) -> np.ndarray:
+    """Replicate NeuNorm 1.x's automatic gamma filtering for behavior parity.
+
+    For integer raw data, pixels strictly above ``iinfo(raw_dtype).max - 5``
+    are treated as gamma hits and replaced by the mean of their 8 neighbors
+    (zero-padded at the borders), computed on the unfiltered image — the
+    exact semantics of NeuNorm 1.x's ``_auto_gamma_filtering`` (3x3 ones
+    kernel with zero center, ``convolve(..., mode="constant")``). Float raw
+    data is returned unchanged, as in 1.x. Same implementation as
+    NeutronImagingScripts' ``detector_correction._auto_gamma_filter``.
+
+    ``image`` must already be the float32 working copy.
+    """
+    if not np.issubdtype(np.dtype(raw_dtype), np.integer):
+        return image
+    threshold = np.iinfo(raw_dtype).max - 5
+    gamma = image > threshold
+    if not gamma.any():
+        return image
+
+    padded = np.pad(image, 1, mode="constant", constant_values=0.0)
+    neighbor_mean = (
+        padded[:-2, :-2]
+        + padded[:-2, 1:-1]
+        + padded[:-2, 2:]
+        + padded[1:-1, :-2]
+        + padded[1:-1, 2:]
+        + padded[2:, :-2]
+        + padded[2:, 1:-1]
+        + padded[2:, 2:]
+    ) / 8.0
+    filtered = image.copy()
+    filtered[gamma] = neighbor_mean[gamma]
+    return filtered
 
 
 class Crop:
@@ -73,14 +109,30 @@ class Crop:
             raise CropError(f"ERROR! unable to locate the _SummedImg.fits file in {error}")
 
         logging.info(f"-> list_projections: {list_summed_img}")
-        o_loader = Normalization()
-        o_loader.load(file=list_summed_img, notebook=False)
+        # direct astropy I/O (NeuNorm removed, issue #175). Contract pinned
+        # by tests/unit/hyperctui/crop/test_load_projections.py: iterate the
+        # list exactly as given (0/180 identity is positional), squeeze
+        # singleton-3D HDUs, replicate the 1.x auto gamma filter, and
+        # normalize to native float32 (1.x passed float FITS through as
+        # big-endian — a deliberate, value-preserving change)
+        images = []
+        for _file in list_summed_img:
+            with fits.open(_file, ignore_missing_end=True) as hdulist:
+                raw = hdulist[0].data
+                _image = np.squeeze(np.asarray(raw, dtype=np.float32))
+                raw_dtype = raw.dtype
+            _image = _auto_gamma_filter(_image, raw_dtype)
+            if images and _image.shape != images[0].shape:
+                # 1.x raised from inside NeuNorm on shape mismatch; surface
+                # it through the documented CropError channel instead
+                raise CropError(f"ERROR! shape of {_file} does not match the other projections")
+            images.append(_image)
 
-        self.mean_image = np.mean(o_loader.data["sample"]["data"][:], axis=0)
+        self.mean_image = np.mean(images, axis=0)
         [height, width] = np.shape(self.mean_image)
         self.parent.image_size = {"height": height, "width": width}
-        self.parent.image_0_degree = o_loader.data["sample"]["data"][0]
-        self.parent.image_180_degree = o_loader.data["sample"]["data"][1]
+        self.parent.image_0_degree = images[0]
+        self.parent.image_180_degree = images[1]
         self.parent.crop_live_image = self.mean_image
 
     def initialize(self) -> None:
