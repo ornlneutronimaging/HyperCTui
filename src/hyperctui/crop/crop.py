@@ -128,6 +128,16 @@ class Crop:
                 raise CropError(f"ERROR! shape of {_file} does not match the other projections")
             images.append(_image)
 
+        # the 0/180-degree assignment below is positional, so anything other
+        # than exactly two loaded projections means the session list is
+        # incomplete or corrupted (e.g. a projection folder without Run_* is
+        # silently skipped upstream) — fail loudly instead of mis-assigning
+        if len(images) != 2:
+            raise CropError(
+                f"ERROR! expected exactly 2 projections (0 and 180 degrees) "
+                f"but loaded {len(images)} *_SummedImg.fits from {list_projections}"
+            )
+
         self.mean_image = np.mean(images, axis=0)
         [height, width] = np.shape(self.mean_image)
         self.parent.image_size = {"height": height, "width": width}

@@ -162,3 +162,29 @@ class TestGetListImgFilesFromTopFolders:
 
         result = get_list_img_files_from_top_folders([str(d_empty), str(d_ok)])
         assert result == [str(f_ok)]
+
+
+class TestProjectionCountGuard:
+    def test_single_projection_raises_croperror(self, tmp_path):
+        """fewer than two loaded projections cannot satisfy the positional
+        0/180 assignment — must raise CropError, not IndexError"""
+        d = tmp_path / "only_one"
+        _write_summed_fits(d, np.zeros((8, 8), dtype=np.float32))
+
+        crop = Crop(parent=_ParentStub([str(d)]))
+        with pytest.raises(CropError, match="exactly 2"):
+            crop.load_projections()
+
+    def test_three_projections_raise_croperror(self, tmp_path):
+        """more than two entries means a corrupted session list (e.g. the
+        monitor duplication defect) — failing beats silently feeding the
+        wrong pair to the center-of-rotation calculation"""
+        dirs = []
+        for name in ("a", "b", "c"):
+            d = tmp_path / name
+            _write_summed_fits(d, np.zeros((8, 8), dtype=np.float32))
+            dirs.append(str(d))
+
+        crop = Crop(parent=_ParentStub(dirs))
+        with pytest.raises(CropError, match="exactly 2"):
+            crop.load_projections()
