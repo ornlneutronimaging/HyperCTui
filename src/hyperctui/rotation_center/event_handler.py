@@ -105,15 +105,21 @@ class EventHandler:
         on the current crop settings in the UI.
         """
         # tomopy is conda-only; a module-level import would make the whole
-        # application unimportable from a pip install (which cannot ship it)
+        # application unimportable from a pip install (which cannot ship it).
+        # report via the status bar and return instead of raising: PyQt5
+        # aborts the application when an exception escapes a Qt slot
         try:
             from tomopy.recon import rotation
-        except ImportError as error:
-            raise ImportError(
-                "tomopy is required for the center-of-rotation calculation. It is not "
-                "available on PyPI - install HyperCTui from the neutronimaging conda "
-                "channel, or add tomopy via conda (conda install -c conda-forge tomopy)."
-            ) from error
+        except ImportError:
+            show_status_message(
+                parent=self.parent,
+                message="tomopy not installed (conda-only) - center-of-rotation calculation "
+                "unavailable. Install HyperCTui from the neutronimaging conda channel or "
+                "run: conda install -c conda-forge tomopy",
+                status=StatusMessageStatus.error,
+                duration_s=10,
+            )
+            return
 
         image_0_degree = self.parent.image_0_degree
         image_180_degree = self.parent.image_180_degree
