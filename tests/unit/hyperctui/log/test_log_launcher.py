@@ -30,16 +30,19 @@ class TestLogLauncher:
         # To be implemented by the testing team
         pass
 
+    @pytest.mark.skip(reason="placeholder - not implemented; previously reported PASSED while executing nothing")
     def test_initialization(self) -> None:
         """Test that the LogLauncher initializes correctly."""
         # Placeholder for future implementation
         pass
 
+    @pytest.mark.skip(reason="placeholder - not implemented; previously reported PASSED while executing nothing")
     def test_update_table(self) -> None:
         """Test the update_table method."""
         # Placeholder for future implementation
         pass
 
+    @pytest.mark.skip(reason="placeholder - not implemented; previously reported PASSED while executing nothing")
     def test_refresh_table(self) -> None:
         """Test the refresh_table method."""
         # Placeholder for future implementation
