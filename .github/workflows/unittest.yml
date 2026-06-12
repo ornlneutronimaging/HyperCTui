@@ -7,20 +7,36 @@ on:
     branches: [next, qa, main]
     tags: ['v*']
 
+permissions:
+  contents: read
+
+# cancel previous job if new commit is pushed
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   linux:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # real per-version pixi environments (SPEC 0 window); the default
+        # env was previously held at Python 3.11 by the packaging stack
+        environment: [py312, py313, py314]
     steps:
       - uses: actions/checkout@v6
-      - uses: prefix-dev/setup-pixi@v0.9.6
+      - uses: prefix-dev/setup-pixi@5185adfbffb4bd703da3010310260805d89ebb11 # v0.9.6
         with:
           manifest-path: pyproject.toml
+          environments: ${{ matrix.environment }}
       - name: run unit tests
         run: |
           echo "running unit tests"
-          pixi run test
+          pixi run -e ${{ matrix.environment }} test
       - name: Upload coverage reports to Codecov
-        uses: codecov/codecov-action@v7
+        uses: codecov/codecov-action@fb8b3582c8e4def4969c97caa2f19720cb33a72f # v7
+        if: matrix.environment == 'py312'
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: ornlneutronimaging/HyperCTui
@@ -36,14 +52,39 @@ jobs:
         with:
           fetch-depth: 0
           fetch-tags: true
-      - uses: prefix-dev/setup-pixi@v0.9.6
+      - uses: prefix-dev/setup-pixi@5185adfbffb4bd703da3010310260805d89ebb11 # v0.9.6
         with:
           manifest-path: pyproject.toml
+          environments: package
       - name: Build wheel and assert packaged data files
         run: |
-          pixi run python -m build --wheel --outdir /tmp/wheelcheck
+          pixi run -e package python -m build --wheel --outdir /tmp/wheelcheck
           wheel=$(ls /tmp/wheelcheck/*.whl)
           for f in hyperctui/config.json hyperctui/static/golden_angle.csv hyperctui/ui/main_application.ui; do
             unzip -l "$wheel" | grep -q "$f" || { echo "MISSING from wheel: $f"; exit 1; }
           done
           echo "wheel contains required data files"
+
+  # grype scans the installed pixi env (pip + conda packages), gates only on
+  # fixable findings, and uploads SARIF to the Security tab (org decision
+  # 2026-06-10: grype replaces pip-audit)
+  dependency-scan:
+    name: Scan dependencies with Grype
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write # required for upload-sarif
+      actions: read # upload-sarif on private repos
+    steps:
+      - uses: actions/checkout@v6
+      - uses: prefix-dev/setup-pixi@5185adfbffb4bd703da3010310260805d89ebb11 # v0.9.6
+        with:
+          manifest-path: pyproject.toml
+          environments: default
+      - name: Scan pixi environment with Grype
+        uses: neutrons/conda-actions/grype@bba9ca89d48d9ae846db9650cc63fde736340b3d # v2
+        with:
+          path: ${{ github.workspace }}/.pixi/envs/default
+          # only-fixed defaults to true in the v2 wrapper, so unfixable
+          # advisories never fail the build
+          fail-build: true

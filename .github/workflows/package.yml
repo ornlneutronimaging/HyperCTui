@@ -6,18 +6,37 @@ on:
     branches: [qa, main]
     tags: ['v*']
 
+permissions:
+  contents: read
+
 jobs:
   linux:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: prefix-dev/setup-pixi@v0.9.6
+      - uses: prefix-dev/setup-pixi@5185adfbffb4bd703da3010310260805d89ebb11 # v0.9.6
         with:
           manifest-path: pyproject.toml
+          environments: package
       - name: build conda package
-        run: |
-          echo "build and verify conda package"
-          pixi run verify-conda
+        run: pixi run -e package build-conda
+
+      # conda-verify is archived (no modern-Python builds); verification is
+      # the org-standard pkg-install (micromamba env from the local channel)
+      # + pkg-verify (import check) pair
+      - name: Install built conda package
+        id: install
+        uses: neutrons/conda-actions/pkg-install@bba9ca89d48d9ae846db9650cc63fde736340b3d # v2
+        with:
+          package-name: hyperctui
+          local-channel: conda.recipe
+
+      - name: Verify conda package
+        uses: neutrons/conda-actions/pkg-verify@bba9ca89d48d9ae846db9650cc63fde736340b3d # v2
+        with:
+          package-name: hyperctui
+          module-name: hyperctui
+          conda-env-name: ${{ steps.install.outputs.conda_env }}
       - name: upload conda package to anaconda
         if: startsWith(github.ref, 'refs/tags/v')
         env:
@@ -28,25 +47,29 @@ jobs:
           CONDA_LABEL="main"
           if [ "${IS_RC}" = "true" ]; then CONDA_LABEL="rc"; fi
           echo pushing ${{ github.ref }} with label $CONDA_LABEL
-          pixi run anaconda upload --label $CONDA_LABEL --user neutronimaging conda.recipe/noarch/hyperctui*.tar.bz2
+          pixi run -e package anaconda upload --label $CONDA_LABEL --user neutronimaging conda.recipe/noarch/hyperctui*.tar.bz2
 
   pypi-publish:
     name: upload release to PyPI
     runs-on: ubuntu-latest
     permissions:
+      # job-level permissions replace the workflow block, so checkout's
+      # read access must be restated here
+      contents: read
       # IMPORTANT: this permission is mandatory for trusted publishing
       id-token: write
     steps:
       - uses: actions/checkout@v6
-      - uses: prefix-dev/setup-pixi@v0.9.6
+      - uses: prefix-dev/setup-pixi@5185adfbffb4bd703da3010310260805d89ebb11 # v0.9.6
         with:
           manifest-path: pyproject.toml
+          environments: package
       - name: build pypi package
         run: |
           # build the package
-          VERSION=$(pixi run -- versioningit .)
-          pixi run build-pypi
+          VERSION=$(pixi run -e package -- versioningit .)
+          pixi run -e package build-pypi
       # publish your distributions here (need to setup on PyPI first)
       - name: Publish package distributions to PyPI
         if: startsWith(github.ref, 'refs/tags/v')
-        uses: pypa/gh-action-pypi-publish@release/v1
+        uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b # v1.14.0
