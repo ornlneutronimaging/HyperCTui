@@ -59,7 +59,11 @@ ignore:
 
   # Qt 5.15 open-source receives no upstream fixes (patches land in Qt 6
   # only), so every qt 5.15.x advisory counts as "fixable" while no fix is
-  # installable for a PyQt5 application. Revisit when the GUI migrates to
+  # installable for a PyQt5 application. The qt 5.15 build also pins
+  # gstreamer to the 1.26 line, so the gstreamer fixes shipped in 1.28 are
+  # equally uninstallable here. Revisit both when the GUI migrates to
   # Qt 6 / PyQt6.
   - package:
       name: qt
+  - package:
+      name: gstreamer
