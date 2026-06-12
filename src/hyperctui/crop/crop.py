@@ -179,8 +179,11 @@ class Crop:
         # tuple assignment: the previous sequential min/max overwrote left
         # before computing right, collapsing inverted inputs to zero width
         left, right = int(min(left, right)), int(max(left, right))
-        left = max(0, left)
-        right = min(width - 1, right)
+        # clamp BOTH ends into [0, width-1]: clamping is monotone, so the
+        # left <= right ordering survives even when both stored values are
+        # out of range on the same side
+        left = min(max(0, left), width - 1)
+        right = min(max(0, right), width - 1)
 
         self.parent.session_dict[SessionKeys.crop_left] = left
         self.parent.session_dict[SessionKeys.crop_right] = right
