@@ -14,6 +14,17 @@ from hyperctui.utilities.get import Get as MasterGet
 from hyperctui.utilities.table import TableHandler
 
 
+def is_ob_folder(folder_name: str) -> bool:
+    """True if a folder basename is an open-beam folder.
+
+    OB folders are created with an OB_/OBs_ prefix (see the main window's
+    OBs_{title} naming); the previous bare 'ob' substring test misrouted any
+    sample title containing 'ob' (Niobium, Cobalt, ...) into the OB list and
+    stalled the projections monitor forever.
+    """
+    return folder_name.lower().startswith(("ob_", "obs_"))
+
+
 class Get(MasterGet):
     """
     Class for retrieving Open Beam (OB) configuration data and paths.
@@ -164,7 +175,7 @@ class Get(MasterGet):
         list_ob_folders = []
         for _folder in list_folders:
             base_folder = os.path.basename(_folder)
-            if ("ob" in base_folder.lower()) and (title in base_folder):
+            if is_ob_folder(base_folder) and (title in base_folder):
                 list_ob_folders.append(_folder)
         return list_ob_folders
 
@@ -190,7 +201,7 @@ class Get(MasterGet):
         list_sample_folders = []
         for _folder in list_folders:
             base_folder = os.path.basename(_folder)
-            if ("ob" not in base_folder.lower()) and (title in base_folder):
+            if (not is_ob_folder(base_folder)) and (title in base_folder):
                 list_sample_folders.append(_folder)
         return list_sample_folders
 

@@ -220,6 +220,10 @@ class EventHandler:
             if _folder in list_folder_previously_found:
                 continue
             list_new_projections_folders.append(_folder)
+        # deterministic 0/180 assignment: discovery order comes from an
+        # unsorted directory listing; the acquisition timestamp in the folder
+        # names makes a lexical sort chronological (same as the OB path)
+        list_new_projections_folders.sort()
 
         list_projections_folders_acquired_so_far = self.grand_parent.session_dict[
             SessionKeys.list_projections_folders_acquired_so_far
@@ -283,7 +287,11 @@ class EventHandler:
 
             if self.grand_parent.session_dict[SessionKeys.list_projections] is None:
                 self.grand_parent.session_dict[SessionKeys.list_projections] = [new_file]
-            else:
+            elif new_file not in self.grand_parent.session_dict[SessionKeys.list_projections]:
+                # every monitor refresh re-walks all rows; without this
+                # membership guard the session list accumulated duplicates
+                # ([A, A, B]) and the crop tab fed the 0-degree image to
+                # find_center_pc as the 180-degree image
                 self.grand_parent.session_dict[SessionKeys.list_projections].append(new_file)
 
             if _row == 0:

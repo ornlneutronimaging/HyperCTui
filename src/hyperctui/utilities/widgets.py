@@ -37,10 +37,15 @@ class Widgets(Parent):
         -------
         None
         """
+        # state guard: hiding when already hidden removed the Settings tab
+        # (reachable when a CropError fires during session load), and showing
+        # twice duplicated tabs
+        currently_visible = getattr(self.parent, "all_tabs_visible", True)
         if not is_visible:
-            for _ in np.arange(3):
-                self.parent.ui.tabWidget.removeTab(2)
-        else:
+            if currently_visible:
+                for _ in np.arange(3):
+                    self.parent.ui.tabWidget.removeTab(2)
+        elif not currently_visible:
             self.parent.ui.tabWidget.insertTab(2, self.parent.tab2, QIcon(tab2_icon), TabNames.tab2)
             self.parent.ui.tabWidget.insertTab(3, self.parent.tab3, QIcon(tab3_icon), TabNames.tab3)
             self.parent.ui.tabWidget.insertTab(4, self.parent.tab4, QIcon(tab4_icon), TabNames.tab4)
