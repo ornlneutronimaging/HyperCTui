@@ -20,7 +20,8 @@ classifiers = [
     "Intended Audience :: Science/Research"
 ]
 dynamic = ["version"]
-requires-python = ">=3.10"
+# SPEC 0 (scientific-python support window); org policy decided 2026-06-10
+requires-python = ">=3.12"
 license = { text = "MIT" }
 keywords = ["HyperCTui", "svmbir", "AI", "neutron"]
 dependencies = [
@@ -119,21 +120,19 @@ file = "src/hyperctui/_version.py"
 [tool.pytest.ini_options]
 addopts = "-v --cov=hyperctui --cov-report=term-missing --cov-branch --cov-report=xml"
 pythonpath = [
-    ".", "src", "scripts"
+    ".", "src"
 ]
 testpaths = ["tests"]
 python_files = ["test*.py"]
 norecursedirs = [".git", "tmp*", "_tmp*", "__pycache__", "*dataset*", "*data_set*"]
-markers = [
-    "mymarker: example markers goes here"
-]
+markers = []
 
 
 # -------------------------------- #
 # ------ Ruff configuration ------ #
 # -------------------------------- #
 [tool.ruff]
-target-version = "py311"
+target-version = "py312"
 line-length = 120
 exclude = ["notebooks/**", "**/*.ipynb"]
 
@@ -162,7 +161,7 @@ line-ending = "auto"
 # ------ Mypy configuration ------ #
 # -------------------------------- #
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.12"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
@@ -192,9 +191,11 @@ qtpy = ">=2.4.3,<3"
 pyqt = ">=5.15.9,<6"
 pyqtgraph = ">=0.13.7,<0.14"
 pandas = ">=2.2.3,<3"
-pillow = ">=11.1.0,<12"
+pillow = ">=12.2.0,<13"   # CVE-2026-25990, CVE-2026-40192 fixed in 12.2
 numpy = "*"
 tifffile = "*"
+openssl = ">=3.6.3"   # CVE-2026-34182 (critical) + 8 high fixed in 3.6.3
+h11 = ">=0.16"        # GHSA-vqfr-h8mv-ghfj (critical, request smuggling) fixed in 0.16
 loguru = ">=0.7.2,<0.8"
 
 [tool.pixi.tasks]
@@ -206,16 +207,14 @@ clean-pypi = { cmd = "rm -rf dist", description = "Clean the PyPI build artifact
 # NOTE: for build-conda to work locally, you need to set pixi to use detached-environments, i.e. pixi config set detached-environments true
 #       this is because the conda build will complain about build environment in source and refuse to build.
 build-conda = { cmd = "cd conda.recipe && VERSION=$(versioningit ../) conda mambabuild --channel conda-forge --output-folder . .", description = "Build the package for conda" }
-verify-conda = { cmd = "conda verify conda.recipe/noarch/*.tar.bz2", description = "Verify the conda package", depends-on = ["build-conda"] }
-publish-conda = { cmd = "anaconda upload --user neutronimaging conda.recipe/noarch/*.tar.bz2", description = "Publish to neutronimaging channel", depends-on = ["verify-conda"] }
+# (conda-verify removed: the tool is archived with no modern-Python builds;
+# CI verifies via neutrons/conda-actions pkg-install + pkg-verify instead)
+publish-conda = { cmd = "anaconda upload --user neutronimaging conda.recipe/noarch/*.tar.bz2", description = "Publish to neutronimaging channel", depends-on = ["build-conda"] }
 clean-conda = { cmd = "sh -c \"find conda.recipe/* ! -name 'meta.yaml' -exec rm -rf {} +\"", description = "Clean the conda build artifacts" }
-# Documentation tasks
-build-docs = { cmd = "sphinx-build -b html docs docs/_build", description = "Build the documentation" }
-clean-docs = { cmd = "rm -rf docs/_build", description = "Clean the documentation build artifacts" }
 # Testing tasks
 test = { cmd = "pytest", description = "Run the tests" }  # pytest config above takes care of the arguments
 # Clean all
-clean-all = { description = "Clean all build artifacts", depends-on = ["clean-pypi", "clean-conda", "clean-docs"] }
+clean-all = { description = "Clean all build artifacts", depends-on = ["clean-pypi", "clean-conda"] }
 
 [tool.pixi.feature.test.dependencies]
 pytest = "*"
@@ -224,11 +223,16 @@ pytest-xdist = "*"
 pytest-repeat = "*"
 pytest-qt = ">=4.4.0,<5"
 
+[tool.pixi.feature.package]
+# packaging happens on Linux CI; the archived conda-verify has no
+# modern-Python build for osx-arm64, making the env unsolvable there
+platforms = ["linux-64"]
+
 [tool.pixi.feature.package.dependencies]
+versioningit = "*"
 boa = "*"
 anaconda-client = ">=1.12.3,<2"  # For manual upload to anaconda
 conda-build = "*"
-conda-verify = "*"
 python-build = "*"
 twine = ">=6.1.0,<7"
 
@@ -239,15 +243,28 @@ pre-commit = "*"
 conda-tree = "*"
 ruff = "*"
 
-[tool.pixi.feature.docs.dependencies]
-sphinx = ">=8.2.1,<9"
-sphinx_rtd_theme = ">=3.0.1,<4"
-
 [tool.pixi.feature.jupyter.dependencies]
 jupyterlab = "*"
 ipympl = "*"
 ipywidgets = "*"
 
+[tool.pixi.feature.py312.dependencies]
+python = "3.12.*"
+
+[tool.pixi.feature.py313.dependencies]
+python = "3.13.*"
+
+[tool.pixi.feature.py314.dependencies]
+python = "3.14.*"
+
 [tool.pixi.environments]
-default = {features = ["test", "package", "docs", "developer"], solve-group = "default"}
-jupyter = {features = ["developer", "jupyter"], solve-group = "jupyter"}
+# package isolated in its own solve-group: boa's conda-build<24.7 /
+# libmambapy<1.6 caps held the WHOLE default env (tests included) at
+# Python 3.11; packaging tasks run via `pixi run -e package ...`
+default = { features = ["test", "developer"], solve-group = "default" }
+package = { features = ["package"], solve-group = "package" }
+jupyter = { features = ["developer", "jupyter"], solve-group = "jupyter" }
+# per-version test environments (SPEC 0 window) for the CI matrix
+py312 = { features = ["test", "py312"], solve-group = "py312" }
+py313 = { features = ["test", "py313"], solve-group = "py313" }
+py314 = { features = ["test", "py314"], solve-group = "py314" }
