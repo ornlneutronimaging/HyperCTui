@@ -25,20 +25,19 @@ license = { text = "MIT" }
 keywords = ["HyperCTui", "svmbir", "AI", "neutron"]
 dependencies = [
     # Core
+    "numpy",
     "pandas",
     "pillow",
-    "scikit-image",
+    "tifffile",
     "inflect",
     "astropy",
-    "dxchange",
-    "h5py",
-    # "tomopy",  # not available on PyPI, need to install separately
+    # "tomopy",  # not available on PyPI; conda-only (lazy-imported with an
+    #             actionable error in rotation_center.event_handler)
     # GUI
     "QtPy",
     "PyQt5",
     "pyqtgraph",
     # Utils
-    "tqdm",
     "loguru",
     # neutron
     # (NeuNorm removed in the #175 port: crop.py loads FITS directly via astropy)
@@ -88,7 +87,9 @@ where = ["src"]
 exclude = ["tests*", "scripts*", "docs*", "notebooks*"]
 
 [tool.setuptools.package-data]
-"*" = ["*.yml","*.yaml","*.ini"]
+# "*.json" is load-bearing: config.json is read unguarded at startup,
+# and wheels/conda artifacts built without it crash on first run
+"*" = ["*.yml", "*.yaml", "*.ini", "*.json"]
 "hyperctui.ui" = ["*.ui"]
 "hyperctui.static" = ["*.png", "*.csv"]
 
@@ -185,8 +186,6 @@ hyperctui = { path = ".", editable = true }
 [tool.pixi.dependencies]
 tomopy = ">=1.14.4,<2"
 astropy = ">=7.0.1,<8"
-dxchange = ">=0.1.8,<0.2"
-tqdm = ">=4.67.1,<5"
 inflect = ">=7.5.0,<8"
 qt = ">=5.15.8,<6"
 qtpy = ">=2.4.3,<3"
@@ -194,7 +193,8 @@ pyqt = ">=5.15.9,<6"
 pyqtgraph = ">=0.13.7,<0.14"
 pandas = ">=2.2.3,<3"
 pillow = ">=11.1.0,<12"
-scikit-image = ">=0.25.2,<0.26"
+numpy = "*"
+tifffile = "*"
 loguru = ">=0.7.2,<0.8"
 
 [tool.pixi.tasks]

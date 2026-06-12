@@ -11,7 +11,6 @@ from typing import Any, Optional, Union
 import numpy as np
 import pyqtgraph as pg
 from qtpy import QtGui
-from tomopy.recon import rotation
 
 from hyperctui.utilities.status_message_config import StatusMessageStatus, show_status_message
 
@@ -105,6 +104,23 @@ class EventHandler:
         The calculation is performed on cropped versions of the images based
         on the current crop settings in the UI.
         """
+        # tomopy is conda-only; a module-level import would make the whole
+        # application unimportable from a pip install (which cannot ship it).
+        # report via the status bar and return instead of raising: PyQt5
+        # aborts the application when an exception escapes a Qt slot
+        try:
+            from tomopy.recon import rotation
+        except ImportError:
+            show_status_message(
+                parent=self.parent,
+                message="tomopy not installed (conda-only) - center-of-rotation calculation "
+                "unavailable. Install HyperCTui from the neutronimaging conda channel or "
+                "run: conda install -c conda-forge tomopy",
+                status=StatusMessageStatus.error,
+                duration_s=10,
+            )
+            return
+
         image_0_degree = self.parent.image_0_degree
         image_180_degree = self.parent.image_180_degree
 
