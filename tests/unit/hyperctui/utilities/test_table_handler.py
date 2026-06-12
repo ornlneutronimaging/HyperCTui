@@ -6,9 +6,13 @@ so they crashed on first use; exercised here against a real offscreen
 QTableWidget.
 """
 
+import pytest
 from qtpy.QtWidgets import QTableWidget
 
 from hyperctui.utilities.table import TableHandler
+
+# every test needs the session QApplication (offscreen)
+pytestmark = pytest.mark.usefixtures("qapp")
 
 
 def _table(rows: int = 3, columns: int = 2) -> QTableWidget:
@@ -18,21 +22,21 @@ def _table(rows: int = 3, columns: int = 2) -> QTableWidget:
     return table_ui
 
 
-def test_insert_item_with_float_formats_value(qapp):
+def test_insert_item_with_float_formats_value():
     table_ui = _table()
     o_table = TableHandler(table_ui=table_ui)
     o_table.insert_item_with_float(row=0, column=0, float_value=3.14159, format_str="{:.2f}")
     assert table_ui.item(0, 0).text() == "3.14"
 
 
-def test_insert_item_with_float_handles_na(qapp):
+def test_insert_item_with_float_handles_na():
     table_ui = _table()
     o_table = TableHandler(table_ui=table_ui)
     o_table.insert_item_with_float(row=0, column=0, float_value="N/A")
     assert table_ui.item(0, 0).text() == "N/A"
 
 
-def test_set_item_with_float_updates_existing_item(qapp):
+def test_set_item_with_float_updates_existing_item():
     table_ui = _table()
     o_table = TableHandler(table_ui=table_ui)
     o_table.insert_item_with_float(row=1, column=1, float_value=1.0)
@@ -40,7 +44,7 @@ def test_set_item_with_float_updates_existing_item(qapp):
     assert table_ui.item(1, 1).text() == "2.5"
 
 
-def test_select_cell_selects_exactly_that_cell(qapp):
+def test_select_cell_selects_exactly_that_cell():
     table_ui = _table()
     o_table = TableHandler(table_ui=table_ui)
     o_table.select_cell(row=2, column=1)
