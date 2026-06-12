@@ -1,0 +1,13 @@
+# Coverage policy (2026-06-11 audit recommendation): floor the project just
+# below its current ~27% so coverage can only ratchet up, and keep the patch
+# status informational until the GUI has a real test harness — most fix
+# lines live in Qt handlers that headless CI cannot exercise yet.
+coverage:
+  status:
+    project:
+      default:
+        target: 26%
+        threshold: 1%
+    patch:
+      default:
+        informational: true
