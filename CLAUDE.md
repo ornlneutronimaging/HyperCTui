@@ -16,7 +16,8 @@ Pixi-managed — run everything through `pixi run`.
   (`QT_QPA_PLATFORM=offscreen` is set in tests/conftest.py)
 - `pixi run pre-commit run --files <files>` — lint
 - Packaging tasks live in the isolated `package` environment:
-  `pixi run -e package verify-conda` / `build-pypi`. The package feature
+  `pixi run -e package build-conda` / `build-pypi` (verification runs in
+  CI via the conda-actions pkg-install + pkg-verify pair). The package feature
   (boa/conda-build) caps Python at 3.11 — that is WHY it has its own
   solve-group; do not merge it back into default.
 - `jupyter` env for notebook work.

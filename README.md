@@ -74,7 +74,6 @@ pixi run ruff format .
 # Build the package
 pixi run build-pypi
 
-# Build documentation
 ```
 
 ### Adding Dependencies

@@ -9,6 +9,12 @@ on:
 permissions:
   contents: read
 
+# cancel previous job if new commit is pushed (tags are distinct refs, so an
+# in-flight tag publish is never cancelled by another push)
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   linux:
     runs-on: ubuntu-latest
@@ -65,10 +71,7 @@ jobs:
           manifest-path: pyproject.toml
           environments: package
       - name: build pypi package
-        run: |
-          # build the package
-          VERSION=$(pixi run -e package -- versioningit .)
-          pixi run -e package build-pypi
+        run: pixi run -e package build-pypi
       # publish your distributions here (need to setup on PyPI first)
       - name: Publish package distributions to PyPI
         if: startsWith(github.ref, 'refs/tags/v')
