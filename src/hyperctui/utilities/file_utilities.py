@@ -346,9 +346,9 @@ def get_list_img_files_from_top_folders(list_projections: List[str]) -> List[str
     """
     list_img_files = []
     for _projection in list_projections:
-        _folder = glob.glob(os.path.join(_projection, "Run_*"))
+        _folder = sorted(glob.glob(os.path.join(_projection, "Run_*")))
         if _folder:
-            img_file = glob.glob(os.path.join(_folder[0], "*_SummedImg.fits"))
+            img_file = sorted(glob.glob(os.path.join(_folder[0], "*_SummedImg.fits")))
             try:
                 list_img_files.append(img_file[0])
             except IndexError:

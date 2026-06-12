@@ -176,8 +176,11 @@ class Crop:
         left = self.parent.session_dict.get(SessionKeys.crop_left, default_left)
         right = self.parent.session_dict.get(SessionKeys.crop_right, default_right)
 
-        left = int(np.min([left, right]))
-        right = int(np.max([left, right]))
+        # tuple assignment: the previous sequential min/max overwrote left
+        # before computing right, collapsing inverted inputs to zero width
+        left, right = int(min(left, right)), int(max(left, right))
+        left = max(0, left)
+        right = min(width - 1, right)
 
         self.parent.session_dict[SessionKeys.crop_left] = left
         self.parent.session_dict[SessionKeys.crop_right] = right

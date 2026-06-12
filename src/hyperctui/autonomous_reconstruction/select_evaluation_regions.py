@@ -61,7 +61,12 @@ class SelectEvaluationRegions(QDialog):
         self.ui = load_ui(ui_full_path, baseinstance=self)
         self.setWindowTitle("Select Evaluation Regions")
 
-        self.parent.backup_evaluation_regions = self.parent.evaluation_regions
+        # structural copy: an alias made cancel a no-op because region drags
+        # mutate the dicts in place (live pyqtgraph refs under 'id' excluded)
+        self.parent.backup_evaluation_regions = {
+            _key: {k: v for k, v in _region.items() if k != "id"}
+            for _key, _region in self.parent.evaluation_regions.items()
+        }
         self.initialization()
         self.update_display_regions()
         self.check_state_ok_button()

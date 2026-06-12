@@ -142,7 +142,14 @@ class SessionHandler:
         try:
             right = int(self.parent.ui.crop_right_label_value.text())
         except ValueError:
-            right = width - 1
+            # fall back to the IMAGE width when known; the previous fallback
+            # used the main-window pixel width, which has nothing to do with
+            # the detector image
+            image_size = getattr(self.parent, "image_size", None)
+            if image_size:
+                right = image_size["width"] - 1
+            else:
+                right = width - 1
 
         session_dict[SessionKeys.crop_left] = left
         session_dict[SessionKeys.crop_right] = right

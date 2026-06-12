@@ -99,7 +99,7 @@ class GuiInitialization:
 
         recon_table_columns = [740, 80, 100]
         o_table = TableHandler(table_ui=self.parent.ui.autonomous_reconstructions_tableWidget)
-        o_table.set_column_sizes(column_sizes=table_columns)
+        o_table.set_column_sizes(column_sizes=recon_table_columns)
 
     def full_reset(self) -> None:
         """

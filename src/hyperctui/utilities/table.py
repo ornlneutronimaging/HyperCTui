@@ -118,7 +118,7 @@ class TableHandler:
             column: Column index of the cell to select
         """
         self.select_everything(False)
-        range_selected = QtGui.QTableWidgetSelectionRange(row, column, row, column)
+        range_selected = QTableWidgetSelectionRange(row, column, row, column)
         self.table_ui.setRangeSelected(range_selected, True)
 
     def select_row(self, row: int = 0) -> None:
@@ -179,7 +179,7 @@ class TableHandler:
         """
         self.table_ui.insertRow(row)
         for column, _text in enumerate(list_col_name):
-            _item = QtGui.QTableWidgetItem(_text)
+            _item = QTableWidgetItem(_text)
             self.table_ui.setItem(row, column, _item)
 
     def insert_column(self, column: int) -> None:
@@ -223,7 +223,7 @@ class TableHandler:
         if (str(float_value) == "None") or (str(float_value) == "N/A"):
             _str_value = "N/A"
         else:
-            _str_value = self.cell_str_format.format(np.float(float_value))
+            _str_value = self.cell_str_format.format(float(float_value))
         self.table_ui.item(row, column).setText(_str_value)
 
     def insert_item_with_float(
@@ -241,8 +241,8 @@ class TableHandler:
         if (str(float_value) == "None") or (str(float_value) == "N/A"):
             _str_value = "N/A"
         else:
-            _str_value = format_str.format(np.float(float_value))
-        _item = QtGui.QTableWidgetItem(_str_value)
+            _str_value = format_str.format(float(float_value))
+        _item = QTableWidgetItem(_str_value)
         self.table_ui.setItem(row, column, _item)
 
     def set_item_state(self, row: int = 0, column: int = 0, editable: bool = True) -> None:

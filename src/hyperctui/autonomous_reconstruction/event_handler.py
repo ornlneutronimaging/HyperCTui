@@ -409,11 +409,11 @@ class EventHandler:
         )
 
         # updating the list of projections by adding the folders already acquired
+        # copy before extending: the previous code aliased the session's
+        # 'initially there' list and grew it on every refresh
+        previous_list_of_folders = list(list_projections_folders_initially_there)
         if list_projections_folders_acquired_so_far:
-            previous_list_of_folders = list_projections_folders_initially_there
             previous_list_of_folders.extend(list_projections_folders_acquired_so_far)
-        else:
-            previous_list_of_folders = list_projections_folders_initially_there
         logging.info(f"-> previous_list_of_folders:\n{formatting_list_for_print(previous_list_of_folders)}")
 
         # listing only the new folders
@@ -430,7 +430,8 @@ class EventHandler:
             starting_row_index = len(list_projections_folders_acquired_so_far)
 
             # to remove duplicates
-            list_projections_folders_acquired_so_far = list(set(list_projections_folders_acquired_so_far))
+            # order-preserving dedupe: list(set()) scrambled acquisition order
+            list_projections_folders_acquired_so_far = list(dict.fromkeys(list_projections_folders_acquired_so_far))
             list_projections_folders_acquired_so_far.extend(list_new_folders)
         else:
             starting_row_index = 0
