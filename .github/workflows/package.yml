@@ -20,6 +20,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          # versioningit needs full history + tags, else it falls back to
+          # default-tag (0.1.0) and the built package is mis-versioned
+          fetch-depth: 0
+          fetch-tags: true
       - uses: prefix-dev/setup-pixi@5185adfbffb4bd703da3010310260805d89ebb11 # v0.9.6
         with:
           manifest-path: pyproject.toml
@@ -74,6 +79,11 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@v6
+        with:
+          # versioningit needs full history + tags, else it falls back to
+          # default-tag (0.1.0) and the built package is mis-versioned
+          fetch-depth: 0
+          fetch-tags: true
       - uses: prefix-dev/setup-pixi@5185adfbffb4bd703da3010310260805d89ebb11 # v0.9.6
         with:
           manifest-path: pyproject.toml
