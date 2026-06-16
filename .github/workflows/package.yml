@@ -27,6 +27,14 @@ jobs:
       - name: build conda package
         run: pixi run -e package build-conda
 
+      # micromamba reads a LOCAL channel only from an absolute path; a bare
+      # "conda.recipe" is resolved as a *remote* channel (404 on anaconda.org).
+      # Stage the built noarch package into a clean absolute channel dir.
+      - name: Stage built package into a local channel
+        run: |
+          mkdir -p /tmp/local-channel/noarch
+          cp conda.recipe/noarch/hyperctui*.tar.bz2 /tmp/local-channel/noarch/
+
       # conda-verify is archived (no modern-Python builds); verification is
       # the org-standard pkg-install (micromamba env from the local channel)
       # + pkg-verify (import check) pair
@@ -35,7 +43,7 @@ jobs:
         uses: neutrons/conda-actions/pkg-install@bba9ca89d48d9ae846db9650cc63fde736340b3d # v2
         with:
           package-name: hyperctui
-          local-channel: conda.recipe
+          local-channel: /tmp/local-channel
 
       - name: Verify conda package
         uses: neutrons/conda-actions/pkg-verify@bba9ca89d48d9ae846db9650cc63fde736340b3d # v2
