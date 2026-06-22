@@ -25,7 +25,7 @@ jobs:
         # env was previously held at Python 3.11 by the packaging stack
         environment: [py312, py313, py314]
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: prefix-dev/setup-pixi@5185adfbffb4bd703da3010310260805d89ebb11 # v0.9.6
         with:
           manifest-path: pyproject.toml
@@ -48,7 +48,7 @@ jobs:
     name: wheel packages required data files
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
           fetch-tags: true
@@ -76,7 +76,7 @@ jobs:
       security-events: write # required for upload-sarif
       actions: read # upload-sarif on private repos
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: prefix-dev/setup-pixi@5185adfbffb4bd703da3010310260805d89ebb11 # v0.9.6
         with:
           manifest-path: pyproject.toml
