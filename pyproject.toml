@@ -197,6 +197,7 @@ tifffile = "*"
 openssl = ">=3.6.3"   # CVE-2026-34182 (critical) + 8 high fixed in 3.6.3
 h11 = ">=0.16"        # GHSA-vqfr-h8mv-ghfj (critical, request smuggling) fixed in 0.16
 bleach = ">=6.4.0"    # GHSA-gj48-438w-jh9v (formaction XSS) fixed in 6.4.0 (transitive via nbconvert)
+msgpack-python = ">=1.2.1"  # GHSA-6v7p-g79w-8964 (high) fixed in 1.2.1 (transitive)
 loguru = ">=0.7.2,<0.8"
 
 [tool.pixi.tasks]
