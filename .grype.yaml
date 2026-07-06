@@ -56,6 +56,30 @@ ignore:
   - vulnerability: CVE-2026-8328
     package:
       name: python
+  # Newer advisories the DB began flagging after 2026-06-11; all fixed only in
+  # 3.13+/prerelease builds, none in the 3.12 line (see FIXED-IN: 3.13.14 /
+  # 3.14.x / 3.15.0bx). The default env is capped at 3.12 by boa/conda-build.
+  - vulnerability: CVE-2026-1502
+    package:
+      name: python
+  - vulnerability: CVE-2026-3298
+    package:
+      name: python
+  - vulnerability: CVE-2026-4786
+    package:
+      name: python
+  - vulnerability: CVE-2026-6019
+    package:
+      name: python
+  - vulnerability: CVE-2026-6100
+    package:
+      name: python
+  - vulnerability: CVE-2026-9669
+    package:
+      name: python
+  - vulnerability: CVE-2026-12003
+    package:
+      name: python
 
   # Qt 5.15 open-source receives no upstream fixes (patches land in Qt 6
   # only), so every qt 5.15.x advisory counts as "fixable" while no fix is
